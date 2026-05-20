@@ -29,6 +29,9 @@ data/cache/*
 config/settings.yaml
 config/api_keys.yaml
 
+# Environment
+.env
+
 # Logs
 logs/
 *.log
