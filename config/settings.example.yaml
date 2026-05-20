@@ -1,0 +1,33 @@
+# API Configuration Template
+# Copy this file to settings.yaml and fill in your values
+
+exchange:
+  binance:
+    api_key: "YOUR_BINANCE_API_KEY"
+    api_secret: "YOUR_BINANCE_API_SECRET"
+    testnet: true
+
+  okx:
+    api_key: "YOUR_OKX_API_KEY"
+    api_secret: "YOUR_OKX_API_SECRET"
+    passphrase: "YOUR_OKX_PASSPHRASE"
+
+data:
+  # Data collection settings
+  default_timeframe: "1d"
+  default_limit: 1000
+  cache_enabled: true
+  cache_expire_hours: 24
+
+analysis:
+  # Analysis parameters
+  rsi_period: 14
+  ma_short: 7
+  ma_long: 25
+  bollinger_period: 20
+  bollinger_std: 2
+
+notification:
+  # Alert settings (optional)
+  telegram_bot_token: ""
+  telegram_chat_id: ""

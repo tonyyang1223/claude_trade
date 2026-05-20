@@ -1,0 +1,30 @@
+# Core
+pandas>=2.0.0
+numpy>=1.24.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+pyyaml>=6.0
+
+# Exchange APIs
+ccxt>=4.0.0
+python-binance>=1.0.17
+
+# Technical Analysis
+ta-lib>=0.4.28
+pandas-ta>=0.3.14b
+ta>=0.11.0
+
+# Visualization
+matplotlib>=3.7.0
+plotly>=5.15.0
+
+# Jupyter
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Data
+yfinance>=0.2.0
+
+# Optional: Machine Learning
+# scikit-learn>=1.3.0
+# tensorflow>=2.13.0
