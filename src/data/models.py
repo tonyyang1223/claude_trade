@@ -108,3 +108,41 @@ class TechnicalIndicators(BaseModel):
     volume_ratio: float
     volume_signal: int = Field(ge=1, le=5)
     timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class BTCDominance(BaseModel):
+    """BTC dominance data.
+
+    Attributes:
+        current_dominance: Current BTC dominance percentage
+        trend: Trend direction (rising/falling/stable)
+        market_phase: Market phase description
+        altcoin_season: Whether it's altcoin season
+        recommendation: Action recommendation
+        timestamp: When data was collected
+    """
+    current_dominance: float
+    trend: str
+    market_phase: str
+    altcoin_season: bool
+    recommendation: str
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class SentimentData(BaseModel):
+    """Sentiment analysis data.
+
+    Attributes:
+        google_trends_score: Google search interest (0-100)
+        google_trends_change: Search interest change rate
+        fear_greed_index: Fear & Greed Index (0-100)
+        social_sentiment: Social sentiment (bullish/bearish/neutral)
+        sentiment_signal: Sentiment signal (1-5)
+        timestamp: When data was collected
+    """
+    google_trends_score: int = Field(ge=0, le=100)
+    google_trends_change: float
+    fear_greed_index: int = Field(ge=0, le=100)
+    social_sentiment: str
+    sentiment_signal: int = Field(ge=1, le=5)
+    timestamp: datetime = Field(default_factory=datetime.now)
