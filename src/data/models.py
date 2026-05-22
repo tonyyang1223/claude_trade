@@ -146,3 +146,47 @@ class SentimentData(BaseModel):
     social_sentiment: str
     sentiment_signal: int = Field(ge=1, le=5)
     timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class OnchainData(BaseModel):
+    """Onchain analysis data.
+
+    Attributes:
+        nupl: Net unrealized profit/loss ratio
+        mvrv: MVRV ratio
+        holder_distribution: Holder distribution by percentage
+        active_addresses: Number of active addresses
+        transaction_count: Transaction count
+        onchain_signal: Onchain signal (1-5)
+        timestamp: When data was collected
+    """
+    nupl: Optional[float] = None
+    mvrv: Optional[float] = None
+    holder_distribution: Optional[Dict] = None
+    active_addresses: Optional[int] = None
+    transaction_count: Optional[int] = None
+    onchain_signal: int = Field(ge=1, le=5)
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class GithubData(BaseModel):
+    """GitHub activity data.
+
+    Attributes:
+        repo_url: Repository URL
+        commit_count_30d: Commit count in last 30 days
+        contributor_count: Number of contributors
+        issue_count: Number of open issues
+        pr_count: Number of pull requests
+        last_commit_date: Last commit timestamp
+        activity_score: Activity score (1-5)
+        timestamp: When data was collected
+    """
+    repo_url: str
+    commit_count_30d: int
+    contributor_count: int
+    issue_count: int
+    pr_count: int
+    last_commit_date: datetime
+    activity_score: int = Field(ge=1, le=5)
+    timestamp: datetime = Field(default_factory=datetime.now)
