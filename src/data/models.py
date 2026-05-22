@@ -1,6 +1,6 @@
 """Data models for cryptocurrency market data."""
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, Dict
 from pydantic import BaseModel, Field
 
 
@@ -75,3 +75,36 @@ class MarketData(BaseModel):
             }]
         }
     }
+
+
+class TechnicalIndicators(BaseModel):
+    """Technical indicators data for a cryptocurrency.
+
+    Attributes:
+        rsi: RSI value (0-100)
+        rsi_signal: RSI signal score (1-5)
+        ma_50: 50-day moving average
+        ma_200: 200-day moving average
+        ma_signal: Moving average signal (1-5)
+        support_levels: List of support price levels
+        resistance_levels: List of resistance price levels
+        trend: Trend direction (up/down/sideways)
+        trend_signal: Trend signal (1-5)
+        fibonacci_levels: Fibonacci retracement levels
+        volume_ratio: Volume/Market cap ratio
+        volume_signal: Volume signal (1-5)
+        timestamp: When data was calculated
+    """
+    rsi: float
+    rsi_signal: int = Field(ge=1, le=5)
+    ma_50: float
+    ma_200: float
+    ma_signal: int = Field(ge=1, le=5)
+    support_levels: List[float]
+    resistance_levels: List[float]
+    trend: str
+    trend_signal: int = Field(ge=1, le=5)
+    fibonacci_levels: Dict[str, float]
+    volume_ratio: float
+    volume_signal: int = Field(ge=1, le=5)
+    timestamp: datetime = Field(default_factory=datetime.now)
