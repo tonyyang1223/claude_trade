@@ -202,3 +202,55 @@ def test_calculate_weighted_score_with_missing_data():
     total = scorer.calculate_weighted_score(scores)
     assert total > 0  # 确保计算出结果
     assert total <= 100  # 确保不超过满分
+
+
+def test_calculate_weighted_score_all_missing():
+    """Test weighted score with all dimensions missing."""
+    scorer = Scorer()
+
+    # 所有维度都缺失，应该返回0
+    scores = {}
+    total = scorer.calculate_weighted_score(scores)
+    assert total == 0.0
+
+
+def test_calculate_weighted_score_single_dimension():
+    """Test weighted score with only one dimension."""
+    scorer = Scorer()
+
+    # 只有一个维度
+    scores = {'market': 5}
+    total = scorer.calculate_weighted_score(scores)
+    # 只剩下market，权重归一化为1.0，5分制转100分制 = 100
+    assert abs(total - 100.0) < 0.01
+
+
+def test_calculate_weighted_score_boundary_values():
+    """Test weighted score with boundary values."""
+    scorer = Scorer()
+
+    # 所有维度都是最高分
+    scores_max = {
+        'market': 5,
+        'technical': 5,
+        'onchain': 5,
+        'sentiment': 5,
+        'github': 5,
+        'social': 5,
+        'risk': 5
+    }
+    total_max = scorer.calculate_weighted_score(scores_max)
+    assert abs(total_max - 100.0) < 0.01
+
+    # 所有维度都是最低分
+    scores_min = {
+        'market': 1,
+        'technical': 1,
+        'onchain': 1,
+        'sentiment': 1,
+        'github': 1,
+        'social': 1,
+        'risk': 1
+    }
+    total_min = scorer.calculate_weighted_score(scores_min)
+    assert abs(total_min - 20.0) < 0.01
