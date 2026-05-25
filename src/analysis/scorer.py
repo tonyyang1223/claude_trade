@@ -1,6 +1,5 @@
 """Project scoring system."""
 from typing import Dict, Optional
-from src.data.models import ProjectScore
 
 
 class Scorer:
