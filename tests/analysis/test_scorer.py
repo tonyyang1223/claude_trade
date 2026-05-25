@@ -129,6 +129,26 @@ def test_generate_recommendation():
     assert '不推荐' in scorer.generate_recommendation('F')
 
 
+def test_generate_recommendation_unknown_rating():
+    """Test recommendation generation with unknown rating."""
+    scorer = Scorer()
+    assert scorer.generate_recommendation('X') == '无法生成建议'
+
+
+def test_determine_risk_level_invalid_rating():
+    """Test risk level determination with invalid rating."""
+    scorer = Scorer()
+
+    with pytest.raises(ValueError, match="Invalid rating"):
+        scorer.determine_risk_level('X')
+
+    with pytest.raises(ValueError, match="Invalid rating"):
+        scorer.determine_risk_level('')
+
+    with pytest.raises(ValueError, match="Invalid rating"):
+        scorer.determine_risk_level('G')
+
+
 def test_determine_risk_level():
     """Test risk level determination based on rating."""
     scorer = Scorer()

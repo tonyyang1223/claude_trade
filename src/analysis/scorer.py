@@ -88,7 +88,13 @@ class Scorer:
 
         Returns:
             Risk level (low/medium/high)
+
+        Raises:
+            ValueError: If rating is not a valid rating string
         """
+        valid_ratings = ['A+', 'A', 'B', 'C', 'D', 'F']
+        if rating not in valid_ratings:
+            raise ValueError(f"Invalid rating: {rating}")
         if rating in ['A+', 'A']:
             return 'low'
         elif rating in ['B', 'C']:
