@@ -254,3 +254,56 @@ def test_calculate_weighted_score_boundary_values():
     }
     total_min = scorer.calculate_weighted_score(scores_min)
     assert abs(total_min - 20.0) < 0.01
+
+
+from unittest.mock import Mock, patch
+from src.data.models import ProjectScore, CoinData, TechnicalIndicators, SentimentData, OnchainData, GithubData
+
+
+@patch('src.analysis.scorer.Scorer._get_market_data')
+@patch('src.analysis.scorer.Scorer._get_technical_indicators')
+@patch('src.analysis.scorer.Scorer._get_onchain_data')
+@patch('src.analysis.scorer.Scorer._get_sentiment_data')
+@patch('src.analysis.scorer.Scorer._get_github_data')
+@patch('src.analysis.scorer.Scorer._get_social_data')
+@patch('src.analysis.scorer.Scorer._get_risk_data')
+def test_score_project(mock_risk, mock_social, mock_github, mock_sentiment,
+                       mock_onchain, mock_technical, mock_market):
+    """Test complete project scoring."""
+    # Create proper mock objects with all attributes using spec
+    mock_market_data = Mock(spec=CoinData)
+    mock_market_data.market_cap_rank = 1
+    mock_market_data.name = 'Bitcoin'
+    mock_market_data.symbol = 'btc'
+    mock_market.return_value = mock_market_data
+
+    mock_technical_data = Mock(spec=TechnicalIndicators)
+    mock_technical_data.rsi_signal = 4
+    mock_technical_data.ma_signal = 4
+    mock_technical_data.trend_signal = 4
+    mock_technical_data.volume_signal = 4
+    mock_technical.return_value = mock_technical_data
+
+    mock_onchain_data = Mock(spec=OnchainData)
+    mock_onchain_data.onchain_signal = 4
+    mock_onchain.return_value = mock_onchain_data
+
+    mock_sentiment_data = Mock(spec=SentimentData)
+    mock_sentiment_data.sentiment_signal = 4
+    mock_sentiment.return_value = mock_sentiment_data
+
+    mock_github_data = Mock(spec=GithubData)
+    mock_github_data.activity_score = 5
+    mock_github.return_value = mock_github_data
+
+    mock_social.return_value = Mock(social_score=5)
+    mock_risk.return_value = Mock(risk_score=4)
+
+    scorer = Scorer()
+    score = scorer.score_project('bitcoin')
+
+    assert isinstance(score, ProjectScore)
+    assert score.coin_id == 'bitcoin'
+    assert score.total_score > 0
+    assert score.rating in ['A+', 'A', 'B', 'C', 'D', 'F']
+    assert score.recommendation != ''
