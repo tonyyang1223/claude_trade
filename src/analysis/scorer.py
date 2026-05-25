@@ -46,6 +46,8 @@ class Scorer:
         Returns:
             Rating string (A+/A/B/C/D/F)
         """
+        if total_score < 0 or total_score > 100:
+            raise ValueError(f"total_score must be between 0 and 100, got {total_score}")
         if total_score >= 90:
             return 'A+'
         elif total_score >= 80:

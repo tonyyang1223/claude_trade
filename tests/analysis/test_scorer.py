@@ -97,3 +97,14 @@ def test_rating_boundary_values():
     # D boundary (50-59)
     assert scorer.generate_rating(50) == 'D'
     assert scorer.generate_rating(49.99) == 'F'
+
+
+def test_generate_rating_out_of_range():
+    """Test rating generation with out-of-range scores."""
+    scorer = Scorer()
+
+    with pytest.raises(ValueError):
+        scorer.generate_rating(-1)
+
+    with pytest.raises(ValueError):
+        scorer.generate_rating(101)
