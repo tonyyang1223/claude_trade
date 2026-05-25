@@ -101,3 +101,65 @@ class Scorer:
             return 'medium'
         else:
             return 'high'
+
+    def calculate_weighted_score(self, scores: Dict[str, int]) -> float:
+        """Calculate weighted total score.
+
+        Automatically redistributes weights if some dimensions are missing.
+
+        Args:
+            scores: Dictionary of dimension scores (1-5)
+
+        Returns:
+            Weighted total score (0-100)
+        """
+        # 检查缺失的维度
+        missing_dims = [dim for dim in self.weights if dim not in scores]
+
+        # 如果有缺失维度，重新分配权重
+        if missing_dims:
+            adjusted_weights = self._redistribute_weights(missing_dims)
+        else:
+            adjusted_weights = self.weights.copy()
+
+        # 计算加权平均分 (1-5分制)
+        weighted_sum = 0.0
+        total_weight = 0.0
+
+        for dim, score in scores.items():
+            if dim in adjusted_weights:
+                weighted_sum += score * adjusted_weights[dim]
+                total_weight += adjusted_weights[dim]
+
+        # 转换为100分制
+        if total_weight > 0:
+            avg_score = weighted_sum / total_weight
+            return avg_score * 20  # 5分制转100分制
+        else:
+            return 0.0
+
+    def _redistribute_weights(self, missing_dims: list) -> Dict[str, float]:
+        """Redistribute weights when dimensions are missing.
+
+        Args:
+            missing_dims: List of missing dimension names
+
+        Returns:
+            Adjusted weight dictionary
+        """
+        adjusted = self.weights.copy()
+        missing_weight = sum(adjusted[dim] for dim in missing_dims)
+
+        # 移除缺失维度的权重
+        for dim in missing_dims:
+            del adjusted[dim]
+
+        # 归一化剩余权重
+        if adjusted:
+            total_remaining = sum(adjusted.values())
+            if total_remaining > 0:
+                factor = 1.0 / total_remaining
+                for dim in adjusted:
+                    adjusted[dim] *= factor
+
+        return adjusted

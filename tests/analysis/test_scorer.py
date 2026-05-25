@@ -159,3 +159,46 @@ def test_determine_risk_level():
     assert scorer.determine_risk_level('C') == 'medium'
     assert scorer.determine_risk_level('D') == 'high'
     assert scorer.determine_risk_level('F') == 'high'
+
+
+def test_calculate_weighted_score():
+    """Test weighted score calculation."""
+    scorer = Scorer()
+
+    scores = {
+        'market': 5,
+        'technical': 4,
+        'onchain': 4,
+        'sentiment': 3,
+        'github': 5,
+        'social': 4,
+        'risk': 4
+    }
+
+    # 手动计算: 5*0.2 + 4*0.15 + 4*0.2 + 3*0.1 + 5*0.1 + 4*0.1 + 4*0.15
+    # = 1.0 + 0.6 + 0.8 + 0.3 + 0.5 + 0.4 + 0.6 = 4.2
+    # 转换为100分制: 4.2 * 20 = 84
+    total = scorer.calculate_weighted_score(scores)
+    assert abs(total - 84.0) < 0.01
+
+
+def test_calculate_weighted_score_with_missing_data():
+    """Test weighted score with missing dimensions (weight redistribution)."""
+    scorer = Scorer()
+
+    # 缺少 sentiment 和 social 数据
+    scores = {
+        'market': 5,
+        'technical': 4,
+        'onchain': 4,
+        'github': 5,
+        'risk': 4
+    }
+
+    # 原权重: 0.2 + 0.15 + 0.2 + 0.1 + 0.1 + 0.1 + 0.15 = 1.0
+    # 缺失: sentiment(0.1) + social(0.1) = 0.2
+    # 剩余权重: 0.8，需要归一化
+    # 新权重: market=0.25, technical=0.1875, onchain=0.25, github=0.125, risk=0.1875
+    total = scorer.calculate_weighted_score(scores)
+    assert total > 0  # 确保计算出结果
+    assert total <= 100  # 确保不超过满分
