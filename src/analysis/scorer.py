@@ -60,3 +60,38 @@ class Scorer:
             return 'D'
         else:
             return 'F'
+
+    def generate_recommendation(self, rating: str) -> str:
+        """Generate investment recommendation based on rating.
+
+        Args:
+            rating: Project rating (A+/A/B/C/D/F)
+
+        Returns:
+            Investment recommendation text
+        """
+        recommendations = {
+            'A+': '强烈建议关注，项目综合表现优秀，风险较低',
+            'A': '建议关注，项目综合表现良好，风险可控',
+            'B': '可考虑投资，项目表现中等，需要关注风险',
+            'C': '谨慎观望，项目表现一般，存在一定风险',
+            'D': '暂不推荐，项目表现较差，风险较高',
+            'F': '不推荐投资，项目表现不佳，风险很高'
+        }
+        return recommendations.get(rating, '无法生成建议')
+
+    def determine_risk_level(self, rating: str) -> str:
+        """Determine risk level based on rating.
+
+        Args:
+            rating: Project rating (A+/A/B/C/D/F)
+
+        Returns:
+            Risk level (low/medium/high)
+        """
+        if rating in ['A+', 'A']:
+            return 'low'
+        elif rating in ['B', 'C']:
+            return 'medium'
+        else:
+            return 'high'

@@ -108,3 +108,34 @@ def test_generate_rating_out_of_range():
 
     with pytest.raises(ValueError):
         scorer.generate_rating(101)
+
+
+def test_generate_recommendation():
+    """Test recommendation generation based on rating."""
+    scorer = Scorer()
+
+    # A+ and A rating
+    assert '建议关注' in scorer.generate_recommendation('A+')
+    assert '建议关注' in scorer.generate_recommendation('A')
+
+    # B rating
+    assert '可考虑' in scorer.generate_recommendation('B')
+
+    # C rating
+    assert '谨慎观望' in scorer.generate_recommendation('C')
+
+    # D and F rating
+    assert '不推荐' in scorer.generate_recommendation('D')
+    assert '不推荐' in scorer.generate_recommendation('F')
+
+
+def test_determine_risk_level():
+    """Test risk level determination based on rating."""
+    scorer = Scorer()
+
+    assert scorer.determine_risk_level('A+') == 'low'
+    assert scorer.determine_risk_level('A') == 'low'
+    assert scorer.determine_risk_level('B') == 'medium'
+    assert scorer.determine_risk_level('C') == 'medium'
+    assert scorer.determine_risk_level('D') == 'high'
+    assert scorer.determine_risk_level('F') == 'high'
