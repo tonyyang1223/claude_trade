@@ -60,3 +60,40 @@ def test_weights_do_not_modify_defaults():
     scorer.weights['market'] = 0.99
     scorer2 = Scorer()
     assert scorer2.weights['market'] == 0.20
+
+
+def test_generate_rating():
+    """Test rating generation based on total score."""
+    scorer = Scorer()
+
+    assert scorer.generate_rating(95) == 'A+'
+    assert scorer.generate_rating(85) == 'A'
+    assert scorer.generate_rating(75) == 'B'
+    assert scorer.generate_rating(65) == 'C'
+    assert scorer.generate_rating(55) == 'D'
+    assert scorer.generate_rating(45) == 'F'
+
+
+def test_rating_boundary_values():
+    """Test rating at boundary values."""
+    scorer = Scorer()
+
+    # A+ boundary (90-100)
+    assert scorer.generate_rating(90) == 'A+'
+    assert scorer.generate_rating(89.99) == 'A'
+
+    # A boundary (80-89)
+    assert scorer.generate_rating(80) == 'A'
+    assert scorer.generate_rating(79.99) == 'B'
+
+    # B boundary (70-79)
+    assert scorer.generate_rating(70) == 'B'
+    assert scorer.generate_rating(69.99) == 'C'
+
+    # C boundary (60-69)
+    assert scorer.generate_rating(60) == 'C'
+    assert scorer.generate_rating(59.99) == 'D'
+
+    # D boundary (50-59)
+    assert scorer.generate_rating(50) == 'D'
+    assert scorer.generate_rating(49.99) == 'F'

@@ -36,3 +36,25 @@ class Scorer:
         total = sum(self.weights.values())
         if abs(total - 1.0) > 0.01:
             raise ValueError(f"Weights must sum to 1.0, got {total}")
+
+    def generate_rating(self, total_score: float) -> str:
+        """Generate rating based on total score.
+
+        Args:
+            total_score: Weighted total score (0-100)
+
+        Returns:
+            Rating string (A+/A/B/C/D/F)
+        """
+        if total_score >= 90:
+            return 'A+'
+        elif total_score >= 80:
+            return 'A'
+        elif total_score >= 70:
+            return 'B'
+        elif total_score >= 60:
+            return 'C'
+        elif total_score >= 50:
+            return 'D'
+        else:
+            return 'F'
