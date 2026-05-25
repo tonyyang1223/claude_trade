@@ -190,3 +190,62 @@ class GithubData(BaseModel):
     last_commit_date: datetime
     activity_score: int = Field(ge=1, le=5)
     timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class ProjectScore(BaseModel):
+    """Project comprehensive score.
+
+    Attributes:
+        coin_id: Unique identifier (e.g., 'bitcoin')
+        coin_name: Full name (e.g., 'Bitcoin')
+        symbol: Trading symbol (e.g., 'BTC')
+        market_score: Market data score (weight 20%)
+        technical_score: Technical indicators score (weight 15%)
+        onchain_score: Onchain analysis score (weight 20%)
+        sentiment_score: Sentiment analysis score (weight 10%)
+        github_score: GitHub activity score (weight 10%)
+        social_score: Social media score (weight 10%)
+        risk_score: Risk assessment score (weight 15%)
+        total_score: Weighted total score (max 100)
+        rating: Rating (A+/A/B/C/D/F)
+        recommendation: Investment recommendation
+        risk_level: Risk level (low/medium/high)
+        entry_suggestion: Entry suggestion (optional)
+        analyzed_at: Analysis timestamp
+    """
+    coin_id: str
+    coin_name: str
+    symbol: str
+
+    market_score: int = Field(ge=1, le=5)
+    technical_score: int = Field(ge=1, le=5)
+    onchain_score: int = Field(ge=1, le=5)
+    sentiment_score: int = Field(ge=1, le=5)
+    github_score: int = Field(ge=1, le=5)
+    social_score: int = Field(ge=1, le=5)
+    risk_score: int = Field(ge=1, le=5)
+
+    total_score: float = Field(ge=0, le=100)
+    rating: str
+    recommendation: str
+    risk_level: str
+    entry_suggestion: Optional[str] = None
+
+    analyzed_at: datetime = Field(default_factory=datetime.now)
+
+
+class ComparisonReport(BaseModel):
+    """Project comparison report.
+
+    Attributes:
+        projects: List of project scores
+        comparison_matrix: Comparison matrix data
+        winner: Recommended project ID
+        analysis_summary: Analysis summary text
+        created_at: Report creation timestamp
+    """
+    projects: List[ProjectScore]
+    comparison_matrix: Dict
+    winner: str
+    analysis_summary: str
+    created_at: datetime = Field(default_factory=datetime.now)
