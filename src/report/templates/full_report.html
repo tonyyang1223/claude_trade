@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ score.coin_name }} ({{ score.symbol }}) - 投资分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .symbol {
+            font-size: 1.5em;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .header .time {
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Score Card */
+        .score-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            margin-right: 60px;
+        }
+
+        .score-circle .total {
+            font-size: 3.5em;
+            font-weight: bold;
+        }
+
+        .score-circle .label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .score-info {
+            text-align: left;
+        }
+
+        .score-info .rating {
+            font-size: 2em;
+            font-weight: bold;
+            color: {% if score.rating in ['A+', 'A'] %}#2ecc71{% elif score.rating == 'B' %}#f39c12{% else %}#e74c3c{% endif %};
+            margin-bottom: 10px;
+        }
+
+        .score-info .risk-level {
+            font-size: 1.2em;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .risk-low { background: #d4edda; color: #155724; }
+        .risk-medium { background: #fff3cd; color: #856404; }
+        .risk-high { background: #f8d7da; color: #721c24; }
+
+        /* Charts Section */
+        .charts-section {
+            padding: 30px 40px;
+            background: white;
+        }
+
+        .charts-section h2 {
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .chart-wrapper {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dimension Table */
+        .dimension-section {
+            padding: 30px 40px;
+            background: #f8f9fa;
+        }
+
+        .dimension-section h2 {
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: #f5f7fa;
+        }
+
+        .score-cell {
+            font-weight: bold;
+        }
+
+        .score-high { color: #2ecc71; }
+        .score-medium { color: #f39c12; }
+        .score-low { color: #e74c3c; }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Recommendation */
+        .recommendation-section {
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .recommendation-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .recommendation-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        {% if score.entry_suggestion %}
+        .entry-suggestion {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .entry-suggestion strong {
+            color: #ffd700;
+        }
+        {% endif %}
+
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .footer .sources {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .score-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .score-circle {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+
+            .score-info {
+                text-align: center;
+            }
+
+            .chart-container {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>{{ score.coin_name }}</h1>
+            <div class="symbol">{{ score.symbol }}</div>
+            <div class="time">分析时间: {{ score.analyzed_at.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+        </div>
+
+        <!-- Total Score Card -->
+        <div class="score-card">
+            <div class="score-circle">
+                <div class="total">{{ score.total_score|round(1) }}</div>
+                <div class="label">/ 100 分</div>
+            </div>
+            <div class="score-info">
+                <div class="rating">评级: {{ score.rating }}</div>
+                <div class="risk-level risk-{{ score.risk_level }}">
+                    风险等级: {{ '低' if score.risk_level == 'low' else ('中' if score.risk_level == 'medium' else '高') }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <h2>维度分析图表</h2>
+            <div class="chart-container">
+                {% if radar_chart %}
+                <div class="chart-wrapper">
+                    {{ radar_chart|safe }}
+                </div>
+                {% endif %}
+                {% if bar_chart %}
+                <div class="chart-wrapper">
+                    {{ bar_chart|safe }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Dimension Details Table -->
+        <div class="dimension-section">
+            <h2>维度详情</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>维度</th>
+                        <th>评分</th>
+                        <th>权重</th>
+                        <th>贡献分数</th>
+                        <th>表现</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>市场数据</td>
+                        <td class="score-cell {{ 'score-high' if score.market_score >= 4 else ('score-medium' if score.market_score >= 3 else 'score-low') }}">
+                            {{ score.market_score }} / 5
+                        </td>
+                        <td>20%</td>
+                        <td>{{ (score.market_score * 20 / 5)|round(1) }} 分</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ score.market_score * 20 }}%; background: {{ '#2ecc71' if score.market_score >= 4 else ('#f39c12' if score.market_score >= 3 else '#e74c3c') }};"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>技术指标</td>
+                        <td class="score-cell {{ 'score-high' if score.technical_score >= 4 else ('score-medium' if score.technical_score >= 3 else 'score-low') }}">
+                            {{ score.technical_score }} / 5
+                        </td>
+                        <td>15%</td>
+                        <td>{{ (score.technical_score * 15 / 5)|round(1) }} 分</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ score.technical_score * 20 }}%; background: {{ '#2ecc71' if score.technical_score >= 4 else ('#f39c12' if score.technical_score >= 3 else '#e74c3c') }};"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>链上分析</td>
+                        <td class="score-cell {{ 'score-high' if score.onchain_score >= 4 else ('score-medium' if score.onchain_score >= 3 else 'score-low') }}">
+                            {{ score.onchain_score }} / 5
+                        </td>
+                        <td>20%</td>
+                        <td>{{ (score.onchain_score * 20 / 5)|round(1) }} 分</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ score.onchain_score * 20 }}%; background: {{ '#2ecc71' if score.onchain_score >= 4 else ('#f39c12' if score.onchain_score >= 3 else '#e74c3c') }};"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>市场情绪</td>
+                        <td class="score-cell {{ 'score-high' if score.sentiment_score >= 4 else ('score-medium' if score.sentiment_score >= 3 else 'score-low') }}">
+                            {{ score.sentiment_score }} / 5
+                        </td>
+                        <td>10%</td>
+                        <td>{{ (score.sentiment_score * 10 / 5)|round(1) }} 分</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ score.sentiment_score * 20 }}%; background: {{ '#2ecc71' if score.sentiment_score >= 4 else ('#f39c12' if score.sentiment_score >= 3 else '#e74c3c') }};"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>GitHub活动</td>
+                        <td class="score-cell {{ 'score-high' if score.github_score >= 4 else ('score-medium' if score.github_score >= 3 else 'score-low') }}">
+                            {{ score.github_score }} / 5
+                        </td>
+                        <td>10%</td>
+                        <td>{{ (score.github_score * 10 / 5)|round(1) }} 分</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ score.github_score * 20 }}%; background: {{ '#2ecc71' if score.github_score >= 4 else ('#f39c12' if score.github_score >= 3 else '#e74c3c') }};"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>社交媒体</td>
+                        <td class="score-cell {{ 'score-high' if score.social_score >= 4 else ('score-medium' if score.social_score >= 3 else 'score-low') }}">
+                            {{ score.social_score }} / 5
+                        </td>
+                        <td>10%</td>
+                        <td>{{ (score.social_score * 10 / 5)|round(1) }} 分</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ score.social_score * 20 }}%; background: {{ '#2ecc71' if score.social_score >= 4 else ('#f39c12' if score.social_score >= 3 else '#e74c3c') }};"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>风险评估</td>
+                        <td class="score-cell {{ 'score-high' if score.risk_score >= 4 else ('score-medium' if score.risk_score >= 3 else 'score-low') }}">
+                            {{ score.risk_score }} / 5
+                        </td>
+                        <td>15%</td>
+                        <td>{{ (score.risk_score * 15 / 5)|round(1) }} 分</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ score.risk_score * 20 }}%; background: {{ '#2ecc71' if score.risk_score >= 4 else ('#f39c12' if score.risk_score >= 3 else '#e74c3c') }};"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Recommendation -->
+        <div class="recommendation-section">
+            <h2>投资建议</h2>
+            <div class="recommendation-box">
+                {{ score.recommendation }}
+            </div>
+            {% if score.entry_suggestion %}
+            <div class="entry-suggestion">
+                <strong>入场建议:</strong> {{ score.entry_suggestion }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="sources">数据来源: CoinGecko, CoinMarketCap, Alternative.me, GitHub</div>
+            <div>报告生成时间: {{ generated_at.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+        </div>
+    </div>
+</body>
+</html>
