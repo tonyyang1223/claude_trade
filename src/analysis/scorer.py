@@ -1,5 +1,9 @@
 """Project scoring system."""
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
+from src.data.models import (
+    ProjectScore, CoinData, TechnicalIndicators,
+    SentimentData, OnchainData, GithubData
+)
 
 
 class Scorer:
@@ -163,3 +167,126 @@ class Scorer:
                     adjusted[dim] *= factor
 
         return adjusted
+
+    def score_project(self, coin_id: str) -> ProjectScore:
+        """Generate comprehensive project score.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            ProjectScore object with all scoring data
+        """
+        # 获取各维度数据
+        market_data = self._get_market_data(coin_id)
+        technical = self._get_technical_indicators(coin_id)
+        onchain = self._get_onchain_data(coin_id)
+        sentiment = self._get_sentiment_data(coin_id)
+        github = self._get_github_data(coin_id)
+        social = self._get_social_data(coin_id)
+        risk = self._get_risk_data(coin_id)
+
+        # 计算各维度评分
+        scores = {
+            'market': self._score_market(market_data),
+            'technical': self._score_technical(technical),
+            'onchain': onchain.onchain_signal if onchain else 3,
+            'sentiment': sentiment.sentiment_signal if sentiment else 3,
+            'github': github.activity_score if github else 3,
+            'social': social.social_score if social else 3,
+            'risk': risk.risk_score if risk else 3
+        }
+
+        # 计算加权总分
+        total_score = self.calculate_weighted_score(scores)
+
+        # 生成评级和建议
+        rating = self.generate_rating(total_score)
+        recommendation = self.generate_recommendation(rating)
+        risk_level = self.determine_risk_level(rating)
+
+        return ProjectScore(
+            coin_id=coin_id,
+            coin_name=market_data.name if market_data else coin_id,
+            symbol=market_data.symbol.upper() if market_data else coin_id.upper(),
+            market_score=scores['market'],
+            technical_score=scores['technical'],
+            onchain_score=scores['onchain'],
+            sentiment_score=scores['sentiment'],
+            github_score=scores['github'],
+            social_score=scores['social'],
+            risk_score=scores['risk'],
+            total_score=total_score,
+            rating=rating,
+            recommendation=recommendation,
+            risk_level=risk_level
+        )
+
+    def _score_market(self, market_data: Optional[CoinData]) -> int:
+        """Score market data (1-5)."""
+        if not market_data:
+            return 3
+
+        score = 3
+        # 市值排名
+        if market_data.market_cap_rank == 1:
+            score = 5
+        elif market_data.market_cap_rank <= 10:
+            score = 4
+        elif market_data.market_cap_rank <= 50:
+            score = 3
+        elif market_data.market_cap_rank <= 100:
+            score = 2
+        else:
+            score = 1
+
+        return score
+
+    def _score_technical(self, technical: Optional[TechnicalIndicators]) -> int:
+        """Score technical indicators (average of all signals)."""
+        if not technical:
+            return 3
+
+        signals = [
+            technical.rsi_signal,
+            technical.ma_signal,
+            technical.trend_signal,
+            technical.volume_signal
+        ]
+        return int(sum(signals) / len(signals))
+
+    # Placeholder methods for data fetching
+    def _get_market_data(self, coin_id: str) -> Optional[CoinData]:
+        """Fetch market data for coin."""
+        # TODO: Implement with CoinGecko API
+        return None
+
+    def _get_technical_indicators(self, coin_id: str) -> Optional[TechnicalIndicators]:
+        """Fetch technical indicators for coin."""
+        # TODO: Implement with existing technical analysis module
+        return None
+
+    def _get_onchain_data(self, coin_id: str) -> Optional[OnchainData]:
+        """Fetch onchain data for coin."""
+        # TODO: Implement with existing onchain analysis module
+        return None
+
+    def _get_sentiment_data(self, coin_id: str) -> Optional[SentimentData]:
+        """Fetch sentiment data for coin."""
+        # TODO: Implement with existing sentiment analysis module
+        return None
+
+    def _get_github_data(self, coin_id: str) -> Optional[GithubData]:
+        """Fetch GitHub data for coin."""
+        # TODO: Implement with existing GitHub analysis module
+        return None
+
+    def _get_social_data(self, coin_id: str) -> Optional[Any]:
+        """Fetch social media data for coin."""
+        # TODO: Implement with CoinGecko community data
+        return None
+
+    def _get_risk_data(self, coin_id: str) -> Optional[Any]:
+        """Fetch risk data for coin."""
+        # TODO: Implement risk assessment
+        return None
