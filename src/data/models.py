@@ -192,6 +192,46 @@ class GithubData(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.now)
 
 
+class SocialData(BaseModel):
+    """Social media and community data.
+
+    Attributes:
+        twitter_followers: Twitter/X follower count
+        reddit_subscribers: Reddit subscriber count
+        telegram_users: Telegram channel user count
+        github_forks: GitHub repository forks
+        github_stars: GitHub repository stars
+        social_score: Social presence score (1-5)
+        timestamp: When data was collected
+    """
+    twitter_followers: Optional[int] = None
+    reddit_subscribers: Optional[int] = None
+    telegram_users: Optional[int] = None
+    github_forks: Optional[int] = None
+    github_stars: Optional[int] = None
+    social_score: int = Field(ge=1, le=5)
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class RiskData(BaseModel):
+    """Risk assessment data.
+
+    Attributes:
+        volatility_score: Volatility risk score (1-5)
+        liquidity_score: Liquidity risk score (1-5)
+        maturity_score: Project maturity score (1-5)
+        risk_score: Overall risk score (1-5)
+        risk_factors: List of identified risk factors
+        timestamp: When assessment was made
+    """
+    volatility_score: int = Field(ge=1, le=5)
+    liquidity_score: int = Field(ge=1, le=5)
+    maturity_score: int = Field(ge=1, le=5)
+    risk_score: int = Field(ge=1, le=5)
+    risk_factors: List[str] = Field(default_factory=list)
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
 class ProjectScore(BaseModel):
     """Project comprehensive score.
 

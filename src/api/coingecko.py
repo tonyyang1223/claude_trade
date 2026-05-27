@@ -96,6 +96,37 @@ class CoinGeckoClient(BaseAPIClient):
             "markets": data.get("markets")
         }
 
+    def get_coin_community_data(self, coin_id: str) -> Dict[str, Any]:
+        """Get community and social data for a coin.
+
+        Args:
+            coin_id: CoinGecko coin ID (e.g., 'bitcoin')
+
+        Returns:
+            Dictionary with social media metrics
+        """
+        url = f"{self.BASE_URL}/coins/{coin_id}"
+        params = {
+            "localization": "false",
+            "tickers": "false",
+            "community_data": "true",
+            "developer_data": "false"
+        }
+
+        response = self.session.get(url, params=params, timeout=30)
+        response.raise_for_status()
+
+        data = response.json()
+        community = data.get("community_data", {})
+
+        return {
+            "twitter_followers": community.get("twitter_followers"),
+            "reddit_subscribers": community.get("reddit_subscribers"),
+            "telegram_users": community.get("telegram_channel_user_count"),
+            "github_forks": community.get("forks"),
+            "github_stars": community.get("stars")
+        }
+
     def get_top_coins(self, limit: int = 100) -> List[Dict[str, Any]]:
         """Get top coins by market cap.
 

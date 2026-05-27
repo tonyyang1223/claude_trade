@@ -1,14 +1,15 @@
 """Project scoring system."""
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 from src.data.models import (
     ProjectScore, CoinData, TechnicalIndicators,
-    SentimentData, OnchainData, GithubData
+    SentimentData, OnchainData, GithubData, SocialData, RiskData
 )
 from src.api.coingecko import CoinGeckoClient
 from src.analysis.technical import TechnicalAnalyzer
 from src.analysis.sentiment import SentimentAnalyzer
 from src.analysis.onchain import OnchainAnalyzer
-from src.data.coin_mappings import COIN_TO_SYMBOL
+from src.analysis.github_analyzer import GithubAnalyzer
+from src.data.coin_mappings import COIN_TO_SYMBOL, COIN_TO_REPO
 
 
 class Scorer:
@@ -23,6 +24,7 @@ class Scorer:
         technical: Technical analyzer for price indicators
         sentiment: Sentiment analyzer for market mood
         onchain: Onchain analyzer for blockchain data
+        github: GitHub activity analyzer
     """
 
     DEFAULT_WEIGHTS = {
@@ -41,7 +43,8 @@ class Scorer:
         coingecko_client: Optional[CoinGeckoClient] = None,
         technical_analyzer: Optional[TechnicalAnalyzer] = None,
         sentiment_analyzer: Optional[SentimentAnalyzer] = None,
-        onchain_analyzer: Optional[OnchainAnalyzer] = None
+        onchain_analyzer: Optional[OnchainAnalyzer] = None,
+        github_analyzer: Optional[GithubAnalyzer] = None
     ):
         """Initialize scorer with optional custom weights and dependencies.
 
@@ -51,6 +54,7 @@ class Scorer:
             technical_analyzer: Technical analyzer instance (optional)
             sentiment_analyzer: Sentiment analyzer instance (optional)
             onchain_analyzer: Onchain analyzer instance (optional)
+            github_analyzer: GitHub analyzer instance (optional)
         """
         self.weights = custom_weights or self.DEFAULT_WEIGHTS.copy()
         self._validate_weights()
@@ -58,6 +62,7 @@ class Scorer:
         self.technical = technical_analyzer or TechnicalAnalyzer()
         self.sentiment = sentiment_analyzer or SentimentAnalyzer()
         self.onchain = onchain_analyzer or OnchainAnalyzer()
+        self.github = github_analyzer or GithubAnalyzer()
 
     def _validate_weights(self) -> None:
         """Validate that weights sum to 1.0."""
@@ -362,16 +367,119 @@ class Scorer:
             return None
 
     def _get_github_data(self, coin_id: str) -> Optional[GithubData]:
-        """Fetch GitHub data for coin."""
-        # TODO: Implement with existing GitHub analysis module
-        return None
+        """Fetch GitHub activity data for coin using GithubAnalyzer.
 
-    def _get_social_data(self, coin_id: str) -> Optional[Any]:
-        """Fetch social media data for coin."""
-        # TODO: Implement with CoinGecko community data
-        return None
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
 
-    def _get_risk_data(self, coin_id: str) -> Optional[Any]:
-        """Fetch risk data for coin."""
-        # TODO: Implement risk assessment
-        return None
+        Returns:
+            GithubData object or None if fetch fails or no repo found
+        """
+        repo_path = COIN_TO_REPO.get(coin_id)
+        if not repo_path:
+            return None
+
+        try:
+            return self.github.analyze(coin_id, repo_path)
+        except Exception as e:
+            print(f"Warning: Failed to fetch GitHub data for {coin_id}: {e}")
+            return None
+
+    def _get_social_data(self, coin_id: str) -> Optional[SocialData]:
+        """Fetch social media data for coin from CoinGecko.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            SocialData object or None if fetch fails
+        """
+        try:
+            data = self.coingecko.get_coin_community_data(coin_id)
+
+            twitter = data.get("twitter_followers") or 0
+            reddit = data.get("reddit_subscribers") or 0
+            total = twitter + reddit
+
+            # Score based on total followers
+            if total > 5000000:
+                score = 5
+            elif total > 1000000:
+                score = 4
+            elif total > 100000:
+                score = 3
+            elif total > 10000:
+                score = 2
+            else:
+                score = 1
+
+            return SocialData(
+                twitter_followers=data.get("twitter_followers"),
+                reddit_subscribers=data.get("reddit_subscribers"),
+                telegram_users=data.get("telegram_users"),
+                github_forks=data.get("github_forks"),
+                github_stars=data.get("github_stars"),
+                social_score=score
+            )
+        except Exception as e:
+            print(f"Warning: Failed to fetch social data for {coin_id}: {e}")
+            return None
+
+    def _get_risk_data(self, coin_id: str) -> Optional[RiskData]:
+        """Calculate risk assessment for coin based on market data.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            RiskData object with volatility, liquidity, and maturity scores
+        """
+        market_data = self._get_market_data(coin_id)
+        risk_factors: List[str] = []
+
+        # Volatility risk (from price change)
+        volatility_score = 3
+        if market_data and market_data.price_change_percentage_24h:
+            change = abs(market_data.price_change_percentage_24h)
+            if change > 20:
+                volatility_score = 1
+                risk_factors.append("High 24h volatility")
+            elif change > 10:
+                volatility_score = 2
+            elif change < 5:
+                volatility_score = 4
+
+        # Liquidity risk (from volume/market cap ratio)
+        liquidity_score = 3
+        if market_data and market_data.total_volume and market_data.market_cap:
+            ratio = market_data.total_volume / market_data.market_cap
+            if ratio > 0.1:
+                liquidity_score = 5
+            elif ratio > 0.05:
+                liquidity_score = 4
+            elif ratio < 0.01:
+                liquidity_score = 2
+                risk_factors.append("Low liquidity")
+
+        # Maturity risk (from market cap rank)
+        maturity_score = 3
+        if market_data:
+            rank = market_data.market_cap_rank or 999
+            if rank <= 10:
+                maturity_score = 5
+            elif rank <= 50:
+                maturity_score = 4
+            elif rank > 200:
+                maturity_score = 2
+                risk_factors.append("Low market cap")
+
+        # Calculate overall risk score
+        risk_score = int((volatility_score + liquidity_score + maturity_score) / 3)
+
+        return RiskData(
+            volatility_score=volatility_score,
+            liquidity_score=liquidity_score,
+            maturity_score=maturity_score,
+            risk_score=risk_score,
+            risk_factors=risk_factors
+        )
