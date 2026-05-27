@@ -6,6 +6,8 @@ from src.data.models import (
 )
 from src.api.coingecko import CoinGeckoClient
 from src.analysis.technical import TechnicalAnalyzer
+from src.analysis.sentiment import SentimentAnalyzer
+from src.analysis.onchain import OnchainAnalyzer
 from src.data.coin_mappings import COIN_TO_SYMBOL
 
 
@@ -19,6 +21,8 @@ class Scorer:
         weights: Weight configuration for each dimension
         coingecko: CoinGecko API client for market data
         technical: Technical analyzer for price indicators
+        sentiment: Sentiment analyzer for market mood
+        onchain: Onchain analyzer for blockchain data
     """
 
     DEFAULT_WEIGHTS = {
@@ -35,7 +39,9 @@ class Scorer:
         self,
         custom_weights: Optional[Dict[str, float]] = None,
         coingecko_client: Optional[CoinGeckoClient] = None,
-        technical_analyzer: Optional[TechnicalAnalyzer] = None
+        technical_analyzer: Optional[TechnicalAnalyzer] = None,
+        sentiment_analyzer: Optional[SentimentAnalyzer] = None,
+        onchain_analyzer: Optional[OnchainAnalyzer] = None
     ):
         """Initialize scorer with optional custom weights and dependencies.
 
@@ -43,11 +49,15 @@ class Scorer:
             custom_weights: Custom weight configuration (optional)
             coingecko_client: CoinGecko API client instance (optional)
             technical_analyzer: Technical analyzer instance (optional)
+            sentiment_analyzer: Sentiment analyzer instance (optional)
+            onchain_analyzer: Onchain analyzer instance (optional)
         """
         self.weights = custom_weights or self.DEFAULT_WEIGHTS.copy()
         self._validate_weights()
         self.coingecko = coingecko_client or CoinGeckoClient()
         self.technical = technical_analyzer or TechnicalAnalyzer()
+        self.sentiment = sentiment_analyzer or SentimentAnalyzer()
+        self.onchain = onchain_analyzer or OnchainAnalyzer()
 
     def _validate_weights(self) -> None:
         """Validate that weights sum to 1.0."""
@@ -322,14 +332,34 @@ class Scorer:
             return None
 
     def _get_onchain_data(self, coin_id: str) -> Optional[OnchainData]:
-        """Fetch onchain data for coin."""
-        # TODO: Implement with existing onchain analysis module
-        return None
+        """Fetch onchain data for coin using OnchainAnalyzer.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            OnchainData object or None if fetch fails
+        """
+        try:
+            return self.onchain.analyze(coin_id)
+        except Exception as e:
+            print(f"Warning: Failed to fetch onchain data for {coin_id}: {e}")
+            return None
 
     def _get_sentiment_data(self, coin_id: str) -> Optional[SentimentData]:
-        """Fetch sentiment data for coin."""
-        # TODO: Implement with existing sentiment analysis module
-        return None
+        """Fetch sentiment data for coin using SentimentAnalyzer.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            SentimentData object or None if fetch fails
+        """
+        try:
+            return self.sentiment.analyze(coin_id)
+        except Exception as e:
+            print(f"Warning: Failed to fetch sentiment data for {coin_id}: {e}")
+            return None
 
     def _get_github_data(self, coin_id: str) -> Optional[GithubData]:
         """Fetch GitHub data for coin."""

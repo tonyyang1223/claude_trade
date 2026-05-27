@@ -446,3 +446,97 @@ class TestTechnicalIndicatorsIntegration:
         result = scorer._get_technical_indicators("bitcoin")
 
         assert result is None
+
+
+# =============================================================================
+# Phase 3: Sentiment & Onchain Integration Tests
+# =============================================================================
+
+class TestSentimentIntegration:
+    """Tests for sentiment data integration."""
+
+    @patch('src.analysis.scorer.SentimentAnalyzer')
+    @patch('src.analysis.scorer.CoinGeckoClient')
+    def test_get_sentiment_data_success(self, mock_cg_class, mock_sent_class):
+        """Test successful sentiment data fetch."""
+        mock_cg = Mock()
+        mock_cg_class.return_value = mock_cg
+
+        mock_sent = Mock()
+        mock_sent.analyze.return_value = SentimentData(
+            google_trends_score=75,
+            google_trends_change=0.1,
+            fear_greed_index=45,
+            social_sentiment="neutral",
+            sentiment_signal=3
+        )
+        mock_sent_class.return_value = mock_sent
+
+        scorer = Scorer()
+        result = scorer._get_sentiment_data("bitcoin")
+
+        assert result is not None
+        assert result.fear_greed_index == 45
+        assert result.sentiment_signal == 3
+
+    @patch('src.analysis.scorer.SentimentAnalyzer')
+    @patch('src.analysis.scorer.CoinGeckoClient')
+    def test_get_sentiment_data_failure(self, mock_cg_class, mock_sent_class):
+        """Test handling of sentiment analysis failure."""
+        mock_cg = Mock()
+        mock_cg_class.return_value = mock_cg
+
+        mock_sent = Mock()
+        mock_sent.analyze.side_effect = Exception("API error")
+        mock_sent_class.return_value = mock_sent
+
+        scorer = Scorer()
+        result = scorer._get_sentiment_data("bitcoin")
+
+        assert result is None
+
+
+class TestOnchainIntegration:
+    """Tests for onchain data integration."""
+
+    @patch('src.analysis.scorer.OnchainAnalyzer')
+    @patch('src.analysis.scorer.CoinGeckoClient')
+    def test_get_onchain_data_bitcoin(self, mock_cg_class, mock_onchain_class):
+        """Test successful onchain data fetch for Bitcoin."""
+        mock_cg = Mock()
+        mock_cg_class.return_value = mock_cg
+
+        mock_onchain = Mock()
+        mock_onchain.analyze.return_value = OnchainData(
+            nupl=0.45,
+            mvrv=1.8,
+            active_addresses=1000000,
+            transaction_count=300000,
+            onchain_signal=4
+        )
+        mock_onchain_class.return_value = mock_onchain
+
+        scorer = Scorer()
+        result = scorer._get_onchain_data("bitcoin")
+
+        assert result is not None
+        assert result.onchain_signal == 4
+        assert result.active_addresses == 1000000
+
+    @patch('src.analysis.scorer.OnchainAnalyzer')
+    @patch('src.analysis.scorer.CoinGeckoClient')
+    def test_get_onchain_data_non_bitcoin(self, mock_cg_class, mock_onchain_class):
+        """Test onchain data for non-Bitcoin coins (limited data)."""
+        mock_cg = Mock()
+        mock_cg_class.return_value = mock_cg
+
+        mock_onchain = Mock()
+        # Non-Bitcoin coins return default signal
+        mock_onchain.analyze.return_value = OnchainData(onchain_signal=3)
+        mock_onchain_class.return_value = mock_onchain
+
+        scorer = Scorer()
+        result = scorer._get_onchain_data("ethereum")
+
+        assert result is not None
+        assert result.onchain_signal == 3
