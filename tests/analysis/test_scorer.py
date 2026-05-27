@@ -307,3 +307,74 @@ def test_score_project(mock_risk, mock_social, mock_github, mock_sentiment,
     assert score.total_score > 0
     assert score.rating in ['A+', 'A', 'B', 'C', 'D', 'F']
     assert score.recommendation != ''
+
+
+# =============================================================================
+# Phase 1: Market Data Integration Tests
+# =============================================================================
+
+class TestMarketDataIntegration:
+    """Tests for market data integration with CoinGecko."""
+
+    @patch('src.analysis.scorer.CoinGeckoClient')
+    def test_get_market_data_success(self, mock_client_class):
+        """Test successful market data fetch from CoinGecko."""
+        mock_client = Mock()
+        mock_client.get_coin_data.return_value = {
+            "id": "bitcoin",
+            "symbol": "btc",
+            "name": "Bitcoin",
+            "current_price": 50000.0,
+            "market_cap": 1000000000000.0,
+            "market_cap_rank": 1,
+            "total_volume": 50000000000.0,
+            "circulating_supply": 19000000.0,
+            "total_supply": 21000000.0,
+            "max_supply": 21000000.0,
+            "price_change_24h": 1000.0,
+            "price_change_percentage_24h": 2.0,
+        }
+        mock_client_class.return_value = mock_client
+
+        scorer = Scorer()
+        result = scorer._get_market_data("bitcoin")
+
+        assert result is not None
+        assert result.id == "bitcoin"
+        assert result.name == "Bitcoin"
+        assert result.market_cap_rank == 1
+        assert result.current_price == 50000.0
+
+    @patch('src.analysis.scorer.CoinGeckoClient')
+    def test_get_market_data_api_failure(self, mock_client_class):
+        """Test handling of API failure gracefully."""
+        mock_client = Mock()
+        mock_client.get_coin_data.side_effect = Exception("API Error")
+        mock_client_class.return_value = mock_client
+
+        scorer = Scorer()
+        result = scorer._get_market_data("bitcoin")
+
+        assert result is None
+
+    @patch('src.analysis.scorer.CoinGeckoClient')
+    def test_get_market_data_missing_fields(self, mock_client_class):
+        """Test handling of missing optional fields."""
+        mock_client = Mock()
+        mock_client.get_coin_data.return_value = {
+            "id": "newcoin",
+            "symbol": "new",
+            "name": "New Coin",
+            "current_price": 1.0,
+            "market_cap": 1000000.0,
+            "market_cap_rank": 500,
+        }
+        mock_client_class.return_value = mock_client
+
+        scorer = Scorer()
+        result = scorer._get_market_data("newcoin")
+
+        assert result is not None
+        assert result.id == "newcoin"
+        assert result.total_volume is None
+        assert result.max_supply is None

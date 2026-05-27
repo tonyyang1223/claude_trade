@@ -4,6 +4,7 @@ from src.data.models import (
     ProjectScore, CoinData, TechnicalIndicators,
     SentimentData, OnchainData, GithubData
 )
+from src.api.coingecko import CoinGeckoClient
 
 
 class Scorer:
@@ -14,6 +15,7 @@ class Scorer:
 
     Attributes:
         weights: Weight configuration for each dimension
+        coingecko: CoinGecko API client for market data
     """
 
     DEFAULT_WEIGHTS = {
@@ -26,14 +28,20 @@ class Scorer:
         'risk': 0.15
     }
 
-    def __init__(self, custom_weights: Optional[Dict[str, float]] = None):
-        """Initialize scorer with optional custom weights.
+    def __init__(
+        self,
+        custom_weights: Optional[Dict[str, float]] = None,
+        coingecko_client: Optional[CoinGeckoClient] = None
+    ):
+        """Initialize scorer with optional custom weights and dependencies.
 
         Args:
             custom_weights: Custom weight configuration (optional)
+            coingecko_client: CoinGecko API client instance (optional)
         """
         self.weights = custom_weights or self.DEFAULT_WEIGHTS.copy()
         self._validate_weights()
+        self.coingecko = coingecko_client or CoinGeckoClient()
 
     def _validate_weights(self) -> None:
         """Validate that weights sum to 1.0."""
@@ -257,9 +265,33 @@ class Scorer:
 
     # Placeholder methods for data fetching
     def _get_market_data(self, coin_id: str) -> Optional[CoinData]:
-        """Fetch market data for coin."""
-        # TODO: Implement with CoinGecko API
-        return None
+        """Fetch market data for coin from CoinGecko.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            CoinData object or None if fetch fails
+        """
+        try:
+            data = self.coingecko.get_coin_data(coin_id)
+            return CoinData(
+                id=data["id"],
+                symbol=data["symbol"],
+                name=data["name"],
+                current_price=data.get("current_price", 0),
+                market_cap=data.get("market_cap", 0),
+                market_cap_rank=data.get("market_cap_rank", 999),
+                total_volume=data.get("total_volume"),
+                circulating_supply=data.get("circulating_supply"),
+                total_supply=data.get("total_supply"),
+                max_supply=data.get("max_supply"),
+                price_change_24h=data.get("price_change_24h"),
+                price_change_percentage_24h=data.get("price_change_percentage_24h")
+            )
+        except Exception as e:
+            print(f"Warning: Failed to fetch market data for {coin_id}: {e}")
+            return None
 
     def _get_technical_indicators(self, coin_id: str) -> Optional[TechnicalIndicators]:
         """Fetch technical indicators for coin."""
