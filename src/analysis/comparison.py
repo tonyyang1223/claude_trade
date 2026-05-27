@@ -142,11 +142,17 @@ class ProjectComparator:
             best = max(dim_scores, key=lambda x: x[2])
             worst = min(dim_scores, key=lambda x: x[2])
 
-            summary_parts.append(
-                f"- {dim_name} (权重{weight}%): "
-                f"{best[0]} 领先 ({best[2]}/5)，"
-                f"{worst[0]} 较弱 ({worst[2]}/5)\n"
-            )
+            # Check if all scores are equal
+            if best[2] == worst[2]:
+                summary_parts.append(
+                    f"- {dim_name} (权重{weight}%): 各项目表现相当 ({best[2]}/5)\n"
+                )
+            else:
+                summary_parts.append(
+                    f"- {dim_name} (权重{weight}%): "
+                    f"{best[0]} 领先 ({best[2]}/5)，"
+                    f"{worst[0]} 较弱 ({worst[2]}/5)\n"
+                )
 
         # Strengths and weaknesses of winner
         summary_parts.append(f"\n<strong>{winner_score.coin_name} 的优势与劣势：</strong>\n")
