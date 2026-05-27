@@ -5,6 +5,8 @@ from src.data.models import (
     SentimentData, OnchainData, GithubData
 )
 from src.api.coingecko import CoinGeckoClient
+from src.analysis.technical import TechnicalAnalyzer
+from src.data.coin_mappings import COIN_TO_SYMBOL
 
 
 class Scorer:
@@ -16,6 +18,7 @@ class Scorer:
     Attributes:
         weights: Weight configuration for each dimension
         coingecko: CoinGecko API client for market data
+        technical: Technical analyzer for price indicators
     """
 
     DEFAULT_WEIGHTS = {
@@ -31,17 +34,20 @@ class Scorer:
     def __init__(
         self,
         custom_weights: Optional[Dict[str, float]] = None,
-        coingecko_client: Optional[CoinGeckoClient] = None
+        coingecko_client: Optional[CoinGeckoClient] = None,
+        technical_analyzer: Optional[TechnicalAnalyzer] = None
     ):
         """Initialize scorer with optional custom weights and dependencies.
 
         Args:
             custom_weights: Custom weight configuration (optional)
             coingecko_client: CoinGecko API client instance (optional)
+            technical_analyzer: Technical analyzer instance (optional)
         """
         self.weights = custom_weights or self.DEFAULT_WEIGHTS.copy()
         self._validate_weights()
         self.coingecko = coingecko_client or CoinGeckoClient()
+        self.technical = technical_analyzer or TechnicalAnalyzer()
 
     def _validate_weights(self) -> None:
         """Validate that weights sum to 1.0."""
@@ -294,9 +300,26 @@ class Scorer:
             return None
 
     def _get_technical_indicators(self, coin_id: str) -> Optional[TechnicalIndicators]:
-        """Fetch technical indicators for coin."""
-        # TODO: Implement with existing technical analysis module
-        return None
+        """Fetch technical indicators for coin using TechnicalAnalyzer.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            TechnicalIndicators object or None if fetch fails
+        """
+        # Get trading symbol from mapping
+        symbol = COIN_TO_SYMBOL.get(coin_id, f"{coin_id.upper()}/USDT")
+
+        # Get market cap for volume ratio calculation
+        market_data = self._get_market_data(coin_id)
+        market_cap = market_data.market_cap if market_data else None
+
+        try:
+            return self.technical.analyze(symbol, days=200, market_cap=market_cap)
+        except Exception as e:
+            print(f"Warning: Failed to fetch technical indicators for {coin_id}: {e}")
+            return None
 
     def _get_onchain_data(self, coin_id: str) -> Optional[OnchainData]:
         """Fetch onchain data for coin."""

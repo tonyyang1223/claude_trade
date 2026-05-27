@@ -378,3 +378,71 @@ class TestMarketDataIntegration:
         assert result.id == "newcoin"
         assert result.total_volume is None
         assert result.max_supply is None
+
+
+# =============================================================================
+# Phase 2: Technical Indicators Integration Tests
+# =============================================================================
+
+class TestTechnicalIndicatorsIntegration:
+    """Tests for technical indicators integration."""
+
+    @patch('src.analysis.scorer.TechnicalAnalyzer')
+    @patch('src.analysis.scorer.CoinGeckoClient')
+    def test_get_technical_indicators_success(self, mock_cg_class, mock_tech_class):
+        """Test successful technical indicators fetch."""
+        # Mock CoinGecko for market data (needed for volume ratio)
+        mock_cg = Mock()
+        mock_cg.get_coin_data.return_value = {
+            "id": "bitcoin",
+            "symbol": "btc",
+            "name": "Bitcoin",
+            "current_price": 50000.0,
+            "market_cap": 1000000000000.0,
+            "market_cap_rank": 1,
+        }
+        mock_cg_class.return_value = mock_cg
+
+        # Mock TechnicalAnalyzer
+        mock_tech = Mock()
+        mock_tech.analyze.return_value = TechnicalIndicators(
+            rsi=45.0,
+            rsi_signal=3,
+            ma_50=48000.0,
+            ma_200=45000.0,
+            ma_signal=4,
+            support_levels=[45000.0, 46000.0],
+            resistance_levels=[52000.0, 53000.0],
+            trend="up",
+            trend_signal=4,
+            fibonacci_levels={"0.382": 47000.0, "0.5": 48500.0, "0.618": 50000.0},
+            volume_ratio=0.05,
+            volume_signal=3
+        )
+        mock_tech_class.return_value = mock_tech
+
+        scorer = Scorer()
+        result = scorer._get_technical_indicators("bitcoin")
+
+        assert result is not None
+        assert result.rsi == 45.0
+        assert result.rsi_signal == 3
+        assert result.trend == "up"
+        assert result.trend_signal == 4
+
+    @patch('src.analysis.scorer.TechnicalAnalyzer')
+    @patch('src.analysis.scorer.CoinGeckoClient')
+    def test_get_technical_indicators_failure(self, mock_cg_class, mock_tech_class):
+        """Test handling of technical analysis failure."""
+        mock_cg = Mock()
+        mock_cg.get_coin_data.return_value = {"id": "bitcoin", "symbol": "btc", "name": "Bitcoin"}
+        mock_cg_class.return_value = mock_cg
+
+        mock_tech = Mock()
+        mock_tech.analyze.side_effect = Exception("Exchange error")
+        mock_tech_class.return_value = mock_tech
+
+        scorer = Scorer()
+        result = scorer._get_technical_indicators("bitcoin")
+
+        assert result is None
