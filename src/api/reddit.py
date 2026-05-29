@@ -6,7 +6,6 @@ Target subreddits: CryptoCurrency, bitcoin, ethfinance, solana
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional
 from pathlib import Path
-import re
 
 try:
     import praw
@@ -246,7 +245,7 @@ class RedditClient:
         """Build search query for coin mentions."""
         # Common aliases
         aliases = {
-            "bitcoin": ["bitcoin", "btc", "btc"],
+            "bitcoin": ["bitcoin", "btc"],
             "ethereum": ["ethereum", "eth", "ether"],
             "solana": ["solana", "sol"],
             "cardano": ["cardano", "ada"],

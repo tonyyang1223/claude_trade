@@ -8,10 +8,9 @@ Extends basic GitHub analysis with:
     - developer_activity_factor: Combined activity score
 """
 from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional
 from pathlib import Path
 import requests
-from collections import defaultdict
 
 from src.data.cache import DataCache
 
