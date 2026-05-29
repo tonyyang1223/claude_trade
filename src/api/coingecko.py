@@ -1,5 +1,6 @@
 """CoinGecko API client implementation."""
 import requests
+import time
 from typing import List, Dict, Any, Optional
 from src.api.base import BaseAPIClient
 
@@ -10,9 +11,13 @@ class CoinGeckoClient(BaseAPIClient):
     Free tier: 50 calls/minute
     API key increases rate limit significantly.
 
+    Rate limiting: Enforces minimum 1.2s interval between calls
+    to stay under 50 calls/minute limit.
+
     Attributes:
         api_key: Optional API key for higher rate limits
         base_url: API base URL
+        last_call_time: Timestamp of last API call
 
     Example:
         >>> client = CoinGeckoClient()
@@ -20,6 +25,7 @@ class CoinGeckoClient(BaseAPIClient):
     """
 
     BASE_URL = "https://api.coingecko.com/api/v3"
+    MIN_CALL_INTERVAL = 1.2  # 50 calls/min = 1.2s/call
 
     def __init__(self, api_key: Optional[str] = None):
         """Initialize CoinGecko client.
@@ -29,9 +35,18 @@ class CoinGeckoClient(BaseAPIClient):
         """
         self.api_key = api_key
         self.session = requests.Session()
+        self.last_call_time = 0
 
         if api_key:
             self.session.headers.update({"x-api-key": api_key})
+
+    def _wait_for_rate_limit(self) -> None:
+        """Wait if necessary to respect rate limit."""
+        elapsed = time.time() - self.last_call_time
+        if elapsed < self.MIN_CALL_INTERVAL:
+            wait_time = self.MIN_CALL_INTERVAL - elapsed
+            time.sleep(wait_time)
+        self.last_call_time = time.time()
 
     def get_coin_data(self, coin_id: str) -> Dict[str, Any]:
         """Get detailed data for a single coin.
@@ -42,6 +57,7 @@ class CoinGeckoClient(BaseAPIClient):
         Returns:
             Dictionary with coin data
         """
+        self._wait_for_rate_limit()
         url = f"{self.BASE_URL}/coins/{coin_id}"
         params = {
             "localization": "false",
@@ -78,6 +94,7 @@ class CoinGeckoClient(BaseAPIClient):
         Returns:
             Dictionary with market data including dominance
         """
+        self._wait_for_rate_limit()
         url = f"{self.BASE_URL}/global"
 
         response = self.session.get(url, timeout=30)
@@ -105,6 +122,7 @@ class CoinGeckoClient(BaseAPIClient):
         Returns:
             Dictionary with social media metrics
         """
+        self._wait_for_rate_limit()
         url = f"{self.BASE_URL}/coins/{coin_id}"
         params = {
             "localization": "false",
@@ -136,6 +154,7 @@ class CoinGeckoClient(BaseAPIClient):
         Returns:
             List of coin data dictionaries
         """
+        self._wait_for_rate_limit()
         url = f"{self.BASE_URL}/coins/markets"
         params = {
             "vs_currency": "usd",

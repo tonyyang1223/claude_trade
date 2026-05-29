@@ -3,6 +3,7 @@
 This module provides mappings from CoinGecko coin IDs to:
 - Trading symbols (e.g., 'bitcoin' -> 'BTC/USDT')
 - GitHub repositories (e.g., 'bitcoin' -> 'bitcoin/bitcoin')
+- DefiLlama protocol slugs (e.g., 'uniswap' -> 'uniswap')
 
 These mappings are used by the Scorer to fetch data from various sources.
 """
@@ -24,6 +25,28 @@ COIN_TO_SYMBOL = {
     "uniswap": "UNI/USDT",
     "stellar": "XLM/USDT",
     "cosmos": "ATOM/USDT",
+    # Phase 1: Additional mappings
+    "aave": "AAVE/USDT",
+    "compound": "COMP/USDT",
+    "makerdao": "MKR/USDT",
+    "curve": "CRV/USDT",
+    "lido": "LDO/USDT",
+    "rocket-pool": "RPL/USDT",
+    "arbitrum": "ARB/USDT",
+    "optimism": "OP/USDT",
+    "the-open-network": "TON/USDT",
+    "near": "NEAR/USDT",
+    "flow": "FLOW/USDT",
+    "tezos": "XTZ/USDT",
+    "theta": "THETA/USDT",
+    "filecoin": "FIL/USDT",
+    "internet-computer": "ICP/USDT",
+    "hedera-hashgraph": "HBAR/USDT",
+    "elrond-erd-2": "EGLD/USDT",
+    "thorchain": "RUNE/USDT",
+    "fantom": "FTM/USDT",
+    "kava": "KAVA/USDT",
+    "harmony": "ONE/USDT",
 }
 
 # Mapping from CoinGecko coin_id to GitHub repository (owner/repo format)
@@ -41,4 +64,50 @@ COIN_TO_REPO = {
     "avalanche-2": "ava-labs/avalanchego",
     "dogecoin": "dogecoin/dogecoin",
     "litecoin": "litecoin-project/litecoin",
+    # Phase 1: Additional DeFi protocol repos
+    "aave": "aave/aave-v3-core",
+    "compound": "compound-finance/compound-protocol",
+    "makerdao": "makerdao/dss",
+    "curve": "curvefi/curve-contract",
+    "lido": "lidofinance/lido-dapp",
+    "rocket-pool": "rocket-pool/rocketpool",
+    "near": "near/nearcore",
+    "fantom": "Fantom-foundation/fantom-go",
+    "arbitrum": "OffchainLabs/nitro",
+    "optimism": "ethereum-optimism/optimism",
+}
+
+# Mapping from CoinGecko coin_id to DefiLlama protocol slug (Phase 1)
+COIN_TO_DEFILLAMA = {
+    "uniswap": "uniswap",
+    "aave": "aave",
+    "compound": "compound-finance",
+    "makerdao": "makerdao",
+    "curve": "curve-dex",
+    "lido": "lido",
+    "rocket-pool": "rocket-pool",
+    # Ecosystem/Chain mappings
+    "ethereum": "ethereum",
+    "solana": "solana",
+    "avalanche-2": "avalanche",
+    "polygon": "polygon",
+    "arbitrum": "arbitrum",
+    "optimism": "optimism",
+    "cosmos": "cosmos",
+    "fantom": "fantom",
+    "binancecoin": "bsc",
+    "cardano": "cardano",
+}
+
+# Mapping from CoinGecko coin_id to chain name for stablecoin flows
+COIN_TO_CHAIN = {
+    "ethereum": "Ethereum",
+    "polygon": "Polygon",
+    "avalanche-2": "Avalanche",
+    "solana": "Solana",
+    "binancecoin": "BSC",
+    "arbitrum": "Arbitrum",
+    "optimism": "Optimism",
+    "cosmos": "Cosmos",
+    "fantom": "Fantom",
 }

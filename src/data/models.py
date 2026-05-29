@@ -251,6 +251,7 @@ class ProjectScore(BaseModel):
         recommendation: Investment recommendation
         risk_level: Risk level (low/medium/high)
         entry_suggestion: Entry suggestion (optional)
+        factor_contributions: Dict showing each factor's contribution to total score
         analyzed_at: Analysis timestamp
     """
     coin_id: str
@@ -270,6 +271,7 @@ class ProjectScore(BaseModel):
     recommendation: str
     risk_level: str
     entry_suggestion: Optional[str] = None
+    factor_contributions: Dict[str, Dict] = Field(default_factory=dict)
 
     analyzed_at: datetime = Field(default_factory=datetime.now)
 
@@ -289,3 +291,147 @@ class ComparisonReport(BaseModel):
     winner: str
     analysis_summary: str
     created_at: datetime = Field(default_factory=datetime.now)
+
+
+# ==================== New Data Models (Phase 1) ====================
+
+class FundingRateData(BaseModel):
+    """Funding rate data from exchanges.
+
+    Funding rate indicates the cost of holding a perpetual futures position.
+    Positive rate = longs pay shorts (bullish sentiment)
+    Negative rate = shorts pay longs (bearish sentiment)
+
+    Attributes:
+        symbol: Exchange symbol (e.g., 'BTC')
+        coin_id: CoinGecko coin ID
+        avg_funding_rate: Average funding rate across exchanges
+        funding_rate_change: Rate change percentage
+        exchanges: List of exchange-specific rates
+        funding_signal: Funding rate score (1-5)
+        confidence: Data confidence (0.1-1.0, Binance=0.98, fallback=0.1)
+        source: Data source (e.g., 'Binance Futures API')
+        timestamp: Data timestamp
+    """
+    symbol: str
+    coin_id: str
+    avg_funding_rate: float
+    funding_rate_change: float = 0.0
+    exchanges: List[Dict] = Field(default_factory=list)
+    funding_signal: int = Field(ge=1, le=5)
+    confidence: float = Field(default=0.98, ge=0.0, le=1.0)
+    source: str = Field(default="Binance Futures API")
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class OpenInterestData(BaseModel):
+    """Open interest data from exchanges.
+
+    Open interest indicates total outstanding derivative contracts.
+    Rising OI + rising price = genuine uptrend (new money)
+    Falling OI + rising price = shorts closing (potential reversal)
+
+    Attributes:
+        symbol: Exchange symbol (e.g., 'BTC')
+        coin_id: CoinGecko coin ID
+        total_open_interest: Total OI across exchanges (USD)
+        oi_change_24h: 24h change percentage
+        oi_change_7d: 7d change percentage
+        exchanges: List of exchange-specific OI
+        oi_signal: Open interest score (1-5)
+        confidence: Data confidence (0.1-1.0, Binance=0.98, fallback=0.1)
+        source: Data source (e.g., 'Binance Futures API')
+        timestamp: Data timestamp
+    """
+    symbol: str
+    coin_id: str
+    total_open_interest: float
+    oi_change_24h: float = 0.0
+    oi_change_7d: float = 0.0
+    exchanges: List[Dict] = Field(default_factory=list)
+    oi_signal: int = Field(ge=1, le=5)
+    confidence: float = Field(default=0.98, ge=0.0, le=1.0)
+    source: str = Field(default="Binance Futures API")
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class StablecoinFlowData(BaseModel):
+    """Stablecoin flow data across chains.
+
+    Stablecoin minting/burning and chain flows indicate capital movement.
+    Minting = new capital entering crypto
+    Burning = capital leaving crypto
+    Chain flows = capital migration between networks
+
+    Attributes:
+        total_supply: Total stablecoin supply (USD)
+        net_flows_24h: 24h net flow (mint/burn, USD)
+        chain_distribution: Distribution across chains
+        stablecoins: List of major stablecoin data
+        flow_signal: Flow score (1-5)
+        confidence: Data confidence (0.1-1.0, DefiLlama=0.9, fallback=0.1)
+        source: Data source (e.g., 'DefiLlama Stablecoins API')
+        timestamp: Data timestamp
+    """
+    total_supply: float
+    net_flows_24h: float = 0.0
+    chain_distribution: Dict[str, float] = Field(default_factory=dict)
+    stablecoins: List[Dict] = Field(default_factory=list)
+    flow_signal: int = Field(ge=1, le=5)
+    confidence: float = Field(default=0.9, ge=0.0, le=1.0)
+    source: str = Field(default="DefiLlama Stablecoins API")
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class TVLData(BaseModel):
+    """Total Value Locked data for DeFi protocols.
+
+    TVL indicates capital deployed in DeFi protocols.
+    Rising TVL = growing confidence and usage
+    Falling TVL = capital flight or risk aversion
+
+    Attributes:
+        protocol: Protocol name (e.g., 'Uniswap')
+        slug: DefiLlama protocol slug
+        tvl: Current TVL (USD)
+        tvl_change_24h: 24h change percentage
+        tvl_change_7d: 7d change percentage
+        chain_breakdown: TVL by chain
+        tvl_signal: TVL score (1-5)
+        confidence: Data confidence (0.1-1.0, DefiLlama=0.9, fallback=0.1)
+        source: Data source (e.g., 'DefiLlama Protocol API')
+        timestamp: Data timestamp
+    """
+    protocol: str
+    slug: str
+    tvl: float
+    tvl_change_24h: float = 0.0
+    tvl_change_7d: float = 0.0
+    chain_breakdown: Dict[str, float] = Field(default_factory=dict)
+    tvl_signal: int = Field(ge=1, le=5)
+    confidence: float = Field(default=0.9, ge=0.0, le=1.0)
+    source: str = Field(default="DefiLlama Protocol API")
+    timestamp: datetime = Field(default_factory=datetime.now)
+
+
+class DerivativesData(BaseModel):
+    """Combined derivatives market data.
+
+    Aggregates funding rate and open interest for comprehensive analysis.
+
+    Attributes:
+        symbol: Exchange symbol
+        funding_rate: Funding rate data
+        open_interest: Open interest data
+        combined_signal: Combined derivatives score (1-5)
+        confidence: Combined confidence (weighted average)
+        source: Data source (e.g., 'Binance Futures API')
+        timestamp: Data timestamp
+    """
+    symbol: str
+    funding_rate: Optional[FundingRateData] = None
+    open_interest: Optional[OpenInterestData] = None
+    combined_signal: int = Field(ge=1, le=5)
+    confidence: float = Field(default=0.98, ge=0.0, le=1.0)
+    source: str = Field(default="Binance Futures API")
+    timestamp: datetime = Field(default_factory=datetime.now)

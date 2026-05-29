@@ -62,8 +62,10 @@ class TechnicalAnalyzer:
         )
         df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
 
-        # Cache the result
-        self.cache.save(cache_key, df.to_dict('records'))
+        # Cache the result (convert timestamps to ISO strings for JSON serialization)
+        cache_data = df.copy()
+        cache_data['timestamp'] = cache_data['timestamp'].dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+        self.cache.save(cache_key, cache_data.to_dict('records'))
 
         return df
 

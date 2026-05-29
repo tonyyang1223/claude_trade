@@ -89,6 +89,8 @@ def generate_comparison_report(
         scorer: Scorer instance (optional)
         generator: ReportGenerator instance (optional)
     """
+    from src.analysis.comparison import ProjectComparator
+
     if len(coin_ids) < 2:
         print("错误: 对比报告至少需要2个项目")
         sys.exit(1)
@@ -102,70 +104,9 @@ def generate_comparison_report(
     if generator is None:
         generator = ReportGenerator()
 
-    # Analyze all projects
-    scores = []
-    for i, coin_id in enumerate(coin_ids, 1):
-        print(f"\n[{i}/{len(coin_ids)}] 正在分析项目: {coin_id}")
-        score = scorer.score_project(coin_id)
-        scores.append(score)
-
-    # Determine winner
-    winner = max(scores, key=lambda s: s.total_score)
-
-    # Build comparison matrix
-    comparison_matrix = {}
-    for score in scores:
-        comparison_matrix[score.coin_id] = {
-            'market': score.market_score,
-            'technical': score.technical_score,
-            'onchain': score.onchain_score,
-            'sentiment': score.sentiment_score,
-            'github': score.github_score,
-            'social': score.social_score,
-            'risk': score.risk_score
-        }
-
-    # Generate analysis summary
-    summary_lines = [
-        f"<strong>{winner.coin_name} ({winner.symbol})</strong> 在综合评分上领先，得分为 {winner.total_score:.1f} 分。",
-        "",
-        "各维度对比:",
-    ]
-
-    # Add dimension analysis
-    dimensions = [
-        ('市场数据', 'market_score'),
-        ('技术指标', 'technical_score'),
-        ('链上分析', 'onchain_score'),
-        ('市场情绪', 'sentiment_score'),
-        ('GitHub活动', 'github_score'),
-        ('社交媒体', 'social_score'),
-        ('风险评估', 'risk_score'),
-    ]
-
-    for dim_name, attr in dimensions:
-        dim_scores = [(s.coin_name, getattr(s, attr)) for s in scores]
-        best = max(dim_scores, key=lambda x: x[1])
-        summary_lines.append(f"- {dim_name}: {best[0]} 领先 ({best[1]}分)")
-
-    # Add investment suggestion
-    summary_lines.extend([
-        "",
-        f"投资建议: 推荐关注 {winner.coin_name}，综合表现最佳。"
-    ])
-
-    analysis_summary = "\n".join(summary_lines)
-
-    # Create comparison report
-    from src.data.models import ComparisonReport
-
-    report = ComparisonReport(
-        projects=scores,
-        comparison_matrix=comparison_matrix,
-        winner=winner.coin_id,
-        analysis_summary=analysis_summary,
-        created_at=datetime.now()
-    )
+    # Use ProjectComparator for proper comparison logic
+    comparator = ProjectComparator(scorer=scorer)
+    report = comparator.compare_projects(coin_ids)
 
     # Create output filename
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -189,8 +130,8 @@ def generate_comparison_report(
     print("\n" + "="*60)
     print("项目对比结果")
     print("="*60)
-    for score in scores:
-        marker = " [推荐]" if score.coin_id == winner.coin_id else ""
+    for score in report.projects:
+        marker = " [推荐]" if score.coin_id == report.winner else ""
         print(f"{score.coin_name} ({score.symbol}): {score.total_score:.1f} 分 - {score.rating}{marker}")
     print("="*60)
 

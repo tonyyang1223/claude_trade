@@ -2,9 +2,13 @@
 from typing import Any, Dict, Optional, List
 from src.data.models import (
     ProjectScore, CoinData, TechnicalIndicators,
-    SentimentData, OnchainData, GithubData, SocialData, RiskData
+    SentimentData, OnchainData, GithubData, SocialData, RiskData,
+    # New models (Phase 1)
+    FundingRateData, OpenInterestData, StablecoinFlowData, TVLData, DerivativesData
 )
 from src.api.coingecko import CoinGeckoClient
+from src.api.coinglass import CoinglassClient
+from src.api.defillama import DefiLlamaClient
 from src.analysis.technical import TechnicalAnalyzer
 from src.analysis.sentiment import SentimentAnalyzer
 from src.analysis.onchain import OnchainAnalyzer
@@ -21,6 +25,8 @@ class Scorer:
     Attributes:
         weights: Weight configuration for each dimension
         coingecko: CoinGecko API client for market data
+        coinglass: Coinglass API client for funding/OI data
+        defillama: DefiLlama API client for stablecoin/TVL data
         technical: Technical analyzer for price indicators
         sentiment: Sentiment analyzer for market mood
         onchain: Onchain analyzer for blockchain data
@@ -37,32 +43,67 @@ class Scorer:
         'risk': 0.15
     }
 
+    # New weights for Phase 1 (optional, can be enabled later)
+    PHASE1_WEIGHTS = {
+        'market': 0.15,
+        'technical': 0.12,
+        'funding': 0.10,
+        'open_interest': 0.10,
+        'stablecoin_flow': 0.08,
+        'onchain': 0.10,
+        'sentiment': 0.08,
+        'github': 0.10,
+        'tvl': 0.05,
+        'social': 0.05,
+        'risk': 0.07
+    }
+
     def __init__(
         self,
         custom_weights: Optional[Dict[str, float]] = None,
         coingecko_client: Optional[CoinGeckoClient] = None,
+        coinglass_client: Optional[CoinglassClient] = None,
+        defillama_client: Optional[DefiLlamaClient] = None,
         technical_analyzer: Optional[TechnicalAnalyzer] = None,
         sentiment_analyzer: Optional[SentimentAnalyzer] = None,
         onchain_analyzer: Optional[OnchainAnalyzer] = None,
-        github_analyzer: Optional[GithubAnalyzer] = None
+        github_analyzer: Optional[GithubAnalyzer] = None,
+        enable_phase1: bool = False
     ):
         """Initialize scorer with optional custom weights and dependencies.
 
         Args:
             custom_weights: Custom weight configuration (optional)
             coingecko_client: CoinGecko API client instance (optional)
+            coinglass_client: Coinglass API client instance (optional)
+            defillama_client: DefiLlama API client instance (optional)
             technical_analyzer: Technical analyzer instance (optional)
             sentiment_analyzer: Sentiment analyzer instance (optional)
             onchain_analyzer: Onchain analyzer instance (optional)
             github_analyzer: GitHub analyzer instance (optional)
+            enable_phase1: Enable Phase 1 data sources (funding, OI, stablecoin, TVL)
         """
-        self.weights = custom_weights or self.DEFAULT_WEIGHTS.copy()
+        # Use Phase 1 weights if enabled
+        if enable_phase1:
+            self.weights = custom_weights or self.PHASE1_WEIGHTS.copy()
+        else:
+            self.weights = custom_weights or self.DEFAULT_WEIGHTS.copy()
+
         self._validate_weights()
+
+        # Initialize API clients
         self.coingecko = coingecko_client or CoinGeckoClient()
+        self.coinglass = coinglass_client or CoinglassClient()
+        self.defillama = defillama_client or DefiLlamaClient()
+
+        # Initialize analyzers
         self.technical = technical_analyzer or TechnicalAnalyzer()
         self.sentiment = sentiment_analyzer or SentimentAnalyzer()
         self.onchain = onchain_analyzer or OnchainAnalyzer()
         self.github = github_analyzer or GithubAnalyzer()
+
+        # Flag for Phase 1 features
+        self.enable_phase1 = enable_phase1
 
     def _validate_weights(self) -> None:
         """Validate that weights sum to 1.0."""
@@ -171,6 +212,52 @@ class Scorer:
         else:
             return 0.0
 
+    def calculate_factor_contributions(self, scores: Dict[str, int]) -> Dict[str, Dict]:
+        """Calculate each factor's contribution to total score.
+
+        Args:
+            scores: Dictionary of dimension scores (1-5)
+
+        Returns:
+            Dict mapping factor name to {raw_score, weight, weighted_score, contribution_pct}
+        """
+        # 检查缺失的维度
+        missing_dims = [dim for dim in self.weights if dim not in scores]
+
+        # 如果有缺失维度，重新分配权重
+        if missing_dims:
+            adjusted_weights = self._redistribute_weights(missing_dims)
+        else:
+            adjusted_weights = self.weights.copy()
+
+        # 计算每个因子的加权得分和总加权得分
+        total_weighted_score = 0.0
+        weighted_scores = {}
+
+        for dim, score in scores.items():
+            if dim in adjusted_weights:
+                weight = adjusted_weights[dim]
+                weighted_score = score * weight
+                weighted_scores[dim] = weighted_score
+                total_weighted_score += weighted_score
+
+        # 计算贡献百分比
+        contributions = {}
+        for dim, score in scores.items():
+            if dim in adjusted_weights:
+                weight = adjusted_weights[dim]
+                ws = weighted_scores[dim]
+                contribution_pct = (ws / total_weighted_score * 100) if total_weighted_score > 0 else 0
+
+                contributions[dim] = {
+                    "raw_score": score,
+                    "weight": round(weight, 3),
+                    "weighted_score": round(ws, 3),
+                    "contribution_pct": round(contribution_pct, 1)
+                }
+
+        return contributions
+
     def _redistribute_weights(self, missing_dims: list) -> Dict[str, float]:
         """Redistribute weights when dimensions are missing.
 
@@ -229,6 +316,9 @@ class Scorer:
         # 计算加权总分
         total_score = self.calculate_weighted_score(scores)
 
+        # 计算因子贡献
+        factor_contributions = self.calculate_factor_contributions(scores)
+
         # 生成评级和建议
         rating = self.generate_rating(total_score)
         recommendation = self.generate_recommendation(rating)
@@ -248,7 +338,8 @@ class Scorer:
             total_score=total_score,
             rating=rating,
             recommendation=recommendation,
-            risk_level=risk_level
+            risk_level=risk_level,
+            factor_contributions=factor_contributions
         )
 
     def _score_market(self, market_data: Optional[CoinData]) -> int:
@@ -483,3 +574,161 @@ class Scorer:
             risk_score=risk_score,
             risk_factors=risk_factors
         )
+
+    # ==================== Phase 1: New Data Fetching Methods ====================
+
+    def _get_funding_rate(self, coin_id: str) -> Optional[FundingRateData]:
+        """Fetch funding rate data for coin using Coinglass API.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            FundingRateData object or None if fetch fails
+        """
+        if not self.enable_phase1:
+            return None
+
+        try:
+            data = self.coinglass.get_funding_rate(coin_id)
+            avg_rate = data.get("avg_funding_rate", 0)
+
+            funding_signal = self.coinglass.score_funding_rate(avg_rate)
+
+            return FundingRateData(
+                symbol=data.get("symbol", ""),
+                coin_id=coin_id,
+                avg_funding_rate=avg_rate,
+                funding_rate_change=data.get("funding_rate_change", 0),
+                exchanges=data.get("exchanges", []),
+                funding_signal=funding_signal
+            )
+        except Exception as e:
+            print(f"Warning: Failed to fetch funding rate for {coin_id}: {e}")
+            return None
+
+    def _get_open_interest(self, coin_id: str) -> Optional[OpenInterestData]:
+        """Fetch open interest data for coin using Coinglass API.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            OpenInterestData object or None if fetch fails
+        """
+        if not self.enable_phase1:
+            return None
+
+        try:
+            data = self.coinglass.get_open_interest(coin_id)
+            oi_change = data.get("oi_change_24h", 0)
+
+            oi_signal = self.coinglass.score_open_interest(oi_change)
+
+            return OpenInterestData(
+                symbol=data.get("symbol", ""),
+                coin_id=coin_id,
+                total_open_interest=data.get("total_open_interest", 0),
+                oi_change_24h=oi_change,
+                oi_change_7d=data.get("oi_change_7d", 0),
+                exchanges=data.get("exchanges", []),
+                oi_signal=oi_signal
+            )
+        except Exception as e:
+            print(f"Warning: Failed to fetch open interest for {coin_id}: {e}")
+            return None
+
+    def _get_stablecoin_flow(self) -> Optional[StablecoinFlowData]:
+        """Fetch global stablecoin flow data using DefiLlama API.
+
+        Returns:
+            StablecoinFlowData object or None if fetch fails
+        """
+        if not self.enable_phase1:
+            return None
+
+        try:
+            data = self.defillama.get_stablecoin_flows()
+            net_flow = data.get("net_flows_24h", 0)
+
+            flow_signal = self.defillama.score_stablecoin_flow(net_flow)
+
+            return StablecoinFlowData(
+                total_supply=data.get("total_supply", 0),
+                net_flows_24h=net_flow,
+                chain_distribution=data.get("chain_distribution", {}),
+                stablecoins=data.get("stablecoins", []),
+                flow_signal=flow_signal
+            )
+        except Exception as e:
+            print(f"Warning: Failed to fetch stablecoin flow: {e}")
+            return None
+
+    def _get_tvl(self, coin_id: str) -> Optional[TVLData]:
+        """Fetch TVL data for DeFi protocol using DefiLlama API.
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'uniswap')
+
+        Returns:
+            TVLData object or None if fetch fails or protocol not found
+        """
+        if not self.enable_phase1:
+            return None
+
+        protocol_slug = self.defillama.get_protocol_slug(coin_id)
+        if not protocol_slug:
+            return None
+
+        try:
+            data = self.defillama.get_protocol_tvl(protocol_slug)
+            tvl_change_7d = data.get("tvl_change_7d", 0)
+
+            tvl_signal = self.defillama.score_tvl_change(tvl_change_7d)
+
+            return TVLData(
+                protocol=data.get("protocol", protocol_slug),
+                slug=protocol_slug,
+                tvl=data.get("tvl", 0),
+                tvl_change_24h=data.get("tvl_change_24h", 0),
+                tvl_change_7d=tvl_change_7d,
+                chain_breakdown=data.get("chain_breakdown", {}),
+                tvl_signal=tvl_signal
+            )
+        except Exception as e:
+            print(f"Warning: Failed to fetch TVL for {coin_id}: {e}")
+            return None
+
+    def score_project_with_phase1(self, coin_id: str) -> Dict[str, Any]:
+        """Generate comprehensive project score with Phase 1 data sources.
+
+        This method extends score_project() to include new dimensions:
+        - funding_rate
+        - open_interest
+        - stablecoin_flow
+        - tvl
+
+        Args:
+            coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+
+        Returns:
+            Dictionary with ProjectScore and new Phase 1 data
+        """
+        # Get base score from existing method
+        base_score = self.score_project(coin_id)
+
+        # Get Phase 1 data
+        funding = self._get_funding_rate(coin_id)
+        open_interest = self._get_open_interest(coin_id)
+        stablecoin = self._get_stablecoin_flow()
+        tvl = self._get_tvl(coin_id)
+
+        return {
+            "base_score": base_score,
+            "phase1_data": {
+                "funding_rate": funding,
+                "open_interest": open_interest,
+                "stablecoin_flow": stablecoin,
+                "tvl": tvl
+            }
+        }

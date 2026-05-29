@@ -1,9 +1,19 @@
-"""Cache system for market data."""
+"""Cache system for market data.
+
+Version Control:
+- All cached data includes a '_version' field
+- When data structure changes, increment CACHE_VERSION
+- Old caches will be automatically invalidated
+"""
 import json
 import os
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
+
+
+# Increment this when data structure changes significantly
+CACHE_VERSION = "1.0"
 
 
 class DataCache:
@@ -47,24 +57,32 @@ class DataCache:
         return self.cache_dir / f"{safe_key}.json"
 
     def save(self, key: str, data: Any) -> None:
-        """Save data to cache.
+        """Save data to cache with version.
 
         Args:
             key: Cache key identifier
             data: Data to cache (must be JSON serializable)
         """
         cache_path = self._get_cache_path(key)
+
+        # Add version to data
+        if isinstance(data, dict):
+            data_with_version = {**data, "_version": CACHE_VERSION}
+        else:
+            # For non-dict data, wrap in dict
+            data_with_version = {"data": data, "_version": CACHE_VERSION}
+
         with open(cache_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+            json.dump(data_with_version, f, ensure_ascii=False, indent=2)
 
     def load(self, key: str) -> Optional[Any]:
-        """Load data from cache.
+        """Load data from cache with version check.
 
         Args:
             key: Cache key identifier
 
         Returns:
-            Cached data if valid, None if missing or expired
+            Cached data if valid and version matches, None otherwise
         """
         cache_path = self._get_cache_path(key)
 
@@ -76,8 +94,25 @@ class DataCache:
         if datetime.now() - mtime > timedelta(hours=self.expire_hours):
             return None
 
-        with open(cache_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(cache_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            # Check version
+            if isinstance(data, dict):
+                cached_version = data.get("_version")
+                if cached_version != CACHE_VERSION:
+                    # Version mismatch - invalidate cache
+                    return None
+                # Return data without version field
+                result = {k: v for k, v in data.items() if k != "_version"}
+                return result if result else None
+            else:
+                # Legacy cache without version - consider invalid
+                return None
+        except (json.JSONDecodeError, KeyError):
+            # Corrupted cache
+            return None
 
     def clear(self) -> None:
         """Clear all cached data."""
