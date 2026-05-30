@@ -9,7 +9,7 @@ Metrics for alpha research:
 Prepares factors for alpha signal generation.
 """
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 from pathlib import Path
 import json
 import numpy as np

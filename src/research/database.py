@@ -3,10 +3,8 @@
 Supports SQL queries on historical factor data.
 Example: SELECT factor_name, value FROM factors WHERE symbol='BTC'
 """
-from datetime import datetime
 from typing import Dict, List, Any, Optional
 from pathlib import Path
-import json
 
 try:
     import duckdb
@@ -72,24 +70,39 @@ class FactorDatabase:
                 total += 1
         return total
 
-    def query(self, sql: str) -> List[Dict]:
+    def query(self, sql: str, params: List = None) -> List[Dict]:
+        """Execute query with optional parameterized inputs."""
         if not self.conn: return []
-        result = self.conn.execute(sql).fetchall()
-        columns = [desc[0] for desc in self.conn.execute(sql).description]
+        if params:
+            result = self.conn.execute(sql, params).fetchall()
+        else:
+            result = self.conn.execute(sql).fetchall()
+        columns = [desc[0] for desc in self.conn.description]
         return [dict(zip(columns, row)) for row in result]
 
     def get_factor_series(self, factor_name: str, coin_id: str = None) -> List[Dict]:
-        sql = f"SELECT date, raw_value, normalized_value, score FROM factors WHERE factor_name='{factor_name}'"
+        """Get factor time series with parameterized query."""
         if coin_id:
-            sql += f" AND coin_id='{coin_id}'"
-        sql += " ORDER BY date"
-        return self.query(sql)
+            return self.query(
+                "SELECT date, raw_value, normalized_value, score FROM factors WHERE factor_name=? AND coin_id=? ORDER BY date",
+                [factor_name, coin_id]
+            )
+        return self.query(
+            "SELECT date, raw_value, normalized_value, score FROM factors WHERE factor_name=? ORDER BY date",
+            [factor_name]
+        )
 
     def get_latest_factors(self, coin_id: str = None) -> Dict[str, Dict]:
-        sql = "SELECT factor_name, raw_value, normalized_value, score FROM factors WHERE date = (SELECT MAX(date) FROM factors)"
+        """Get latest factor values with parameterized query."""
         if coin_id:
-            sql += f" AND coin_id='{coin_id}'"
-        results = self.query(sql)
+            results = self.query(
+                "SELECT factor_name, raw_value, normalized_value, score FROM factors WHERE date = (SELECT MAX(date) FROM factors) AND coin_id=?",
+                [coin_id]
+            )
+        else:
+            results = self.query(
+                "SELECT factor_name, raw_value, normalized_value, score FROM factors WHERE date = (SELECT MAX(date) FROM factors)"
+            )
         return {r["factor_name"]: r for r in results}
 
     def export_to_parquet(self, output_path: Path):
