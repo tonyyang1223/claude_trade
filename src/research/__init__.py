@@ -13,6 +13,7 @@ from src.research.health_dashboard import FactorHealthDashboard
 from src.research.drift import FactorDriftAnalyzer
 from src.research.missing_rate import FactorMissingRateAnalyzer
 from src.research.lifecycle import FactorLifecycleManager, FactorStage
+from src.research.retirement import FactorRetirementAdvisor
 
 __all__ = [
     "FactorClassifier", "classify_all_factors",
@@ -20,5 +21,6 @@ __all__ = [
     "FactorStabilityAnalyzer", "FactorDatabase", "FactorRanking",
     "FactorDiscriminationAnalyzer", "EffectiveFactorCountAnalyzer",
     "FactorCoverageAnalyzer", "FactorHealthDashboard", "FactorDriftAnalyzer",
-    "FactorMissingRateAnalyzer", "FactorLifecycleManager", "FactorStage"
+    "FactorMissingRateAnalyzer", "FactorLifecycleManager", "FactorStage",
+    "FactorRetirementAdvisor"
 ]
