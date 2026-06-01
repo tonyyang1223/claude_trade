@@ -10,11 +10,12 @@ from src.research.discrimination import FactorDiscriminationAnalyzer
 from src.research.effective_count import EffectiveFactorCountAnalyzer
 from src.research.coverage import FactorCoverageAnalyzer
 from src.research.health_dashboard import FactorHealthDashboard
+from src.research.drift import FactorDriftAnalyzer
 
 __all__ = [
     "FactorClassifier", "classify_all_factors",
     "FactorCorrelationAnalyzer", "RedundancyDetector", "HierarchicalWeighting",
     "FactorStabilityAnalyzer", "FactorDatabase", "FactorRanking",
     "FactorDiscriminationAnalyzer", "EffectiveFactorCountAnalyzer",
-    "FactorCoverageAnalyzer", "FactorHealthDashboard"
+    "FactorCoverageAnalyzer", "FactorHealthDashboard", "FactorDriftAnalyzer"
 ]
