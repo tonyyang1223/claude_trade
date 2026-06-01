@@ -31,6 +31,7 @@ from src.factors.registry import (
 )
 from src.factors.store import FactorStore
 from src.factors.normalization import NormalizationPipeline
+from src.factors.engine import FactorEngine
 
 __all__ = [
     "FactorRegistry",
@@ -42,4 +43,5 @@ __all__ = [
     "FactorValue",
     "FactorCategory",
     "FactorSource",
+    "FactorEngine",
 ]
