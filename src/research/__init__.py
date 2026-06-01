@@ -14,6 +14,7 @@ from src.research.drift import FactorDriftAnalyzer
 from src.research.missing_rate import FactorMissingRateAnalyzer
 from src.research.lifecycle import FactorLifecycleManager, FactorStage
 from src.research.retirement import FactorRetirementAdvisor
+from src.research.accumulation import DataAccumulationPlanner, DataPriority
 
 __all__ = [
     "FactorClassifier", "classify_all_factors",
@@ -22,5 +23,5 @@ __all__ = [
     "FactorDiscriminationAnalyzer", "EffectiveFactorCountAnalyzer",
     "FactorCoverageAnalyzer", "FactorHealthDashboard", "FactorDriftAnalyzer",
     "FactorMissingRateAnalyzer", "FactorLifecycleManager", "FactorStage",
-    "FactorRetirementAdvisor"
+    "FactorRetirementAdvisor", "DataAccumulationPlanner", "DataPriority"
 ]
