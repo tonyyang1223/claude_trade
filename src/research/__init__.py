@@ -1,4 +1,4 @@
-"""Factor Research Module - complete factor quality control system."""
+"""Factor Research Module."""
 from src.research.classification import FactorClassifier, classify_all_factors
 from src.research.correlation import FactorCorrelationAnalyzer
 from src.research.redundancy import RedundancyDetector
@@ -6,14 +6,15 @@ from src.research.weighting import HierarchicalWeighting
 from src.research.stability import FactorStabilityAnalyzer
 from src.research.database import FactorDatabase
 from src.research.ranking import FactorRanking
+from src.research.discrimination import FactorDiscriminationAnalyzer
+from src.research.effective_count import EffectiveFactorCountAnalyzer
+from src.research.coverage import FactorCoverageAnalyzer
+from src.research.health_dashboard import FactorHealthDashboard
 
 __all__ = [
-    "FactorClassifier",
-    "classify_all_factors",
-    "FactorCorrelationAnalyzer",
-    "RedundancyDetector",
-    "HierarchicalWeighting",
-    "FactorStabilityAnalyzer",
-    "FactorDatabase",
-    "FactorRanking"
+    "FactorClassifier", "classify_all_factors",
+    "FactorCorrelationAnalyzer", "RedundancyDetector", "HierarchicalWeighting",
+    "FactorStabilityAnalyzer", "FactorDatabase", "FactorRanking",
+    "FactorDiscriminationAnalyzer", "EffectiveFactorCountAnalyzer",
+    "FactorCoverageAnalyzer", "FactorHealthDashboard"
 ]
