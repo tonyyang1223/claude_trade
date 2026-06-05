@@ -201,29 +201,52 @@ class DailyCollector:
         return {'success': False, 'error': 'Unknown error'}
 
     def _fetch_from_client(self, client: Any, source: str) -> Dict[str, Any]:
-        """Fetch data using client-specific methods.
+        """Fetch data using client-specific methods with field normalization.
 
         Args:
             client: API client instance
             source: Source name
 
         Returns:
-            Data dictionary from the client
+            Data dictionary from the client with normalized fields
         """
         defaults = self.DEFAULT_COINS.get(source)
 
-        if source == 'coingecko':
-            return client.get_coin_data(defaults)
-        elif source == 'coinglass':
-            return client.get_funding_rate(defaults)
-        elif source == 'defillama':
-            return client.get_chain_tvl(defaults)
-        elif source == 'github':
-            return client.get_repo_info(*defaults)
-        elif source == 'reddit':
-            return client.get_coin_mentions(defaults)
-        else:
-            raise ValueError(f"No fetch method for source: {source}")
+        try:
+            if source == 'coingecko':
+                return client.get_coin_data(defaults)
+            elif source == 'coinglass':
+                data = client.get_funding_rate(defaults)
+                # Normalize field names to match validator schema
+                if data:
+                    return {
+                        'symbol': data.get('symbol', 'BTC'),
+                        'fundingRate': data.get('funding_rate') or data.get('fundingRate', 0),
+                        'fundingTime': data.get('funding_time') or data.get('fundingTime', int(datetime.now().timestamp() * 1000)),
+                        'exchange': data.get('exchange', 'binance')
+                    }
+                return data
+            elif source == 'defillama':
+                return client.get_chain_tvl(defaults)
+            elif source == 'github':
+                data = client.get_repo_info(*defaults)
+                # Remove problematic nested structures that cause Parquet serialization issues
+                if data and isinstance(data, dict):
+                    data.pop('custom_properties', None)
+                    data.pop('organization', None)
+                return data
+            elif source == 'reddit':
+                data = client.get_coin_mentions(defaults)
+                # Wrap in expected structure for validation
+                return {
+                    'kind': 'listing',
+                    'data': {'children': data if isinstance(data, list) else [data]}
+                }
+            else:
+                raise ValueError(f"No fetch method for source: {source}")
+        except Exception as e:
+            self.logger.error(f"Error fetching {source}: {e}")
+            raise
 
     def _save_parquet(self, source: str, data: Dict[str, Any]) -> Path:
         """Save data to partitioned Parquet file.
