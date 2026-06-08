@@ -113,3 +113,46 @@ class ReportGenerator:
         # Generate and save report
         html = self.generate_comparison_report(report)
         output_path.write_text(html, encoding='utf-8')
+
+    def generate_top_n_report(self, scores: list, analysis_summary: str) -> str:
+        """Generate HTML report for Top N coins analysis.
+
+        Args:
+            scores: List of ProjectScore objects
+            analysis_summary: Summary text for the analysis
+
+        Returns:
+            Complete HTML string for the report
+        """
+        # Generate heatmap
+        heatmap = self.chart_generator.generate_heatmap(scores)
+
+        # Load template
+        template = self.env.get_template('top_n_report.html')
+
+        # Render report
+        html = template.render(
+            scores=scores,
+            heatmap=heatmap,
+            analysis_summary=analysis_summary,
+            generated_at=datetime.now()
+        )
+
+        return html
+
+    def save_top_n_report(self, scores: list, analysis_summary: str, output_path: Path) -> None:
+        """Save Top N report to file.
+
+        Args:
+            scores: List of ProjectScore objects
+            analysis_summary: Summary text for the analysis
+            output_path: Path where the report should be saved
+        """
+        output_path = Path(output_path)
+
+        # Ensure output directory exists
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Generate and save report
+        html = self.generate_top_n_report(scores, analysis_summary)
+        output_path.write_text(html, encoding='utf-8')

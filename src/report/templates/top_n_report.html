@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top {{ scores|length }} 数字货币综合评分报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0c3483 0%, #a2b6df 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .header .time {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Ranking Table Section */
+        .ranking-section {
+            padding: 30px 40px;
+            background: #f8f9fa;
+        }
+
+        .ranking-section h2 {
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #11998e;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .ranking-table th {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .ranking-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .ranking-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ranking-table tr:hover {
+            background: #f5f7fa;
+        }
+
+        .rank-col {
+            font-weight: bold;
+            width: 60px;
+        }
+
+        .rank-1 { background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%); color: #1a1a2e; }
+        .rank-2 { background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%); color: #1a1a2e; }
+        .rank-3 { background: linear-gradient(135deg, #cd7f32 0%, #daa06d 100%); color: #1a1a2e; }
+
+        .name-col {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .symbol {
+            color: #666;
+            font-size: 0.85em;
+            margin-left: 5px;
+        }
+
+        .score-high { color: #2ecc71; font-weight: bold; }
+        .score-medium { color: #f39c12; font-weight: bold; }
+        .score-low { color: #e74c3c; font-weight: bold; }
+
+        .rating-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .rating-A-plus { background: #27ae60; color: white; }
+        .rating-A { background: #2ecc71; color: white; }
+        .rating-B { background: #f39c12; color: white; }
+        .rating-C { background: #e67e22; color: white; }
+        .rating-D { background: #e74c3c; color: white; }
+        .rating-F { background: #c0392b; color: white; }
+
+        /* Heatmap Section */
+        .heatmap-section {
+            padding: 30px 40px;
+            background: white;
+        }
+
+        .heatmap-section h2 {
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #11998e;
+        }
+
+        .heatmap-wrapper {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        /* Recommendations Section */
+        .recommendations-section {
+            padding: 40px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .recommendations-section h2 {
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .recommendation-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .recommendation-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .recommendation-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .recommendation-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .recommendation-box li:before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+        }
+
+        .coin-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .coin-tag {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* Summary Section */
+        .summary-section {
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .summary-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .summary-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .summary-box strong {
+            color: #ffd700;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .footer .sources {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .ranking-table {
+                font-size: 0.85em;
+            }
+
+            .ranking-table th,
+            .ranking-table td {
+                padding: 8px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+
+        /* Scrollable table container */
+        .table-container {
+            max-height: 600px;
+            overflow-y: auto;
+            border-radius: 12px;
+        }
+
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Top {{ scores|length }} 数字货币综合评分报告</h1>
+            <div class="subtitle">多维度量化分析对比</div>
+            <div class="time">分析时间: {{ generated_at.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+        </div>
+
+        <!-- Ranking Table -->
+        <div class="ranking-section">
+            <h2>综合排名表</h2>
+            <div class="table-container">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th class="rank-col">排名</th>
+                            <th class="name-col">名称</th>
+                            <th>评分</th>
+                            <th>评级</th>
+                            <th>风险</th>
+                            <th>建议</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for score in scores %}
+                        <tr>
+                            <td class="rank-col {% if loop.index == 1 %}rank-1{% elif loop.index == 2 %}rank-2{% elif loop.index == 3 %}rank-3{% endif %}">
+                                {{ loop.index }}
+                            </td>
+                            <td class="name-col">
+                                {{ score.coin_name }}<span class="symbol">{{ score.symbol }}</span>
+                            </td>
+                            <td class="{% if score.total_score >= 80 %}score-high{% elif score.total_score >= 60 %}score-medium{% else %}score-low{% endif %}">
+                                {{ score.total_score|round(1) }}
+                            </td>
+                            <td>
+                                <span class="rating-badge rating-{% if score.rating == 'A+' %}A-plus{% else %}{{ score.rating }}{% endif %}">
+                                    {{ score.rating }}
+                                </span>
+                            </td>
+                            <td class="{% if score.risk_level == 'low' %}score-high{% elif score.risk_level == 'medium' %}score-medium{% else %}score-low{% endif %}">
+                                {{ score.risk_level|upper }}
+                            </td>
+                            <td style="font-size: 0.85em; text-align: left;">
+                                {{ score.recommendation[:30] }}{% if score.recommendation|length > 30 %}...{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Heatmap -->
+        <div class="heatmap-section">
+            <h2>各维度得分热力图</h2>
+            <div class="heatmap-wrapper">
+                {{ heatmap|safe }}
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="recommendations-section">
+            <h2>推荐列表</h2>
+
+            {% set high_rated = scores|selectattr('rating', 'in', ['A+', 'A'])|list %}
+            {% if high_rated %}
+            <div class="recommendation-box">
+                <h3>强烈建议关注</h3>
+                <div class="coin-tags">
+                    {% for score in high_rated %}
+                    <span class="coin-tag">{{ score.coin_name }} ({{ score.total_score|round(1) }})</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% set medium_rated = scores|selectattr('rating', 'equalto', 'B')|list %}
+            {% if medium_rated %}
+            <div class="recommendation-box">
+                <h3>可考虑投资</h3>
+                <div class="coin-tags">
+                    {% for score in medium_rated %}
+                    <span class="coin-tag">{{ score.coin_name }} ({{ score.total_score|round(1) }})</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="recommendation-box">
+                <h3>投资提示</h3>
+                <ul>
+                    <li>本报告基于多维度量化分析生成</li>
+                    <li>建议结合市场实时情况做出投资决策</li>
+                    <li>注意分散投资，控制风险</li>
+                    <li>高分不代表无风险，投资需谨慎</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-section">
+            <h2>分析总结</h2>
+            <div class="summary-box">
+                {{ analysis_summary }}
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="sources">数据来源: CoinGecko, Binance, DefiLlama, GitHub</div>
+            <div>报告生成时间: {{ generated_at.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -195,3 +195,80 @@ class ChartGenerator:
         )
 
         return fig.to_html(include_plotlyjs='cdn', full_html=False)
+
+    def generate_heatmap(self, scores: List[ProjectScore]) -> str:
+        """Generate interactive heatmap for multi-coin analysis.
+
+        Args:
+            scores: List of ProjectScore objects
+
+        Returns:
+            HTML string with interactive heatmap
+        """
+        if not scores:
+            raise ValueError("scores list cannot be empty")
+
+        # Build matrix: rows = coins, columns = dimensions
+        coin_names = [f"{s.coin_name} ({s.symbol})" for s in scores]
+
+        z_values = []
+        for score in scores:
+            z_values.append([
+                score.market_score,
+                score.technical_score,
+                score.onchain_score,
+                score.sentiment_score,
+                score.github_score,
+                score.social_score,
+                score.risk_score
+            ])
+
+        # Create heatmap
+        fig = go.Figure(data=go.Heatmap(
+            z=z_values,
+            x=self.DIMENSIONS,
+            y=coin_names,
+            colorscale=[
+                [0, '#e74c3c'],      # Red for low scores
+                [0.4, '#f39c12'],    # Yellow for medium scores
+                [0.7, '#2ecc71'],    # Green for high scores
+                [1, '#27ae60']       # Dark green for very high
+            ],
+            zmin=1,
+            zmax=5,
+            colorbar=dict(
+                title='Score',
+                tickmode='linear',
+                tick0=1,
+                dtick=1
+            ),
+            hoverongaps=False,
+            hovertemplate='%{y}<br>%{x}: %{z}<extra></extra>'
+        ))
+
+        # Add text annotations
+        for i, coin in enumerate(coin_names):
+            for j, dim in enumerate(self.DIMENSIONS):
+                fig.add_annotation(
+                    x=j,
+                    y=i,
+                    text=str(z_values[i][j]),
+                    showarrow=False,
+                    font=dict(color='white', size=12, weight='bold')
+                )
+
+        fig.update_layout(
+            title=dict(
+                text='Multi-dimensional Score Heatmap',
+                x=0.5,
+                font=dict(size=18)
+            ),
+            xaxis_title='Dimension',
+            yaxis_title='Cryptocurrency',
+            width=900,
+            height=max(600, len(scores) * 40 + 200),
+            margin=dict(t=80, b=60, l=150, r=60),
+            yaxis=dict(autorange='reversed')  # Top coin at top
+        )
+
+        return fig.to_html(include_plotlyjs='cdn', full_html=False)
