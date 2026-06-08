@@ -551,7 +551,7 @@ class WhaleMonitorManager:
 
     def save_to_csv(self, transactions: List[WhaleTransaction], output_path: str) -> None:
         """
-        保存交易到CSV文件
+        保存交易到CSV文件（追加模式）
 
         Args:
             transactions: 交易列表
@@ -560,76 +560,23 @@ class WhaleMonitorManager:
         # 确保目录存在
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-        with open(output_path, "w", newline="", encoding="utf-8") as f:
+        # 检查文件是否存在
+        file_exists = os.path.exists(output_path)
+
+        with open(output_path, "a", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            # 写入表头
-            writer.writerow([
-                "timestamp", "chain", "tx_hash", "amount_usd",
-                "amount_native", "from_address", "to_address", "type"
-            ])
+            # 文件不存在时写入表头
+            if not file_exists:
+                writer.writerow([
+                    "timestamp", "chain", "tx_hash", "amount_usd",
+                    "amount_native", "from_address", "to_address", "type"
+                ])
             # 写入数据
             for tx in transactions:
                 writer.writerow(tx.to_csv_row())
 
-        logger.info(f"已保存 {len(transactions)} 笔交易到 {output_path}")
+        logger.info(f"已追加 {len(transactions)} 笔交易到 {output_path}")
 
 
-def main():
-    """主函数 - 用于命令行运行"""
-    import argparse
-
-    parser = argparse.ArgumentParser(description="鲸鱼交易监控")
-    parser.add_argument("--config", default="config/settings.yaml", help="配置文件路径")
-    parser.add_argument("--output", default=DEFAULT_OUTPUT_DIR, help="输出目录")
-    parser.add_argument("--threshold-btc", type=float, default=DEFAULT_BTC_THRESHOLD, help="BTC大额交易阈值（BTC数量）")
-    parser.add_argument("--threshold-eth", type=float, default=DEFAULT_ETH_THRESHOLD, help="ETH大额交易阈值（ETH数量）")
-    parser.add_argument("--check-interval", type=int, default=DEFAULT_CHECK_INTERVAL, help="轮询检查间隔（秒）")
-    parser.add_argument("--duration", type=int, default=None, help="运行时长（秒），None表示持续运行")
-    parser.add_argument("--verbose", action="store_true", help="显示详细日志")
-
-    args = parser.parse_args()
-
-    # 设置日志
-    log_level = logging.DEBUG if args.verbose else logging.INFO
-    logging.basicConfig(
-        level=log_level,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
-
-    print("鲸鱼交易监控器启动...")
-    print(f"配置文件: {args.config}")
-    print(f"输出目录: {args.output}")
-    print(f"BTC阈值: ≥{args.threshold_btc} BTC")
-    print(f"ETH阈值: ≥{args.threshold_eth} ETH")
-    print(f"轮询间隔: {args.check_interval}秒")
-
-    # 运行监控
-    try:
-        manager = WhaleMonitorManager(
-            config_path=args.config,
-            threshold_btc=args.threshold_btc,
-            threshold_eth=args.threshold_eth,
-            check_interval=args.check_interval,
-            output_dir=args.output
-        )
-
-        # 单次运行或持续运行
-        if args.duration:
-            manager.run_monitoring_loop(duration=args.duration)
-        else:
-            transactions = manager.collect_all()
-            if transactions:
-                output_path = manager._get_output_path()
-                manager.save_to_csv(transactions, output_path)
-                print(f"\n发现 {len(transactions)} 笔大额交易")
-                print(f"已保存到: {output_path}")
-            else:
-                print("\n未发现大额交易")
-
-    except Exception as e:
-        logging.error(f"监控失败: {e}")
-        raise
-
-
-if __name__ == "__main__":
-    main()
+# 注意：命令行入口点已移至 scripts/data_collection/run_whale_monitor.py
+# 本模块仅作为库使用
