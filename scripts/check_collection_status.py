@@ -330,6 +330,86 @@ class CollectionStatusChecker:
 
         print("\n" + "=" * 60)
 
+    def _build_telegram_payload(self, status: str, missing_sources: List[str], timestamp: str) -> dict:
+        """Build Telegram webhook payload."""
+        if status == "healthy":
+            text = f"📊 *Data Collection Status: healthy*\n\n✅ All data sources healthy\n🕐 {timestamp}"
+        else:
+            missing_str = ", ".join(f"`{s}`" for s in missing_sources) if missing_sources else "None"
+            text = f"📊 *Data Collection Status: unhealthy*\n\n⚠️ Missing: {missing_str}\n🕐 {timestamp}"
+
+        return {
+            "text": text,
+            "parse_mode": "Markdown"
+        }
+
+    def _build_slack_payload(self, status: str, missing_sources: List[str], timestamp: str) -> dict:
+        """Build Slack webhook payload."""
+        if status == "healthy":
+            return {
+                "text": "📊 Data Collection Status: healthy",
+                "attachments": [{
+                    "color": "good",
+                    "fields": [
+                        {"title": "Status", "value": "✅ All data sources healthy", "short": True},
+                        {"title": "Timestamp", "value": timestamp, "short": True}
+                    ]
+                }]
+            }
+        else:
+            missing_str = ", ".join(missing_sources) if missing_sources else "None"
+            return {
+                "text": "📊 Data Collection Status: unhealthy",
+                "attachments": [{
+                    "color": "danger",
+                    "fields": [
+                        {"title": "Status", "value": "unhealthy", "short": True},
+                        {"title": "Missing Sources", "value": missing_str, "short": True},
+                        {"title": "Timestamp", "value": timestamp, "short": True}
+                    ]
+                }]
+            }
+
+    def _send_webhook(self, status: str, missing_sources: List[str], timestamp: str) -> bool:
+        """Send webhook notification.
+
+        Args:
+            status: 'healthy' or 'unhealthy'
+            missing_sources: List of missing/stale data sources
+            timestamp: ISO 8601 timestamp
+
+        Returns:
+            True if sent successfully, False otherwise
+        """
+        if not self.alert_config.webhook_url:
+            print("Warning: No webhook_url configured, skipping notification")
+            return False
+
+        try:
+            if self.alert_config.webhook_type == "telegram":
+                payload = self._build_telegram_payload(status, missing_sources, timestamp)
+            else:
+                payload = self._build_slack_payload(status, missing_sources, timestamp)
+
+            response = requests.post(
+                self.alert_config.webhook_url,
+                json=payload,
+                timeout=5
+            )
+
+            if response.status_code == 200:
+                return True
+            else:
+                print(f"Warning: Webhook returned status {response.status_code}")
+                return False
+
+        except requests.Timeout:
+            print("Warning: Webhook request timed out")
+            return False
+        except Exception as e:
+            print(f"Warning: Webhook failed: {e}")
+            return False
+
     def get_alerts(self) -> List[str]:
         """Get list of issues that need attention."""
         alerts = []
