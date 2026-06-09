@@ -187,3 +187,35 @@ class CoinGeckoClient(BaseAPIClient):
             }
             for coin in coins
         ]
+
+    def get_asset_platform(self, coin_id: str) -> Optional[str]:
+        """Get asset platform (chain) for a token.
+
+        Args:
+            coin_id: CoinGecko coin ID
+
+        Returns:
+            Platform ID (e.g., 'ethereum', 'solana') or None
+        """
+        self._wait_for_rate_limit()
+        url = f"{self.BASE_URL}/coins/{coin_id}"
+        params = {
+            "localization": "false",
+            "tickers": "false",
+            "market_data": "false",
+            "community_data": "false",
+            "developer_data": "false"
+        }
+
+        try:
+            response = self.session.get(url, params=params, timeout=30)
+            response.raise_for_status()
+
+            data = response.json()
+            platform_id = data.get("asset_platform_id")
+
+            return platform_id if platform_id else None
+
+        except Exception as e:
+            print(f"Warning: Failed to get asset platform for {coin_id}: {e}")
+            return None
