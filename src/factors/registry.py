@@ -46,7 +46,9 @@ class FactorRegistry:
         version: str = "1.0.0",
         tags: List[str] = None,
         higher_is_better: bool = True,
-        typical_range: tuple = (0.0, 1.0)
+        typical_range: tuple = (0.0, 1.0),
+        min_days: int = 0,
+        min_points: int = 0
     ) -> Callable:
         """Decorator to register a factor.
 
@@ -76,7 +78,9 @@ class FactorRegistry:
                 version=version,
                 tags=tags or [],
                 higher_is_better=higher_is_better,
-                typical_range=typical_range
+                typical_range=typical_range,
+                min_days=min_days,
+                min_points=min_points
             )
 
             self._factors[name] = metadata
