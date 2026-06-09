@@ -3,6 +3,9 @@ from datetime import datetime
 from typing import Dict, List, Optional
 from pathlib import Path
 import inspect
+import logging
+
+logger = logging.getLogger(__name__)
 
 from src.factors.registry import registry
 from src.factors.store import FactorStore
@@ -48,6 +51,37 @@ class FactorEngine:
         compute_func = registry.get_compute_func(factor_name)
         if compute_func is None:
             raise ValueError(f"No compute function: {factor_name}")
+
+        # Data quantity check
+        if historical_values and (metadata.min_days > 0 or metadata.min_points > 0):
+            actual_points = len(historical_values)
+            unique_dates = set()
+            for v in historical_values:
+                if isinstance(v, dict) and v.get('date'):
+                    unique_dates.add(v.get('date'))
+            actual_days = len(unique_dates)
+
+            # Check min_points
+            if metadata.min_points > 0 and actual_points < metadata.min_points:
+                logger.debug(f"Insufficient data points for {factor_name}: {actual_points} < {metadata.min_points}")
+                return FactorValue(
+                    name=factor_name,
+                    raw_value=float('nan'),
+                    confidence=0,
+                    timestamp=datetime.now().isoformat(),
+                    metadata={"reason": "insufficient_data_points", "actual": actual_points, "required": metadata.min_points}
+                )
+
+            # Check min_days
+            if metadata.min_days > 0 and actual_days < metadata.min_days:
+                logger.debug(f"Insufficient days for {factor_name}: {actual_days} < {metadata.min_days}")
+                return FactorValue(
+                    name=factor_name,
+                    raw_value=float('nan'),
+                    confidence=0,
+                    timestamp=datetime.now().isoformat(),
+                    metadata={"reason": "insufficient_days", "actual": actual_days, "required": metadata.min_days}
+                )
 
         raw_value = compute_func(*args, **kwargs)
 
