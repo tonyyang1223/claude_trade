@@ -64,6 +64,17 @@ class CollectionStatusChecker:
         except Exception:
             return AlertConfig()
 
+    def _get_missing_sources(self) -> List[str]:
+        """Get list of missing/stale data sources."""
+        missing = []
+        freshness = self.results['checks'].get('data_freshness', {})
+
+        for source, details in freshness.get('sources', {}).items():
+            if not details.get('healthy', True):
+                missing.append(source)
+
+        return missing
+
     def check_all(self) -> Dict[str, Any]:
         """Run all status checks."""
         self.results = {
@@ -87,9 +98,14 @@ class CollectionStatusChecker:
         self.results['checks']['integrity'] = self._check_data_integrity()
 
         # Calculate overall health
-        self.results['healthy'] = all(
+        is_healthy = all(
             c.get('healthy', True) for c in self.results['checks'].values()
         )
+
+        # Add status and missing_sources
+        self.results['status'] = "healthy" if is_healthy else "unhealthy"
+        self.results['missing_sources'] = self._get_missing_sources()
+        self.results['healthy'] = is_healthy
 
         return self.results
 
