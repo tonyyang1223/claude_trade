@@ -18,11 +18,21 @@ import subprocess
 from pathlib import Path
 from datetime import datetime, timedelta
 from typing import Dict, List, Any
+from dataclasses import dataclass
 import json
+import yaml
+import requests
 
 # Add project root
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
+
+
+@dataclass
+class AlertConfig:
+    """Alert configuration from settings.yaml"""
+    webhook_url: str = ""
+    webhook_type: str = "slack"  # slack or telegram
 
 
 class CollectionStatusChecker:
@@ -32,7 +42,27 @@ class CollectionStatusChecker:
         self.project_dir = project_root
         self.log_dir = self.project_dir / "logs"
         self.data_dir = self.project_dir / "data" / "raw"
+        self.alert_config = self._load_alert_config()
         self.results = {}
+
+    def _load_alert_config(self) -> AlertConfig:
+        """Load alert configuration from settings.yaml"""
+        settings_path = self.project_dir / "config" / "settings.yaml"
+
+        if not settings_path.exists():
+            return AlertConfig()
+
+        try:
+            with open(settings_path, 'r') as f:
+                settings = yaml.safe_load(f) or {}
+
+            alert = settings.get('notification', {}).get('alert', {})
+            return AlertConfig(
+                webhook_url=alert.get('webhook_url', ''),
+                webhook_type=alert.get('webhook_type', 'slack')
+            )
+        except Exception:
+            return AlertConfig()
 
     def check_all(self) -> Dict[str, Any]:
         """Run all status checks."""
