@@ -23,6 +23,12 @@ import json
 import yaml
 import requests
 
+# ANSI color codes
+RED = '\033[91m'
+GREEN = '\033[92m'
+YELLOW = '\033[93m'
+RESET = '\033[0m'
+
 # Add project root
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
@@ -447,6 +453,40 @@ class CollectionStatusChecker:
                 alerts.append(f"⚠️ {source} data is stale or missing")
 
         return alerts
+
+    def print_alert(self, use_color: bool = True):
+        """Print alert message for missing sources."""
+        status = self.results.get('status', 'unknown')
+        missing = self.results.get('missing_sources', [])
+        timestamp = self.results.get('timestamp', '')
+
+        if status == "healthy":
+            if use_color:
+                print(f"{GREEN}✅ All data sources healthy{RESET}")
+            else:
+                print("✅ All data sources healthy")
+            return
+
+        # Unhealthy status
+        if use_color:
+            print(f"{RED}❌ DATA COLLECTION ALERT - {timestamp}{RESET}\n")
+            print(f"{YELLOW}⚠️ Missing/Stale Data Sources:{RESET}")
+        else:
+            print(f"❌ DATA COLLECTION ALERT - {timestamp}\n")
+            print("⚠️ Missing/Stale Data Sources:")
+
+        freshness = self.results['checks'].get('data_freshness', {})
+        for source in missing:
+            details = freshness.get('sources', {}).get(source, {})
+            reason = details.get('message', 'Unknown issue')
+            age = details.get('age_hours')
+
+            if age:
+                reason = f"Stale data (last: {age}h ago)"
+
+            print(f"  • {source} - {reason}")
+
+        print("\nRun: python scripts/data_collection/daily_collector.py")
 
 
 def main():
