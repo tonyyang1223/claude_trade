@@ -494,6 +494,8 @@ def main():
 
     parser.add_argument('--alerts', '-a', action='store_true', help="Only show alerts")
     parser.add_argument('--json', '-j', action='store_true', help="Output as JSON")
+    parser.add_argument('--notify', action='store_true', help="Send webhook notification")
+    parser.add_argument('--no-color', action='store_true', help="Disable colored output")
 
     args = parser.parse_args()
 
@@ -501,13 +503,17 @@ def main():
     results = checker.check_all()
 
     if args.alerts:
-        alerts = checker.get_alerts()
-        if alerts:
-            print("\n".join(alerts))
-            sys.exit(1)
-        else:
-            print("✅ All checks passed")
-            sys.exit(0)
+        use_color = not args.no_color
+        checker.print_alert(use_color=use_color)
+
+        if args.notify:
+            checker._send_webhook(
+                status=results['status'],
+                missing_sources=results['missing_sources'],
+                timestamp=results['timestamp']
+            )
+
+        sys.exit(0 if results['healthy'] else 1)
 
     if args.json:
         print(json.dumps(results, indent=2, default=str))
