@@ -55,6 +55,8 @@ class FactorMetadata:
     tags: List[str] = field(default_factory=list)
     higher_is_better: bool = True
     typical_range: tuple = (0.0, 1.0)
+    min_days: int = 0          # 最小历史天数要求
+    min_points: int = 0        # 最小数据点数量要求
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert metadata to dictionary."""
@@ -68,7 +70,9 @@ class FactorMetadata:
             "version": self.version,
             "tags": self.tags,
             "higher_is_better": self.higher_is_better,
-            "typical_range": self.typical_range
+            "typical_range": self.typical_range,
+            "min_days": self.min_days,
+            "min_points": self.min_points
         }
 
 
