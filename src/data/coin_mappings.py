@@ -101,13 +101,46 @@ COIN_TO_DEFILLAMA = {
 
 # Mapping from CoinGecko coin_id to chain name for stablecoin flows
 COIN_TO_CHAIN = {
+    # Layer 1 链原生代币
     "ethereum": "Ethereum",
-    "polygon": "Polygon",
-    "avalanche-2": "Avalanche",
     "solana": "Solana",
+    "avalanche-2": "Avalanche",
+    "polygon": "Polygon",
     "binancecoin": "BSC",
     "arbitrum": "Arbitrum",
     "optimism": "Optimism",
     "cosmos": "Cosmos",
     "fantom": "Fantom",
+    "cardano": "Cardano",
+    "polkadot": "Polkadot",
+    "near": "Near",
+    "litecoin": "Litecoin",
+    "dogecoin": "Dogecoin",
+    # ERC-20 代币（Ethereum 链）
+    "uniswap": "Ethereum",
+    "aave": "Ethereum",
+    "compound": "Ethereum",
+    "makerdao": "Ethereum",
+    "curve": "Ethereum",
+    "lido": "Ethereum",
+    "chainlink": "Ethereum",
+    "rocket-pool": "Ethereum",
+}
+
+# Mapping from chain name to DefiLlama chain identifier
+CHAIN_TO_DEFILLAMA = {
+    "Ethereum": "Ethereum",
+    "Solana": "Solana",
+    "Avalanche": "Avalanche",
+    "Polygon": "Polygon",
+    "BSC": "BSC",
+    "Arbitrum": "Arbitrum",
+    "Optimism": "Optimism",
+    "Cosmos": "Cosmos",
+    "Fantom": "Fantom",
+    "Cardano": "Cardano",
+    "Polkadot": "Polkadot",
+    "Near": "Near",
+    "Litecoin": "Litecoin",
+    "Dogecoin": "Dogecoin",
 }
