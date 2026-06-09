@@ -1,7 +1,50 @@
 """On-chain factors: Stablecoin flows and TVL."""
+from typing import Optional
 from src.factors import register_factor, FactorCategory, FactorSource
 from src.factors.registry import registry
 from src.api.defillama import DefiLlamaClient
+from src.data.coin_mappings import COIN_TO_CHAIN, CHAIN_TO_DEFILLAMA
+from src.api.coingecko import CoinGeckoClient
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def resolve_chain(coin_id: str) -> Optional[str]:
+    """Resolve the chain for a coin.
+
+    Priority:
+    1. COIN_TO_CHAIN hardcoded mapping
+    2. CoinGecko asset_platform_id API
+
+    Args:
+        coin_id: CoinGecko coin ID
+
+    Returns:
+        DefiLlama chain name or None
+    """
+    # 1. Check hardcoded mapping
+    chain_name = COIN_TO_CHAIN.get(coin_id)
+    if chain_name:
+        defillama_chain = CHAIN_TO_DEFILLAMA.get(chain_name)
+        if defillama_chain:
+            return defillama_chain
+        return chain_name
+
+    # 2. Query CoinGecko API
+    try:
+        client = CoinGeckoClient()
+        platform_id = client.get_asset_platform(coin_id)
+
+        if platform_id:
+            defillama_chain = CHAIN_TO_DEFILLAMA.get(platform_id.capitalize())
+            if defillama_chain:
+                return defillama_chain
+            return platform_id.capitalize()
+    except Exception as e:
+        logger.debug(f"Failed to resolve chain for {coin_id}: {e}")
+
+    return None
 
 
 # ============================================================================
