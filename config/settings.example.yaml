@@ -32,6 +32,11 @@ notification:
   telegram_bot_token: ""
   telegram_chat_id: ""
 
+  # Data collection alert webhook
+  alert:
+    webhook_url: ""  # Slack or Telegram webhook URL
+    webhook_type: "slack"  # Options: slack, telegram (default: slack)
+
 # Whale Monitor Configuration
 whale_monitor:
   # 大额交易阈值（native币数量）
