@@ -56,18 +56,31 @@ def resolve_chain(coin_id: str) -> Optional[str]:
     display_name="Stablecoin Net Flow",
     category=FactorCategory.ONCHAIN,
     source=FactorSource.DEFILLAMA,
-    description="24h net flow of stablecoins. Positive = capital entering, Negative = capital leaving",
+    description="24h net flow of stablecoins. Chain-specific if coin_id provided.",
     confidence=0.9,
-    version="1.0.0",
+    version="1.1.0",
     tags=["onchain", "capital_flow", "stablecoins"],
     higher_is_better=True,
-    typical_range=(-5e9, 5e9)
+    typical_range=(-5e9, 5e9),
+    min_days=1,
+    min_points=7
 )
-def compute_stablecoin_net_flow() -> float:
-    """Compute global stablecoin net flow."""
+def compute_stablecoin_net_flow(coin_id: str = None) -> float:
+    """Compute stablecoin net flow, chain-specific if available."""
     client = DefiLlamaClient()
-    data = client.get_stablecoin_flows()
-    return data.get("net_flows_24h", 0.0)
+
+    # 1. If coin specified, try chain-level data
+    if coin_id:
+        chain = resolve_chain(coin_id)
+        if chain:
+            chain_data = client.get_chain_stablecoin_flows(chain)
+            net_flow = chain_data.get("net_flows_24h", 0.0)
+            logger.debug(f"Using chain stablecoin flow for {coin_id}: {chain}")
+            return net_flow
+
+    # 2. Fallback: global data
+    global_data = client.get_stablecoin_flows()
+    return global_data.get("net_flows_24h", 0.0)
 
 
 @register_factor(
@@ -75,18 +88,31 @@ def compute_stablecoin_net_flow() -> float:
     display_name="Stablecoin Total Supply",
     category=FactorCategory.ONCHAIN,
     source=FactorSource.DEFILLAMA,
-    description="Total stablecoin supply across all chains",
+    description="Total stablecoin supply. Chain-specific if coin_id provided.",
     confidence=0.9,
-    version="1.0.0",
+    version="1.1.0",
     tags=["onchain", "liquidity", "stablecoins"],
     higher_is_better=True,
-    typical_range=(0, 500e9)
+    typical_range=(0, 500e9),
+    min_days=1,
+    min_points=7
 )
-def compute_stablecoin_total_supply() -> float:
-    """Compute total stablecoin supply."""
+def compute_stablecoin_total_supply(coin_id: str = None) -> float:
+    """Compute stablecoin total supply, chain-specific if available."""
     client = DefiLlamaClient()
-    data = client.get_stablecoin_flows()
-    return data.get("total_supply", 0.0)
+
+    # 1. If coin specified, try chain-level data
+    if coin_id:
+        chain = resolve_chain(coin_id)
+        if chain:
+            chain_data = client.get_chain_stablecoin_flows(chain)
+            total_supply = chain_data.get("total_supply", 0.0)
+            logger.debug(f"Using chain stablecoin supply for {coin_id}: {chain}")
+            return total_supply
+
+    # 2. Fallback: global data
+    global_data = client.get_stablecoin_flows()
+    return global_data.get("total_supply", 0.0)
 
 
 # ============================================================================
