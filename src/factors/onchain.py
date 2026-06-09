@@ -3,7 +3,7 @@ from typing import Optional
 from src.factors import register_factor, FactorCategory, FactorSource
 from src.factors.registry import registry
 from src.api.defillama import DefiLlamaClient
-from src.data.coin_mappings import COIN_TO_CHAIN, CHAIN_TO_DEFILLAMA
+from src.data.coin_mappings import COIN_TO_CHAIN, CHAIN_TO_DEFILLAMA, COIN_TO_DEFILLAMA
 from src.api.coingecko import CoinGeckoClient
 import logging
 
@@ -98,18 +98,37 @@ def compute_stablecoin_total_supply() -> float:
     display_name="Protocol TVL",
     category=FactorCategory.ONCHAIN,
     source=FactorSource.DEFILLAMA,
-    description="Total Value Locked in a DeFi protocol",
+    description="Total Value Locked. Falls back to chain TVL if protocol unavailable.",
     confidence=0.9,
-    version="1.0.0",
+    version="1.1.0",
     tags=["onchain", "tvl", "defi"],
     higher_is_better=True,
-    typical_range=(0, 50e9)
+    typical_range=(0, 50e9),
+    min_days=1,
+    min_points=7
 )
-def compute_protocol_tvl(protocol_slug: str) -> float:
-    """Compute TVL for a specific protocol."""
+def compute_protocol_tvl(coin_id: str) -> float:
+    """Compute TVL with fallback logic."""
     client = DefiLlamaClient()
-    data = client.get_protocol_tvl(protocol_slug)
-    return data.get("tvl", 0.0)
+
+    # 1. Try protocol TVL
+    protocol_slug = COIN_TO_DEFILLAMA.get(coin_id)
+    if protocol_slug:
+        data = client.get_protocol_tvl(protocol_slug)
+        if data.get("tvl", 0) > 0:
+            return data.get("tvl", 0.0)
+
+    # 2. Fallback: chain TVL
+    chain = resolve_chain(coin_id)
+    if chain:
+        chain_data = client.get_chain_tvl(chain)
+        if chain_data.get("tvl", 0) > 0:
+            logger.debug(f"Using chain TVL for {coin_id}: {chain}")
+            return chain_data.get("tvl", 0.0)
+
+    # 3. No data
+    logger.debug(f"No TVL data available for {coin_id}")
+    return float('nan')
 
 
 @register_factor(
@@ -117,18 +136,37 @@ def compute_protocol_tvl(protocol_slug: str) -> float:
     display_name="TVL Change 7d",
     category=FactorCategory.ONCHAIN,
     source=FactorSource.DEFILLAMA,
-    description="7-day change in protocol TVL",
+    description="7-day change in TVL. Falls back to chain TVL if protocol unavailable.",
     confidence=0.9,
-    version="1.0.0",
+    version="1.1.0",
     tags=["onchain", "tvl", "momentum"],
     higher_is_better=True,
-    typical_range=(-50, 100)
+    typical_range=(-50, 100),
+    min_days=7,
+    min_points=30
 )
-def compute_tvl_change_7d(protocol_slug: str) -> float:
-    """Compute 7d TVL change for a protocol."""
+def compute_tvl_change_7d(coin_id: str) -> float:
+    """Compute 7d TVL change with fallback logic."""
     client = DefiLlamaClient()
-    data = client.get_protocol_tvl(protocol_slug)
-    return data.get("tvl_change_7d", 0.0)
+
+    # 1. Try protocol TVL
+    protocol_slug = COIN_TO_DEFILLAMA.get(coin_id)
+    if protocol_slug:
+        data = client.get_protocol_tvl(protocol_slug)
+        if data.get("tvl", 0) > 0:
+            return data.get("tvl_change_7d", 0.0)
+
+    # 2. Fallback: chain TVL
+    chain = resolve_chain(coin_id)
+    if chain:
+        chain_data = client.get_chain_tvl(chain)
+        if chain_data.get("tvl", 0) > 0:
+            logger.debug(f"Using chain TVL for {coin_id}: {chain}")
+            return chain_data.get("tvl_change_7d", 0.0)
+
+    # 3. No data
+    logger.debug(f"No TVL data available for {coin_id}")
+    return float('nan')
 
 
 # ============================================================================
