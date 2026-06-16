@@ -2,6 +2,13 @@
 
 Uses praw library for Reddit API access.
 Target subreddits: CryptoCurrency, bitcoin, ethfinance, solana
+
+Setup:
+1. Go to https://www.reddit.com/prefs/apps
+2. Create a "script" type app
+3. Copy client_id (under app name) and client_secret
+4. Set env vars: REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET
+   OR add to config/settings.yaml under social_apis.reddit
 """
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional
@@ -16,6 +23,7 @@ except ImportError:
     PrawcoreException = Exception
 
 from src.data.cache import DataCache
+from src.utils.config_loader import get_reddit_credentials
 
 
 class RedditClient:
@@ -52,8 +60,8 @@ class RedditClient:
 
         Args:
             cache_dir: Directory for caching data
-            client_id: Reddit API client ID (optional, uses env var)
-            client_secret: Reddit API client secret (optional, uses env var)
+            client_id: Reddit API client ID (optional, auto-loaded from config)
+            client_secret: Reddit API client secret (optional, auto-loaded from config)
             user_agent: Reddit API user agent string
         """
         self.cache = DataCache(cache_dir, expire_hours=4)
@@ -62,9 +70,12 @@ class RedditClient:
         # Initialize praw if available
         self.reddit = None
         if HAS_PRAW:
-            import os
-            client_id = client_id or os.getenv("REDDIT_CLIENT_ID")
-            client_secret = client_secret or os.getenv("REDDIT_CLIENT_SECRET")
+            # Use provided credentials, or auto-load from config
+            if not client_id or not client_secret:
+                creds = get_reddit_credentials()
+                client_id = client_id or creds["client_id"]
+                client_secret = client_secret or creds["client_secret"]
+                user_agent = creds.get("user_agent") or user_agent
 
             if client_id and client_secret:
                 try:
@@ -73,8 +84,11 @@ class RedditClient:
                         client_secret=client_secret,
                         user_agent=user_agent
                     )
+                    print(f"Reddit API initialized successfully")
                 except Exception as e:
                     print(f"Warning: Reddit API init failed: {e}")
+            else:
+                print("Warning: Reddit credentials not found. Set REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET env vars, or add to config/settings.yaml")
 
     def is_available(self) -> bool:
         """Check if Reddit API is available."""

@@ -12,6 +12,26 @@ exchange:
     api_secret: "YOUR_OKX_API_SECRET"
     passphrase: "YOUR_OKX_PASSPHRASE"
 
+# Social Data API Configuration (for sentiment/hype metrics)
+social_apis:
+  # Reddit API (PRAW) - Free tier available
+  # Get credentials: https://www.reddit.com/prefs/apps
+  # Create a "script" type app, then use client_id and client_secret
+  reddit:
+    client_id: ""      # 14 character string under the app name
+    client_secret: ""  # 27 character string
+    user_agent: "claude_trade:v1.0 (by /u/your_username)"
+
+  # CryptoCompare API - 100K calls/month free tier
+  # Get key: https://www.cryptocompare.com/cryptopian/api-keys/
+  cryptocompare:
+    api_key: ""
+
+  # CoinMarketCap API - 15K calls/month free tier
+  # Get key: https://coinmarketcap.com/api/
+  coinmarketcap:
+    api_key: ""
+
 data:
   # Data collection settings
   default_timeframe: "1d"

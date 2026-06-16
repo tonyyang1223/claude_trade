@@ -27,6 +27,9 @@ class FactorSource(str, Enum):
     FEAR_GREED = "fear_greed"
     BLOCKCHAIN = "blockchain"
     WHALE_ALERT = "whale_alert"
+    GOOGLE_TRENDS = "google_trends"
+    ALTERNATIVE_ME = "alternative_me"
+    CRYPTOCOMPARE = "cryptocompare"
 
 
 @dataclass
