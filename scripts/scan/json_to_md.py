@@ -373,7 +373,11 @@ def convert_all_dates() -> int:
 
 def git_push():
     """Git add, commit, and push."""
+    # Add md_reports directories
     subprocess.run(["git", "add", "data/reports/daily_scan/*/md_reports/"], check=False)
+    subprocess.run(["git", "add", "data/reports/daily_scan/scan_state.json"], check=False)
+    subprocess.run(["git", "add", "data/reports/daily_scan/daemon.log"], check=False)
+
     result = subprocess.run(["git", "status", "--short"], capture_output=True, text=True)
 
     if not result.stdout.strip():
@@ -381,8 +385,10 @@ def git_push():
         return
 
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    # Use -a to stage all tracked files that have been modified
     subprocess.run([
-        "git", "commit", "-m",
+        "git", "commit", "-a", "-m",
         f"docs: 更新 Markdown 研究报告 ({now})\n\nCo-Authored-By: Claude <noreply@anthropic.com>"
     ], check=True)
 
