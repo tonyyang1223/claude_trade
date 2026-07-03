@@ -1,0 +1,1428 @@
+{
+  "coin_id": "avalanche-2",
+  "research_time": "2026-07-01T11:51:42.151493",
+  "sources": {
+    "market": {
+      "status": "ok",
+      "data": {
+        "id": "avalanche-2",
+        "symbol": "AVAX",
+        "name": "Avalanche",
+        "current_price": 6.65,
+        "market_cap": 2870714271,
+        "market_cap_rank": 31,
+        "total_volume": 190914845,
+        "circulating_supply": 431771961.1772119,
+        "total_supply": 463441061.1772119,
+        "max_supply": 720000000.0,
+        "price_change_24h": 0.0965046,
+        "price_change_percentage_24h": 1.47291,
+        "last_updated": "2026-07-01T11:51:03.105Z"
+      }
+    },
+    "funding_rate": {
+      "status": "ok",
+      "data": {
+        "symbol": "AVALANCHE-2USDT",
+        "coin_id": "AVALANCHE-2USDT",
+        "exchanges": [],
+        "avg_funding_rate": 0.0,
+        "funding_rate_change": 0.0,
+        "confidence": 0.1,
+        "timestamp": "2026-07-01T11:51:46.102479",
+        "error": "API unavailable"
+      }
+    },
+    "open_interest": {
+      "status": "ok",
+      "data": {
+        "symbol": "AVALANCHE-2USDT",
+        "coin_id": "AVALANCHE-2USDT",
+        "total_open_interest": 0.0,
+        "oi_change_24h": 0.0,
+        "oi_change_7d": 0.0,
+        "exchanges": [],
+        "confidence": 0.1,
+        "timestamp": "2026-07-01T11:51:46.237317",
+        "error": "API unavailable"
+      }
+    },
+    "stablecoin_flows": {
+      "status": "ok",
+      "data": {
+        "stablecoins": [
+          {
+            "name": "Tether",
+            "symbol": "USDT",
+            "total_supply": 184379120203.33682,
+            "mint_change_24h": -329267906.91189575
+          },
+          {
+            "name": "USD Coin",
+            "symbol": "USDC",
+            "total_supply": 73425069924.48653,
+            "mint_change_24h": -456076288.07618713
+          },
+          {
+            "name": "Sky Dollar",
+            "symbol": "USDS",
+            "total_supply": 7910831233.393335,
+            "mint_change_24h": 987066.2837076187
+          },
+          {
+            "name": "Dai",
+            "symbol": "DAI",
+            "total_supply": 4851210097.647157,
+            "mint_change_24h": 4841440.056362152
+          },
+          {
+            "name": "World Liberty Financial USD",
+            "symbol": "USD1",
+            "total_supply": 4649637954.292126,
+            "mint_change_24h": -19476454.483315468
+          },
+          {
+            "name": "Ethena USDe",
+            "symbol": "USDe",
+            "total_supply": 4445859638.7650585,
+            "mint_change_24h": -7216960.994823456
+          },
+          {
+            "name": "Circle USYC",
+            "symbol": "USYC",
+            "total_supply": 3107313388.078652,
+            "mint_change_24h": 29715.913999557495
+          },
+          {
+            "name": "BlackRock USD",
+            "symbol": "BUIDL",
+            "total_supply": 3054129882.3004484,
+            "mint_change_24h": -138660.63000011444
+          },
+          {
+            "name": "Global Dollar",
+            "symbol": "USDG",
+            "total_supply": 2848357286.3897614,
+            "mint_change_24h": -2162754.850124359
+          },
+          {
+            "name": "PayPal USD",
+            "symbol": "PYUSD",
+            "total_supply": 2687096511.4680977,
+            "mint_change_24h": 2943395.932240486
+          },
+          {
+            "name": "Ondo US Dollar Yield",
+            "symbol": "USDY",
+            "total_supply": 2152052633.922298,
+            "mint_change_24h": -571101.1817550659
+          },
+          {
+            "name": "Ripple USD",
+            "symbol": "RLUSD",
+            "total_supply": 1410890669.2421122,
+            "mint_change_24h": -153096560.4528873
+          },
+          {
+            "name": "USDD",
+            "symbol": "USDD",
+            "total_supply": 1373282361.0689507,
+            "mint_change_24h": 6475844.959906578
+          },
+          {
+            "name": "Falcon USD",
+            "symbol": "USDf",
+            "total_supply": 1256553892.3514702,
+            "mint_change_24h": 444954.68656492233
+          },
+          {
+            "name": "United Stables",
+            "symbol": "U",
+            "total_supply": 1019947362.4970481,
+            "mint_change_24h": 3997603.326046586
+          },
+          {
+            "name": "USDGO",
+            "symbol": "USDGO",
+            "total_supply": 862308163.5065281,
+            "mint_change_24h": 2995869.1530656815
+          },
+          {
+            "name": "Ethena USDtb",
+            "symbol": "USDTB",
+            "total_supply": 775040749.4552983,
+            "mint_change_24h": 0.0
+          },
+          {
+            "name": "USDX Money USDX",
+            "symbol": "USDX",
+            "total_supply": 683442223.6265625,
+            "mint_change_24h": 0
+          },
+          {
+            "name": "GHO",
+            "symbol": "GHO",
+            "total_supply": 597768488.8252674,
+            "mint_change_24h": 0.0
+          },
+          {
+            "name": "YLDS",
+            "symbol": "YLDS",
+            "total_supply": 552905095.8526604,
+            "mint_change_24h": -3068341.3489420414
+          }
+        ],
+        "total_supply": 308493327358.89636,
+        "net_flows_24h": -851296205.3139005,
+        "chain_distribution": {
+          "Manta": 6899075.464965799,
+          "ThunderCore": 461186.29085299606,
+          "Movement": 39269609.39989871,
+          "Shiden": 32716.30171070575,
+          "Corn": 0,
+          "Starknet": 169828627.58642238,
+          "Tron": 88949872569.96509,
+          "CORE": 3445418.4431079,
+          "ApeChain": 230098.06542143162,
+          "Zilliqa": 0,
+          "Evmos": 0,
+          "Peaq": 803574.8877767681,
+          "Milkomeda C1 (Deprecated)": 0,
+          "SX Network": 0,
+          "Monad": 451770027.98982626,
+          "Aptos": 1881455426.3843539,
+          "Tezos": 54739741.91433218,
+          "PulseChain": 32481972.47579788,
+          "Kusama": 239422.50154661274,
+          "Immutable zkEVM": 11602272.370734124,
+          "Algorand": 50789386.54610437,
+          "Loopring": 989.7907384835559,
+          "Polygon": 3366131926.0423827,
+          "DefiChain": 0,
+          "MANTRA": 682150.0039066428,
+          "Unichain": 127492570.06730859,
+          "Metis": 6344975.468620159,
+          "Wanchain": 1582816.481824688,
+          "Kava": 73855605.3890712,
+          "Ontology": 0,
+          "Ink": 141195190.88952902,
+          "Kaia": 196973093.95057917,
+          "Reinetwork": 2138.149505414704,
+          "Morph": 14571633.614569819,
+          "IoTeX": 3974090.7658497407,
+          "Osmosis": 28974466.570272435,
+          "Ethereum": 153245343411.8409,
+          "XDC": 80045167.88308233,
+          "Linea": 41170137.73812776,
+          "Cardano": 60363629.97696419,
+          "Waves": 6674817.957797694,
+          "EthereumClassic": 73772.90221334549,
+          "Soneium": 3134129.1162222633,
+          "Vana": 74602.81665172473,
+          "Rari": 31405.661836292278,
+          "Somnia": 649278.9517363833,
+          "Mode": 1042798.8299646584,
+          "Kardia": 0,
+          "KCC": 10615463.933210284,
+          "Vaulta": 1713943.2211323553,
+          "EDU Chain": 1199866.665706172,
+          "Berachain": 71843639.287785,
+          "Crab": 0,
+          "Bittorrent": 336376.7409876721,
+          "Theta": 37256.11794203672,
+          "MultiversX": 8501679.707838653,
+          "Katana": 29062527.72420863,
+          "OP Mainnet": 562578024.6816581,
+          "IOTA EVM": 1008962.7564007154,
+          "Statemine": 239422.50154661274,
+          "Glue": 25301.606677075983,
+          "Harmony": 8457037.751465283,
+          "BSC": 14211203234.947985,
+          "Dogechain": 434829.7800657313,
+          "Flow": 74065584.99368958,
+          "Astar": 432696.81943653105,
+          "Heco": 0,
+          "Oasis Emerald": 404556.3800757702,
+          "Citrea": 24403763.046004333,
+          "Data Network": 1004124.2026557496,
+          "Avalanche": 1346631626.8431914,
+          "Telos": 712309.7202614498,
+          "Arbitrum": 3829940110.0262985,
+          "Stacks": 13296653.42508173,
+          "Redbelly": 864411.0221906531,
+          "Viction": 173073.9318978736,
+          "ZKsync Lite": 0,
+          "GOAT": 113730.54237997983,
+          "Sui": 455114537.9893028,
+          "Zircuit": 492244.7425993849,
+          "Arbitrum Nova": 333248.5447376338,
+          "Plasma": 1030116448.7100261,
+          "Rootstock": 11845485.145537702,
+          "Abstract": 8360687.275323924,
+          "Moonbeam": 2377443.74373742,
+          "TON": 780030015.1963185,
+          "ZKsync Era": 37188996.041851565,
+          "Aurora": 4645463.591466926,
+          "Sei": 312680915.283588,
+          "Gravity by Galxe": 791542.9318603986,
+          "Injective": 17418416.783303626,
+          "LightLink": 31765.623852001838,
+          "Canto": 5648946.945273678,
+          "Scroll": 12226616.712034814,
+          "Moonriver": 8218451.75316149,
+          "Mixin": 34436802.844634235,
+          "Meter": 1685820.4083078192,
+          "Stable": 14938459.923167836,
+          "X Layer": 1840340871.8579216,
+          "Etherlink": 13824032.883642176,
+          "Gnosis": 18635003.404964413,
+          "Nibiru": 2680443.64835032,
+          "Omni": 79933030.9973411,
+          "Conflux": 6431843.5385099985,
+          "Celo": 114688723.00743243,
+          "Taiko": 1451700.0995351174,
+          "MegaETH": 625113281.2469605,
+          "Fuse": 215261.42504158316,
+          "Fantom": 337323093.3732048,
+          "Hyperliquid L1": 5921586774.138267,
+          "OKTChain": 9255385.2723341,
+          "Hemi": 6515017.939885954,
+          "Mantle": 525848160.69247097,
+          "Near": 113684031.46138039,
+          "Terra Classic": 0,
+          "Flare": 47735797.75865583,
+          "Plume Mainnet": 7605071.007578892,
+          "Boba": 1586606.375389365,
+          "NEO": 0,
+          "Syscoin": 235358.75003303392,
+          "ICP": 4138887.502777813,
+          "Solana": 15035009903.700115,
+          "Swellchain": 16962.099510034193,
+          "0G": 7.643595858330684,
+          "Tempo": 32078659.918667424,
+          "Polkadot": 63067055.13137506,
+          "Everscale": 0,
+          "Horizen": 3373.8470713341417,
+          "BSquared": 5099822.403241069,
+          "Superposition": 105821.45830692706,
+          "BOB": 20370931.03385731,
+          "XRPL": 720748074.918157,
+          "WEMIX3.0": 2.9988486646986514,
+          "Botanix": 27124.45563814058,
+          "Edu_chain": 129232.78401461772,
+          "Hedera": 41153793.8905282,
+          "Camp Network": 0,
+          "Zkfair": 87442.58705360412,
+          "Moca": 0.8996557989506607,
+          "Karura": 3235637.382116805,
+          "Lisk": 605819.6782204829,
+          "Cronos": 179526005.01025453,
+          "Base": 4829183793.234189,
+          "Noble": 132419417.29473907,
+          "GateLayer": 220577.57597227753,
+          "Ronin": 1.0358247018271696,
+          "Shape": 201222.05538927251,
+          "Kadena": 0,
+          "edgeX L1": 5812905.029440174,
+          "DFK": 850600.9567181079,
+          "World Chain": 22544266.194178827,
+          "Codex": 50348065.87338361,
+          "Degen": 752.4734997107332,
+          "Xc": 0,
+          "Ap3x": 82.0059911694864,
+          "Stellar": 815102035.6076819,
+          "Bitlayer": 403980.62133967,
+          "Fogo": 1535953.8023128745,
+          "Orderly Network": 49.77895297425933,
+          "Gensyn": 927321.5316285734,
+          "Doma": 877304.4975982051,
+          "Polygon zkEVM": 879820.3872834806,
+          "Pharos": 6180156.423687093,
+          "Elastos": 114937.19793409512,
+          "Nero": 10.995793098285853,
+          "Sonic": 96792782.04432765,
+          "Perennial": 0,
+          "Xai": 25.00767026714314,
+          "Aztec": 0,
+          "Velas": 7803.002005456984,
+          "Fraxtal": 7608607.662784337,
+          "Blast": 13672032.947090346,
+          "smartBCH": 73730666.71924517,
+          "Acala": 0,
+          "Ergo": 321198.8718560102,
+          "Kujira": 671166.952971,
+          "EthereumPoW": 1444275.4965078963,
+          "re.al": 0,
+          "Concordium": 0,
+          "Secret": 0,
+          "Penumbra": 481.56085000728467,
+          "Agoric": 146156.28481402883,
+          "VeChain": 9836.400392153999,
+          "Q Protocol": 0,
+          "Bifrost Network": 2444435.8891272373,
+          "Archway": 17562.976622934017,
+          "Icon": 909113.1954690544,
+          "Havah": 4.457365372468896,
+          "BEVM": 0,
+          "Filecoin": 147946.7201505691,
+          "Abcore": 18501488.239274923,
+          "Songbird": 1158234.6189053492,
+          "Provenance": 121334725.19107546,
+          "TAC": 0.5797686816926958,
+          "Mezo": 26777640.174741548,
+          "Hydration": 11402939.313958757,
+          "Saga": 154323695.31028324,
+          "Chia": 52625.81515269517,
+          "Voi Network": 21180.50272869755,
+          "Fluent": 7166927.365881106,
+          "exSat": 0.281284729018058,
+          "Strato": 5304866.475593727
+        },
+        "confidence": 0.9,
+        "timestamp": "2026-07-01T11:41:05.051134"
+      }
+    },
+    "social_stats": {
+      "status": "ok",
+      "data": {}
+    },
+    "twitter": {
+      "status": "ok",
+      "data": {
+        "username": "avalanche-2",
+        "name": null,
+        "bio": null,
+        "followers": null,
+        "following": null,
+        "tweets_count": null,
+        "source": "Jina Reader",
+        "confidence": 0.7,
+        "timestamp": "2026-07-01T11:51:49.431314"
+      }
+    },
+    "reddit": {
+      "status": "ok",
+      "data": {
+        "coin_name": "AVALANCHE-2",
+        "total_mentions": 40,
+        "unique_subreddits": 4,
+        "avg_score": 0,
+        "subreddits": {
+          "cryptocurrency": 10,
+          "CryptoMarkets": 10,
+          "defi": 10,
+          "altcoin": 10
+        },
+        "posts": [
+          {
+            "title": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=AVALANCHE-2&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=AVALANCHE-2&restrict_sr=1&sort=relevance",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Warning: Target URL returned error 403: Forbidden",
+            "content": "Warning: Target URL returned error 403: Forbidden",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Markdown Content:",
+            "content": "Markdown Content:\n## whoa there, pardner!",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Your request has been blocked due to a network policy.",
+            "content": "Your request has been blocked due to a network policy.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "content": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and ",
+            "content": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and is something unique and descriptive and try again. if you're supplying an alternate User-Agent string, try changing back to default as that can sometimes result in a block.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "content": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?tick",
+            "content": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?ticket_form_id=21879292693140).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "When contacting us, please include your Reddit account along with the following code:",
+            "content": "When contacting us, please include your Reddit account along with the following code:",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "**019f1d85-77f6-7d61-a6a4-9f597e5c4bb0**",
+            "content": "**019f1d85-77f6-7d61-a6a4-9f597e5c4bb0**",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=AVALANCHE-2&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=AVALANCHE-2&restrict_sr=1&sort=relevance",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Warning: Target URL returned error 403: Forbidden",
+            "content": "Warning: Target URL returned error 403: Forbidden",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Markdown Content:",
+            "content": "Markdown Content:\n## whoa there, pardner!",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Your request has been blocked due to a network policy.",
+            "content": "Your request has been blocked due to a network policy.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "content": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and ",
+            "content": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and is something unique and descriptive and try again. if you're supplying an alternate User-Agent string, try changing back to default as that can sometimes result in a block.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "content": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?tick",
+            "content": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?ticket_form_id=21879292693140).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "When contacting us, please include your Reddit account along with the following code:",
+            "content": "When contacting us, please include your Reddit account along with the following code:",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "**019f1d85-7d33-7e4d-9500-9538b76765f8**",
+            "content": "**019f1d85-7d33-7e4d-9500-9538b76765f8**",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          }
+        ],
+        "source": "Reddit (Free)",
+        "confidence": 0.6,
+        "timestamp": "2026-07-01T11:51:58.384029"
+      }
+    },
+    "crypto_news": {
+      "status": "ok",
+      "data": {
+        "data": [
+          {
+            "title": "Title: CoinDesk: Bitcoin, Ethereum, XRP, Crypto News and Price Data",
+            "content": "Title: CoinDesk: Bitcoin, Ethereum, XRP, Crypto News and Price Data",
+            "source": "coindesk",
+            "confidence": 0.7
+          },
+          {
+            "title": "[](https://www.coindesk.com/)",
+            "content": "[](https://www.coindesk.com/)\n*   News \n*   Video \n*   [Prices](https://www.coindesk.com/price)\n*   Research \n*   Events \n*   Data & Indices \n*   [Sponsored](https://www.coindesk.com/sponsored-content)",
+            "source": "coindesk",
+            "confidence": 0.7
+          },
+          {
+            "title": "[Video 2](blob:https://www.coindesk.com/71c570a8-e234-4dfe-affc-c5299bf25026)",
+            "content": "[Video 2](blob:https://www.coindesk.com/71c570a8-e234-4dfe-affc-c5299bf25026)",
+            "source": "coindesk",
+            "confidence": 0.7
+          },
+          {
+            "title": "Press shift question mark to access a list of keyboard shortcuts",
+            "content": "Press shift question mark to access a list of keyboard shortcuts",
+            "source": "coindesk",
+            "confidence": 0.7
+          },
+          {
+            "title": "Title: Cointelegraph Bitcoin & Ethereum Blockchain News",
+            "content": "Title: Cointelegraph Bitcoin & Ethereum Blockchain News",
+            "source": "cointelegraph",
+            "confidence": 0.7
+          },
+          {
+            "title": "Markdown Content:",
+            "content": "Markdown Content:\n[![Image 1: Cointelegraph](https://cointelegraph.com/_platypus/img/logos/en.svg)](https://cointelegraph.com/)",
+            "source": "cointelegraph",
+            "confidence": 0.7
+          },
+          {
+            "title": "[](https://twitter.com/cointelegraph)[](https://telegram.me/cointelegraph)[](https://www.facebook.com/cointelegraph)[](https://www.youtube.com/channel/UCRqBu-grVX1p97WaX4d-OuQ)",
+            "content": "[](https://twitter.com/cointelegraph)[](https://telegram.me/cointelegraph)[](https://www.facebook.com/cointelegraph)[](https://www.youtube.com/channel/UCRqBu-grVX1p97WaX4d-OuQ)",
+            "source": "cointelegraph",
+            "confidence": 0.7
+          },
+          {
+            "title": "[Markets](https://cointelegraph.com/category/markets)[Features](https://cointelegraph.com/category/features)[Learn](https://cointelegraph.com/category/learn)",
+            "content": "[Markets](https://cointelegraph.com/category/markets)[Features](https://cointelegraph.com/category/features)[Learn](https://cointelegraph.com/category/learn)",
+            "source": "cointelegraph",
+            "confidence": 0.7
+          },
+          {
+            "title": "Title: Decrypt: AI, Bitcoin, Culture, Gaming, and Crypto News - Decrypt",
+            "content": "Title: Decrypt: AI, Bitcoin, Culture, Gaming, and Crypto News - Decrypt",
+            "source": "decrypt",
+            "confidence": 0.7
+          },
+          {
+            "title": "Markdown Content:",
+            "content": "Markdown Content:\n[[Video 3](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-animation-black.mp4?v=2)![Image 14: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-black.svg)![Image 15: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-white.svg)](https://decrypt.co/)[](https://decrypt.co/gg)[](https://decrypt.co/university)[](https://decrypt.co",
+            "source": "decrypt",
+            "confidence": 0.7
+          },
+          {
+            "title": "[![Image 16: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 1",
+            "content": "[![Image 16: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 17: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-black.svg@webp)](https://decrypt.co/)",
+            "source": "decrypt",
+            "confidence": 0.7
+          },
+          {
+            "title": "[News](https://decrypt.co/news)[Learn](https://decrypt.co/university)[GG](https://decrypt.co/gg)[Emerge](https://decrypt.co/emerge)[Videos](https://decrypt.co/videos)[Newsletters](https://decrypt.co/n",
+            "content": "[News](https://decrypt.co/news)[Learn](https://decrypt.co/university)[GG](https://decrypt.co/gg)[Emerge](https://decrypt.co/emerge)[Videos](https://decrypt.co/videos)[Newsletters](https://decrypt.co/newsletters)",
+            "source": "decrypt",
+            "confidence": 0.7
+          },
+          {
+            "title": "Sign Up[Partner with us](https://dastan.co/partner)",
+            "content": "Sign Up[Partner with us](https://dastan.co/partner)",
+            "source": "decrypt",
+            "confidence": 0.7
+          },
+          {
+            "title": "Markdown Content:",
+            "content": "Markdown Content:\n[Discover the institutional crypto exchange LMAX Digital through high-level info and live data here.](https://www.theblock.co/lmax)",
+            "source": "theblock",
+            "confidence": 0.7
+          },
+          {
+            "title": "[Institutional crypto intel Explore](https://www.theblock.pro/)",
+            "content": "[Institutional crypto intel Explore](https://www.theblock.pro/)",
+            "source": "theblock",
+            "confidence": 0.7
+          },
+          {
+            "title": "[Try it free](https://www.theblock.co/campus?modal=marketing)",
+            "content": "[Try it free](https://www.theblock.co/campus?modal=marketing)",
+            "source": "theblock",
+            "confidence": 0.7
+          },
+          {
+            "title": "[Data](https://www.theblock.co/data/crypto-markets/spot)",
+            "content": "[Data](https://www.theblock.co/data/crypto-markets/spot)",
+            "source": "theblock",
+            "confidence": 0.7
+          }
+        ]
+      }
+    },
+    "rss": {
+      "status": "ok",
+      "data": {
+        "data": [
+          {
+            "title": "Bitcoin’s 20% June crash looks even deadlier on the charts. Here’s why",
+            "link": "https://www.coindesk.com/markets/2026/07/01/bitcoin-s-20-june-crash-looks-even-deadlier-on-the-charts-here-s-why",
+            "summary": "",
+            "published": "Wed, 01 Jul 2026 07:42:49 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Live markets: U.S. spot bitcoin ETFs had their worst month ever in June, shedding $4.5 billion",
+            "link": "https://www.coindesk.com/tech/2026/07/01/live-markets-u-s-spot-bitcoin-etfs-had-their-worst-month-ever-in-june-shedding-usd4-5-billion",
+            "summary": "",
+            "published": "Wed, 01 Jul 2026 07:05:11 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Anthropic restores AI models Fable, Mythos after the U.S. lifts export controls",
+            "link": "https://www.coindesk.com/tech/2026/07/01/anthropic-restores-ai-models-fable-mythos-after-the-u-s-lifts-export-controls",
+            "summary": "",
+            "published": "Wed, 01 Jul 2026 06:54:13 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Why Poland is the only EU country where crypto firms can't get a MiCA license",
+            "link": "https://www.coindesk.com/policy/2026/07/01/why-poland-is-the-only-eu-country-where-crypto-firms-can-t-get-a-mica-license",
+            "summary": "",
+            "published": "Wed, 01 Jul 2026 06:30:00 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "XRP holds above $1 after leverage flush as network activity improves",
+            "link": "https://www.coindesk.com/markets/2026/07/01/xrp-holds-above-usd1-after-leverage-flush-as-network-activity-improves",
+            "summary": "",
+            "published": "Wed, 01 Jul 2026 05:30:16 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Taiwan’s sweeping crypto law raises the bar with licensing, reserve mandates, and tough penalties",
+            "link": "https://www.coindesk.com/policy/2026/07/01/taiwan-s-sweeping-crypto-law-raises-the-bar-with-licensing-reserve-mandates-and-tough-penalties",
+            "summary": "",
+            "published": "Wed, 01 Jul 2026 05:04:14 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "U.S. senators seek to block foreign adversaries from AI technology in new bill",
+            "link": "https://www.coindesk.com/policy/2026/06/30/u-s-senators-seek-to-block-foreign-adversaries-from-ai-technology-in-new-bill",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 23:02:46 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Trump pocketed more than $1 billion from crypto ties as industry headed toward slump",
+            "link": "https://www.coindesk.com/policy/2026/06/30/trump-pocketed-more-than-usd1-billion-from-crypto-ties-as-industry-headed-toward-slump",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 22:28:15 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Phantom doubles down on perpetual futures with hire of Hyperliquid market builders",
+            "link": "https://www.coindesk.com/business/2026/06/30/phantom-doubles-down-on-perpetual-futures-with-hire-of-hyperliquid-market-builders",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 21:00:19 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Companies spending the most on AI are growing jobs, Ramp study finds",
+            "link": "https://www.coindesk.com/business/2026/06/30/companies-spending-the-most-on-ai-are-growing-jobs-ramp-study-finds",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 20:21:49 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Why OpenUSD's 'real threat' that tanked Circle stock still faces a steep uphill battle for adoption",
+            "link": "https://www.coindesk.com/business/2026/06/30/why-the-openusd-s-real-threat-that-tanked-circle-stock-still-faces-a-steep-uphill-battle-for-adoption",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 18:39:06 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "SEC giving novel ETFs a rethink as it opens comment period on overhauling U.S. rules",
+            "link": "https://www.coindesk.com/policy/2026/06/30/sec-giving-novel-etfs-a-rethink-as-it-opens-comment-period-on-overhauling-u-s-rules",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 17:51:57 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Chinese exile once linked to Trump strategist gets 30-year sentence in $1 billion fraud",
+            "link": "https://www.coindesk.com/policy/2026/06/30/chinese-exile-once-linked-to-trump-strategist-gets-30-year-sentence-in-usd1-billion-fraud",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 16:31:46 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Jefferies warns of crypto market volatility as Clarity Act faces Senate test",
+            "link": "https://www.coindesk.com/policy/2026/06/30/jefferies-warns-of-crypto-market-volatility-as-clarity-act-faces-senate-test",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 14:41:59 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Circle craters 17% as Stripe, Coinbase and BlackRock back rival stablecoin network",
+            "link": "https://www.coindesk.com/business/2026/06/30/circle-slides-8-as-stripe-coinbase-and-blackrock-back-rival-stablecoin-network",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 14:32:33 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "MetaMask launches Money Account with stablecoin yield and spending in one wallet",
+            "link": "https://www.coindesk.com/tech/2026/06/30/metamask-launches-money-account-with-stablecoin-yield-and-spending-in-one-wallet",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 14:00:00 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Tokenized securities need competition, not gatekeepers",
+            "link": "https://www.coindesk.com/opinion/2026/06/29/tokenized-securities-need-competition-not-gatekeepers",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 13:25:52 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Nasdaq expands distribution of its market data into blockchain infrastructure",
+            "link": "https://www.coindesk.com/markets/2026/06/30/nasdaq-expands-distribution-of-its-market-data-into-blockchain-infrastructure",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 13:00:00 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Bitcoin’s quiet $59,000-$60,000 range is starting to look dangerous",
+            "link": "https://www.coindesk.com/markets/2026/06/30/bitcoin-s-quiet-usd59-000-usd60-000-range-is-starting-to-look-dangerous",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 11:55:34 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "New York Life's $800 billion asset manager makes tokenization debut with Centrifuge fund",
+            "link": "https://www.coindesk.com/business/2026/06/29/new-york-life-makes-tokenization-debut-with-onchain-high-yield-bond-fund-with-centrifuge",
+            "summary": "",
+            "published": "Tue, 30 Jun 2026 11:20:30 +0000",
+            "source": "coindesk",
+            "confidence": 0.8
+          },
+          {
+            "title": "Bitcoin ETFs lose record $4.5B in June, eclipsing Strategy's $1.25B raise",
+            "link": "https://cointelegraph.com/news/bitcoin-etf-4-5-billion-outflow-june-worst-on-record?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Bitcoin ETFs lose record $4.5B in June, eclipsing Strategy's $1.25B raise\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/hi-vanilla-drainer-how-one-scam-tool.jpg\" /></p><p>US spot Bitcoin ETFs logged a record $4.5 billion in June outflows, pushing year-to-date totals to $5.5 billion, signaling an unprecedented pace of withdrawals.</p>",
+            "published": "Wed, 01 Jul 2026 09:22:09 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Former Goliath Ventures CEO pleads guilty in $400M crypto Ponzi case",
+            "link": "https://cointelegraph.com/news/goliath-ceo-guilty-400m-crypto-ponzi-case?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Former Goliath Ventures CEO pleads guilty in $400M crypto Ponzi case\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/hi-crypto-bankruptcy-laws-remain-a-mystery.jpg\" /></p><p>Former Goliath Ventures CEO Christopher Delgado pleaded guilty to fraud and money laundering and agreed to forfeit properties, vehicles, luxury goods and crypto wallets.</p>",
+            "published": "Wed, 01 Jul 2026 08:20:49 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Taiwan’s legislature passes crypto, stablecoin regulations",
+            "link": "https://cointelegraph.com/news/taiwans-legislature-passes-crypto-regulation-licensing-laws?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Taiwan’s legislature passes crypto, stablecoin regulations\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/taiwan-coin.jpg\" /></p><p>Taiwan’s legislative branch has passed the nation’s first crypto and stablecoin rules, which aim to integrate the country with the global crypto market.</p>",
+            "published": "Wed, 01 Jul 2026 06:15:48 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Anthropic to bring back Fable 5 as US lifts export controls",
+            "link": "https://cointelegraph.com/news/anthropic-reactivates-newest-ai-models-after-us-govt-lifts-restrictions?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Anthropic to bring back Fable 5 as US lifts export controls\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/hi-business-to-give-the-access-to-ai-models.jpg\" /></p><p>Claude Fable 5 will be redeployed with a new set of classifiers designed to identify and block a broader range of cybersecurity-related tasks. \n</p>",
+            "published": "Wed, 01 Jul 2026 06:14:32 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Here’s what happened in crypto today",
+            "link": "https://cointelegraph.com/news/what-happened-in-crypto-today?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Here’s what happened in crypto today\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/article-covers-110589-what-happened-in-crypto-today.jpg\" /></p><p>Need to know what happened in crypto today? Here is the latest news on daily trends and events impacting Bitcoin price, blockchain, DeFi, Web3 and crypto regulation.</p>",
+            "published": "Wed, 01 Jul 2026 06:00:00 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Trump earned more from crypto than real estate in 2025, filings show",
+            "link": "https://cointelegraph.com/news/trump-earned-more-from-crypto-than-real-estate-in-2025-filings-show?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Trump earned more from crypto than real estate in 2025, filings show\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/trump-memecoin.jpg\" /></p><p>Memecoin sales and royalties made the most money for Trump last year, more than all of his golf courses combined. \n</p>",
+            "published": "Wed, 01 Jul 2026 04:01:09 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Director of ‘47 Ronin’ who gambled Netflix funds on crypto gets 30 months",
+            "link": "https://cointelegraph.com/news/47-ronin-director-who-gambled-netflix-funds-on-crypto-gets-30-months?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Director of ‘47 Ronin’ who gambled Netflix funds on crypto gets 30 months\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/arrest-police-crime-prison-jail-imprisonment-man-person2.jpg\" /></p><p>Carl Rinsch will serve two and a half years in prison for taking money meant for a Netflix show to buy Dogecoin, stocks and luxury goods.</p>",
+            "published": "Wed, 01 Jul 2026 03:47:30 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "UK crypto investors sue Binance, Changpeng Zhao for $200M",
+            "link": "https://cointelegraph.com/news/uk-crypto-investors-sue-binance-changpeng-zhao-for-potential-200m-payout?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"UK crypto investors sue Binance, Changpeng Zhao for $200M\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/hammerbinance.jpg\" /></p><p>One Binance customer said he lost the equivalent of more than $132,000 from the crypto exchange’s derivatives offerings before restrictions were imposed on Binance.</p>",
+            "published": "Wed, 01 Jul 2026 02:30:07 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Has Strategy’s capital overhaul put an end to ‘death spiral’ fears?",
+            "link": "https://cointelegraph.com/features/does-strategys-new-capital-plan-put-an-end-to-death-spiral-fears?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Has Strategy’s capital overhaul put an end to ‘death spiral’ fears?\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/hi-how-strategyb-turned-k-into-m-using-a-high-risk-high-precision-strategy.jpg\" /></p><p>Strategy's latest plan includes MSTR and STRC buybacks, expanded cash reserves and even potential Bitcoin sales. Will it be enough to defuse the overheated “death spiral” fears?</p>",
+            "published": "Tue, 30 Jun 2026 23:11:09 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Bitcoin just $5K away from ‘best investment opportunity’ of bear market",
+            "link": "https://cointelegraph.com/markets/bitcoin-is-just-a-5k-drop-away-from-its-best-investment-opportunity-analysis?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Bitcoin just $5K away from ‘best investment opportunity’ of bear market\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/article-covers-226789-bitcoin-scrapes-new-lows-as-tech-stocks-drop-data-forecasts-btc-dip-below-dollar.jpg\" /></p><p>Bitcoin's recent selloff brought it within 10% of its realized price — a line that has marked the bottoming zone in Bitcoin's previous bear markets.</p>",
+            "published": "Tue, 30 Jun 2026 21:49:08 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Massachusetts AG files amended lawsuit against Kalshi over sports betting after court ruling",
+            "link": "https://cointelegraph.com/news/massachusetts-lawsuit-kalshi-sports-betting?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Massachusetts AG files amended lawsuit against Kalshi over sports betting after court ruling\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/court-law-judge-flags-ma-us.png\" /></p><p>The amended complaint, granted by a judge on Tuesday, included allegations that Kalshi targeted users under 21 years old through social media and marketing on university campuses.</p>",
+            "published": "Tue, 30 Jun 2026 21:44:48 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Bitmine Ether buys eclipsed by $345M ETH ETF outflows: Is sub $1.5K next?",
+            "link": "https://cointelegraph.com/markets/bitmine-ether-buys-eclipsed-by-345m-eth-etf-345m-outflows-is-sub-15k-next?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Bitmine Ether buys eclipsed by $345M ETH ETF outflows: Is sub $1.5K next?\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/article-covers-251386-ethereum-price-drops-1-8k-data-eth-bears-not-done-yet.jpg\" /></p><p>Tokenization and RWA TVL growth highlight Ethereum’s fundamentals, but stagnant DApps and spot ETF outflows keep the pressure on ETH price. \n</p>",
+            "published": "Tue, 30 Jun 2026 21:16:47 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "SEC seeks public comment on regulating next generation of ETFs",
+            "link": "https://cointelegraph.com/news/sec-seeks-public-comment-on-regulating-novel-etfs?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"SEC seeks public comment on regulating next generation of ETFs \" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/sec-logo-smaller-background.jpg\" /></p><p>The request from the US agency seeks feedback on how emerging ETF structures and investment strategies should be regulated as issuers roll out increasingly specialized products.</p>",
+            "published": "Tue, 30 Jun 2026 20:38:51 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Financial companies join forces for US dollar stablecoin, keeping reserve earnings",
+            "link": "https://cointelegraph.com/news/financial-companies-us-dollar-payment-stablecoin?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Financial companies join forces for US dollar stablecoin, keeping reserve earnings\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/hi-stablecoins-are-dominating-the-market.jpg\" /></p><p>The project, supported by Visa, Mastercard and many crypto companies, could be in a position to challenge Tether’s USDT and Circle’s USDC, currently the two largest stablecoins by market capitalization.</p>",
+            "published": "Tue, 30 Jun 2026 19:31:41 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Nasdaq brings proprietary market data onchain through Pyth",
+            "link": "https://cointelegraph.com/news/nasdaq-brings-proprietary-market-data-onchain-through-pyth?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Nasdaq brings proprietary market data onchain through Pyth\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/hi-cryptocurrency-vs-stocks-breaking-news.png\" /></p><p>The partnership extends distribution of Nasdaq's TotalView market data to blockchain applications and other software platforms through Pyth's marketplace.</p>",
+            "published": "Tue, 30 Jun 2026 18:46:29 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Bitcoin price risks drop below $58K as US dollar hits 40-year high against yen",
+            "link": "https://cointelegraph.com/markets/bitcoin-price-slumps-to-near-58k-as-us-dollar-hits-40-year-high-against-yen?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Bitcoin price risks drop below $58K as US dollar hits 40-year high against yen\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/article-covers-201145-japan-remixpoint-ceo-salary-bitcoin.jpg\" /></p><p>Bitcoin faced downside pressure as the US dollar hit its highest levels against the Japanese yen since 1986, while BTC price analysis revealed \"capitulation\" by 2025 top-buyers.</p>",
+            "published": "Tue, 30 Jun 2026 18:17:56 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "AI’s power crunch turns Bitcoin miners’ grid access into an asset",
+            "link": "https://cointelegraph.com/features/bitcoin-miners-ai-data-centers-power-infrastructure?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"AI’s power crunch turns Bitcoin miners’ grid access into an asset\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/hi-the-power-in-energy-and-how-new-technologies-can-shift-bitcoin-1.jpg\" /></p><p>Bitcoin miners have the power sites AI companies need, but turning old mining campuses into real data center revenue is no easy pivot.</p>",
+            "published": "Tue, 30 Jun 2026 17:44:31 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Crypto companies have spent $189M so far on 2026 US election cycle: Report",
+            "link": "https://cointelegraph.com/news/crypto-companies-spent-2026-us-election-cycle-public-citizen?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Crypto companies have spent $189M so far on 2026 US election cycle: Report\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/dollars-fly-away-us-senate.jpg\" /></p><p>The crypto industry, Big Tech and gambling interest groups are betting big on politicians in the 2026 primaries and elections, with almost $300 million shelled out  so far.</p>",
+            "published": "Tue, 30 Jun 2026 17:19:17 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Business use of stablecoins set for growth surge: Cybrid report",
+            "link": "https://cointelegraph.com/news/42-of-businesses-surveyed-use-stablecoins-for-cross-border-payments-cybrid-report?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"Business use of stablecoins set for growth surge: Cybrid report \" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/cross-border-transaction-stablecoin-1.jpg\" /></p><p>The majority of businesses surveyed are likely to use stablecoins within the next 12 months, while regulatory clarity remained the biggest barrier to wider adoption.</p>",
+            "published": "Tue, 30 Jun 2026 16:34:31 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "MetaMask launches stablecoin yield account with card spending",
+            "link": "https://cointelegraph.com/news/metamask-money-account-musd-stablecoin-yield?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+            "summary": "<p style=\"float: right; margin: 0 0 10px 15px; width: 240px;\"><img alt=\"MetaMask launches stablecoin yield account with card spending\" class=\"type:primaryImage\" src=\"https://s3-images.ctmedia.io/media/article-covers/hi-how-to-sell-crypto-via-metamask-a-step-by-step-guide.jpg\" /></p><p>MetaMask launches Money Account it says offers up to 4% variable APY on mUSD stablecoin balances and card spending, with DeFi-powered yield via vaults, excluding the UK and sanctioned jurisdictions.</p>",
+            "published": "Tue, 30 Jun 2026 14:00:00 +0000",
+            "source": "cointelegraph",
+            "confidence": 0.8
+          },
+          {
+            "title": "Goliath Ventures CEO Pleads Guilty to $250M Crypto Ponzi Scheme",
+            "link": "https://decrypt.co/372502/goliath-ventures-ceo-pleads-guilty-to-250m-crypto-ponzi-scheme",
+            "summary": "Christopher Delgado’s \"liquidity pool\" fraud took in at least $400 million, with the proceeds spent on mansions, Lamborghinis, and Rolexes.",
+            "published": "Wed, 01 Jul 2026 08:43:31 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Trump Discloses Over $1.2 Billion in Crypto Earnings, $50M in Bitcoin Holdings",
+            "link": "https://decrypt.co/372484/trump-disclosure-filing-crypto-earnings-bitcoin-holdings",
+            "summary": "The president’s annual financial disclosure report was released on Tuesday.",
+            "published": "Tue, 30 Jun 2026 22:16:52 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Binance, Changpeng Zhao Sued for $200M by British Investors: Reuters",
+            "link": "https://decrypt.co/372452/binance-changpeng-zhao-sued-200-million-british-investors-reuters",
+            "summary": "Crypto exchange Binance and its founder were sued for nearly $200 million in a new lawsuit filed in the United Kingdom.",
+            "published": "Tue, 30 Jun 2026 21:16:18 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Anthropic's Claude Sonnet 5 Closes In on Opus 4.8 at a Fraction of the Price",
+            "link": "https://decrypt.co/372458/anthropic-claude-sonnet-5-close-opus-4-8",
+            "summary": "Anthropic's new mid-tier model Claude Sonnet 5 arrives as Fable and Mythos sit boxed up under a U.S. export order.",
+            "published": "Tue, 30 Jun 2026 20:51:44 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "New York Life Investment Management Debuts First Tokenized Bond Fund",
+            "link": "https://decrypt.co/372457/new-york-life-investment-management-first-tokenized-bond-fund",
+            "summary": "The tokenized NYLIM Anemoy U.S. High Yield Corporate Bond Segregated Portfolio is launching in collaboration with Centrifuge.",
+            "published": "Tue, 30 Jun 2026 20:46:02 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Kalshi Sports Markets Banned in Michigan as Temporary Blackout Takes Effect",
+            "link": "https://decrypt.co/372454/kalshi-sports-markets-banned-michigan-temporary-blackout",
+            "summary": "A Michigan judge granted a restraining order preventing the prediction market from offering sports-related wagers for the next 14 days.",
+            "published": "Tue, 30 Jun 2026 20:30:15 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Circle Stock Dives as Coinbase, BlackRock and Visa Back Open USD Stablecoin",
+            "link": "https://decrypt.co/372429/circle-stock-dives-coinbase-blackrock-visa-open-usd-stablecoin",
+            "summary": "The forthcoming Open USD has more than 100 major supporters onboard, including Coinbase—a key backer of Circle’s USDC.",
+            "published": "Tue, 30 Jun 2026 17:38:12 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Sharplink Buys Ethereum for First Time in 2026—With ETH Down 68% From Peak",
+            "link": "https://decrypt.co/372432/harplink-buys-ethereum-first-time-2026-eth-down",
+            "summary": "Ethereum treasury firm Sharplink purchased around $16 million worth of ETH last week, marking its first crypto buy since last year.",
+            "published": "Tue, 30 Jun 2026 15:54:01 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Dutch Prosecutors Seek to Bankrupt Crypto Platform Knaken After Funds Frozen",
+            "link": "https://decrypt.co/372433/dutch-prosecutors-seek-to-bankrupt-crypto-platform-knaken-after-funds-frozen",
+            "summary": "Prosecutors asked a Rotterdam court to wind up the unlicensed exchange, which has locked some 30,000 customers out of their crypto.",
+            "published": "Tue, 30 Jun 2026 15:50:32 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "TD Cowen Slashes Strategy Price Target, Citing Ongoing Bitcoin Weakness",
+            "link": "https://decrypt.co/372422/td-cowen-slashes-strategy-price-target-bitcoin-weakness",
+            "summary": "Strategy's stock price started sliding again on Tuesday, one day after breaking a nine-day losing streak.",
+            "published": "Tue, 30 Jun 2026 15:05:41 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Crypto Wallet MetaMask Launches Yield-Paying Money Account on Monad",
+            "link": "https://decrypt.co/372298/crypto-wallet-metamask-yield-paying-money-accounts-monad",
+            "summary": "MetaMask is packaging stablecoin yield, payments, and trading into a single self-custody account as crypto firms compete to make digital dollars more useful.",
+            "published": "Tue, 30 Jun 2026 14:01:03 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Morning Minute: A Change of Strategy",
+            "link": "https://decrypt.co/372411/morning-minute-a-change-of-strategy",
+            "summary": "Michael Saylor's Strategy is rolling out some major changes to how it handles Bitcoin going forward. And so far, the market likes it.",
+            "published": "Tue, 30 Jun 2026 12:13:27 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "FCA Finalizes Landmark Crypto Rules to Make UK a 'Global Hub'",
+            "link": "https://decrypt.co/372394/fca-finalizes-landmark-crypto-rules-to-make-uk-a-global-hub",
+            "summary": "The UK regulator has published its final rulebook for crypto firms ahead of a mandatory regime coming into force in late 2027.",
+            "published": "Tue, 30 Jun 2026 10:58:51 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "'47 Ronin' Director Gets 30 Months for Spending Netflix's $11M on Dogecoin",
+            "link": "https://decrypt.co/372391/47-ronin-director-gets-30-months-for-spending-netflixs-11m-on-dogecoin",
+            "summary": "Carl Rinsch gambled Netflix's $11 million on stock options and Dogecoin, then spent the winnings on luxury cars and watches.",
+            "published": "Tue, 30 Jun 2026 09:20:00 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Ornith Is the Open-Source Coding Model Built for Agents, Not Humans",
+            "link": "https://decrypt.co/372361/ornith-open-source-coding-model-built-for-agents",
+            "summary": "A new model built by DeepReinforce is meant for developers who want AI that finishes the job, not just autocompletes the next line.",
+            "published": "Mon, 29 Jun 2026 21:27:44 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Strategy Snaps 9-Day Losing Streak as Bitcoin Giant Adopts 'Robust' Capital Framework",
+            "link": "https://decrypt.co/372383/strategy-snaps-9-day-losing-streak-bitcoin-giant-robust-capital-framework",
+            "summary": "Strategy's shares remained 42% down from its market-rattling Bitcoin sale nearly a month ago.",
+            "published": "Mon, 29 Jun 2026 21:26:54 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "China Has Its Own Mythos Now, Says Qihoo 360 Founder. And One Version Is Free",
+            "link": "https://decrypt.co/372345/china-has-own-mythos-now-one-version-free",
+            "summary": "Qihoo 360 unveiled a homegrown vulnerability-hunting AI this week—and Z.ai went further, releasing comparable capabilities as open-weight code anyone can download.",
+            "published": "Mon, 29 Jun 2026 20:16:48 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Supreme Court Says Trump Can Fire SEC, CFTC Commissioners at Will—At a Crucial Moment for Crypto",
+            "link": "https://decrypt.co/372342/supreme-court-trump-fire-sec-cftc-commissioners-crucial-moment-crypto",
+            "summary": "The court overturned a 91-year precedent, allowing President Trump to fire key federal regulators whenever he wishes for almost any reason.",
+            "published": "Mon, 29 Jun 2026 19:29:41 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Meta Unveils New Tech That Uses AI to Translate Brain Activity Into Text—Without Surgery",
+            "link": "https://decrypt.co/372338/meta-brain2qwerty-ai-brain-activity-text",
+            "summary": "Meta says its latest Brain2Qwerty system translates brain activity into sentences using non-invasive brain recordings, improving the accuracy of AI-powered neural decoding.",
+            "published": "Mon, 29 Jun 2026 18:47:41 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          },
+          {
+            "title": "Bitcoin Is in a Fight at $60K—Here's What the Charts Say",
+            "link": "https://decrypt.co/372321/bitcoin-price-fight-60k-what-the-charts-say",
+            "summary": "BTC kissed $58,800 and bounced. The daily chart is deep in bear territory, and prediction markets are betting on further pain before a rebound.",
+            "published": "Mon, 29 Jun 2026 18:40:24 +0000",
+            "source": "decrypt",
+            "confidence": 0.8
+          }
+        ]
+      }
+    },
+    "v2ex": {
+      "status": "ok",
+      "data": {
+        "data": [
+          {
+            "id": 1224086,
+            "title": "农村人太苦辣 🥵",
+            "content": "农村父母，没有职工社保，之前我没关注的情况下，父母都是按最低档位交的，最近了解了一下，前几天去补交了 63,000 元，后续每年按目前最高档位 6000 元交（如有提高则按最高交）到 2032 年，测算了一下到父母 60 岁时开始领退休金，总投入本金约 140,000 元，每个月能领 1380 元。\r\n\r\n这是一个人的测算数据，父母双方总投入本金 280,000 元，每个月双方共领 1380+1380=2760 元，不是精确数据，但是幅度相差不会太大，主要在每年的利率变化和城乡居民基础养老金（增加幅度不大，不是每年都增加，每次增加十块二十块）的变化。\r\n\r\n农村人太苦辣 🥵",
+            "node": "life",
+            "replies": 225,
+            "member": "Bullish",
+            "created": 1782866949,
+            "url": "https://www.v2ex.com/t/1224086",
+            "source": "V2EX",
+            "confidence": 0.9
+          },
+          {
+            "id": 1224145,
+            "title": "[bytecat]v 友赛博领鸡蛋 claude，新用户留言送 10 刀，十楼抽奖还送 10，中奖率 20%",
+            "content": "# 好久没来拉新了\r\n\r\n网址： https://www.bytecatcode.org/\r\n\r\n最近 v 站中转站越来越多，我们这边还是保持原来的节奏：稳定 + 性价比。\r\n\r\n老用户应该有印象，我们算是比较早一批在 v 站做推广的中转站之一。从 26 年 1 月建站到现在，一直没怎么折腾过大起大落的玩法。\r\n\r\n售后这块目前也还行，到现在总共就两单退款，而且基本都是当天处理完。\r\n\r\n---\r\n\r\n# 当前分组价格\r\n\r\n- 福利分组（ Claude ） → 0.1x  \r\n- AWSQ → 0.4x  \r\n- Hyper → 0.68x  \r\n- Max → 1.35x  \r\n- Codex → 0.2x  \r\n- Codex-Pro → 0.4x  \r\n- Gemini → 0.8x  \r\n\r\n更多分组可以去官网看，价格是实时更新的。\r\n\r\n---\r\n\r\n# 企业用户支持\r\n\r\n支持：\r\n- 对公转账  \r\n- 开票（单笔满 1000 元）  \r\n- 合同签订  \r\n\r\n---\r\n\r\n我们做的其实很简单：\r\n\r\n稳定线路 + 性价比优先 + 随用随退\r\n\r\n最低 10 元就能体",
+            "node": "promotions",
+            "replies": 143,
+            "member": "xiaofangcode",
+            "created": 1782874813,
+            "url": "https://www.v2ex.com/t/1224145",
+            "source": "V2EX",
+            "confidence": 0.9
+          },
+          {
+            "id": 1224187,
+            "title": "结婚 12 年准备离婚了",
+            "content": "没想到真的能走到这一步，整个人感觉像是在梦游。\r\n\r\n先说事情的经过吧！端午节的时候，因为一点小事我们吵了一架。几次我想尝试和她和好，她不搭理我。\r\n\r\n昨晚无意看到抖音上（没有加过她的抖音，之前也不怎么玩抖音，她也不怎么玩，抖音主动推我可能认识的人），她和一个男生在溜冰场牵手玩接龙游戏（虽然有很多人在接龙，使我无法接受的是她为什么牵着一个男生的手，明明前面还有好几位女生啊）。\r\n\r\n今天早上对质，她大意认为我经常去游泳馆游泳，不管是刮风下雨都会去游泳馆，她觉得我不对劲（不对劲可以沟通啊！她从来都是什么事情都憋在肚子了）。其实，也就是最近两个多月才学会蛙泳，主要是腰椎盘突出，医生建议游泳。\r\n\r\n平时，在家基本上的是她说了算，我根本没有话语权，稍微不赞同她的意见就大发雷霆，辱骂。考虑到已经有两个小孩了，有些事情我能忍则忍。这次，感觉真的到头了。\r\n\r\n最担心的就是两个小孩的抚养权的问题，因为我平时在深圳上班，周末回去，她周一到周五上班带小孩。另外，有一套住宅和一套公寓（都没有还完贷款）。\r\n\r\n最后，有没有已经离异的网友，给的建议，离婚后过得怎么样？",
+            "node": "life",
+            "replies": 128,
+            "member": "devloperchen",
+            "created": 1782880227,
+            "url": "https://www.v2ex.com/t/1224187",
+            "source": "V2EX",
+            "confidence": 0.9
+          },
+          {
+            "id": 1224175,
+            "title": "公司社保和公积金要拉满，所有多出的钱都让员工出，不签字就走人。额日了",
+            "content": "",
+            "node": "career",
+            "replies": 116,
+            "member": "lusxh",
+            "created": 1782878184,
+            "url": "https://www.v2ex.com/t/1224175",
+            "source": "V2EX",
+            "confidence": 0.9
+          },
+          {
+            "id": 1224156,
+            "title": "A/ 真是全力以赴啊……",
+            "content": "看到篇文章，也是服了\r\nhttps://mp.weixin.qq.com/s/yLb4T2UC16ebKHApdBbgWw",
+            "node": "claude",
+            "replies": 94,
+            "member": "blank0ken",
+            "created": 1782875731,
+            "url": "https://www.v2ex.com/t/1224156",
+            "source": "V2EX",
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    "bilibili": {
+      "status": "ok",
+      "data": [
+        {
+          "bvid": null,
+          "title": "avalanche-2-哔哩哔哩_bilibili",
+          "description": "",
+          "author": null,
+          "play": null,
+          "source": "Bilibili (Jina)",
+          "confidence": 0.6
+        }
+      ]
+    },
+    "community_score": {
+      "status": "error",
+      "error": "'str' object has no attribute 'get'"
+    },
+    "github": {
+      "status": "ok",
+      "data": {
+        "id": 246387644,
+        "node_id": "MDEwOlJlcG9zaXRvcnkyNDYzODc2NDQ=",
+        "name": "avalanchego",
+        "full_name": "ava-labs/avalanchego",
+        "private": false,
+        "owner": {
+          "login": "ava-labs",
+          "id": 44277073,
+          "node_id": "MDEyOk9yZ2FuaXphdGlvbjQ0Mjc3MDcz",
+          "avatar_url": "https://avatars.githubusercontent.com/u/44277073?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/ava-labs",
+          "html_url": "https://github.com/ava-labs",
+          "followers_url": "https://api.github.com/users/ava-labs/followers",
+          "following_url": "https://api.github.com/users/ava-labs/following{/other_user}",
+          "gists_url": "https://api.github.com/users/ava-labs/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/ava-labs/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/ava-labs/subscriptions",
+          "organizations_url": "https://api.github.com/users/ava-labs/orgs",
+          "repos_url": "https://api.github.com/users/ava-labs/repos",
+          "events_url": "https://api.github.com/users/ava-labs/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/ava-labs/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/ava-labs/avalanchego",
+        "description": "Go implementation of an Avalanche node.",
+        "fork": false,
+        "url": "https://api.github.com/repos/ava-labs/avalanchego",
+        "forks_url": "https://api.github.com/repos/ava-labs/avalanchego/forks",
+        "keys_url": "https://api.github.com/repos/ava-labs/avalanchego/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/ava-labs/avalanchego/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/ava-labs/avalanchego/teams",
+        "hooks_url": "https://api.github.com/repos/ava-labs/avalanchego/hooks",
+        "issue_events_url": "https://api.github.com/repos/ava-labs/avalanchego/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/ava-labs/avalanchego/events",
+        "assignees_url": "https://api.github.com/repos/ava-labs/avalanchego/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/ava-labs/avalanchego/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/ava-labs/avalanchego/tags",
+        "blobs_url": "https://api.github.com/repos/ava-labs/avalanchego/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/ava-labs/avalanchego/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/ava-labs/avalanchego/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/ava-labs/avalanchego/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/ava-labs/avalanchego/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/ava-labs/avalanchego/languages",
+        "stargazers_url": "https://api.github.com/repos/ava-labs/avalanchego/stargazers",
+        "contributors_url": "https://api.github.com/repos/ava-labs/avalanchego/contributors",
+        "subscribers_url": "https://api.github.com/repos/ava-labs/avalanchego/subscribers",
+        "subscription_url": "https://api.github.com/repos/ava-labs/avalanchego/subscription",
+        "commits_url": "https://api.github.com/repos/ava-labs/avalanchego/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/ava-labs/avalanchego/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/ava-labs/avalanchego/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/ava-labs/avalanchego/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/ava-labs/avalanchego/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/ava-labs/avalanchego/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/ava-labs/avalanchego/merges",
+        "archive_url": "https://api.github.com/repos/ava-labs/avalanchego/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/ava-labs/avalanchego/downloads",
+        "issues_url": "https://api.github.com/repos/ava-labs/avalanchego/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/ava-labs/avalanchego/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/ava-labs/avalanchego/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/ava-labs/avalanchego/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/ava-labs/avalanchego/labels{/name}",
+        "releases_url": "https://api.github.com/repos/ava-labs/avalanchego/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/ava-labs/avalanchego/deployments",
+        "created_at": "2020-03-10T19:18:54Z",
+        "updated_at": "2026-06-30T23:16:59Z",
+        "pushed_at": "2026-07-01T11:49:13Z",
+        "git_url": "git://github.com/ava-labs/avalanchego.git",
+        "ssh_url": "git@github.com:ava-labs/avalanchego.git",
+        "clone_url": "https://github.com/ava-labs/avalanchego.git",
+        "svn_url": "https://github.com/ava-labs/avalanchego",
+        "homepage": "https://avax.network",
+        "size": 513876,
+        "stargazers_count": 2350,
+        "watchers_count": 2350,
+        "language": "Go",
+        "has_issues": true,
+        "has_projects": true,
+        "has_downloads": true,
+        "has_wiki": false,
+        "has_pages": true,
+        "has_discussions": true,
+        "forks_count": 855,
+        "mirror_url": null,
+        "archived": false,
+        "disabled": false,
+        "open_issues_count": 443,
+        "license": {
+          "key": "bsd-3-clause",
+          "name": "BSD 3-Clause \"New\" or \"Revised\" License",
+          "spdx_id": "BSD-3-Clause",
+          "url": "https://api.github.com/licenses/bsd-3-clause",
+          "node_id": "MDc6TGljZW5zZTU="
+        },
+        "allow_forking": true,
+        "is_template": false,
+        "web_commit_signoff_required": true,
+        "has_pull_requests": true,
+        "pull_request_creation_policy": "all",
+        "topics": [],
+        "visibility": "public",
+        "forks": 855,
+        "open_issues": 443,
+        "watchers": 2350,
+        "default_branch": "master",
+        "temp_clone_token": null,
+        "custom_properties": {
+          "complianceRequired": "No",
+          "gpgAttestationRequired": "No"
+        },
+        "organization": {
+          "login": "ava-labs",
+          "id": 44277073,
+          "node_id": "MDEyOk9yZ2FuaXphdGlvbjQ0Mjc3MDcz",
+          "avatar_url": "https://avatars.githubusercontent.com/u/44277073?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/ava-labs",
+          "html_url": "https://github.com/ava-labs",
+          "followers_url": "https://api.github.com/users/ava-labs/followers",
+          "following_url": "https://api.github.com/users/ava-labs/following{/other_user}",
+          "gists_url": "https://api.github.com/users/ava-labs/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/ava-labs/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/ava-labs/subscriptions",
+          "organizations_url": "https://api.github.com/users/ava-labs/orgs",
+          "repos_url": "https://api.github.com/users/ava-labs/repos",
+          "events_url": "https://api.github.com/users/ava-labs/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/ava-labs/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "network_count": 855,
+        "subscribers_count": 112
+      }
+    },
+    "sentiment": {
+      "status": "ok",
+      "data": {
+        "fear_greed": {
+          "value": 11,
+          "classification": "Extreme Fear",
+          "score": 5
+        },
+        "trend": {
+          "direction": "stable",
+          "change": 1.83,
+          "start_value": 11,
+          "end_value": 12,
+          "confidence": 0.8
+        },
+        "combined_score": 4,
+        "overall_sentiment": "bullish",
+        "recommendation": "Extreme Fear - Potential accumulation zone",
+        "timestamp": "2026-07-01T11:52:13.331693",
+        "confidence": 0.81
+      }
+    }
+  },
+  "symbol": "",
+  "name": "avalanche-2",
+  "rank": null,
+  "categories": [
+    "Smart Contract Platform",
+    "Layer 1 (L1)",
+    "Avalanche Ecosystem",
+    "Proof of Stake (PoS)",
+    "DragonFly Capital Portfolio",
+    "DeFiance Capital Portfolio",
+    "Andreessen Horowitz (a16z) Portfolio",
+    "GMCI Layer 1 Index",
+    "GMCI 30 Index",
+    "Galaxy Digital Portfolio",
+    "GMCI Index",
+    "Polychain Capital Portfolio",
+    "World Liberty Financial Portfolio",
+    "Made in USA",
+    "Coinbase 50 Index"
+  ],
+  "category_slug": "defi"
+}

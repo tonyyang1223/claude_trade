@@ -1,28 +1,29 @@
 {
-  "scan_time": "2026-07-01T08:01:26.785884",
+  "scan_time": "2026-07-01T23:45:05.599344",
   "total_coins": 800,
-  "deep_researched": 66,
-  "light_researched": 775,
+  "deep_researched": 67,
+  "light_researched": 1002,
   "categories": {
     "unclassified": 4,
-    "stablecoin": 7,
-    "rwa": 3,
-    "layer-2": 1,
-    "defi": 6,
+    "meme": 1,
+    "stablecoin": 10,
+    "rwa": 5,
+    "layer-2": 3,
+    "defi": 12,
     "exchange": 2,
-    "layer-1": 15,
+    "layer-1": 26,
     "ai": 2
   },
   "market_stats": {
-    "total_market_cap": 2138945419864,
-    "avg_change_24h_pct": -0.89,
+    "total_market_cap": 2177414491452,
+    "avg_change_24h_pct": 1.49,
     "fear_greed_index": null
   },
   "state_stats": {
-    "total_coins_known": 775,
-    "deep_researched": 66,
-    "light_researched": 775,
-    "last_market_snapshot": "2026-07-01T08:01:26.135724",
-    "queue_length": 187
+    "total_coins_known": 1002,
+    "deep_researched": 67,
+    "light_researched": 1002,
+    "last_market_snapshot": "2026-07-01T23:45:04.953984",
+    "queue_length": 194
   }
 }
