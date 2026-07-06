@@ -326,6 +326,18 @@ def deep_research(coin_id: str, cg: CoinGeckoClient) -> Dict[str, Any]:
     # Sentiment (unlimited)
     step("Sentiment", lambda: SentimentAPIClient().get_combined_sentiment(), "sentiment")
 
+    # Extract metadata from market data to top level
+    market_data = report["sources"].get("market", {}).get("data", {})
+    if market_data:
+        report["symbol"] = market_data.get("symbol", "").upper()
+        report["name"] = market_data.get("name", coin_id)
+        report["rank"] = market_data.get("market_cap_rank")
+
+    # Get category for this coin
+    categories = get_coin_categories(cg, coin_id)
+    report["category_slug"] = categorize_coin(categories, coin_id) if categories else "unclassified"
+    report["categories"] = categories
+
     return report
 
 
@@ -370,18 +382,25 @@ def save_deep_data(base_dir: Path, coin_id: str, report: Dict, coin_meta: Dict, 
     detailed_dir = base_dir / "top_50_detailed"
     detailed_dir.mkdir(parents=True, exist_ok=True)
 
-    # Add metadata
-    report["symbol"] = coin_meta.get("symbol", "").upper()
-    report["name"] = coin_meta.get("name", coin_id)
-    report["rank"] = coin_meta.get("market_cap_rank")
+    # Extract metadata from market data (most reliable source)
+    market_data = report.get("sources", {}).get("market", {}).get("data", {})
+
+    # Only set if not already set by deep_research()
+    if not report.get("symbol"):
+        report["symbol"] = market_data.get("symbol", "").upper() if market_data else coin_meta.get("symbol", "").upper()
+    if not report.get("name"):
+        report["name"] = market_data.get("name", coin_id) if market_data else coin_meta.get("name", coin_id)
+    if report.get("rank") is None:
+        report["rank"] = market_data.get("market_cap_rank") if market_data else coin_meta.get("rank")
 
     # Get categories (with delay to avoid rate limit)
-    time.sleep(COINGECKO_DELAY)
-    cg = CoinGeckoClient()
-    cats = get_coin_categories(cg, coin_id)
-    slug = classify_coin(cats)
-    report["categories"] = cats
-    report["category_slug"] = slug
+    if not report.get("categories"):
+        time.sleep(COINGECKO_DELAY)
+        cg = CoinGeckoClient()
+        cats = get_coin_categories(cg, coin_id)
+        slug = classify_coin(cats)
+        report["categories"] = cats
+        report["category_slug"] = slug
 
     # Save files
     (detailed_dir / f"{coin_id}.json").write_text(
