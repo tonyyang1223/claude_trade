@@ -172,16 +172,18 @@ def coin_to_md(coin_id: str, report: Dict) -> str:
 
     # Crypto news
     news = get_source_data(report, "crypto_news")
-    if news and news.get("data"):
-        lines.extend([
-            "### 社区新闻",
-            "",
-        ])
-        for i, item in enumerate(news.get("data", [])[:5], 1):
-            title = item.get("title", "")
-            src = item.get("source", "")
-            lines.append(f"{i}. **{title}** - {src}")
-        lines.append("")
+    if news:
+        items = news if isinstance(news, list) else news.get("data", [])
+        if items:
+            lines.extend([
+                "### 社区新闻",
+                "",
+            ])
+            for i, item in enumerate(items[:5], 1):
+                title = item.get("title", "") if isinstance(item, dict) else str(item)
+                src = item.get("source", "") if isinstance(item, dict) else ""
+                lines.append(f"{i}. **{title}** - {src}")
+            lines.append("")
 
     # GitHub
     github = get_source_data(report, "github")
