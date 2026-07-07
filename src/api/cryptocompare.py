@@ -149,12 +149,13 @@ class CryptoCompareClient:
             - facebook: likes
             - github: stars, forks, contributors, issues
         """
+        if not self.api_key:
+            return {}
+
         cache_key = f"cryptocompare_social_{coin_id}"
         url = f"{self.BASE_URL}/social/coin/latest"
 
         params = {"coinId": coin_id}
-        if self.api_key:
-            params["api_key"] = self.api_key
 
         data = self._fetch_with_cache(url, cache_key, params)
 
@@ -177,12 +178,13 @@ class CryptoCompareClient:
         Returns:
             List of daily social stats
         """
+        if not self.api_key:
+            return []
+
         cache_key = f"cryptocompare_social_hist_{coin_id}_{limit}"
         url = f"{self.BASE_URL}/social/coin/histo/day"
 
         params = {"coinId": coin_id, "limit": min(limit, 90)}
-        if self.api_key:
-            params["api_key"] = self.api_key
 
         data = self._fetch_with_cache(url, cache_key, params)
 
@@ -294,13 +296,12 @@ class CryptoCompareClient:
             return 1
 
     def is_available(self) -> bool:
-        """Check if API is available (has API key or free tier works)."""
-        # Try a simple request to check availability
+        """Check if API is available (has API key)."""
+        if not self.api_key:
+            return False
         try:
             url = f"{self.BASE_URL}/social/coin/latest"
-            params = {"coinId": 1182}  # Bitcoin
-            if self.api_key:
-                params["api_key"] = self.api_key
+            params = {"coinId": 1182, "api_key": self.api_key}
 
             response = self.session.get(url, params=params, timeout=10)
             data = response.json()

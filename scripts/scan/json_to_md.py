@@ -77,20 +77,9 @@ def get_source_data(report: Dict, source_key: str) -> Optional[Dict]:
 
 def coin_to_md(coin_id: str, report: Dict) -> str:
     """Convert a single coin's deep research JSON to Markdown."""
-    # Extract from market data first (most reliable source)
-    market = get_source_data(report, "market")
-
-    # Get symbol and name from market data or fallback
-    if market:
-        symbol = market.get("symbol", "").upper() or report.get("symbol", "").upper()
-        name = market.get("name", coin_id.title()) or report.get("name", coin_id.title())
-        rank = market.get("market_cap_rank") or report.get("rank")
-    else:
-        symbol = report.get("symbol", "").upper()
-        name = report.get("name", coin_id.title())
-        rank = report.get("rank")
-
-    # Get category from report level
+    symbol = report.get("symbol", "").upper()
+    name = report.get("name", coin_id)
+    rank = report.get("rank")
     category = report.get("category_slug", "unclassified")
     research_time = report.get("research_time", "")
 
@@ -106,6 +95,7 @@ def coin_to_md(coin_id: str, report: Dict) -> str:
     ]
 
     # Market data
+    market = get_source_data(report, "market")
     if market:
         lines.extend([
             "## 市场数据",
@@ -180,53 +170,17 @@ def coin_to_md(coin_id: str, report: Dict) -> str:
             lines.append(f"- 推文数: {tweets}")
         lines.append("")
 
-    # RSS news (high quality) - prefer over crypto_news
-    rss = get_source_data(report, "rss")
+    # Crypto news
     news = get_source_data(report, "crypto_news")
-
-    # Determine RSS data list (can be array or {data: array})
-    rss_list = []
-    if rss:
-        if isinstance(rss, list):
-            rss_list = rss
-        elif isinstance(rss, dict) and rss.get("data"):
-            rss_list = rss.get("data", [])
-
-    # Use RSS data if available (higher quality)
-    if rss_list:
+    if news and news.get("data"):
         lines.extend([
             "### 社区新闻",
             "",
         ])
-        for i, item in enumerate(rss_list[:5], 1):
+        for i, item in enumerate(news.get("data", [])[:5], 1):
             title = item.get("title", "")
             src = item.get("source", "")
-            link = item.get("link", "")
-            # Skip low-quality titles (login links, images, etc.)
-            if not title or len(title) < 10 or title.startswith("[") or "Sign" in title:
-                continue
-            if link:
-                lines.append(f"{i}. [{title}]({link}) - {src}")
-            else:
-                lines.append(f"{i}. **{title}** - {src}")
-        lines.append("")
-    elif news and news.get("data"):
-        # Fallback to crypto_news, but filter out low-quality items
-        lines.extend([
-            "### 社区新闻",
-            "",
-        ])
-        count = 0
-        for item in news.get("data", []):
-            title = item.get("title", "")
-            src = item.get("source", "")
-            # Skip low-quality titles
-            if not title or len(title) < 10 or title.startswith("[") or "Sign" in title or "Video" in title:
-                continue
-            count += 1
-            if count > 5:
-                break
-            lines.append(f"{count}. **{title}** - {src}")
+            lines.append(f"{i}. **{title}** - {src}")
         lines.append("")
 
     # GitHub
