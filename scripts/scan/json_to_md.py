@@ -228,10 +228,48 @@ def coin_to_md(coin_id: str, report: Dict) -> str:
             lines.append(f"| 建议 | {rec} |")
         lines.append("")
 
+    # Social stats (from socialtickers.com)
+    social_stats = get_source_data(report, "social_stats")
+    if social_stats:
+        overall = social_stats.get("overall", {})
+        reddit_stats = social_stats.get("reddit", {})
+        trend = social_stats.get("trend", {})
+
+        lines.extend([
+            "## 社交活跃度",
+            "",
+            "| 指标 | 数值 |",
+            "|------|------|",
+        ])
+        mentions = overall.get("mentions", 0)
+        upvotes = overall.get("upvotes", 0)
+        signal = overall.get("signal", 50)
+        intensity = overall.get("intensity", 0)
+
+        lines.append(f"| 提及量 | {mentions} |")
+        lines.append(f"| 点赞数 | {upvotes} |")
+        lines.append(f"| 情绪信号 | {signal}/100 |")
+        if intensity:
+            lines.append(f"| 活跃强度 | {intensity:.2f} |")
+
+        # Reddit stats
+        if reddit_stats:
+            subscribers = reddit_stats.get("subscribers", 0)
+            active = reddit_stats.get("active_users", 0)
+            lines.append(f"| Reddit订阅 | {format_number(subscribers)} |")
+            lines.append(f"| Reddit活跃 | {active} |")
+
+        # Trend
+        if trend.get("direction"):
+            dir_emoji = "📈" if trend.get("direction") == "up" else "📉"
+            lines.append(f"| 趋势 | {dir_emoji} {trend.get('direction')} |")
+
+        lines.append("")
+
     # Footer
     lines.extend([
         "---",
-        f"*数据来源: CoinGecko, Binance, DefiLlama, Twitter, GitHub, SentimentAPI*",
+        f"*数据来源: CoinGecko, Binance, DefiLlama, socialtickers, Twitter, GitHub, SentimentAPI*",
         f"*生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M')}*",
     ])
 

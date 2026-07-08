@@ -30,7 +30,7 @@ sys.path.insert(0, str(project_root))
 from src.api.coingecko import CoinGeckoClient
 from src.api.coinglass import CoinglassClient
 from src.api.defillama import DefiLlamaClient
-from src.api.cryptocompare import CryptoCompareClient
+from src.api.social_sentiment import SocialSentimentClient
 from src.api.github import GithubClient
 from src.api.sentiment_api import SentimentAPIClient
 from src.api.twitter import TwitterClient
@@ -295,7 +295,7 @@ def deep_research(coin_id: str, cg: CoinGeckoClient) -> Dict[str, Any]:
 
     # CryptoCompare (rate limited - be careful)
     time.sleep(2)
-    step("Social stats", lambda: CryptoCompareClient().get_social_stats(coin_id), "social_stats")
+    step("Social stats", lambda: SocialSentimentClient().get_coin_social_stats(coin_id), "social_stats")
 
     # Twitter/Reddit via Jina (free but don't abuse)
     time.sleep(1)
