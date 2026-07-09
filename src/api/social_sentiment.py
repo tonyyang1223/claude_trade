@@ -189,23 +189,48 @@ class SocialSentimentClient:
         if not data:
             return {}
 
+        # Helper to safely get numeric values
+        def _int(val, default=0):
+            if val is None:
+                return default
+            try:
+                return int(val)
+            except (TypeError, ValueError):
+                return default
+
+        def _float(val, default=0.0):
+            if val is None:
+                return default
+            try:
+                return float(val)
+            except (TypeError, ValueError):
+                return default
+
+        mentions = _int(data.get("mentions"))
+        upvotes = _int(data.get("upvotes"))
+        signal = _int(data.get("signal"), 50)
+        buzz = _float(data.get("buzz"))
+        intensity = _float(data.get("intensity"))
+        price = _float(data.get("price"))
+        change24 = _float(data.get("change24"))
+
         # Transform to CryptoCompare-like structure
         result = {
             "coin": coin_id,
             "ticker": ticker,
             "timestamp": datetime.now().isoformat(),
             "overall": {
-                "mentions": data.get("mentions", 0),
-                "upvotes": data.get("upvotes", 0),
-                "signal": data.get("signal", 50),
-                "buzz": data.get("buzz", 0),  # Change in mentions
-                "intensity": data.get("intensity", 0),  # Mentions per hour
+                "mentions": mentions,
+                "upvotes": upvotes,
+                "signal": signal,
+                "buzz": buzz,
+                "intensity": intensity,
             },
         }
 
         # News items
         news = data.get("news", {})
-        if news.get("items"):
+        if news and isinstance(news, dict) and news.get("items"):
             result["news"] = [
                 {
                     "title": item.get("t", ""),
@@ -213,30 +238,34 @@ class SocialSentimentClient:
                     "sentiment": item.get("lean", "neutral"),
                 }
                 for item in news.get("items", [])[:5]
+                if isinstance(item, dict)
             ]
 
         # Reddit-style metrics (from socialtickers Reddit data)
         result["reddit"] = {
-            "subscribers": data.get("mentions", 0) * 100,  # Rough estimate
-            "active_users": data.get("mentions", 0) // 10,
-            "posts_per_hour": data.get("intensity", 0),
-            "upvotes": data.get("upvotes", 0),
+            "subscribers": mentions * 100,  # Rough estimate
+            "active_users": mentions // 10 if mentions else 0,
+            "posts_per_hour": int(intensity) if intensity else 0,
+            "upvotes": upvotes,
         }
 
         # Price context
         result["price"] = {
-            "current": data.get("price", 0),
-            "change_24h_pct": data.get("change24", 0),
+            "current": price,
+            "change_24h_pct": change24,
         }
 
         # History trend
         history = data.get("history", [])
-        if history:
+        if history and len(history) >= 2:
             recent = history[-10:]  # Last 10 data points
-            result["trend"] = {
-                "direction": "up" if recent[-1][1] > recent[0][1] else "down",
-                "mention_history": [[h[0], h[1]] for h in recent],
-            }
+            try:
+                result["trend"] = {
+                    "direction": "up" if recent[-1][1] > recent[0][1] else "down",
+                    "mention_history": [[h[0], h[1]] for h in recent],
+                }
+            except (TypeError, IndexError):
+                pass
 
         return result
 
