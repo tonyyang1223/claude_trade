@@ -1,798 +1,798 @@
 {
-  "last_market_snapshot": "2026-07-17T11:15:43.901765",
+  "last_market_snapshot": "2026-07-17T17:37:20.517718",
   "coins": {
     "bitcoin": {
-      "rank": 1,
+      "rank": 999,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878395",
-      "last_deep": "2026-07-17T09:09:23.708888"
+      "last_light": "2026-07-17T17:37:20.450449",
+      "last_deep": "2026-07-17T17:37:58.091077"
     },
     "ethereum": {
       "rank": 2,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878407",
-      "last_deep": "2026-07-17T10:12:42.800793"
+      "last_light": "2026-07-17T17:37:20.450467",
+      "last_deep": "2026-07-17T14:26:54.396021"
     },
     "tether": {
       "rank": 3,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878418",
-      "last_deep": "2026-07-17T10:23:15.145260"
+      "last_light": "2026-07-17T17:37:20.450479",
+      "last_deep": "2026-07-17T14:37:15.533074"
     },
     "binancecoin": {
-      "rank": 999,
+      "rank": 4,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878430",
-      "last_deep": "2026-07-17T11:16:16.712720"
+      "last_light": "2026-07-17T17:37:20.450493",
+      "last_deep": "2026-07-17T15:30:23.272894"
     },
     "usd-coin": {
-      "rank": 999,
+      "rank": 5,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878441",
-      "last_deep": "2026-07-17T11:27:03.635260"
+      "last_light": "2026-07-17T17:37:20.450504",
+      "last_deep": "2026-07-17T15:40:52.584804"
     },
     "ripple": {
       "rank": 6,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878451",
-      "last_deep": "2026-07-17T08:06:05.414015"
+      "last_light": "2026-07-17T17:37:20.450515",
+      "last_deep": "2026-07-17T16:34:09.879294"
     },
     "solana": {
       "rank": 7,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878461",
-      "last_deep": "2026-07-17T08:16:32.201851"
+      "last_light": "2026-07-17T17:37:20.450526",
+      "last_deep": "2026-07-17T16:44:39.545474"
     },
     "tron": {
-      "rank": 8,
+      "rank": 999,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878471",
-      "last_deep": "2026-07-17T09:19:51.672812"
+      "last_light": "2026-07-17T17:37:20.450539",
+      "last_deep": "2026-07-17T17:48:25.980940"
     },
     "figure-heloc": {
       "rank": 9,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878480",
-      "last_deep": "2026-07-17T08:26:59.548236"
+      "last_light": "2026-07-17T17:37:20.450551",
+      "last_deep": "2026-07-17T13:44:29.745282"
     },
     "hyperliquid": {
       "rank": 10,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878491",
-      "last_deep": "2026-07-17T08:37:24.759068"
+      "last_light": "2026-07-17T17:37:20.450563",
+      "last_deep": "2026-07-17T13:54:59.211301"
     },
     "dogecoin": {
       "rank": 11,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878500",
-      "last_deep": "2026-07-17T03:30:31.295164"
+      "last_light": "2026-07-17T17:37:20.450575",
+      "last_deep": "2026-07-17T16:55:16.719394"
     },
     "usds": {
       "rank": 12,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878510",
+      "last_light": "2026-07-17T17:37:20.450587",
       "last_deep": "2026-07-17T07:23:38.777378"
     },
     "rain": {
       "rank": 13,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878519",
+      "last_light": "2026-07-17T17:37:20.450598",
       "last_deep": "2026-07-17T08:48:00.054117"
     },
     "leo-token": {
-      "rank": 14,
+      "rank": 15,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878529",
+      "last_light": "2026-07-17T17:37:20.450622",
       "last_deep": "2026-07-17T09:30:23.630626"
     },
     "zcash": {
-      "rank": 15,
+      "rank": 14,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878539",
+      "last_light": "2026-07-17T17:37:20.450610",
       "last_deep": "2026-07-17T08:58:37.862807"
     },
     "stellar": {
-      "rank": 999,
+      "rank": 17,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878558",
+      "last_light": "2026-07-17T17:37:20.450645",
       "last_deep": "2026-07-17T11:48:17.722974"
     },
     "monero": {
-      "rank": 19,
+      "rank": 20,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878577",
-      "last_deep": "2026-07-16T22:55:21.147081"
+      "last_light": "2026-07-17T17:37:20.450679",
+      "last_deep": "2026-07-17T12:09:22.200045"
     },
     "canton-network": {
       "rank": 21,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878595",
-      "last_deep": "2026-07-16T23:27:18.157635"
+      "last_light": "2026-07-17T17:37:20.450689",
+      "last_deep": "2026-07-17T12:51:50.915708"
     },
     "whitebit": {
-      "rank": 999,
+      "rank": 16,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878549",
+      "last_light": "2026-07-17T17:37:20.450634",
       "last_deep": "2026-07-17T11:37:44.838802"
     },
     "chainlink": {
-      "rank": 999,
+      "rank": 19,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878567",
+      "last_light": "2026-07-17T17:37:20.450667",
       "last_deep": "2026-07-17T11:58:47.950019"
     },
     "cardano": {
-      "rank": 20,
+      "rank": 18,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878585",
-      "last_deep": "2026-07-16T23:16:39.103386"
+      "last_light": "2026-07-17T17:37:20.450656",
+      "last_deep": "2026-07-17T12:41:20.992348"
     },
     "lab": {
-      "rank": 372,
+      "rank": 374,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.881714",
+      "last_light": "2026-07-17T17:37:20.454471",
       "last_deep": "2026-07-07T22:11:37.080510"
     },
     "usd1-wlfi": {
       "rank": 24,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878622",
-      "last_deep": "2026-07-17T01:12:40.302750"
+      "last_light": "2026-07-17T17:37:20.450721",
+      "last_deep": "2026-07-17T14:16:03.763906"
     },
     "dai": {
       "rank": 22,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878604",
-      "last_deep": "2026-07-17T01:02:06.764142"
+      "last_light": "2026-07-17T17:37:20.450700",
+      "last_deep": "2026-07-17T14:05:29.544942"
     },
     "ethena-usde": {
       "rank": 26,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878641",
-      "last_deep": "2026-07-17T01:33:42.071245"
+      "last_light": "2026-07-17T17:37:20.450744",
+      "last_deep": "2026-07-17T14:58:37.438306"
     },
     "the-open-network": {
       "rank": 25,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878632",
-      "last_deep": "2026-07-17T01:23:09.143110"
+      "last_light": "2026-07-17T17:37:20.450733",
+      "last_deep": "2026-07-17T14:47:57.828603"
     },
     "bitcoin-cash": {
       "rank": 23,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878614",
-      "last_deep": "2026-07-16T23:58:44.461852"
+      "last_light": "2026-07-17T17:37:20.450711",
+      "last_deep": "2026-07-17T13:02:19.317580"
     },
     "litecoin": {
       "rank": 27,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878652",
-      "last_deep": "2026-07-17T02:05:49.703274"
+      "last_light": "2026-07-17T17:37:20.450755",
+      "last_deep": "2026-07-17T15:09:13.433856"
     },
     "hashnote-usyc": {
       "rank": 29,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878677",
-      "last_deep": "2026-07-17T02:37:42.684491"
+      "last_light": "2026-07-17T17:37:20.450777",
+      "last_deep": "2026-07-17T15:51:28.571802"
     },
     "hedera-hashgraph": {
       "rank": 31,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878708",
-      "last_deep": "2026-07-17T03:41:08.856819"
+      "last_light": "2026-07-17T17:37:20.450798",
+      "last_deep": "2026-07-17T17:05:51.853216"
     },
     "global-dollar": {
       "rank": 28,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878664",
-      "last_deep": "2026-07-17T02:16:37.015930"
+      "last_light": "2026-07-17T17:37:20.450766",
+      "last_deep": "2026-07-17T15:19:50.139679"
     },
     "avalanche-2": {
-      "rank": 33,
+      "rank": 32,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878729",
-      "last_deep": "2026-07-17T04:23:50.077411"
+      "last_light": "2026-07-17T17:37:20.450808",
+      "last_deep": "2026-07-17T17:27:11.867415"
     },
     "sui": {
       "rank": 30,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878695",
-      "last_deep": "2026-07-17T02:27:12.097339"
+      "last_light": "2026-07-17T17:37:20.450787",
+      "last_deep": "2026-07-17T16:02:07.355600"
     },
     "paypal-usd": {
-      "rank": 32,
+      "rank": 33,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878719",
-      "last_deep": "2026-07-17T04:13:07.679669"
+      "last_light": "2026-07-17T17:37:20.450821",
+      "last_deep": "2026-07-17T17:16:29.985136"
     },
     "crypto-com-chain": {
-      "rank": 34,
+      "rank": 999,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878738",
-      "last_deep": "2026-07-17T04:34:29.833701"
+      "last_light": "2026-07-17T17:37:20.450832",
+      "last_deep": "2026-07-17T17:59:05.286333"
     },
     "tether-gold": {
       "rank": 37,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878764",
+      "last_light": "2026-07-17T17:37:20.450863",
       "last_deep": "2026-07-17T06:20:26.443660"
     },
     "shiba-inu": {
       "rank": 38,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878773",
+      "last_light": "2026-07-17T17:37:20.450874",
       "last_deep": "2026-07-17T05:27:21.993381"
     },
     "near": {
       "rank": 36,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878755",
+      "last_light": "2026-07-17T17:37:20.450854",
       "last_deep": "2026-07-17T04:45:04.113002"
     },
     "blackrock-usd-institutional-digital-liquidity-fund": {
       "rank": 35,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878747",
+      "last_light": "2026-07-17T17:37:20.450844",
       "last_deep": "2026-07-17T05:16:47.419804"
     },
     "ondo-us-dollar-yield": {
       "rank": 40,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878791",
+      "last_light": "2026-07-17T17:37:20.450894",
       "last_deep": "2026-07-17T06:41:33.170055"
     },
     "bittensor": {
       "rank": 41,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878800",
+      "last_light": "2026-07-17T17:37:20.450905",
       "last_deep": "2026-07-17T06:52:04.335725"
     },
     "world-liberty-financial": {
       "rank": 43,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878819",
+      "last_light": "2026-07-17T17:37:20.450928",
       "last_deep": "2026-07-17T07:34:18.904137"
     },
     "uniswap": {
       "rank": 39,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878782",
+      "last_light": "2026-07-17T17:37:20.450884",
       "last_deep": "2026-07-17T06:31:01.068998"
     },
     "pax-gold": {
       "rank": 44,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878827",
+      "last_light": "2026-07-17T17:37:20.450937",
       "last_deep": "2026-07-17T07:44:54.355301"
     },
     "aster-2": {
-      "rank": 47,
+      "rank": 46,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878853",
+      "last_light": "2026-07-17T17:37:20.450960",
       "last_deep": "2026-07-17T10:02:06.203154"
     },
     "okb": {
       "rank": 45,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878845",
+      "last_light": "2026-07-17T17:37:20.450948",
       "last_deep": "2026-07-17T09:40:56.673260"
     },
     "ripple-usd": {
       "rank": 50,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878879",
+      "last_light": "2026-07-17T17:37:20.451003",
       "last_deep": "2026-07-17T05:38:00.860370"
     },
     "htx-dao": {
       "rank": 48,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878862",
+      "last_light": "2026-07-17T17:37:20.450980",
       "last_deep": "2026-07-17T10:33:54.889626"
     },
     "ondo-finance": {
       "rank": 42,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878810",
-      "last_deep": "2026-07-17T00:09:17.373301"
+      "last_light": "2026-07-17T17:37:20.450916",
+      "last_deep": "2026-07-17T13:12:52.187295"
     },
     "worldcoin-wld": {
       "rank": 57,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878943",
-      "last_deep": "2026-07-16T02:14:52.654653"
+      "last_light": "2026-07-17T17:37:20.451070",
+      "last_deep": "2026-07-17T16:12:50.604652"
     },
     "falcon-finance": {
-      "rank": 54,
+      "rank": 53,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878916",
+      "last_light": "2026-07-17T17:37:20.451031",
       "last_deep": "2026-07-17T07:55:35.337571"
     },
     "mantle": {
-      "rank": 53,
+      "rank": 54,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878906",
+      "last_light": "2026-07-17T17:37:20.451040",
       "last_deep": "2026-07-17T10:55:04.724115"
     },
     "aave": {
       "rank": 56,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878933",
+      "last_light": "2026-07-17T17:37:20.451061",
       "last_deep": "2026-07-17T11:05:36.194778"
     },
     "polkadot": {
-      "rank": 51,
+      "rank": 52,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878888",
+      "last_light": "2026-07-17T17:37:20.451021",
       "last_deep": "2026-07-17T05:48:42.217045"
     },
     "usdd": {
-      "rank": 52,
+      "rank": 51,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878897",
+      "last_light": "2026-07-17T17:37:20.451013",
       "last_deep": "2026-07-17T00:19:49.510658"
     },
     "bfusd": {
       "rank": 58,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878952",
+      "last_light": "2026-07-17T17:37:20.451082",
       "last_deep": "2026-07-16T19:12:49.853775"
     },
     "pi-network": {
-      "rank": 70,
+      "rank": 71,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.879070",
+      "last_light": "2026-07-17T17:37:20.451209",
       "last_deep": "2026-07-08T13:17:02.090384"
     },
     "internet-computer": {
-      "rank": 60,
+      "rank": 59,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878970",
+      "last_light": "2026-07-17T17:37:20.451092",
       "last_deep": "2026-07-16T21:20:25.868793"
     },
     "sky": {
       "rank": 55,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878926",
+      "last_light": "2026-07-17T17:37:20.451051",
       "last_deep": "2026-07-16T15:51:36.540709"
     },
     "morpho": {
-      "rank": 59,
+      "rank": 68,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878961",
+      "last_light": "2026-07-17T17:37:20.451179",
       "last_deep": "2026-07-16T16:02:13.780936"
     },
     "bitget-token": {
       "rank": 61,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878979",
+      "last_light": "2026-07-17T17:37:20.451110",
       "last_deep": "2026-07-17T00:30:24.068709"
     },
     "ethereum-classic": {
-      "rank": 63,
+      "rank": 62,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878999",
+      "last_light": "2026-07-17T17:37:20.451119",
       "last_deep": "2026-07-10T10:43:32.902184"
     },
     "dexe": {
-      "rank": 46,
+      "rank": 49,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878837",
+      "last_light": "2026-07-17T17:37:20.450992",
       "last_deep": "2026-07-17T09:51:30.778292"
     },
     "united-stables": {
-      "rank": 64,
+      "rank": 63,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.879007",
+      "last_light": "2026-07-17T17:37:20.451128",
       "last_deep": "2026-07-08T14:10:17.409303"
     },
     "pepe": {
-      "rank": 62,
+      "rank": 60,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878990",
-      "last_deep": "2026-07-15T16:42:56.571283"
+      "last_light": "2026-07-17T17:37:20.451101",
+      "last_deep": "2026-07-17T16:23:32.947765"
     },
     "blockchain-capital": {
       "rank": 67,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.879035",
+      "last_light": "2026-07-17T17:37:20.451168",
       "last_deep": "2026-07-08T14:31:18.130007"
     },
     "quant-network": {
-      "rank": 68,
+      "rank": 66,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879044"
+      "last_light": "2026-07-17T17:37:20.451159"
     },
     "eutbl": {
-      "rank": 66,
+      "rank": 65,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.879026",
+      "last_light": "2026-07-17T17:37:20.451150",
       "last_deep": "2026-07-08T14:20:46.275534"
     },
     "kucoin-shares": {
       "rank": 69,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879052"
+      "last_light": "2026-07-17T17:37:20.451189"
     },
     "stable-2": {
-      "rank": 74,
+      "rank": 72,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879098"
+      "last_light": "2026-07-17T17:37:20.451218"
     },
     "janus-henderson-anemoy-treasury-fund": {
       "rank": 73,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879089"
+      "last_light": "2026-07-17T17:37:20.451227"
     },
     "usdgo": {
-      "rank": 65,
+      "rank": 64,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879017"
+      "last_light": "2026-07-17T17:37:20.451138"
     },
     "cosmos": {
-      "rank": 78,
+      "rank": 77,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879134"
+      "last_light": "2026-07-17T17:37:20.451265"
     },
     "render-token": {
-      "rank": 81,
+      "rank": 79,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879159"
+      "last_light": "2026-07-17T17:37:20.451283"
     },
     "memecore": {
-      "rank": 49,
+      "rank": 47,
       "depth": "deep",
-      "last_light": "2026-07-17T11:15:43.878871",
+      "last_light": "2026-07-17T17:37:20.450970",
       "last_deep": "2026-07-17T10:44:31.732218"
     },
     "algorand": {
-      "rank": 83,
+      "rank": 84,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879176"
+      "last_light": "2026-07-17T17:37:20.451327"
     },
     "kaspa": {
-      "rank": 82,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879167"
-    },
-    "polygon-ecosystem-token": {
-      "rank": 71,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879061"
-    },
-    "audiera": {
-      "rank": 77,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879126"
-    },
-    "superstate-short-duration-us-government-securities-fund-ustb": {
       "rank": 80,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879151"
+      "last_light": "2026-07-17T17:37:20.451291"
+    },
+    "polygon-ecosystem-token": {
+      "rank": 70,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.451200"
+    },
+    "audiera": {
+      "rank": 81,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.451299"
+    },
+    "superstate-short-duration-us-government-securities-fund-ustb": {
+      "rank": 82,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.451309"
     },
     "just": {
       "rank": 76,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879116"
+      "last_light": "2026-07-17T17:37:20.451254"
     },
     "usdtb": {
       "rank": 108,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879409"
+      "last_light": "2026-07-17T17:37:20.451571"
     },
     "ethena": {
-      "rank": 79,
+      "rank": 78,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879142"
+      "last_light": "2026-07-17T17:37:20.451274"
     },
     "nexo": {
-      "rank": 84,
+      "rank": 83,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879185"
+      "last_light": "2026-07-17T17:37:20.451317"
     },
     "bianrensheng": {
-      "rank": 85,
+      "rank": 86,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879197"
+      "last_light": "2026-07-17T17:37:20.451350"
     },
     "jupiter-exchange-solana": {
       "rank": 90,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879241"
+      "last_light": "2026-07-17T17:37:20.451389"
     },
     "gatechain-token": {
-      "rank": 86,
+      "rank": 85,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879206"
+      "last_light": "2026-07-17T17:37:20.451338"
     },
     "velvet": {
-      "rank": 152,
+      "rank": 151,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884604"
+      "last_light": "2026-07-17T17:37:20.459833"
     },
     "janus-henderson-anemoy-aaa-clo-fund": {
-      "rank": 88,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879222"
-    },
-    "beldex": {
       "rank": 87,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879214"
+      "last_light": "2026-07-17T17:37:20.451359"
+    },
+    "beldex": {
+      "rank": 89,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.451379"
     },
     "adi-token": {
-      "rank": 72,
+      "rank": 74,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879080"
+      "last_light": "2026-07-17T17:37:20.451236"
     },
     "venice-token": {
-      "rank": 103,
+      "rank": 100,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879365"
+      "last_light": "2026-07-17T17:37:20.451505"
     },
     "spiko-amundi-overnight-swap-fund-eur": {
       "rank": 75,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879106"
+      "last_light": "2026-07-17T17:37:20.451245"
     },
     "gho": {
       "rank": 92,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879257"
+      "last_light": "2026-07-17T17:37:20.451407"
     },
     "pump-fun": {
-      "rank": 89,
+      "rank": 88,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879232"
+      "last_light": "2026-07-17T17:37:20.451370"
     },
     "filecoin": {
       "rank": 91,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879249"
+      "last_light": "2026-07-17T17:37:20.451398"
     },
     "flare-networks": {
       "rank": 94,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879285"
+      "last_light": "2026-07-17T17:37:20.451449"
     },
     "ylds": {
       "rank": 98,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879322"
+      "last_light": "2026-07-17T17:37:20.451477"
     },
     "xdce-crowd-sale": {
-      "rank": 95,
+      "rank": 96,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879294"
+      "last_light": "2026-07-17T17:37:20.451458"
     },
     "usual-usd": {
       "rank": 97,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879313"
+      "last_light": "2026-07-17T17:37:20.451468"
     },
     "midnight-3": {
       "rank": 106,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879391"
+      "last_light": "2026-07-17T17:37:20.451543"
     },
     "usx": {
       "rank": 99,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879331"
+      "last_light": "2026-07-17T17:37:20.451486"
     },
     "true-usd": {
-      "rank": 101,
+      "rank": 103,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879348"
+      "last_light": "2026-07-17T17:37:20.451523"
     },
     "aptos": {
-      "rank": 100,
+      "rank": 101,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879340"
+      "last_light": "2026-07-17T17:37:20.451496"
     },
     "a7a5": {
-      "rank": 105,
+      "rank": 107,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879373"
+      "last_light": "2026-07-17T17:37:20.451561"
     },
     "arbitrum": {
       "rank": 93,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879276"
+      "last_light": "2026-07-17T17:37:20.451440"
     },
     "hash-2": {
-      "rank": 107,
+      "rank": 105,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879400"
+      "last_light": "2026-07-17T17:37:20.451552"
     },
     "injective-protocol": {
       "rank": 102,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879356"
+      "last_light": "2026-07-17T17:37:20.451515"
     },
     "ethgas-2": {
-      "rank": 336,
+      "rank": 366,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881455"
+      "last_light": "2026-07-17T17:37:20.454359"
     },
     "aerodrome-finance": {
       "rank": 104,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879383"
+      "last_light": "2026-07-17T17:37:20.451534"
     },
     "pancakeswap-token": {
       "rank": 109,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879418"
+      "last_light": "2026-07-17T17:37:20.451582"
     },
     "euro-coin": {
-      "rank": 110,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879426"
-    },
-    "lighter": {
-      "rank": 96,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879304"
-    },
-    "dash": {
       "rank": 111,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879434"
+      "last_light": "2026-07-17T17:37:20.451601"
+    },
+    "lighter": {
+      "rank": 95,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.451430"
+    },
+    "dash": {
+      "rank": 110,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.451592"
     },
     "ousg": {
-      "rank": 114,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879459"
-    },
-    "hastra-prime": {
       "rank": 116,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879466"
+      "last_light": "2026-07-17T17:37:20.451651"
+    },
+    "hastra-prime": {
+      "rank": 115,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.451642"
     },
     "jito-governance-token": {
-      "rank": 135,
+      "rank": 136,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879643"
+      "last_light": "2026-07-17T17:37:20.451863"
     },
     "fetch-ai": {
       "rank": 121,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879517"
+      "last_light": "2026-07-17T17:37:20.451700"
     },
     "official-trump": {
       "rank": 119,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879499"
+      "last_light": "2026-07-17T17:37:20.451680"
     },
     "vechain": {
-      "rank": 115,
+      "rank": 114,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879474"
+      "last_light": "2026-07-17T17:37:20.451632"
     },
     "pudgy-penguins": {
       "rank": 118,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879491"
+      "last_light": "2026-07-17T17:37:20.451671"
     },
     "bonk": {
-      "rank": 134,
+      "rank": 133,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879626"
+      "last_light": "2026-07-17T17:37:20.451834"
     },
     "celestia": {
       "rank": 120,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879507"
+      "last_light": "2026-07-17T17:37:20.451691"
     },
     "virtual-protocol": {
-      "rank": 113,
+      "rank": 112,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879451"
+      "last_light": "2026-07-17T17:37:20.451612"
     },
     "first-digital-usd": {
       "rank": 123,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879534"
+      "last_light": "2026-07-17T17:37:20.451720"
     },
     "terra-luna": {
       "rank": 126,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879561"
+      "last_light": "2026-07-17T17:37:20.451748"
     },
     "sei-network": {
       "rank": 127,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879569"
+      "last_light": "2026-07-17T17:37:20.451757"
     },
     "sun-token": {
       "rank": 122,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879526"
+      "last_light": "2026-07-17T17:37:20.451710"
     },
     "ether-fi": {
-      "rank": 112,
+      "rank": 113,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879442"
+      "last_light": "2026-07-17T17:37:20.451622"
     },
     "spx6900": {
       "rank": 125,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879552"
+      "last_light": "2026-07-17T17:37:20.451739"
     },
     "blockstack": {
-      "rank": 131,
+      "rank": 130,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879606"
+      "last_light": "2026-07-17T17:37:20.451787"
     },
     "kinesis-gold": {
       "rank": 129,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879589"
+      "last_light": "2026-07-17T17:37:20.451777"
     },
     "grass": {
       "rank": 147,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879753"
+      "last_light": "2026-07-17T17:37:20.452031"
     },
     "pyth-network": {
       "rank": 117,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879482"
+      "last_light": "2026-07-17T17:37:20.451662"
     },
     "curve-dao-token": {
       "rank": 124,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879544"
+      "last_light": "2026-07-17T17:37:20.451729"
     },
     "gnosis": {
-      "rank": 130,
+      "rank": 131,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879598"
+      "last_light": "2026-07-17T17:37:20.451798"
     },
     "apxusd": {
       "rank": 132,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879616"
+      "last_light": "2026-07-17T17:37:20.451808"
     },
     "kite-2": {
-      "rank": 133,
+      "rank": 135,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879634"
+      "last_light": "2026-07-17T17:37:20.451854"
     },
     "apenft": {
-      "rank": 141,
+      "rank": 142,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879703"
+      "last_light": "2026-07-17T17:37:20.451988"
     },
     "bittorrent": {
       "rank": 138,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879675"
+      "last_light": "2026-07-17T17:37:20.451919"
     },
     "unibase": {
-      "rank": 154,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884618"
-    },
-    "plasma": {
       "rank": 155,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884626"
+      "last_light": "2026-07-17T17:37:20.459869"
+    },
+    "plasma": {
+      "rank": 154,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.459860"
     },
     "bitcoin-cash-sv": {
-      "rank": 140,
+      "rank": 141,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879683"
+      "last_light": "2026-07-17T17:37:20.451979"
     },
     "frax": {
       "rank": 146,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879745"
+      "last_light": "2026-07-17T17:37:20.452022"
     },
     "olympus": {
       "rank": 137,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879664"
+      "last_light": "2026-07-17T17:37:20.451873"
     },
     "tac": {
       "rank": 748,
@@ -802,797 +802,797 @@
     "tezos": {
       "rank": 144,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879729"
+      "last_light": "2026-07-17T17:37:20.452005"
     },
     "megausd": {
-      "rank": 663,
+      "rank": 659,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883942"
+      "last_light": "2026-07-17T17:37:20.458883"
     },
     "pendle": {
-      "rank": 142,
+      "rank": 140,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879712"
+      "last_light": "2026-07-17T17:37:20.451969"
     },
     "zebec-network": {
-      "rank": 163,
+      "rank": 164,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884679"
+      "last_light": "2026-07-17T17:37:20.459988"
     },
     "monad": {
       "rank": 143,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879721"
+      "last_light": "2026-07-17T17:37:20.451996"
     },
     "bnb48-club-token": {
       "rank": 158,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884646"
+      "last_light": "2026-07-17T17:37:20.459927"
     },
     "conflux-token": {
       "rank": 145,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879737"
+      "last_light": "2026-07-17T17:37:20.452014"
     },
     "optimism": {
       "rank": 156,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884632"
+      "last_light": "2026-07-17T17:37:20.459911"
     },
     "build-on": {
       "rank": 236,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880548"
+      "last_light": "2026-07-17T17:37:20.452964"
     },
     "doublezero": {
-      "rank": 153,
+      "rank": 152,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884611"
+      "last_light": "2026-07-17T17:37:20.459844"
     },
     "coco-2": {
-      "rank": 168,
+      "rank": 170,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884712"
+      "last_light": "2026-07-17T17:37:20.460057"
     },
     "jasmycoin": {
       "rank": 157,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884639"
+      "last_light": "2026-07-17T17:37:20.459902"
     },
     "kinesis-silver": {
-      "rank": 160,
+      "rank": 162,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884659"
+      "last_light": "2026-07-17T17:37:20.459966"
     },
     "telcoin": {
-      "rank": 174,
+      "rank": 178,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884749"
+      "last_light": "2026-07-17T17:37:20.460133"
     },
     "floki": {
       "rank": 161,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884667"
+      "last_light": "2026-07-17T17:37:20.459957"
     },
     "lido-dao": {
       "rank": 128,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879579"
+      "last_light": "2026-07-17T17:37:20.451767"
     },
     "ape-and-pepe": {
       "rank": 167,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884704"
+      "last_light": "2026-07-17T17:37:20.460022"
     },
     "kaia": {
       "rank": 171,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884730"
+      "last_light": "2026-07-17T17:37:20.460067"
     },
     "onyc": {
       "rank": 150,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879777"
+      "last_light": "2026-07-17T17:37:20.452057"
     },
     "tradable-na-rent-financing-platform-sstn": {
       "rank": 166,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884698"
+      "last_light": "2026-07-17T17:37:20.460009"
     },
     "reallink": {
-      "rank": 149,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879769"
-    },
-    "decred": {
       "rank": 148,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879761"
+      "last_light": "2026-07-17T17:37:20.452039"
+    },
+    "decred": {
+      "rank": 149,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.452048"
     },
     "pieverse": {
-      "rank": 178,
+      "rank": 181,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884781"
+      "last_light": "2026-07-17T17:37:20.460163"
     },
     "the-graph": {
       "rank": 176,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884760"
+      "last_light": "2026-07-17T17:37:20.460116"
     },
     "usdai": {
       "rank": 165,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884691"
+      "last_light": "2026-07-17T17:37:20.459998"
     },
     "layerzero": {
-      "rank": 136,
+      "rank": 134,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879653"
+      "last_light": "2026-07-17T17:37:20.451844"
     },
     "starknet": {
       "rank": 175,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884754"
+      "last_light": "2026-07-17T17:37:20.460107"
     },
     "falcon-finance-ff": {
       "rank": 173,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884743"
+      "last_light": "2026-07-17T17:37:20.460088"
     },
     "akash-network": {
       "rank": 190,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884847"
+      "last_light": "2026-07-17T17:37:20.460244"
     },
     "usa": {
       "rank": 177,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884767"
+      "last_light": "2026-07-17T17:37:20.460125"
     },
     "dogwifcoin": {
-      "rank": 196,
+      "rank": 195,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884884"
+      "last_light": "2026-07-17T17:37:20.460295"
     },
     "chiliz": {
-      "rank": 182,
+      "rank": 184,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884798"
+      "last_light": "2026-07-17T17:37:20.460190"
     },
     "wefi": {
-      "rank": 181,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884792"
-    },
-    "agora-dollar": {
-      "rank": 170,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884724"
-    },
-    "axie-infinity": {
-      "rank": 186,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884830"
-    },
-    "eigenlayer": {
-      "rank": 183,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884804"
-    },
-    "crvusd": {
-      "rank": 162,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884673"
-    },
-    "ethereum-name-service": {
-      "rank": 179,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884774"
-    },
-    "raydium": {
       "rank": 180,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884787"
+      "last_light": "2026-07-17T17:37:20.460153"
     },
-    "spiko-us-t-bills-money-market-fund": {
-      "rank": 188,
+    "agora-dollar": {
+      "rank": 168,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884836"
+      "last_light": "2026-07-17T17:37:20.460036"
     },
-    "tradable-apac-diversified-finance-provider-sstn": {
+    "axie-infinity": {
       "rank": 187,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884823"
+      "last_light": "2026-07-17T17:37:20.460216"
+    },
+    "eigenlayer": {
+      "rank": 182,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.460172"
+    },
+    "crvusd": {
+      "rank": 163,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.459977"
+    },
+    "ethereum-name-service": {
+      "rank": 174,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.460098"
+    },
+    "raydium": {
+      "rank": 179,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.460143"
+    },
+    "spiko-us-t-bills-money-market-fund": {
+      "rank": 189,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.460236"
+    },
+    "tradable-apac-diversified-finance-provider-sstn": {
+      "rank": 188,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.460226"
     },
     "ultima": {
       "rank": 169,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884719"
+      "last_light": "2026-07-17T17:37:20.460047"
     },
     "re-protocol-reusd": {
       "rank": 191,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884853"
+      "last_light": "2026-07-17T17:37:20.460255"
     },
     "iota": {
-      "rank": 189,
+      "rank": 186,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884841"
+      "last_light": "2026-07-17T17:37:20.460207"
     },
     "syrup": {
-      "rank": 164,
+      "rank": 159,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884685"
+      "last_light": "2026-07-17T17:37:20.459936"
     },
     "swissborg": {
-      "rank": 200,
+      "rank": 196,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884908"
+      "last_light": "2026-07-17T17:37:20.460303"
     },
     "satoshi-stablecoin": {
       "rank": 192,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884859"
+      "last_light": "2026-07-17T17:37:20.460265"
     },
     "mx-token": {
-      "rank": 197,
+      "rank": 198,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884890"
+      "last_light": "2026-07-17T17:37:20.460334"
     },
     "compound-governance-token": {
       "rank": 185,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884815"
+      "last_light": "2026-07-17T17:37:20.460199"
     },
     "gusd": {
       "rank": 201,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880246"
+      "last_light": "2026-07-17T17:37:20.452565"
     },
     "trust-wallet-token": {
-      "rank": 206,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880301"
-    },
-    "chain-2": {
-      "rank": 210,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880333"
-    },
-    "zano": {
-      "rank": 199,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884902"
-    },
-    "societe-generale-forge-eurcv": {
-      "rank": 202,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880269"
-    },
-    "fartcoin": {
-      "rank": 214,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880362"
-    },
-    "dydx-chain": {
-      "rank": 250,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880646"
-    },
-    "lido-earn-eth": {
-      "rank": 204,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880286"
-    },
-    "kaito": {
-      "rank": 159,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884653"
-    },
-    "safo": {
       "rank": 207,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880310"
+      "last_light": "2026-07-17T17:37:20.452629"
+    },
+    "chain-2": {
+      "rank": 211,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.452675"
+    },
+    "zano": {
+      "rank": 200,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.460344"
+    },
+    "societe-generale-forge-eurcv": {
+      "rank": 204,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.452597"
+    },
+    "fartcoin": {
+      "rank": 215,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.452732"
+    },
+    "dydx-chain": {
+      "rank": 252,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453148"
+    },
+    "lido-earn-eth": {
+      "rank": 202,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.452576"
+    },
+    "kaito": {
+      "rank": 160,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.459946"
+    },
+    "safo": {
+      "rank": 209,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.452651"
     },
     "apecoin": {
-      "rank": 205,
+      "rank": 203,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880294"
+      "last_light": "2026-07-17T17:37:20.452586"
     },
     "btse-token": {
-      "rank": 193,
+      "rank": 194,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884865"
+      "last_light": "2026-07-17T17:37:20.460284"
     },
     "neo": {
       "rank": 212,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880348"
+      "last_light": "2026-07-17T17:37:20.452686"
     },
     "tradable-latam-fintech-sstn": {
-      "rank": 215,
+      "rank": 216,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880370"
+      "last_light": "2026-07-17T17:37:20.452743"
     },
     "theta-token": {
       "rank": 208,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880317"
+      "last_light": "2026-07-17T17:37:20.452640"
     },
     "thorchain": {
-      "rank": 209,
+      "rank": 206,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880326"
+      "last_light": "2026-07-17T17:37:20.452618"
     },
     "solstice": {
-      "rank": 661,
+      "rank": 663,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883898"
+      "last_light": "2026-07-17T17:37:20.458924"
     },
     "arweave": {
-      "rank": 222,
+      "rank": 223,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880421"
+      "last_light": "2026-07-17T17:37:20.452817"
     },
     "backpack": {
-      "rank": 247,
+      "rank": 231,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880623"
+      "last_light": "2026-07-17T17:37:20.452908"
     },
     "genius-3": {
-      "rank": 244,
+      "rank": 246,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880607"
+      "last_light": "2026-07-17T17:37:20.453073"
     },
     "fidelity-digital-interest-token": {
-      "rank": 319,
+      "rank": 320,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881317"
+      "last_light": "2026-07-17T17:37:20.453897"
     },
     "ozone-chain": {
       "rank": 224,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880436"
+      "last_light": "2026-07-17T17:37:20.452827"
     },
     "decentraland": {
-      "rank": 211,
+      "rank": 210,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880340"
+      "last_light": "2026-07-17T17:37:20.452662"
     },
     "the-sandbox": {
-      "rank": 223,
+      "rank": 220,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880428"
+      "last_light": "2026-07-17T17:37:20.452787"
     },
     "skyai": {
-      "rank": 642,
+      "rank": 647,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883774"
+      "last_light": "2026-07-17T17:37:20.458751"
     },
     "basic-attention-token": {
       "rank": 228,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880466"
+      "last_light": "2026-07-17T17:37:20.452874"
     },
     "apyusd": {
-      "rank": 198,
+      "rank": 197,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884897"
+      "last_light": "2026-07-17T17:37:20.460313"
     },
     "bc-token": {
-      "rank": 195,
+      "rank": 199,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884877"
+      "last_light": "2026-07-17T17:37:20.460323"
     },
     "flying-tulip": {
-      "rank": 428,
+      "rank": 425,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882140"
+      "last_light": "2026-07-17T17:37:20.455012"
     },
     "cash-4": {
       "rank": 221,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880414"
+      "last_light": "2026-07-17T17:37:20.452797"
     },
     "vision-3": {
-      "rank": 220,
+      "rank": 219,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880407"
+      "last_light": "2026-07-17T17:37:20.452776"
     },
     "railgun": {
-      "rank": 283,
+      "rank": 286,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880905"
+      "last_light": "2026-07-17T17:37:20.453538"
     },
     "origintrail": {
-      "rank": 226,
+      "rank": 227,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880451"
+      "last_light": "2026-07-17T17:37:20.452863"
     },
     "theo-short-duration-us-treasury-fund": {
       "rank": 229,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880474"
+      "last_light": "2026-07-17T17:37:20.452885"
     },
     "shuffle-2": {
-      "rank": 238,
+      "rank": 232,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880555"
+      "last_light": "2026-07-17T17:37:20.452919"
     },
     "strategy-pp-variable-xstock": {
       "rank": 213,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880355"
+      "last_light": "2026-07-17T17:37:20.452698"
     },
     "apollo-diversified-credit-securitize-fund": {
-      "rank": 233,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880514"
-    },
-    "tradable-singapore-fintech-ssl-2": {
-      "rank": 234,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880524"
-    },
-    "frax-usd": {
-      "rank": 246,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880616"
-    },
-    "bitway": {
-      "rank": 218,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880400"
-    },
-    "bas": {
-      "rank": 344,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881511"
-    },
-    "bitmart-token": {
-      "rank": 258,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880710"
-    },
-    "tagger": {
-      "rank": 271,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880803"
-    },
-    "astherus-usdf": {
-      "rank": 240,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880570"
-    },
-    "gmt-token": {
       "rank": 237,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880541"
+      "last_light": "2026-07-17T17:37:20.452975"
+    },
+    "tradable-singapore-fintech-ssl-2": {
+      "rank": 238,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.452986"
+    },
+    "frax-usd": {
+      "rank": 248,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453096"
+    },
+    "bitway": {
+      "rank": 217,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.452753"
+    },
+    "bas": {
+      "rank": 346,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.454166"
+    },
+    "bitmart-token": {
+      "rank": 261,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453234"
+    },
+    "tagger": {
+      "rank": 249,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453107"
+    },
+    "astherus-usdf": {
+      "rank": 242,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453030"
+    },
+    "gmt-token": {
+      "rank": 240,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453009"
     },
     "nexus-4": {
-      "rank": 255,
+      "rank": 257,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880678"
+      "last_light": "2026-07-17T17:37:20.453202"
     },
     "cortex-2": {
-      "rank": 386,
+      "rank": 404,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881829"
+      "last_light": "2026-07-17T17:37:20.454788"
     },
     "gala": {
-      "rank": 263,
+      "rank": 256,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880750"
+      "last_light": "2026-07-17T17:37:20.453192"
     },
     "tradable-na-third-party-online-merchant-sstn": {
-      "rank": 243,
+      "rank": 244,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880594"
+      "last_light": "2026-07-17T17:37:20.453051"
     },
     "story-2": {
-      "rank": 267,
+      "rank": 268,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880780"
+      "last_light": "2026-07-17T17:37:20.453330"
     },
     "wemix-token": {
       "rank": 230,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880482"
+      "last_light": "2026-07-17T17:37:20.452897"
     },
     "humanity": {
-      "rank": 231,
+      "rank": 226,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880492"
+      "last_light": "2026-07-17T17:37:20.452851"
     },
     "tradable-latam-middle-market-lender-sstl": {
-      "rank": 252,
+      "rank": 253,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880662"
+      "last_light": "2026-07-17T17:37:20.453160"
     },
     "billions-network": {
-      "rank": 353,
+      "rank": 389,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881566"
+      "last_light": "2026-07-17T17:37:20.454623"
     },
     "circle-internet-group-ondo-tokenized-stock": {
-      "rank": 281,
+      "rank": 279,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880890"
+      "last_light": "2026-07-17T17:37:20.453453"
     },
     "avant-usd": {
-      "rank": 232,
+      "rank": 234,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880503"
+      "last_light": "2026-07-17T17:37:20.452941"
     },
     "saturn-dollar": {
-      "rank": 256,
+      "rank": 255,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880693"
+      "last_light": "2026-07-17T17:37:20.453181"
     },
     "derive": {
-      "rank": 217,
+      "rank": 222,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880385"
+      "last_light": "2026-07-17T17:37:20.452807"
     },
     "re": {
-      "rank": 329,
+      "rank": 328,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881378"
+      "last_light": "2026-07-17T17:37:20.454001"
     },
     "safepal": {
-      "rank": 249,
+      "rank": 250,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880639"
+      "last_light": "2026-07-17T17:37:20.453125"
     },
     "sosovalue": {
       "rank": 264,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880758"
+      "last_light": "2026-07-17T17:37:20.453288"
     },
     "vaulta": {
-      "rank": 227,
+      "rank": 233,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880459"
+      "last_light": "2026-07-17T17:37:20.452929"
     },
     "ecash": {
-      "rank": 194,
+      "rank": 193,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884871"
+      "last_light": "2026-07-17T17:37:20.460277"
     },
     "stp-network": {
       "rank": 251,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880654"
+      "last_light": "2026-07-17T17:37:20.453138"
     },
     "securitize-tokenized-aaa-clo-fund": {
-      "rank": 257,
+      "rank": 258,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880702"
+      "last_light": "2026-07-17T17:37:20.453212"
     },
     "immutable-x": {
-      "rank": 248,
+      "rank": 247,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880631"
+      "last_light": "2026-07-17T17:37:20.453085"
     },
     "ribbita-by-virtuals": {
-      "rank": 241,
+      "rank": 235,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880578"
+      "last_light": "2026-07-17T17:37:20.452953"
     },
     "rollbit-coin": {
       "rank": 245,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880601"
+      "last_light": "2026-07-17T17:37:20.453063"
     },
     "standx-dusd": {
       "rank": 254,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880670"
+      "last_light": "2026-07-17T17:37:20.453171"
     },
     "edgex": {
-      "rank": 203,
+      "rank": 205,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880277"
+      "last_light": "2026-07-17T17:37:20.452608"
     },
     "tradable-singapore-fintech-ssl": {
-      "rank": 261,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880734"
-    },
-    "zksync": {
-      "rank": 272,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880818"
-    },
-    "unity-usd": {
       "rank": 262,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880742"
+      "last_light": "2026-07-17T17:37:20.453265"
+    },
+    "zksync": {
+      "rank": 274,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453408"
+    },
+    "unity-usd": {
+      "rank": 263,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453277"
     },
     "convex-finance": {
-      "rank": 239,
+      "rank": 241,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880563"
+      "last_light": "2026-07-17T17:37:20.453019"
     },
     "kamino": {
-      "rank": 279,
+      "rank": 280,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880873"
+      "last_light": "2026-07-17T17:37:20.453466"
     },
     "newton-project": {
-      "rank": 266,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880772"
-    },
-    "sentient": {
-      "rank": 253,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880686"
-    },
-    "golem": {
       "rank": 269,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880796"
+      "last_light": "2026-07-17T17:37:20.453343"
+    },
+    "sentient": {
+      "rank": 267,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453319"
+    },
+    "golem": {
+      "rank": 266,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453309"
     },
     "manadia": {
-      "rank": 242,
+      "rank": 243,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880586"
+      "last_light": "2026-07-17T17:37:20.453040"
     },
     "ravedao": {
-      "rank": 302,
+      "rank": 307,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881100"
+      "last_light": "2026-07-17T17:37:20.453780"
     },
     "cheems-token": {
-      "rank": 275,
+      "rank": 277,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880843"
+      "last_light": "2026-07-17T17:37:20.453428"
     },
     "1inch": {
-      "rank": 260,
+      "rank": 259,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880726"
+      "last_light": "2026-07-17T17:37:20.453223"
     },
     "usda-2": {
-      "rank": 270,
+      "rank": 272,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880811"
+      "last_light": "2026-07-17T17:37:20.453378"
     },
     "grx-chain": {
       "rank": 225,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880444"
+      "last_light": "2026-07-17T17:37:20.452838"
     },
     "tokenize-xchange": {
-      "rank": 259,
+      "rank": 260,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880718"
+      "last_light": "2026-07-17T17:37:20.453254"
     },
     "geodnet": {
-      "rank": 280,
+      "rank": 282,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880880"
+      "last_light": "2026-07-17T17:37:20.453493"
     },
     "meteora": {
-      "rank": 331,
+      "rank": 333,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881412"
+      "last_light": "2026-07-17T17:37:20.454024"
     },
     "synapse-2": {
-      "rank": 449,
+      "rank": 471,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882348"
+      "last_light": "2026-07-17T17:37:20.455532"
     },
     "o1-exchange": {
-      "rank": 276,
+      "rank": 278,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880851"
+      "last_light": "2026-07-17T17:37:20.453441"
     },
     "sonic-3": {
-      "rank": 268,
+      "rank": 273,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880787"
+      "last_light": "2026-07-17T17:37:20.453387"
     },
     "smilek": {
-      "rank": 284,
+      "rank": 285,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880913"
+      "last_light": "2026-07-17T17:37:20.453526"
     },
     "ai-rig-complex": {
-      "rank": 328,
+      "rank": 327,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881385"
+      "last_light": "2026-07-17T17:37:20.453969"
     },
     "usda-3": {
       "rank": 289,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880959"
+      "last_light": "2026-07-17T17:37:20.453582"
     },
     "exod": {
       "rank": 427,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882131"
+      "last_light": "2026-07-17T17:37:20.455036"
     },
     "cow-protocol": {
-      "rank": 291,
+      "rank": 299,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880975"
+      "last_light": "2026-07-17T17:37:20.453684"
     },
     "aethir": {
-      "rank": 282,
+      "rank": 283,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880898"
+      "last_light": "2026-07-17T17:37:20.453505"
     },
     "wrappedm-by-m0": {
-      "rank": 288,
+      "rank": 293,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880950"
+      "last_light": "2026-07-17T17:37:20.453615"
     },
     "banana-for-scale-2": {
-      "rank": 332,
+      "rank": 335,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881404"
+      "last_light": "2026-07-17T17:37:20.454066"
     },
     "debridge": {
       "rank": 265,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880766"
+      "last_light": "2026-07-17T17:37:20.453299"
     },
     "four": {
-      "rank": 323,
+      "rank": 340,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881337"
+      "last_light": "2026-07-17T17:37:20.454105"
     },
     "would": {
-      "rank": 294,
+      "rank": 296,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881036"
+      "last_light": "2026-07-17T17:37:20.453645"
     },
     "chutes": {
-      "rank": 300,
+      "rank": 295,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881069"
+      "last_light": "2026-07-17T17:37:20.453636"
     },
     "magma-finance": {
-      "rank": 405,
+      "rank": 403,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881979"
+      "last_light": "2026-07-17T17:37:20.454766"
     },
     "nusd-2": {
-      "rank": 361,
+      "rank": 358,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881644"
+      "last_light": "2026-07-17T17:37:20.454305"
     },
     "vicicoin": {
-      "rank": 321,
+      "rank": 319,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881294"
+      "last_light": "2026-07-17T17:37:20.453887"
     },
     "dai-on-pulsechain": {
-      "rank": 311,
+      "rank": 301,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881261"
+      "last_light": "2026-07-17T17:37:20.453704"
     },
     "pleasing-gold": {
-      "rank": 299,
+      "rank": 297,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881062"
+      "last_light": "2026-07-17T17:37:20.453654"
     },
     "livepeer": {
-      "rank": 317,
+      "rank": 313,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881301"
+      "last_light": "2026-07-17T17:37:20.453835"
     },
     "elrond-erd-2": {
-      "rank": 278,
+      "rank": 276,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880866"
+      "last_light": "2026-07-17T17:37:20.453418"
     },
     "centrifuge-2": {
-      "rank": 346,
+      "rank": 349,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881527"
+      "last_light": "2026-07-17T17:37:20.454197"
     },
     "louzi": {
       "rank": 295,
@@ -1600,394 +1600,394 @@
       "last_light": "2026-07-17T05:58:49.961710"
     },
     "na-post-settlement-legal-financing-receivables": {
-      "rank": 303,
+      "rank": 305,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881085"
+      "last_light": "2026-07-17T17:37:20.453735"
     },
     "walrus-2": {
-      "rank": 324,
+      "rank": 318,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881344"
+      "last_light": "2026-07-17T17:37:20.453877"
     },
     "arkham": {
-      "rank": 333,
+      "rank": 329,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881420"
+      "last_light": "2026-07-17T17:37:20.453981"
     },
     "nexpace": {
-      "rank": 326,
+      "rank": 324,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881361"
+      "last_light": "2026-07-17T17:37:20.453938"
     },
     "cygnus-finance-global-usd": {
-      "rank": 310,
+      "rank": 309,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881237"
+      "last_light": "2026-07-17T17:37:20.453791"
     },
     "havven": {
-      "rank": 216,
+      "rank": 218,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880378"
+      "last_light": "2026-07-17T17:37:20.452765"
     },
     "home": {
-      "rank": 624,
+      "rank": 603,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883612"
+      "last_light": "2026-07-17T17:37:20.458292"
     },
     "helio-protocol-hay": {
       "rank": 314,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881268"
+      "last_light": "2026-07-17T17:37:20.453845"
     },
     "tradable-na-neobank-sstl": {
       "rank": 312,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881245"
+      "last_light": "2026-07-17T17:37:20.453813"
     },
     "felix-feusd": {
-      "rank": 313,
+      "rank": 315,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881253"
+      "last_light": "2026-07-17T17:37:20.453824"
     },
     "zencash": {
-      "rank": 309,
+      "rank": 306,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881229"
+      "last_light": "2026-07-17T17:37:20.453747"
     },
     "useless-3": {
-      "rank": 365,
+      "rank": 372,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881675"
+      "last_light": "2026-07-17T17:37:20.454442"
     },
     "unifai-network": {
-      "rank": 285,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880921"
-    },
-    "nxm": {
       "rank": 287,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880941"
+      "last_light": "2026-07-17T17:37:20.453549"
+    },
+    "nxm": {
+      "rank": 288,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.453559"
     },
     "comedian": {
-      "rank": 338,
+      "rank": 330,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881463"
+      "last_light": "2026-07-17T17:37:20.453990"
     },
     "qtum": {
       "rank": 334,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881429"
+      "last_light": "2026-07-17T17:37:20.454043"
     },
     "law-blocks": {
-      "rank": 327,
+      "rank": 332,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881370"
+      "last_light": "2026-07-17T17:37:20.454033"
     },
     "orca": {
-      "rank": 335,
+      "rank": 337,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881438"
+      "last_light": "2026-07-17T17:37:20.454076"
     },
     "gas": {
-      "rank": 349,
+      "rank": 348,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881551"
+      "last_light": "2026-07-17T17:37:20.454188"
     },
     "keeta": {
-      "rank": 345,
+      "rank": 344,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881519"
+      "last_light": "2026-07-17T17:37:20.454144"
     },
     "ordinals": {
-      "rank": 305,
+      "rank": 304,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881117"
+      "last_light": "2026-07-17T17:37:20.453723"
     },
     "reserve-rights-token": {
       "rank": 308,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881221"
+      "last_light": "2026-07-17T17:37:20.453757"
     },
     "sierra-2": {
-      "rank": 318,
+      "rank": 321,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881309"
+      "last_light": "2026-07-17T17:37:20.453917"
     },
     "crown-brlv": {
-      "rank": 325,
+      "rank": 331,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881353"
+      "last_light": "2026-07-17T17:37:20.454013"
     },
     "micron-technology-ondo-tokenized-stock": {
-      "rank": 484,
+      "rank": 462,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882589"
+      "last_light": "2026-07-17T17:37:20.455432"
     },
     "river": {
-      "rank": 350,
+      "rank": 352,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881558"
+      "last_light": "2026-07-17T17:37:20.454218"
     },
     "rif-token": {
-      "rank": 219,
+      "rank": 214,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880393"
+      "last_light": "2026-07-17T17:37:20.452709"
     },
     "melania-meme": {
-      "rank": 316,
+      "rank": 323,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881286"
+      "last_light": "2026-07-17T17:37:20.453907"
     },
     "beam-2": {
-      "rank": 293,
+      "rank": 294,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880991"
+      "last_light": "2026-07-17T17:37:20.453625"
     },
     "usdx": {
-      "rank": 322,
+      "rank": 325,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881331"
+      "last_light": "2026-07-17T17:37:20.453947"
     },
     "temple": {
       "rank": 342,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881494"
+      "last_light": "2026-07-17T17:37:20.454125"
     },
     "midas-mf-one": {
-      "rank": 320,
+      "rank": 322,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881324"
+      "last_light": "2026-07-17T17:37:20.453927"
     },
     "quack-ai": {
-      "rank": 304,
+      "rank": 300,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881093"
+      "last_light": "2026-07-17T17:37:20.453674"
     },
     "xdai": {
-      "rank": 348,
+      "rank": 356,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881544"
+      "last_light": "2026-07-17T17:37:20.454272"
     },
     "0x": {
-      "rank": 330,
+      "rank": 326,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881394"
+      "last_light": "2026-07-17T17:37:20.453958"
     },
     "stau": {
-      "rank": 297,
+      "rank": 298,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881053"
+      "last_light": "2026-07-17T17:37:20.453664"
     },
     "instadapp": {
       "rank": 292,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880983"
+      "last_light": "2026-07-17T17:37:20.453604"
     },
     "quantum-resistant-ledger": {
-      "rank": 301,
+      "rank": 303,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881077"
+      "last_light": "2026-07-17T17:37:20.453713"
     },
     "meta-2-2": {
-      "rank": 277,
+      "rank": 281,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880859"
+      "last_light": "2026-07-17T17:37:20.453480"
     },
     "ai-powered-finance": {
-      "rank": 392,
+      "rank": 395,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881858"
+      "last_light": "2026-07-17T17:37:20.454690"
     },
     "allora": {
-      "rank": 274,
+      "rank": 275,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880835"
+      "last_light": "2026-07-17T17:37:20.453397"
     },
     "ishares-core-s-p-500-etf-ondo-tokenized-etf": {
       "rank": 343,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881502"
+      "last_light": "2026-07-17T17:37:20.454135"
     },
     "spacex-bstocks-tokenized-stock": {
       "rank": 290,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880967"
+      "last_light": "2026-07-17T17:37:20.453570"
     },
     "mindwavedao": {
-      "rank": 351,
+      "rank": 350,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881581"
+      "last_light": "2026-07-17T17:37:20.454207"
     },
     "stronghold-token": {
-      "rank": 359,
+      "rank": 353,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881629"
+      "last_light": "2026-07-17T17:37:20.454241"
     },
     "zama": {
-      "rank": 298,
+      "rank": 302,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881045"
+      "last_light": "2026-07-17T17:37:20.453694"
     },
     "precious-metals-usd": {
       "rank": 347,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881536"
+      "last_light": "2026-07-17T17:37:20.454177"
     },
     "infinifi-usd": {
-      "rank": 371,
+      "rank": 370,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881730"
+      "last_light": "2026-07-17T17:37:20.454432"
     },
     "mag7-ssi": {
-      "rank": 341,
+      "rank": 339,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881478"
+      "last_light": "2026-07-17T17:37:20.454095"
     },
     "aioz-network": {
-      "rank": 364,
+      "rank": 361,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881666"
+      "last_light": "2026-07-17T17:37:20.454338"
     },
     "ondo-u-s-dollar-token": {
-      "rank": 306,
+      "rank": 341,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881108"
+      "last_light": "2026-07-17T17:37:20.454114"
     },
     "zignaly": {
-      "rank": 377,
+      "rank": 379,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881767"
+      "last_light": "2026-07-17T17:37:20.454514"
     },
     "nexst": {
-      "rank": 473,
+      "rank": 482,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882518"
+      "last_light": "2026-07-17T17:37:20.455662"
     },
     "cap-usd": {
       "rank": 373,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881738"
+      "last_light": "2026-07-17T17:37:20.454451"
     },
     "ravencoin": {
-      "rank": 370,
+      "rank": 369,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881722"
+      "last_light": "2026-07-17T17:37:20.454400"
     },
     "siren-2": {
-      "rank": 497,
+      "rank": 580,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882705"
+      "last_light": "2026-07-17T17:37:20.458028"
     },
     "cyberdex": {
-      "rank": 363,
+      "rank": 365,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881658"
+      "last_light": "2026-07-17T17:37:20.454369"
     },
     "chip-2": {
-      "rank": 379,
+      "rank": 380,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881781"
+      "last_light": "2026-07-17T17:37:20.454525"
     },
     "matrixdock-gold": {
-      "rank": 357,
+      "rank": 355,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881606"
+      "last_light": "2026-07-17T17:37:20.454262"
     },
     "tradable-north-america-pos-lender-sstn": {
-      "rank": 366,
+      "rank": 367,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881684"
+      "last_light": "2026-07-17T17:37:20.454379"
     },
     "tronbank": {
       "rank": 354,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881589"
+      "last_light": "2026-07-17T17:37:20.454251"
     },
     "turbo": {
-      "rank": 389,
+      "rank": 390,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881850"
+      "last_light": "2026-07-17T17:37:20.454633"
     },
     "swop-2": {
-      "rank": 360,
+      "rank": 359,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881637"
+      "last_light": "2026-07-17T17:37:20.454317"
     },
     "wormhole": {
-      "rank": 385,
+      "rank": 386,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881823"
+      "last_light": "2026-07-17T17:37:20.454591"
     },
     "mimblewimblecoin": {
-      "rank": 273,
+      "rank": 270,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880828"
+      "last_light": "2026-07-17T17:37:20.453356"
     },
     "safe": {
-      "rank": 339,
+      "rank": 360,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881471"
+      "last_light": "2026-07-17T17:37:20.454294"
     },
     "bio-protocol": {
-      "rank": 395,
+      "rank": 399,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881895"
+      "last_light": "2026-07-17T17:37:20.454735"
     },
     "midas-fasanara-global": {
-      "rank": 374,
+      "rank": 376,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881745"
+      "last_light": "2026-07-17T17:37:20.454483"
     },
     "soon-2": {
-      "rank": 388,
+      "rank": 393,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881836"
+      "last_light": "2026-07-17T17:37:20.454667"
     },
     "numeraire": {
-      "rank": 337,
+      "rank": 336,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881446"
+      "last_light": "2026-07-17T17:37:20.454054"
     },
     "pharos-network": {
-      "rank": 407,
+      "rank": 410,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881972"
+      "last_light": "2026-07-17T17:37:20.454863"
     },
     "quantixai": {
       "rank": 362,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881651"
+      "last_light": "2026-07-17T17:37:20.454328"
     },
     "io": {
-      "rank": 399,
+      "rank": 402,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881933"
+      "last_light": "2026-07-17T17:37:20.454776"
     },
     "berachain-bera": {
-      "rank": 397,
+      "rank": 394,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881909"
+      "last_light": "2026-07-17T17:37:20.454678"
     },
     "collector-crypt": {
-      "rank": 559,
+      "rank": 531,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883165"
+      "last_light": "2026-07-17T17:37:20.457501"
     },
     "dog-go-to-the-moon-rune": {
-      "rank": 376,
+      "rank": 378,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881759"
+      "last_light": "2026-07-17T17:37:20.454504"
     },
     "yearn-finance": {
-      "rank": 307,
+      "rank": 316,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881213"
+      "last_light": "2026-07-17T17:37:20.453866"
     },
     "plume": {
-      "rank": 358,
+      "rank": 357,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881622"
+      "last_light": "2026-07-17T17:37:20.454283"
     },
     "alchemist-ai": {
       "rank": 750,
@@ -1995,389 +1995,389 @@
       "last_light": "2026-07-16T09:50:33.423205"
     },
     "block-street": {
-      "rank": 625,
+      "rank": 628,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883659"
+      "last_light": "2026-07-17T17:37:20.458555"
     },
     "degen-base": {
-      "rank": 485,
+      "rank": 491,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882597"
+      "last_light": "2026-07-17T17:37:20.456587"
     },
     "zilliqa": {
-      "rank": 387,
+      "rank": 391,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881842"
+      "last_light": "2026-07-17T17:37:20.454645"
     },
     "jelly-my-jelly": {
       "rank": 413,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882029"
+      "last_light": "2026-07-17T17:37:20.454886"
     },
     "usdu": {
-      "rank": 402,
+      "rank": 405,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881949"
+      "last_light": "2026-07-17T17:37:20.454799"
     },
     "metal-blockchain": {
-      "rank": 398,
+      "rank": 397,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881925"
+      "last_light": "2026-07-17T17:37:20.454710"
     },
     "enjincoin": {
       "rank": 396,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881902"
+      "last_light": "2026-07-17T17:37:20.454700"
     },
     "theta-fuel": {
-      "rank": 384,
+      "rank": 387,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881816"
+      "last_light": "2026-07-17T17:37:20.454601"
     },
     "proton": {
-      "rank": 340,
+      "rank": 338,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881487"
+      "last_light": "2026-07-17T17:37:20.454086"
     },
     "seeker": {
-      "rank": 394,
+      "rank": 400,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881887"
+      "last_light": "2026-07-17T17:37:20.454745"
     },
     "velo": {
-      "rank": 393,
+      "rank": 388,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881880"
+      "last_light": "2026-07-17T17:37:20.454613"
     },
     "gmx": {
-      "rank": 368,
+      "rank": 364,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881706"
+      "last_light": "2026-07-17T17:37:20.454349"
     },
     "playnance": {
-      "rank": 426,
+      "rank": 424,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882115"
+      "last_light": "2026-07-17T17:37:20.455001"
     },
     "linea": {
-      "rank": 383,
+      "rank": 375,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881810"
+      "last_light": "2026-07-17T17:37:20.454461"
     },
     "kusama": {
       "rank": 382,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881803"
+      "last_light": "2026-07-17T17:37:20.454548"
     },
     "vaneck-treasury-fund": {
       "rank": 172,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884736"
+      "last_light": "2026-07-17T17:37:20.460078"
     },
     "impossible-cloud-network-token": {
-      "rank": 472,
+      "rank": 480,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882505"
+      "last_light": "2026-07-17T17:37:20.455616"
     },
     "superfarm": {
-      "rank": 408,
+      "rank": 406,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881993"
+      "last_light": "2026-07-17T17:37:20.454810"
     },
     "fx-usd-saving": {
-      "rank": 425,
+      "rank": 417,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882107"
+      "last_light": "2026-07-17T17:37:20.454935"
     },
     "targon": {
-      "rank": 415,
+      "rank": 414,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882044"
+      "last_light": "2026-07-17T17:37:20.454895"
     },
     "tesla-xstock": {
-      "rank": 391,
+      "rank": 392,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881864"
+      "last_light": "2026-07-17T17:37:20.454656"
     },
     "nockchain": {
-      "rank": 493,
+      "rank": 479,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882661"
+      "last_light": "2026-07-17T17:37:20.455627"
     },
     "janction": {
-      "rank": 462,
+      "rank": 469,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882448"
+      "last_light": "2026-07-17T17:37:20.455500"
     },
     "midas-mtbill": {
-      "rank": 404,
+      "rank": 408,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881964"
+      "last_light": "2026-07-17T17:37:20.454831"
     },
     "baby-doge-coin": {
       "rank": 401,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881941"
+      "last_light": "2026-07-17T17:37:20.454756"
     },
     "bitdca": {
       "rank": 506,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882762"
+      "last_light": "2026-07-17T17:37:20.457102"
     },
     "apes-2-2": {
-      "rank": 406,
+      "rank": 409,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881986"
+      "last_light": "2026-07-17T17:37:20.454841"
     },
     "tradable-na-legal-receivables-ssl": {
-      "rank": 410,
+      "rank": 412,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882008"
+      "last_light": "2026-07-17T17:37:20.454874"
     },
     "chainopera-ai": {
-      "rank": 381,
+      "rank": 384,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881796"
+      "last_light": "2026-07-17T17:37:20.454570"
     },
     "cysic": {
-      "rank": 433,
+      "rank": 441,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882178"
+      "last_light": "2026-07-17T17:37:20.455184"
     },
     "xphere": {
-      "rank": 423,
+      "rank": 429,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882123"
+      "last_light": "2026-07-17T17:37:20.455060"
     },
     "bitcastle-token": {
-      "rank": 437,
+      "rank": 434,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882209"
+      "last_light": "2026-07-17T17:37:20.455114"
     },
     "escoin-token": {
-      "rank": 417,
+      "rank": 419,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882050"
+      "last_light": "2026-07-17T17:37:20.454946"
     },
     "holotoken": {
-      "rank": 367,
+      "rank": 368,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881691"
+      "last_light": "2026-07-17T17:37:20.454389"
     },
     "basedhype": {
-      "rank": 356,
+      "rank": 351,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881614"
+      "last_light": "2026-07-17T17:37:20.454229"
     },
     "aelf": {
       "rank": 421,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882084"
+      "last_light": "2026-07-17T17:37:20.454979"
     },
     "spark-2": {
-      "rank": 420,
+      "rank": 428,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882071"
+      "last_light": "2026-07-17T17:37:20.455048"
     },
     "zetachain": {
-      "rank": 424,
+      "rank": 420,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882100"
+      "last_light": "2026-07-17T17:37:20.454957"
     },
     "qubic-network": {
-      "rank": 369,
+      "rank": 371,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881698"
+      "last_light": "2026-07-17T17:37:20.454422"
     },
     "based-brett": {
-      "rank": 434,
+      "rank": 430,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882185"
+      "last_light": "2026-07-17T17:37:20.455072"
     },
     "arcium": {
-      "rank": 549,
+      "rank": 521,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883094"
+      "last_light": "2026-07-17T17:37:20.457268"
     },
     "megaeth": {
-      "rank": 429,
+      "rank": 437,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882147"
+      "last_light": "2026-07-17T17:37:20.455146"
     },
     "brz": {
-      "rank": 418,
+      "rank": 423,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882064"
+      "last_light": "2026-07-17T17:37:20.454990"
     },
     "holoworld": {
-      "rank": 439,
+      "rank": 440,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882224"
+      "last_light": "2026-07-17T17:37:20.455175"
     },
     "ai-xovia": {
-      "rank": 553,
+      "rank": 557,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883128"
+      "last_light": "2026-07-17T17:37:20.457780"
     },
     "anemoy-tokenized-apollo-diversified-credit-fund": {
-      "rank": 422,
+      "rank": 426,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882092"
+      "last_light": "2026-07-17T17:37:20.455024"
     },
     "ecomi": {
-      "rank": 488,
+      "rank": 477,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882627"
+      "last_light": "2026-07-17T17:37:20.455603"
     },
     "purr-2": {
-      "rank": 486,
+      "rank": 487,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882604"
+      "last_light": "2026-07-17T17:37:20.455721"
     },
     "babylon": {
-      "rank": 419,
+      "rank": 422,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882077"
+      "last_light": "2026-07-17T17:37:20.454968"
     },
     "alloy-tether": {
-      "rank": 431,
+      "rank": 433,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882163"
+      "last_light": "2026-07-17T17:37:20.455105"
     },
     "usdkg": {
       "rank": 432,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882171"
+      "last_light": "2026-07-17T17:37:20.455094"
     },
     "f-x-protocol-fxusd": {
-      "rank": 378,
+      "rank": 381,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881774"
+      "last_light": "2026-07-17T17:37:20.454537"
     },
     "fidelity-digital-dollar": {
-      "rank": 443,
+      "rank": 446,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882286"
+      "last_light": "2026-07-17T17:37:20.455247"
     },
     "unitywallet-token": {
-      "rank": 477,
+      "rank": 483,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882540"
+      "last_light": "2026-07-17T17:37:20.455674"
     },
     "mina-protocol": {
-      "rank": 380,
+      "rank": 385,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881789"
+      "last_light": "2026-07-17T17:37:20.454581"
     },
     "tradable-eu-latam-pos-financing-sstl": {
-      "rank": 438,
+      "rank": 439,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882217"
+      "last_light": "2026-07-17T17:37:20.455166"
     },
     "axelar": {
-      "rank": 436,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882201"
-    },
-    "apriori": {
-      "rank": 409,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882001"
-    },
-    "concordium": {
-      "rank": 515,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882829"
-    },
-    "meme-horse": {
-      "rank": 375,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881752"
-    },
-    "diem": {
-      "rank": 450,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882333"
-    },
-    "troll-2": {
-      "rank": 480,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882561"
-    },
-    "helium": {
-      "rank": 536,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882988"
-    },
-    "sygnum-fiusd-liquidity-fund": {
-      "rank": 444,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882295"
-    },
-    "bitkub-coin": {
-      "rank": 440,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882233"
-    },
-    "toshi": {
-      "rank": 454,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882371"
-    },
-    "polymesh": {
-      "rank": 448,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882319"
-    },
-    "straitsx-xusd": {
-      "rank": 512,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882806"
-    },
-    "kava": {
-      "rank": 441,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882241"
-    },
-    "dusk-network": {
-      "rank": 495,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882676"
-    },
-    "peaq-2": {
-      "rank": 507,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882769"
-    },
-    "osk": {
-      "rank": 471,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882498"
-    },
-    "zero-gravity": {
-      "rank": 526,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882907"
-    },
-    "flow": {
-      "rank": 476,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882526"
-    },
-    "agentfun-ai": {
       "rank": 435,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882193"
+      "last_light": "2026-07-17T17:37:20.455124"
+    },
+    "apriori": {
+      "rank": 418,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.454925"
+    },
+    "concordium": {
+      "rank": 507,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.457113"
+    },
+    "meme-horse": {
+      "rank": 377,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.454493"
+    },
+    "diem": {
+      "rank": 444,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.455225"
+    },
+    "troll-2": {
+      "rank": 501,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.457029"
+    },
+    "helium": {
+      "rank": 541,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.457606"
+    },
+    "sygnum-fiusd-liquidity-fund": {
+      "rank": 447,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.455270"
+    },
+    "bitkub-coin": {
+      "rank": 445,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.455235"
+    },
+    "toshi": {
+      "rank": 456,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.455361"
+    },
+    "polymesh": {
+      "rank": 449,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.455293"
+    },
+    "straitsx-xusd": {
+      "rank": 516,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.457209"
+    },
+    "kava": {
+      "rank": 443,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.455193"
+    },
+    "dusk-network": {
+      "rank": 503,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.457066"
+    },
+    "peaq-2": {
+      "rank": 508,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.457124"
+    },
+    "osk": {
+      "rank": 474,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.455568"
+    },
+    "zero-gravity": {
+      "rank": 523,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.457291"
+    },
+    "flow": {
+      "rank": 475,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.455579"
+    },
+    "agentfun-ai": {
+      "rank": 438,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.455156"
     },
     "oasis-network": {
-      "rank": 469,
+      "rank": 464,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882483"
+      "last_light": "2026-07-17T17:37:20.455456"
     },
     "nervos-network": {
-      "rank": 467,
+      "rank": 468,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882468"
+      "last_light": "2026-07-17T17:37:20.455510"
     },
     "triple-plus": {
       "rank": 295,
@@ -2385,104 +2385,104 @@
       "last_light": "2026-07-16T16:12:21.588492"
     },
     "kinetiq": {
-      "rank": 581,
+      "rank": 592,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883343"
+      "last_light": "2026-07-17T17:37:20.458185"
     },
     "celium": {
-      "rank": 455,
+      "rank": 450,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882379"
+      "last_light": "2026-07-17T17:37:20.455305"
     },
     "opcode": {
-      "rank": 539,
+      "rank": 536,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883019"
+      "last_light": "2026-07-17T17:37:20.457554"
     },
     "creditcoin-2": {
-      "rank": 468,
+      "rank": 473,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882475"
+      "last_light": "2026-07-17T17:37:20.455544"
     },
     "pirate-chain": {
-      "rank": 496,
+      "rank": 490,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882683"
+      "last_light": "2026-07-17T17:37:20.456574"
     },
     "bedrock-token": {
-      "rank": 479,
+      "rank": 484,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882554"
+      "last_light": "2026-07-17T17:37:20.455685"
     },
     "midas-mhyper": {
-      "rank": 446,
+      "rank": 451,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882311"
+      "last_light": "2026-07-17T17:37:20.455317"
     },
     "unit-pump": {
-      "rank": 416,
+      "rank": 411,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882057"
+      "last_light": "2026-07-17T17:37:20.454852"
     },
     "lombard-protocol": {
-      "rank": 489,
+      "rank": 494,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882620"
+      "last_light": "2026-07-17T17:37:20.456620"
     },
     "movement": {
-      "rank": 464,
+      "rank": 465,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882441"
+      "last_light": "2026-07-17T17:37:20.455467"
     },
     "astar": {
       "rank": 466,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882462"
+      "last_light": "2026-07-17T17:37:20.455478"
     },
     "ronin": {
       "rank": 504,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882755"
+      "last_light": "2026-07-17T17:37:20.457077"
     },
     "digibyte": {
-      "rank": 411,
+      "rank": 398,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882016"
+      "last_light": "2026-07-17T17:37:20.454722"
     },
     "popcat": {
-      "rank": 478,
+      "rank": 486,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882548"
+      "last_light": "2026-07-17T17:37:20.455709"
     },
     "peanut-the-squirrel": {
-      "rank": 499,
+      "rank": 498,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882697"
+      "last_light": "2026-07-17T17:37:20.456661"
     },
     "jupusd": {
-      "rank": 412,
+      "rank": 416,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882023"
+      "last_light": "2026-07-17T17:37:20.454916"
     },
     "circle-xstock": {
-      "rank": 481,
+      "rank": 461,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882567"
+      "last_light": "2026-07-17T17:37:20.455421"
     },
     "xyo-network": {
-      "rank": 492,
+      "rank": 493,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882632"
+      "last_light": "2026-07-17T17:37:20.456557"
     },
     "dmt-nat": {
-      "rank": 535,
+      "rank": 532,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882981"
+      "last_light": "2026-07-17T17:37:20.457511"
     },
     "ontology": {
-      "rank": 470,
+      "rank": 472,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882490"
+      "last_light": "2026-07-17T17:37:20.455556"
     },
     "unicorn-3-2": {
       "rank": 730,
@@ -2490,64 +2490,64 @@
       "last_light": "2026-07-16T23:37:25.750808"
     },
     "loaded-lions": {
-      "rank": 447,
+      "rank": 455,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882326"
+      "last_light": "2026-07-17T17:37:20.455350"
     },
     "mbg-by-multibank-group": {
-      "rank": 641,
+      "rank": 653,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883793"
+      "last_light": "2026-07-17T17:37:20.458787"
     },
     "nano": {
-      "rank": 465,
+      "rank": 452,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882433"
+      "last_light": "2026-07-17T17:37:20.455258"
     },
     "frankencoin": {
-      "rank": 491,
+      "rank": 495,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882648"
+      "last_light": "2026-07-17T17:37:20.456598"
     },
     "blur": {
-      "rank": 460,
+      "rank": 459,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882417"
+      "last_light": "2026-07-17T17:37:20.455397"
     },
     "eurite": {
-      "rank": 522,
+      "rank": 524,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882879"
+      "last_light": "2026-07-17T17:37:20.457303"
     },
     "venus": {
-      "rank": 445,
+      "rank": 448,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882302"
+      "last_light": "2026-07-17T17:37:20.455282"
     },
     "nvidia-ondo-tokenized-stock": {
-      "rank": 514,
+      "rank": 512,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882822"
+      "last_light": "2026-07-17T17:37:20.457167"
     },
     "spdr-s-p-500-etf-ondo-tokenized-etf": {
-      "rank": 498,
+      "rank": 502,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882690"
+      "last_light": "2026-07-17T17:37:20.457055"
     },
     "vvs-finance": {
-      "rank": 461,
+      "rank": 470,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882425"
+      "last_light": "2026-07-17T17:37:20.455521"
     },
     "espresso": {
-      "rank": 457,
+      "rank": 454,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882393"
+      "last_light": "2026-07-17T17:37:20.455339"
     },
     "amp-token": {
-      "rank": 533,
+      "rank": 537,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882965"
+      "last_light": "2026-07-17T17:37:20.457564"
     },
     "tria": {
       "rank": 715,
@@ -2555,119 +2555,119 @@
       "last_light": "2026-07-09T23:33:18.172975"
     },
     "mog-coin": {
-      "rank": 513,
+      "rank": 514,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882814"
+      "last_light": "2026-07-17T17:37:20.457188"
     },
     "sushi": {
-      "rank": 463,
+      "rank": 467,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882455"
+      "last_light": "2026-07-17T17:37:20.455489"
     },
     "meet48": {
-      "rank": 587,
+      "rank": 593,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883379"
+      "last_light": "2026-07-17T17:37:20.458196"
     },
     "deep": {
-      "rank": 475,
+      "rank": 476,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882533"
+      "last_light": "2026-07-17T17:37:20.455592"
     },
     "request-network": {
       "rank": 511,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882798"
+      "last_light": "2026-07-17T17:37:20.457177"
     },
     "reental": {
-      "rank": 508,
+      "rank": 509,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882785"
+      "last_light": "2026-07-17T17:37:20.457136"
     },
     "redstone-oracles": {
-      "rank": 451,
+      "rank": 458,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882340"
+      "last_light": "2026-07-17T17:37:20.455385"
     },
     "goplus-security": {
-      "rank": 517,
+      "rank": 520,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882843"
+      "last_light": "2026-07-17T17:37:20.457254"
     },
     "moo-deng": {
-      "rank": 537,
+      "rank": 545,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882996"
+      "last_light": "2026-07-17T17:37:20.457649"
     },
     "gemini-dollar": {
-      "rank": 524,
+      "rank": 526,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882900"
+      "last_light": "2026-07-17T17:37:20.457326"
     },
     "manta-network": {
-      "rank": 644,
+      "rank": 635,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883787"
+      "last_light": "2026-07-17T17:37:20.458643"
     },
     "sp500-xstock": {
-      "rank": 459,
+      "rank": 460,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882409"
+      "last_light": "2026-07-17T17:37:20.455409"
     },
     "affine": {
-      "rank": 525,
+      "rank": 517,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882893"
+      "last_light": "2026-07-17T17:37:20.457219"
     },
     "ishares-bitcoin-trust-ondo-tokenized": {
-      "rank": 502,
+      "rank": 499,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882729"
+      "last_light": "2026-07-17T17:37:20.456998"
     },
     "dola-usd": {
-      "rank": 456,
+      "rank": 457,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882386"
+      "last_light": "2026-07-17T17:37:20.455373"
     },
     "fractal-bitcoin": {
-      "rank": 531,
+      "rank": 542,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882957"
+      "last_light": "2026-07-17T17:37:20.457628"
     },
     "celo": {
-      "rank": 482,
+      "rank": 478,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882573"
+      "last_light": "2026-07-17T17:37:20.455639"
     },
     "huma-finance": {
-      "rank": 528,
+      "rank": 515,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882916"
+      "last_light": "2026-07-17T17:37:20.457199"
     },
     "altlayer": {
-      "rank": 474,
+      "rank": 481,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882511"
+      "last_light": "2026-07-17T17:37:20.455651"
     },
     "apex-token-2": {
-      "rank": 500,
+      "rank": 496,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882712"
+      "last_light": "2026-07-17T17:37:20.456608"
     },
     "score": {
       "rank": 566,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883227"
+      "last_light": "2026-07-17T17:37:20.457876"
     },
     "mask-network": {
-      "rank": 520,
+      "rank": 518,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882857"
+      "last_light": "2026-07-17T17:37:20.457230"
     },
     "zerebro": {
-      "rank": 574,
+      "rank": 578,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883289"
+      "last_light": "2026-07-17T17:37:20.458009"
     },
     "claude-crab": {
       "rank": 529,
@@ -2677,97 +2677,97 @@
     "threshold-network-token": {
       "rank": 453,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882356"
+      "last_light": "2026-07-17T17:37:20.455329"
     },
     "aztec": {
-      "rank": 519,
+      "rank": 522,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882865"
+      "last_light": "2026-07-17T17:37:20.457279"
     },
     "snowbank": {
-      "rank": 560,
+      "rank": 558,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883180"
+      "last_light": "2026-07-17T17:37:20.457790"
     },
     "yzy": {
-      "rank": 529,
+      "rank": 528,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882933"
+      "last_light": "2026-07-17T17:37:20.457468"
     },
     "bankercoin-2": {
-      "rank": 584,
+      "rank": 590,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883372"
+      "last_light": "2026-07-17T17:37:20.458155"
     },
     "tellor": {
-      "rank": 501,
+      "rank": 500,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882721"
+      "last_light": "2026-07-17T17:37:20.457043"
     },
     "pay-coin": {
-      "rank": 523,
+      "rank": 525,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882886"
+      "last_light": "2026-07-17T17:37:20.457314"
     },
     "safecoin": {
-      "rank": 315,
+      "rank": 310,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881278"
+      "last_light": "2026-07-17T17:37:20.453802"
     },
     "gohome": {
-      "rank": 534,
+      "rank": 538,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882973"
+      "last_light": "2026-07-17T17:37:20.457574"
     },
     "notcoin": {
-      "rank": 543,
+      "rank": 544,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883049"
+      "last_light": "2026-07-17T17:37:20.457638"
     },
     "kgen": {
-      "rank": 602,
+      "rank": 610,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883489"
+      "last_light": "2026-07-17T17:37:20.458365"
     },
     "ore": {
-      "rank": 586,
+      "rank": 574,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883387"
+      "last_light": "2026-07-17T17:37:20.457964"
     },
     "robo-token-2": {
-      "rank": 682,
+      "rank": 679,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884075"
+      "last_light": "2026-07-17T17:37:20.459079"
     },
     "burnedfi": {
       "rank": 565,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883220"
+      "last_light": "2026-07-17T17:37:20.457865"
     },
     "binance-usd": {
-      "rank": 532,
+      "rank": 534,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882949"
+      "last_light": "2026-07-17T17:37:20.457532"
     },
     "sahara-ai": {
-      "rank": 598,
+      "rank": 602,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883481"
+      "last_light": "2026-07-17T17:37:20.458281"
     },
     "gekko": {
-      "rank": 545,
+      "rank": 539,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883003"
+      "last_light": "2026-07-17T17:37:20.457585"
     },
     "asteroid-shiba": {
-      "rank": 749,
+      "rank": 728,
       "depth": "light",
-      "last_light": "2026-07-17T09:08:46.136575"
+      "last_light": "2026-07-17T17:37:20.459599"
     },
     "succinct": {
-      "rank": 527,
+      "rank": 529,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882925"
+      "last_light": "2026-07-17T17:37:20.457480"
     },
     "infinit": {
       "rank": 755,
@@ -2775,34 +2775,34 @@
       "last_light": "2026-07-01T20:39:33.117937"
     },
     "memecoin-2": {
-      "rank": 577,
+      "rank": 570,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883319"
+      "last_light": "2026-07-17T17:37:20.457908"
     },
     "latam-residential-sstl": {
-      "rank": 538,
+      "rank": 547,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883011"
+      "last_light": "2026-07-17T17:37:20.457670"
     },
     "momentum-3": {
-      "rank": 548,
+      "rank": 552,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883086"
+      "last_light": "2026-07-17T17:37:20.457715"
     },
     "verge": {
-      "rank": 569,
+      "rank": 571,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883250"
+      "last_light": "2026-07-17T17:37:20.457930"
     },
     "cross-2": {
-      "rank": 596,
+      "rank": 591,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883466"
+      "last_light": "2026-07-17T17:37:20.458165"
     },
     "vethor-token": {
-      "rank": 541,
+      "rank": 540,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883040"
+      "last_light": "2026-07-17T17:37:20.457595"
     },
     "v-i-t-r-i-o-l-network": {
       "rank": 701,
@@ -2815,59 +2815,59 @@
       "last_light": "2026-06-30T02:41:42.366177"
     },
     "subsquid": {
-      "rank": 580,
+      "rank": 573,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883335"
+      "last_light": "2026-07-17T17:37:20.457953"
     },
     "invesco-qqq-etf-ondo-tokenized-etf": {
-      "rank": 575,
+      "rank": 576,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883296"
+      "last_light": "2026-07-17T17:37:20.457987"
     },
     "prize-protocol": {
-      "rank": 490,
+      "rank": 489,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882640"
+      "last_light": "2026-07-17T17:37:20.456525"
     },
     "mocaverse": {
-      "rank": 556,
+      "rank": 554,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883151"
+      "last_light": "2026-07-17T17:37:20.457748"
     },
     "the-black-bull": {
-      "rank": 296,
+      "rank": 291,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881028"
+      "last_light": "2026-07-17T17:37:20.453594"
     },
     "cap-4": {
-      "rank": 640,
+      "rank": 655,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883767"
+      "last_light": "2026-07-17T17:37:20.458829"
     },
     "non-playable-coin": {
-      "rank": 414,
+      "rank": 415,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882037"
+      "last_light": "2026-07-17T17:37:20.454907"
     },
     "mantra": {
-      "rank": 547,
+      "rank": 556,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883078"
+      "last_light": "2026-07-17T17:37:20.457769"
     },
     "aegis-yusd": {
-      "rank": 551,
+      "rank": 553,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883120"
+      "last_light": "2026-07-17T17:37:20.457738"
     },
     "zest-protocol": {
-      "rank": 616,
+      "rank": 615,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883597"
+      "last_light": "2026-07-17T17:37:20.458416"
     },
     "magic-eden": {
-      "rank": 521,
+      "rank": 519,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882873"
+      "last_light": "2026-07-17T17:37:20.457243"
     },
     "octra": {
       "rank": 494,
@@ -2875,129 +2875,129 @@
       "last_light": "2026-07-10T02:24:19.374595"
     },
     "staked-frax-usd": {
-      "rank": 571,
+      "rank": 572,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883264"
+      "last_light": "2026-07-17T17:37:20.457941"
     },
     "ankr": {
-      "rank": 557,
+      "rank": 559,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883158"
+      "last_light": "2026-07-17T17:37:20.457801"
     },
     "small-thing": {
-      "rank": 558,
+      "rank": 561,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883172"
+      "last_light": "2026-07-17T17:37:20.457823"
     },
     "fogo": {
-      "rank": 567,
+      "rank": 563,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883235"
+      "last_light": "2026-07-17T17:37:20.457844"
     },
     "uma": {
-      "rank": 585,
+      "rank": 583,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883365"
+      "last_light": "2026-07-17T17:37:20.458072"
     },
     "orizon": {
-      "rank": 510,
+      "rank": 533,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882793"
+      "last_light": "2026-07-17T17:37:20.457521"
     },
     "unit-plasma": {
-      "rank": 622,
+      "rank": 621,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883640"
+      "last_light": "2026-07-17T17:37:20.458480"
     },
     "hims-hers-health-ondo-tokenized-stock": {
-      "rank": 578,
+      "rank": 577,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883312"
+      "last_light": "2026-07-17T17:37:20.457998"
     },
     "vana": {
-      "rank": 540,
+      "rank": 546,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883026"
+      "last_light": "2026-07-17T17:37:20.457660"
     },
     "folks": {
-      "rank": 552,
+      "rank": 549,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883103"
+      "last_light": "2026-07-17T17:37:20.457693"
     },
     "unitas": {
-      "rank": 509,
+      "rank": 510,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882777"
+      "last_light": "2026-07-17T17:37:20.457146"
     },
     "openledger-2": {
-      "rank": 603,
+      "rank": 606,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883496"
+      "last_light": "2026-07-17T17:37:20.458323"
     },
     "asset": {
-      "rank": 483,
+      "rank": 485,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882581"
+      "last_light": "2026-07-17T17:37:20.455697"
     },
     "terra-luna-2": {
       "rank": 597,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883459"
+      "last_light": "2026-07-17T17:37:20.458229"
     },
     "world-mobile-token": {
-      "rank": 720,
+      "rank": 722,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884362"
+      "last_light": "2026-07-17T17:37:20.459527"
     },
     "atoshi": {
-      "rank": 589,
+      "rank": 596,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883402"
+      "last_light": "2026-07-17T17:37:20.458175"
     },
     "aintivirus": {
       "rank": 579,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883326"
+      "last_light": "2026-07-17T17:37:20.458019"
     },
     "glidr": {
-      "rank": 555,
+      "rank": 550,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883144"
+      "last_light": "2026-07-17T17:37:20.457726"
     },
     "unipoly": {
-      "rank": 591,
+      "rank": 588,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883416"
+      "last_light": "2026-07-17T17:37:20.458133"
     },
     "hermez-network-token": {
-      "rank": 572,
+      "rank": 569,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883272"
+      "last_light": "2026-07-17T17:37:20.457919"
     },
     "project-galaxy": {
-      "rank": 594,
+      "rank": 599,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883453"
+      "last_light": "2026-07-17T17:37:20.458249"
     },
     "spacecoin-2": {
-      "rank": 613,
+      "rank": 601,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883567"
+      "last_light": "2026-07-17T17:37:20.458271"
     },
     "ebtc-2": {
-      "rank": 561,
+      "rank": 560,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883187"
+      "last_light": "2026-07-17T17:37:20.457812"
     },
     "cat-in-a-dogs-world": {
-      "rank": 621,
+      "rank": 619,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883626"
+      "last_light": "2026-07-17T17:37:20.458462"
     },
     "apro": {
-      "rank": 595,
+      "rank": 587,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883445"
+      "last_light": "2026-07-17T17:37:20.458115"
     },
     "mango-markets": {
       "rank": 743,
@@ -3005,54 +3005,54 @@
       "last_light": "2026-07-17T10:12:13.730022"
     },
     "xtusd": {
-      "rank": 590,
+      "rank": 594,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883409"
+      "last_light": "2026-07-17T17:37:20.458207"
     },
     "tdccp": {
-      "rank": 583,
+      "rank": 582,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883357"
+      "last_light": "2026-07-17T17:37:20.458060"
     },
     "coredaoorg": {
-      "rank": 638,
+      "rank": 636,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883747"
+      "last_light": "2026-07-17T17:37:20.458633"
     },
     "nvidia-xstock": {
-      "rank": 564,
+      "rank": 555,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883212"
+      "last_light": "2026-07-17T17:37:20.457757"
     },
     "zora": {
-      "rank": 618,
+      "rank": 642,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883582"
+      "last_light": "2026-07-17T17:37:20.458702"
     },
     "resupply-usd": {
-      "rank": 609,
+      "rank": 613,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883537"
+      "last_light": "2026-07-17T17:37:20.458394"
     },
     "nirvana-ana-2": {
-      "rank": 605,
+      "rank": 611,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883517"
+      "last_light": "2026-07-17T17:37:20.458375"
     },
     "sodax": {
-      "rank": 683,
+      "rank": 686,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884104"
+      "last_light": "2026-07-17T17:37:20.459165"
     },
     "ustbl-tokenized-u-s-treasury-bill": {
-      "rank": 599,
+      "rank": 605,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883474"
+      "last_light": "2026-07-17T17:37:20.458313"
     },
     "anvil": {
-      "rank": 592,
+      "rank": 585,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883430"
+      "last_light": "2026-07-17T17:37:20.458104"
     },
     "kelp-gain": {
       "rank": 976,
@@ -3060,184 +3060,184 @@
       "last_light": "2026-07-01T20:39:33.120010"
     },
     "swarm-network": {
-      "rank": 712,
+      "rank": 721,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884298"
+      "last_light": "2026-07-17T17:37:20.459538"
     },
     "metamask-usd": {
-      "rank": 614,
+      "rank": 607,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883574"
+      "last_light": "2026-07-17T17:37:20.458333"
     },
     "puff-the-dragon": {
-      "rank": 628,
+      "rank": 714,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883678"
+      "last_light": "2026-07-17T17:37:20.459455"
     },
     "siacoin": {
       "rank": 643,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883780"
+      "last_light": "2026-07-17T17:37:20.458710"
     },
     "paxos-standard": {
-      "rank": 608,
+      "rank": 612,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883530"
+      "last_light": "2026-07-17T17:37:20.458384"
     },
     "wiki-cat": {
       "rank": 664,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883949"
+      "last_light": "2026-07-17T17:37:20.458942"
     },
     "api3": {
-      "rank": 612,
+      "rank": 614,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883560"
+      "last_light": "2026-07-17T17:37:20.458405"
     },
     "iota-2": {
       "rank": 662,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883934"
+      "last_light": "2026-07-17T17:37:20.458914"
     },
     "noon-usn": {
-      "rank": 633,
+      "rank": 631,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883718"
+      "last_light": "2026-07-17T17:37:20.458592"
     },
     "nasdaq-xstock": {
-      "rank": 604,
+      "rank": 600,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883504"
+      "last_light": "2026-07-17T17:37:20.458261"
     },
     "victoria-vr": {
       "rank": 707,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884253"
+      "last_light": "2026-07-17T17:37:20.459386"
     },
     "rocket-pool": {
-      "rank": 503,
+      "rank": 505,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882738"
+      "last_light": "2026-07-17T17:37:20.457090"
     },
     "casper-network": {
-      "rank": 636,
+      "rank": 639,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883733"
+      "last_light": "2026-07-17T17:37:20.458671"
     },
     "spiko-digital-assets-cash-carry-fund-euro-share-class": {
       "rank": 617,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883605"
+      "last_light": "2026-07-17T17:37:20.458439"
     },
     "tokenised-gbp": {
       "rank": 568,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883242"
+      "last_light": "2026-07-17T17:37:20.457898"
     },
     "goldfish-gold": {
-      "rank": 629,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883686"
-    },
-    "bitget-wrapped-btc": {
-      "rank": 573,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883280"
-    },
-    "terrausd": {
-      "rank": 637,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883740"
-    },
-    "storx": {
-      "rank": 626,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883653"
-    },
-    "tradable-latam-bnpl-sstn": {
       "rank": 627,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883672"
+      "last_light": "2026-07-17T17:37:20.458543"
     },
-    "pumpmeme": {
-      "rank": 600,
+    "bitget-wrapped-btc": {
+      "rank": 567,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883511"
+      "last_light": "2026-07-17T17:37:20.457887"
     },
-    "just-a-frog": {
-      "rank": 631,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883703"
-    },
-    "avantis": {
-      "rank": 646,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883808"
-    },
-    "bim-2": {
-      "rank": 554,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883136"
-    },
-    "liquity-bold-2": {
-      "rank": 653,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883856"
-    },
-    "funfair": {
-      "rank": 487,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882612"
-    },
-    "dual": {
+    "terrausd": {
       "rank": 634,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883760"
+      "last_light": "2026-07-17T17:37:20.458624"
+    },
+    "storx": {
+      "rank": 623,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.458501"
+    },
+    "tradable-latam-bnpl-sstn": {
+      "rank": 624,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.458520"
+    },
+    "pumpmeme": {
+      "rank": 595,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.458218"
+    },
+    "just-a-frog": {
+      "rank": 632,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.458603"
+    },
+    "avantis": {
+      "rank": 641,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.458682"
+    },
+    "bim-2": {
+      "rank": 551,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.457705"
+    },
+    "liquity-bold-2": {
+      "rank": 650,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.458798"
+    },
+    "funfair": {
+      "rank": 492,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.456630"
+    },
+    "dual": {
+      "rank": 637,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.458652"
     },
     "rekt-4": {
-      "rank": 430,
+      "rank": 431,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882156"
+      "last_light": "2026-07-17T17:37:20.455084"
     },
     "everything": {
       "rank": 701,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884229"
+      "last_light": "2026-07-17T17:37:20.459314"
     },
     "across-protocol": {
-      "rank": 657,
+      "rank": 654,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883892"
+      "last_light": "2026-07-17T17:37:20.458840"
     },
     "gensyn": {
-      "rank": 639,
+      "rank": 629,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883754"
+      "last_light": "2026-07-17T17:37:20.458581"
     },
     "monerium-eur-money-2": {
-      "rank": 601,
+      "rank": 609,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883423"
+      "last_light": "2026-07-17T17:37:20.458356"
     },
     "hive_dollar": {
-      "rank": 619,
+      "rank": 618,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883618"
+      "last_light": "2026-07-17T17:37:20.458451"
     },
     "ssv-network": {
-      "rank": 656,
+      "rank": 648,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883876"
+      "last_light": "2026-07-17T17:37:20.458762"
     },
     "chia": {
-      "rank": 689,
+      "rank": 693,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884139"
+      "last_light": "2026-07-17T17:37:20.459228"
     },
     "openeden-open-dollar": {
-      "rank": 658,
+      "rank": 661,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883920"
+      "last_light": "2026-07-17T17:37:20.458903"
     },
     "deso": {
       "rank": 721,
@@ -3245,29 +3245,29 @@
       "last_light": "2026-07-05T09:25:31.480269"
     },
     "proprietary-trading-network": {
-      "rank": 670,
+      "rank": 668,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883996"
+      "last_light": "2026-07-17T17:37:20.458972"
     },
     "irys": {
-      "rank": 684,
+      "rank": 705,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884090"
+      "last_light": "2026-07-17T17:37:20.459355"
     },
     "official-fo": {
-      "rank": 516,
+      "rank": 530,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882836"
+      "last_light": "2026-07-17T17:37:20.457491"
     },
     "coinex-token": {
-      "rank": 606,
+      "rank": 608,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883524"
+      "last_light": "2026-07-17T17:37:20.458345"
     },
     "ozapay": {
-      "rank": 544,
+      "rank": 543,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883062"
+      "last_light": "2026-07-17T17:37:20.457617"
     },
     "marvell-technology-ondo-tokenized-stock": {
       "rank": 750,
@@ -3275,174 +3275,174 @@
       "last_light": "2026-07-09T21:26:19.462356"
     },
     "aleo": {
-      "rank": 733,
+      "rank": 735,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884466"
+      "last_light": "2026-07-17T17:37:20.459657"
     },
     "backed-cspx-core-s-p-500": {
-      "rank": 650,
+      "rank": 646,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883834"
+      "last_light": "2026-07-17T17:37:20.458741"
     },
     "orbs": {
-      "rank": 655,
+      "rank": 651,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883869"
+      "last_light": "2026-07-17T17:37:20.458809"
     },
     "book-of-meme": {
-      "rank": 669,
+      "rank": 666,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883979"
+      "last_light": "2026-07-17T17:37:20.458961"
     },
     "midas-m1-usd-market-neutral": {
-      "rank": 659,
+      "rank": 660,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883906"
+      "last_light": "2026-07-17T17:37:20.458893"
     },
     "nkyc-token": {
-      "rank": 667,
+      "rank": 669,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883972"
+      "last_light": "2026-07-17T17:37:20.458984"
     },
     "power-ledger": {
       "rank": 750,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884588"
+      "last_light": "2026-07-17T14:26:11.294840"
     },
     "monerium-eur-money": {
-      "rank": 668,
+      "rank": 675,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883988"
+      "last_light": "2026-07-17T17:37:20.459049"
     },
     "spiko-amundi-overnight-swap-fund-gbp": {
-      "rank": 654,
+      "rank": 649,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883863"
+      "last_light": "2026-07-17T17:37:20.458775"
     },
     "osmosis": {
       "rank": 703,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884236"
+      "last_light": "2026-07-17T17:37:20.459367"
     },
     "baseline": {
-      "rank": 635,
+      "rank": 630,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883725"
+      "last_light": "2026-07-17T17:37:20.458568"
     },
     "perle": {
-      "rank": 649,
+      "rank": 644,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883827"
+      "last_light": "2026-07-17T17:37:20.458720"
     },
     "micron-technology-bstock": {
-      "rank": 352,
+      "rank": 317,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881573"
+      "last_light": "2026-07-17T17:37:20.453856"
     },
     "liquity-usd": {
-      "rank": 671,
+      "rank": 670,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884003"
+      "last_light": "2026-07-17T17:37:20.458995"
     },
     "status": {
-      "rank": 665,
+      "rank": 667,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883957"
+      "last_light": "2026-07-17T17:37:20.458951"
     },
     "hive": {
-      "rank": 679,
+      "rank": 678,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884060"
+      "last_light": "2026-07-17T17:37:20.459090"
     },
     "bora": {
-      "rank": 672,
+      "rank": 673,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884010"
+      "last_light": "2026-07-17T17:37:20.459029"
     },
     "dogelon-mars": {
-      "rank": 610,
+      "rank": 598,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883552"
+      "last_light": "2026-07-17T17:37:20.458239"
     },
     "mezo-usd": {
-      "rank": 620,
+      "rank": 622,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883633"
+      "last_light": "2026-07-17T17:37:20.458489"
     },
     "nosana": {
-      "rank": 724,
+      "rank": 698,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884395"
+      "last_light": "2026-07-17T17:37:20.459284"
     },
     "ocean-protocol": {
-      "rank": 688,
+      "rank": 690,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884132"
+      "last_light": "2026-07-17T17:37:20.459206"
     },
     "spacex-xstocks": {
-      "rank": 695,
+      "rank": 699,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884202"
+      "last_light": "2026-07-17T17:37:20.459294"
     },
     "uquid-coin": {
-      "rank": 674,
+      "rank": 676,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884032"
+      "last_light": "2026-07-17T17:37:20.459058"
     },
     "bancor": {
-      "rank": 651,
+      "rank": 652,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883841"
+      "last_light": "2026-07-17T17:37:20.458819"
     },
     "g-token": {
-      "rank": 725,
+      "rank": 723,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884411"
+      "last_light": "2026-07-17T17:37:20.459548"
     },
     "icon": {
-      "rank": 694,
+      "rank": 697,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884182"
+      "last_light": "2026-07-17T17:37:20.459333"
     },
     "jpycoin": {
-      "rank": 403,
+      "rank": 407,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881957"
+      "last_light": "2026-07-17T17:37:20.454820"
     },
     "deapcoin": {
-      "rank": 686,
+      "rank": 688,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884118"
+      "last_light": "2026-07-17T17:37:20.459186"
     },
     "verus-coin": {
-      "rank": 442,
+      "rank": 436,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882249"
+      "last_light": "2026-07-17T17:37:20.455134"
     },
     "atomone": {
-      "rank": 744,
+      "rank": 740,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884552"
+      "last_light": "2026-07-17T17:37:20.459734"
     },
     "hyperlane": {
-      "rank": 738,
+      "rank": 734,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884494"
+      "last_light": "2026-07-17T17:37:20.459647"
     },
     "swftcoin": {
-      "rank": 692,
+      "rank": 683,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884168"
+      "last_light": "2026-07-17T17:37:20.459143"
     },
     "changenow": {
-      "rank": 647,
+      "rank": 656,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883820"
+      "last_light": "2026-07-17T17:37:20.458850"
     },
     "neiro-3": {
       "rank": 702,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884222"
+      "last_light": "2026-07-17T17:37:20.459324"
     },
     "iotex": {
       "rank": 748,
@@ -3450,9 +3450,9 @@
       "last_light": "2026-07-17T07:02:12.271330"
     },
     "america-party-5": {
-      "rank": 582,
+      "rank": 584,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883350"
+      "last_light": "2026-07-17T17:37:20.458094"
     },
     "renzo": {
       "rank": 748,
@@ -3460,24 +3460,24 @@
       "last_light": "2026-07-10T11:57:14.713323"
     },
     "saakuru-labs": {
-      "rank": 687,
+      "rank": 689,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884126"
+      "last_light": "2026-07-17T17:37:20.459196"
     },
     "waves": {
-      "rank": 715,
+      "rank": 713,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884329"
+      "last_light": "2026-07-17T17:37:20.459444"
     },
     "ibs-3": {
-      "rank": 693,
+      "rank": 692,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884153"
+      "last_light": "2026-07-17T17:37:20.459263"
     },
     "openserv": {
-      "rank": 660,
+      "rank": 657,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883927"
+      "last_light": "2026-07-17T17:37:20.458860"
     },
     "catizen": {
       "rank": 747,
@@ -3485,14 +3485,14 @@
       "last_light": "2026-07-05T03:09:01.046726"
     },
     "bucket-protocol-buck-stablecoin": {
-      "rank": 691,
+      "rank": 695,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884160"
+      "last_light": "2026-07-17T17:37:20.459251"
     },
     "brla-digital-brla": {
-      "rank": 721,
+      "rank": 750,
       "depth": "light",
-      "last_light": "2026-07-15T07:21:46.290943"
+      "last_light": "2026-07-17T17:37:20.459822"
     },
     "zerobase": {
       "rank": 742,
@@ -3500,64 +3500,64 @@
       "last_light": "2026-07-15T03:07:54.060939"
     },
     "predictions": {
-      "rank": 698,
+      "rank": 700,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884209"
+      "last_light": "2026-07-17T17:37:20.459304"
     },
     "universal-usd": {
-      "rank": 699,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884216"
-    },
-    "nesa": {
-      "rank": 576,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883304"
-    },
-    "cargox": {
       "rank": 704,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884245"
+      "last_light": "2026-07-17T17:37:20.459343"
     },
-    "constitutiondao": {
-      "rank": 673,
+    "nesa": {
+      "rank": 575,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884018"
+      "last_light": "2026-07-17T17:37:20.457976"
     },
-    "chainflip": {
-      "rank": 716,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884335"
-    },
-    "hashkey-ecopoints": {
-      "rank": 630,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883694"
-    },
-    "band-protocol": {
-      "rank": 648,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883813"
-    },
-    "metronome-synth-usd": {
-      "rank": 494,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882670"
-    },
-    "nyc-token": {
+    "cargox": {
       "rank": 706,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884260"
+      "last_light": "2026-07-17T17:37:20.459376"
     },
-    "apex-4": {
-      "rank": 696,
+    "constitutiondao": {
+      "rank": 672,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884189"
+      "last_light": "2026-07-17T17:37:20.459017"
     },
-    "ai-analysis-token": {
+    "chainflip": {
+      "rank": 718,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.459496"
+    },
+    "hashkey-ecopoints": {
+      "rank": 616,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.458427"
+    },
+    "band-protocol": {
+      "rank": 626,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.458509"
+    },
+    "metronome-synth-usd": {
+      "rank": 497,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.456641"
+    },
+    "nyc-token": {
       "rank": 709,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884291"
+      "last_light": "2026-07-17T17:37:20.459407"
+    },
+    "apex-4": {
+      "rank": 694,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.459240"
+    },
+    "ai-analysis-token": {
+      "rank": 711,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.459426"
     },
     "opengradient": {
       "rank": 752,
@@ -3580,19 +3580,19 @@
       "last_light": "2026-07-02T00:47:53.679317"
     },
     "na-capital-as-a-service-sstn": {
-      "rank": 714,
+      "rank": 715,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884314"
+      "last_light": "2026-07-17T17:37:20.459466"
     },
     "fidelity-usd-digital-liquidity-fund-acc": {
-      "rank": 458,
+      "rank": 463,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882402"
+      "last_light": "2026-07-17T17:37:20.455445"
     },
     "nest-blackopal-liquidstone-ii-vault": {
       "rank": 562,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883196"
+      "last_light": "2026-07-17T17:37:20.457834"
     },
     "stargate-finance": {
       "rank": 747,
@@ -3600,39 +3600,39 @@
       "last_light": "2026-07-11T00:45:05.243684"
     },
     "venom": {
-      "rank": 719,
+      "rank": 681,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884355"
+      "last_light": "2026-07-17T17:37:20.459100"
     },
     "kekius-maximus-6": {
-      "rank": 666,
+      "rank": 658,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883964"
+      "last_light": "2026-07-17T17:37:20.458871"
     },
     "tx": {
-      "rank": 677,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884054"
-    },
-    "mass-vehicle-ledger": {
-      "rank": 735,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884486"
-    },
-    "euler": {
-      "rank": 739,
-      "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884507"
-    },
-    "giggle-fund": {
       "rank": 685,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884111"
+      "last_light": "2026-07-17T17:37:20.459153"
+    },
+    "mass-vehicle-ledger": {
+      "rank": 743,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.459751"
+    },
+    "euler": {
+      "rank": 738,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.459717"
+    },
+    "giggle-fund": {
+      "rank": 687,
+      "depth": "light",
+      "last_light": "2026-07-17T17:37:20.459176"
     },
     "starpower": {
-      "rank": 518,
+      "rank": 513,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882850"
+      "last_light": "2026-07-17T17:37:20.457157"
     },
     "merlin-chain": {
       "rank": 750,
@@ -3645,29 +3645,29 @@
       "last_light": "2026-07-13T00:21:07.837677"
     },
     "acurast": {
-      "rank": 736,
+      "rank": 741,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884480"
+      "last_light": "2026-07-17T17:37:20.459726"
     },
     "iostoken": {
-      "rank": 747,
+      "rank": 748,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884566"
+      "last_light": "2026-07-17T17:37:20.459802"
     },
     "bityuan": {
       "rank": 750,
       "depth": "light",
-      "last_light": "2026-07-17T09:08:46.136583"
+      "last_light": "2026-07-17T13:22:59.752498"
     },
     "edu-coin": {
-      "rank": 737,
+      "rank": 729,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884500"
+      "last_light": "2026-07-17T17:37:20.459619"
     },
     "ethereum-pow-iou": {
-      "rank": 681,
+      "rank": 682,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884083"
+      "last_light": "2026-07-17T17:37:20.459121"
     },
     "black-phoenix": {
       "rank": 625,
@@ -3675,9 +3675,9 @@
       "last_light": "2026-07-06T11:06:03.821850"
     },
     "ryze": {
-      "rank": 746,
+      "rank": 749,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884559"
+      "last_light": "2026-07-17T17:37:20.459812"
     },
     "alphabet-class-a-ondo-tokenized-stock": {
       "rank": 749,
@@ -3687,27 +3687,27 @@
     "whiteheart": {
       "rank": 730,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884444"
+      "last_light": "2026-07-17T17:37:20.459609"
     },
     "alphabet-xstock": {
-      "rank": 705,
+      "rank": 708,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884267"
+      "last_light": "2026-07-17T17:37:20.459397"
     },
     "illuvium": {
-      "rank": 722,
+      "rank": 716,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884379"
+      "last_light": "2026-07-17T17:37:20.459476"
     },
     "auction": {
-      "rank": 723,
+      "rank": 720,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884370"
+      "last_light": "2026-07-17T17:37:20.459515"
     },
     "stepn": {
-      "rank": 749,
+      "rank": 746,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884582"
+      "last_light": "2026-07-17T17:37:20.459792"
     },
     "naoris": {
       "rank": 746,
@@ -3720,29 +3720,29 @@
       "last_light": "2026-07-16T21:30:33.400674"
     },
     "main-street-usd": {
-      "rank": 729,
+      "rank": 725,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884436"
+      "last_light": "2026-07-17T17:37:20.459566"
     },
     "collect-on-fanable": {
-      "rank": 732,
+      "rank": 731,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884459"
+      "last_light": "2026-07-17T17:37:20.459629"
     },
     "anoma": {
-      "rank": 645,
+      "rank": 665,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883801"
+      "last_light": "2026-07-17T17:37:20.458933"
     },
     "b3": {
-      "rank": 678,
+      "rank": 677,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884039"
+      "last_light": "2026-07-17T17:37:20.459067"
     },
     "electronic-usd": {
-      "rank": 742,
+      "rank": 747,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884531"
+      "last_light": "2026-07-17T17:37:20.459781"
     },
     "pumpcade": {
       "rank": 736,
@@ -3765,9 +3765,9 @@
       "last_light": "2026-07-16T19:22:57.501118"
     },
     "the-innovation-game": {
-      "rank": 615,
+      "rank": 589,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883590"
+      "last_light": "2026-07-17T17:37:20.458144"
     },
     "cyberconnect": {
       "rank": 750,
@@ -3775,19 +3775,19 @@
       "last_light": "2026-07-14T08:02:58.393095"
     },
     "velodrome-finance": {
-      "rank": 708,
+      "rank": 710,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884275"
+      "last_light": "2026-07-17T17:37:20.459417"
     },
     "altura-2": {
-      "rank": 690,
+      "rank": 691,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884146"
+      "last_light": "2026-07-17T17:37:20.459217"
     },
     "microstrategy-xstock": {
-      "rank": 550,
+      "rank": 535,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883112"
+      "last_light": "2026-07-17T17:37:20.457543"
     },
     "bsquared-network": {
       "rank": 750,
@@ -3810,9 +3810,9 @@
       "last_light": "2026-07-02T08:08:55.664203"
     },
     "hydradx": {
-      "rank": 588,
+      "rank": 581,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883395"
+      "last_light": "2026-07-17T17:37:20.458049"
     },
     "steem": {
       "rank": 723,
@@ -3825,19 +3825,19 @@
       "last_light": "2026-07-15T09:28:52.218079"
     },
     "novachargex-coin": {
-      "rank": 680,
+      "rank": 684,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884068"
+      "last_light": "2026-07-17T17:37:20.459133"
     },
     "skale": {
-      "rank": 718,
+      "rank": 717,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884342"
+      "last_light": "2026-07-17T17:37:20.459486"
     },
     "geode-chain": {
-      "rank": 530,
+      "rank": 527,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882941"
+      "last_light": "2026-07-17T17:37:20.457337"
     },
     "freysa-ai": {
       "rank": 750,
@@ -3850,9 +3850,9 @@
       "last_light": "2026-07-17T11:15:43.884524"
     },
     "unit-00-rei": {
-      "rank": 713,
+      "rank": 674,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884305"
+      "last_light": "2026-07-17T17:37:20.459038"
     },
     "sats-ordinals": {
       "rank": 811,
@@ -3860,14 +3860,14 @@
       "last_light": "2026-07-01T20:39:33.118629"
     },
     "constellation-labs": {
-      "rank": 623,
+      "rank": 620,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883646"
+      "last_light": "2026-07-17T17:37:20.458471"
     },
     "peanut-2-2": {
-      "rank": 151,
+      "rank": 153,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884597"
+      "last_light": "2026-07-17T17:37:20.459852"
     },
     "kled-ai": {
       "rank": 854,
@@ -3900,14 +3900,14 @@
       "last_light": "2026-07-01T20:39:33.119564"
     },
     "pearl-2": {
-      "rank": 295,
+      "rank": 284,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881018"
+      "last_light": "2026-07-17T17:37:20.453517"
     },
     "hex-trust-usdx": {
-      "rank": 737,
+      "rank": 732,
       "depth": "light",
-      "last_light": "2026-07-17T10:12:13.729956"
+      "last_light": "2026-07-17T17:37:20.459639"
     },
     "tokamak-network": {
       "rank": 750,
@@ -3920,9 +3920,9 @@
       "last_light": "2026-07-01T20:39:33.117957"
     },
     "lido-earnusd": {
-      "rank": 676,
+      "rank": 680,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884046"
+      "last_light": "2026-07-17T17:37:20.459111"
     },
     "templar": {
       "rank": 748,
@@ -3940,9 +3940,9 @@
       "last_light": "2026-07-13T17:15:33.234249"
     },
     "sai": {
-      "rank": 697,
+      "rank": 696,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884196"
+      "last_light": "2026-07-17T17:37:20.459274"
     },
     "milk-alliance": {
       "rank": 832,
@@ -3955,14 +3955,14 @@
       "last_light": "2026-07-04T07:16:36.810580"
     },
     "xpin-network": {
-      "rank": 726,
+      "rank": 737,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884402"
+      "last_light": "2026-07-17T17:37:20.459698"
     },
     "incrypt": {
-      "rank": 721,
+      "rank": 719,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884387"
+      "last_light": "2026-07-17T17:37:20.459506"
     },
     "neet": {
       "rank": 733,
@@ -3977,7 +3977,7 @@
     "frax-share": {
       "rank": 727,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884420"
+      "last_light": "2026-07-17T17:37:20.459588"
     },
     "liquid-mercury": {
       "rank": 749,
@@ -3985,9 +3985,9 @@
       "last_light": "2026-07-16T13:02:09.726038"
     },
     "coindepo": {
-      "rank": 745,
+      "rank": 749,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884545"
+      "last_light": "2026-07-17T16:33:41.358273"
     },
     "cartesi": {
       "rank": 761,
@@ -3995,9 +3995,9 @@
       "last_light": "2026-07-01T20:39:33.118013"
     },
     "x-dol-x": {
-      "rank": 717,
+      "rank": 736,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884348"
+      "last_light": "2026-07-17T17:37:20.459667"
     },
     "capybobo": {
       "rank": 769,
@@ -4015,9 +4015,9 @@
       "last_light": "2026-07-01T20:39:33.118321"
     },
     "olaxbt": {
-      "rank": 743,
+      "rank": 747,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884537"
+      "last_light": "2026-07-17T12:19:30.152254"
     },
     "iexec-rlc": {
       "rank": 779,
@@ -4075,9 +4075,9 @@
       "last_light": "2026-07-01T20:39:33.118469"
     },
     "sentismai": {
-      "rank": 542,
+      "rank": 548,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883033"
+      "last_light": "2026-07-17T17:37:20.457682"
     },
     "metal": {
       "rank": 791,
@@ -4085,9 +4085,9 @@
       "last_light": "2026-07-01T20:39:33.118487"
     },
     "nest-basis-vault": {
-      "rank": 570,
+      "rank": 564,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883258"
+      "last_light": "2026-07-17T17:37:20.457855"
     },
     "pundi-x-2": {
       "rank": 741,
@@ -4110,9 +4110,9 @@
       "last_light": "2026-07-01T20:39:33.118527"
     },
     "main-street-yield": {
-      "rank": 750,
+      "rank": 749,
       "depth": "light",
-      "last_light": "2026-07-17T00:40:31.578660"
+      "last_light": "2026-07-17T13:22:59.752492"
     },
     "arcblock": {
       "rank": 799,
@@ -4140,9 +4140,9 @@
       "last_light": "2026-07-01T20:39:33.118575"
     },
     "atletico-madrid": {
-      "rank": 728,
+      "rank": 724,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884428"
+      "last_light": "2026-07-17T17:37:20.459557"
     },
     "a-hunters-dream": {
       "rank": 805,
@@ -4150,9 +4150,9 @@
       "last_light": "2026-07-01T20:39:33.118590"
     },
     "dodo": {
-      "rank": 733,
+      "rank": 737,
       "depth": "light",
-      "last_light": "2026-07-16T11:58:20.025749"
+      "last_light": "2026-07-17T15:29:58.062456"
     },
     "propy": {
       "rank": 751,
@@ -4160,9 +4160,9 @@
       "last_light": "2026-07-08T09:24:21.115801"
     },
     "prometeus": {
-      "rank": 734,
+      "rank": 742,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884473"
+      "last_light": "2026-07-17T17:37:20.459742"
     },
     "sign-global": {
       "rank": 812,
@@ -4190,9 +4190,9 @@
       "last_light": "2026-07-01T20:39:33.118662"
     },
     "tokenos-ai": {
-      "rank": 611,
+      "rank": 604,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883545"
+      "last_light": "2026-07-17T17:37:20.458303"
     },
     "lcx": {
       "rank": 818,
@@ -4350,9 +4350,9 @@
       "last_light": "2026-07-01T20:39:33.118937"
     },
     "handy": {
-      "rank": 607,
+      "rank": 638,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883666"
+      "last_light": "2026-07-17T17:37:20.458662"
     },
     "tcy": {
       "rank": 851,
@@ -4400,9 +4400,9 @@
       "last_light": "2026-07-01T20:39:33.119049"
     },
     "circle-internet-group-bstock": {
-      "rank": 452,
+      "rank": 442,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882364"
+      "last_light": "2026-07-17T17:37:20.455214"
     },
     "brevis": {
       "rank": 750,
@@ -4415,9 +4415,9 @@
       "last_light": "2026-07-01T20:39:33.119072"
     },
     "yei-finance": {
-      "rank": 731,
+      "rank": 739,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884451"
+      "last_light": "2026-07-17T17:37:20.459707"
     },
     "honey-3": {
       "rank": 863,
@@ -4480,9 +4480,9 @@
       "last_light": "2026-07-01T20:39:33.119190"
     },
     "utya": {
-      "rank": 711,
+      "rank": 726,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884323"
+      "last_light": "2026-07-17T17:37:20.459577"
     },
     "global-commercial-business": {
       "rank": 878,
@@ -4570,9 +4570,9 @@
       "last_light": "2026-07-01T20:39:33.119332"
     },
     "united-states-water-reserve": {
-      "rank": 675,
+      "rank": 671,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884026"
+      "last_light": "2026-07-17T17:37:20.459007"
     },
     "power-protocol": {
       "rank": 732,
@@ -4615,9 +4615,9 @@
       "last_light": "2026-07-01T20:39:33.119400"
     },
     "talus": {
-      "rank": 400,
+      "rank": 383,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881917"
+      "last_light": "2026-07-17T17:37:20.454559"
     },
     "tree-capital": {
       "rank": 907,
@@ -4645,9 +4645,9 @@
       "last_light": "2026-07-01T20:39:33.119447"
     },
     "sandisk-bstocks-tokenized-stock": {
-      "rank": 286,
+      "rank": 271,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880932"
+      "last_light": "2026-07-17T17:37:20.453367"
     },
     "advertise-coin": {
       "rank": 912,
@@ -4740,9 +4740,9 @@
       "last_light": "2026-07-01T20:39:33.119600"
     },
     "lorenzo-protocol": {
-      "rank": 563,
+      "rank": 625,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883204"
+      "last_light": "2026-07-17T17:37:20.458531"
     },
     "chinese-oil-asset-reserve": {
       "rank": 931,
@@ -4975,9 +4975,9 @@
       "last_light": "2026-07-01T20:39:33.120018"
     },
     "babyboomtoken": {
-      "rank": 710,
+      "rank": 733,
       "depth": "light",
-      "last_light": "2026-07-16T08:46:44.834525"
+      "last_light": "2026-07-17T17:37:20.459687"
     },
     "magic": {
       "rank": 981,
@@ -5000,9 +5000,9 @@
       "last_light": "2026-07-01T20:39:33.120063"
     },
     "pathusd": {
-      "rank": 740,
+      "rank": 745,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884515"
+      "last_light": "2026-07-17T17:37:20.459770"
     },
     "okzoo": {
       "rank": 986,
@@ -5080,19 +5080,19 @@
       "last_light": "2026-07-01T20:39:33.120191"
     },
     "galaxy-usdt-quality": {
-      "rank": 632,
+      "rank": 633,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883711"
+      "last_light": "2026-07-17T17:37:20.458614"
     },
     "galaxy-usdc-quality": {
-      "rank": 710,
+      "rank": 712,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884283"
+      "last_light": "2026-07-17T17:37:20.459436"
     },
     "bending-spoons-xstock": {
-      "rank": 355,
+      "rank": 345,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881598"
+      "last_light": "2026-07-17T17:37:20.454156"
     },
     "metaplex": {
       "rank": 746,
@@ -5125,14 +5125,14 @@
       "last_light": "2026-07-08T19:59:33.757819"
     },
     "spark-usdc": {
-      "rank": 184,
+      "rank": 183,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884809"
+      "last_light": "2026-07-17T17:37:20.460181"
     },
     "cash-cat": {
-      "rank": 390,
+      "rank": 363,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.881872"
+      "last_light": "2026-07-17T17:37:20.454411"
     },
     "arrow-2": {
       "rank": 766,
@@ -5150,9 +5150,9 @@
       "last_light": "2026-07-10T11:57:14.713315"
     },
     "robinhood-wrapped-eth-robinhood-chain": {
-      "rank": 505,
+      "rank": 488,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.882747"
+      "last_light": "2026-07-17T17:37:20.456547"
     },
     "hoodie-2": {
       "rank": 671,
@@ -5170,9 +5170,9 @@
       "last_light": "2026-07-12T21:10:14.945404"
     },
     "steakhouse-confidential-prime-usdc": {
-      "rank": 748,
+      "rank": 744,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884574"
+      "last_light": "2026-07-17T17:37:20.459761"
     },
     "bycocket": {
       "rank": 908,
@@ -5190,9 +5190,9 @@
       "last_light": "2026-07-12T23:17:42.576126"
     },
     "up-2": {
-      "rank": 546,
+      "rank": 311,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883071"
+      "last_light": "2026-07-17T17:37:20.453768"
     },
     "prosper-2": {
       "rank": 748,
@@ -5200,24 +5200,24 @@
       "last_light": "2026-07-13T23:35:59.164181"
     },
     "coinbase-ondo-tokenized-stock": {
-      "rank": 593,
+      "rank": 586,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883438"
+      "last_light": "2026-07-17T17:37:20.458083"
     },
     "emerald-security-token": {
-      "rank": 652,
+      "rank": 645,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.883849"
+      "last_light": "2026-07-17T17:37:20.458730"
     },
     "alpha-bulgaria-warrants": {
-      "rank": 235,
+      "rank": 239,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.880534"
+      "last_light": "2026-07-17T17:37:20.452998"
     },
     "antfun": {
       "rank": 139,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.879694"
+      "last_light": "2026-07-17T17:37:20.451960"
     },
     "tendies-2": {
       "rank": 659,
@@ -5230,69 +5230,71 @@
       "last_light": "2026-07-17T05:58:49.965924"
     },
     "akedo": {
-      "rank": 700,
+      "rank": 640,
       "depth": "light",
-      "last_light": "2026-07-17T11:15:43.884176"
+      "last_light": "2026-07-17T17:37:20.458692"
     }
   },
   "deep_queue": [
-    "monero",
-    "worldcoin-wld",
-    "pepe",
+    "blackrock-usd-institutional-digital-liquidity-fund",
+    "near",
+    "shiba-inu",
+    "sky",
     "ethereum-classic",
     "united-stables",
     "usdgo",
     "eutbl",
-    "blockchain-capital",
     "quant-network",
+    "blockchain-capital",
+    "morpho",
     "kucoin-shares",
-    "pi-network",
     "polygon-ecosystem-token",
-    "adi-token",
-    "janus-henderson-anemoy-treasury-fund",
+    "pi-network",
     "stable-2",
+    "janus-henderson-anemoy-treasury-fund",
+    "adi-token",
     "spiko-amundi-overnight-swap-fund-eur",
     "just",
-    "audiera",
     "cosmos",
     "ethena",
-    "superstate-short-duration-us-government-securities-fund-ustb",
     "render-token",
     "kaspa",
-    "algorand",
+    "audiera",
+    "superstate-short-duration-us-government-securities-fund-ustb",
     "nexo",
-    "bianrensheng",
+    "algorand",
     "gatechain-token",
-    "beldex",
+    "bianrensheng",
     "janus-henderson-anemoy-aaa-clo-fund",
     "pump-fun",
+    "beldex",
     "jupiter-exchange-solana",
     "filecoin",
     "gho",
     "arbitrum",
     "flare-networks",
-    "xdce-crowd-sale",
     "lighter",
+    "xdce-crowd-sale",
     "usual-usd",
     "ylds",
     "usx",
-    "aptos",
-    "true-usd",
-    "injective-protocol",
     "venice-token",
+    "aptos",
+    "injective-protocol",
+    "true-usd",
     "aerodrome-finance",
-    "a7a5",
-    "midnight-3",
     "hash-2",
+    "midnight-3",
+    "a7a5",
     "usdtb",
     "pancakeswap-token",
-    "euro-coin",
     "dash",
-    "ether-fi",
+    "euro-coin",
     "virtual-protocol",
-    "ousg",
+    "ether-fi",
     "vechain",
     "hastra-prime",
+    "ousg",
     "pyth-network",
     "pudgy-penguins",
     "official-trump",
@@ -5306,127 +5308,127 @@
     "sei-network",
     "lido-dao",
     "kinesis-gold",
-    "gnosis",
     "blockstack",
+    "gnosis",
     "apxusd",
-    "kite-2",
     "bonk",
-    "jito-governance-token",
     "layerzero",
+    "kite-2",
+    "jito-governance-token",
     "olympus",
     "bittorrent",
     "antfun",
+    "pendle",
     "bitcoin-cash-sv",
     "apenft",
-    "pendle",
     "monad",
     "tezos",
     "conflux-token",
     "frax",
     "grass",
-    "decred",
     "reallink",
+    "decred",
     "onyc",
     "velvet",
-    "peanut-2-2",
-    "peanut-2-2",
     "velvet",
     "doublezero",
     "doublezero",
-    "unibase",
-    "unibase",
+    "peanut-2-2",
+    "peanut-2-2",
     "plasma",
     "plasma",
+    "unibase",
+    "unibase",
     "optimism",
     "optimism",
     "jasmycoin",
     "jasmycoin",
     "bnb48-club-token",
     "bnb48-club-token",
+    "syrup",
+    "syrup",
     "kaito",
     "kaito",
-    "kinesis-silver",
-    "kinesis-silver",
     "floki",
     "floki",
+    "kinesis-silver",
+    "kinesis-silver",
     "crvusd",
     "crvusd",
-    "syrup",
     "zebec-network",
     "zebec-network",
-    "syrup",
     "usdai",
     "usdai",
     "tradable-na-rent-financing-platform-sstn",
     "tradable-na-rent-financing-platform-sstn",
     "ape-and-pepe",
     "ape-and-pepe",
-    "coco-2",
-    "coco-2",
-    "ultima",
-    "ultima",
     "agora-dollar",
     "agora-dollar",
+    "ultima",
+    "ultima",
+    "coco-2",
+    "coco-2",
     "kaia",
     "kaia",
     "vaneck-treasury-fund",
     "vaneck-treasury-fund",
     "falcon-finance-ff",
     "falcon-finance-ff",
-    "telcoin",
-    "telcoin",
+    "ethereum-name-service",
+    "ethereum-name-service",
     "starknet",
     "starknet",
     "the-graph",
     "the-graph",
     "usa",
     "usa",
-    "pieverse",
-    "pieverse",
-    "ethereum-name-service",
-    "ethereum-name-service",
+    "telcoin",
+    "telcoin",
     "raydium",
     "raydium",
     "wefi",
     "wefi",
+    "pieverse",
+    "pieverse",
     "eigenlayer",
-    "chiliz",
-    "chiliz",
     "eigenlayer",
     "spark-usdc",
     "spark-usdc",
+    "chiliz",
+    "chiliz",
     "compound-governance-token",
     "compound-governance-token",
-    "tradable-apac-diversified-finance-provider-sstn",
+    "iota",
+    "iota",
     "axie-infinity",
     "axie-infinity",
     "tradable-apac-diversified-finance-provider-sstn",
+    "tradable-apac-diversified-finance-provider-sstn",
     "spiko-us-t-bills-money-market-fund",
     "spiko-us-t-bills-money-market-fund",
-    "iota",
-    "iota",
     "akash-network",
     "akash-network",
     "re-protocol-reusd",
     "re-protocol-reusd",
     "satoshi-stablecoin",
     "satoshi-stablecoin",
-    "btse-token",
-    "btse-token",
     "ecash",
     "ecash",
-    "bc-token",
-    "bc-token",
+    "btse-token",
+    "btse-token",
     "dogwifcoin",
     "dogwifcoin",
-    "mx-token",
-    "mx-token",
-    "apyusd",
-    "apyusd",
-    "zano",
-    "zano",
     "swissborg",
-    "swissborg"
+    "swissborg",
+    "apyusd",
+    "apyusd",
+    "mx-token",
+    "mx-token",
+    "bc-token",
+    "bc-token",
+    "zano",
+    "zano"
   ],
   "total_coins": 800,
   "version": 1
