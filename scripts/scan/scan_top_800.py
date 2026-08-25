@@ -196,7 +196,7 @@ class ScanState:
         queue = []
         for coin in coins:
             coin_id = coin.get("id")
-            rank = coin.get("market_cap_rank", 999)
+            rank = coin.get("market_cap_rank") or 999
             if rank <= 200 and self.needs_deep_research(coin_id, rank):
                 queue.append((rank, coin_id))
 
