@@ -20,10 +20,10 @@
       "last_deep": "2026-08-26T00:19:54.159599"
     },
     "binancecoin": {
-      "rank": 4,
+      "rank": 999,
       "depth": "deep",
       "last_light": "2026-08-26T00:19:33.148261",
-      "last_deep": "2026-08-25T20:16:39.979360"
+      "last_deep": "2026-08-26T00:30:17.872180"
     },
     "usd-coin": {
       "rank": 6,
@@ -86,10 +86,10 @@
       "last_deep": "2026-08-25T13:12:19.333226"
     },
     "zcash": {
-      "rank": 12,
+      "rank": 999,
       "depth": "deep",
       "last_light": "2026-08-26T00:19:33.148311",
-      "last_deep": "2026-08-25T12:18:48.571392"
+      "last_deep": "2026-08-26T00:40:45.877852"
     },
     "stellar": {
       "rank": 20,
@@ -5622,8 +5622,6 @@
     }
   },
   "deep_queue": [
-    "binancecoin",
-    "zcash",
     "polkadot",
     "ethena",
     "worldcoin-wld",
