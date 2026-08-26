@@ -1,49 +1,49 @@
 {
-  "coin_id": "bitcoin",
-  "research_time": "2026-08-25T14:48:01.182252",
+  "coin_id": "usd1-wlfi",
+  "research_time": "2026-08-25T15:09:07.956402",
   "sources": {
     "market": {
       "status": "ok",
       "data": {
-        "id": "bitcoin",
-        "symbol": "BTC",
-        "name": "Bitcoin",
-        "current_price": 79179,
-        "market_cap": 1589386469217,
-        "market_cap_rank": 1,
-        "total_volume": 50707018172,
-        "circulating_supply": 20075012.0,
-        "total_supply": 20075012.0,
-        "max_supply": 21000000.0,
-        "price_change_24h": -508.16935024662234,
-        "price_change_percentage_24h": -0.63771,
-        "last_updated": "2026-08-25T14:45:40.000Z"
+        "id": "usd1-wlfi",
+        "symbol": "USD1",
+        "name": "USD1",
+        "current_price": 0.999544,
+        "market_cap": 4045139491,
+        "market_cap_rank": 25,
+        "total_volume": 1426867668,
+        "circulating_supply": 4046847416.265011,
+        "total_supply": 4051847416.265011,
+        "max_supply": null,
+        "price_change_24h": -0.00028959108940263,
+        "price_change_percentage_24h": -0.02896,
+        "last_updated": "2026-08-25T15:06:40.000Z"
       }
     },
     "funding_rate": {
       "status": "ok",
       "data": {
-        "symbol": "BITCOINUSDT",
-        "coin_id": "BITCOINUSDT",
+        "symbol": "USD1-WLFIUSDT",
+        "coin_id": "USD1-WLFIUSDT",
         "exchanges": [],
         "avg_funding_rate": 0.0,
         "funding_rate_change": 0.0,
         "confidence": 0.1,
-        "timestamp": "2026-08-25T14:48:04.751722",
+        "timestamp": "2026-08-25T15:09:11.599946",
         "error": "API unavailable"
       }
     },
     "open_interest": {
       "status": "ok",
       "data": {
-        "symbol": "BITCOINUSDT",
-        "coin_id": "BITCOINUSDT",
+        "symbol": "USD1-WLFIUSDT",
+        "coin_id": "USD1-WLFIUSDT",
         "total_open_interest": 0.0,
         "oi_change_24h": 0.0,
         "oi_change_7d": 0.0,
         "exchanges": [],
         "confidence": 0.1,
-        "timestamp": "2026-08-25T14:48:04.893330",
+        "timestamp": "2026-08-25T15:09:11.742674",
         "error": "API unavailable"
       }
     },
@@ -389,92 +389,26 @@
     },
     "social_stats": {
       "status": "ok",
-      "data": {
-        "coin": "bitcoin",
-        "ticker": "BTC",
-        "timestamp": "2026-08-25T14:48:08.549478",
-        "overall": {
-          "mentions": 213,
-          "upvotes": 1025,
-          "signal": 50,
-          "buzz": 0.0,
-          "intensity": 0.0
-        },
-        "reddit": {
-          "subscribers": 21300,
-          "active_users": 21,
-          "posts_per_hour": 0,
-          "upvotes": 1025
-        },
-        "price": {
-          "current": 79241.04,
-          "change_24h_pct": -0.54
-        },
-        "trend": {
-          "direction": "up",
-          "mention_history": [
-            [
-              1787650231,
-              196
-            ],
-            [
-              1787652032,
-              198
-            ],
-            [
-              1787653833,
-              196
-            ],
-            [
-              1787655632,
-              197
-            ],
-            [
-              1787659237,
-              198
-            ],
-            [
-              1787661032,
-              205
-            ],
-            [
-              1787662833,
-              207
-            ],
-            [
-              1787664630,
-              209
-            ],
-            [
-              1787666445,
-              210
-            ],
-            [
-              1787668234,
-              213
-            ]
-          ]
-        }
-      }
+      "data": {}
     },
     "twitter": {
       "status": "ok",
       "data": {
-        "username": "bitcoin",
-        "name": ") on X",
+        "username": "usd1-wlfi",
+        "name": null,
         "bio": null,
-        "followers": 8800000,
-        "following": 13,
-        "tweets_count": 30100,
+        "followers": null,
+        "following": null,
+        "tweets_count": null,
         "source": "Jina Reader",
         "confidence": 0.7,
-        "timestamp": "2026-08-25T10:30:59.288721"
+        "timestamp": "2026-08-25T15:09:15.451929"
       }
     },
     "reddit": {
       "status": "ok",
       "data": {
-        "coin_name": "BITCOIN",
+        "coin_name": "USD1-WLFI",
         "total_mentions": 40,
         "unique_subreddits": 4,
         "avg_score": 0,
@@ -486,8 +420,8 @@
         },
         "posts": [
           {
-            "title": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=BITCOIN&restrict_sr=1&sort=relevance",
-            "content": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=BITCOIN&restrict_sr=1&sort=relevance",
+            "title": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=USD1-WLFI&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=USD1-WLFI&restrict_sr=1&sort=relevance",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "cryptocurrency"
@@ -549,15 +483,15 @@
             "subreddit": "cryptocurrency"
           },
           {
-            "title": "**01a03879-33bf-7f69-bc22-6635c77c6395**",
-            "content": "**01a03879-33bf-7f69-bc22-6635c77c6395**",
+            "title": "**01a03977-f6ca-795a-b511-c7a2f91c5466**",
+            "content": "**01a03977-f6ca-795a-b511-c7a2f91c5466**",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "cryptocurrency"
           },
           {
-            "title": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=BITCOIN&restrict_sr=1&sort=relevance",
-            "content": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=BITCOIN&restrict_sr=1&sort=relevance",
+            "title": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=USD1-WLFI&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=USD1-WLFI&restrict_sr=1&sort=relevance",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "CryptoMarkets"
@@ -619,8 +553,8 @@
             "subreddit": "CryptoMarkets"
           },
           {
-            "title": "**01a03879-3ddf-7cba-9aad-ad6f6295b292**",
-            "content": "**01a03879-3ddf-7cba-9aad-ad6f6295b292**",
+            "title": "**01a03977-fbd0-7b0c-b704-65d7f73cb288**",
+            "content": "**01a03977-fbd0-7b0c-b704-65d7f73cb288**",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "CryptoMarkets"
@@ -628,7 +562,7 @@
         ],
         "source": "Reddit (Free)",
         "confidence": 0.6,
-        "timestamp": "2026-08-25T14:48:09.553058"
+        "timestamp": "2026-08-25T15:09:23.976149"
       }
     },
     "crypto_news": {
@@ -830,7 +764,7 @@
       "data": [
         {
           "bvid": null,
-          "title": "bitcoin-哔哩哔哩_bilibili",
+          "title": "usd1-wlfi-哔哩哔哩_bilibili",
           "description": "",
           "author": null,
           "play": null,
@@ -842,9 +776,9 @@
     "community_score": {
       "status": "ok",
       "data": {
-        "coin": "bitcoin",
-        "community_score": 2,
-        "total_signals": 4,
+        "coin": "usd1-wlfi",
+        "community_score": 1,
+        "total_signals": 1,
         "breakdown": {
           "v2ex": {
             "mentions": 0,
@@ -855,7 +789,7 @@
             "source": "Bilibili"
           },
           "news": {
-            "mentions": 3,
+            "mentions": 0,
             "source": "Crypto News"
           },
           "twitter": {
@@ -868,150 +802,7 @@
           }
         },
         "source": "CommunityClient",
-        "timestamp": "2026-08-25T14:48:25.800911"
-      }
-    },
-    "github": {
-      "status": "ok",
-      "data": {
-        "id": 1181927,
-        "node_id": "MDEwOlJlcG9zaXRvcnkxMTgxOTI3",
-        "name": "bitcoin",
-        "full_name": "bitcoin/bitcoin",
-        "private": false,
-        "owner": {
-          "login": "bitcoin",
-          "id": 528860,
-          "node_id": "MDEyOk9yZ2FuaXphdGlvbjUyODg2MA==",
-          "avatar_url": "https://avatars.githubusercontent.com/u/528860?v=4",
-          "gravatar_id": "",
-          "url": "https://api.github.com/users/bitcoin",
-          "html_url": "https://github.com/bitcoin",
-          "followers_url": "https://api.github.com/users/bitcoin/followers",
-          "following_url": "https://api.github.com/users/bitcoin/following{/other_user}",
-          "gists_url": "https://api.github.com/users/bitcoin/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/bitcoin/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/bitcoin/subscriptions",
-          "organizations_url": "https://api.github.com/users/bitcoin/orgs",
-          "repos_url": "https://api.github.com/users/bitcoin/repos",
-          "events_url": "https://api.github.com/users/bitcoin/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/bitcoin/received_events",
-          "type": "Organization",
-          "user_view_type": "public",
-          "site_admin": false
-        },
-        "html_url": "https://github.com/bitcoin/bitcoin",
-        "description": "Bitcoin Core integration/staging tree",
-        "fork": false,
-        "url": "https://api.github.com/repos/bitcoin/bitcoin",
-        "forks_url": "https://api.github.com/repos/bitcoin/bitcoin/forks",
-        "keys_url": "https://api.github.com/repos/bitcoin/bitcoin/keys{/key_id}",
-        "collaborators_url": "https://api.github.com/repos/bitcoin/bitcoin/collaborators{/collaborator}",
-        "teams_url": "https://api.github.com/repos/bitcoin/bitcoin/teams",
-        "hooks_url": "https://api.github.com/repos/bitcoin/bitcoin/hooks",
-        "issue_events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/events{/number}",
-        "events_url": "https://api.github.com/repos/bitcoin/bitcoin/events",
-        "assignees_url": "https://api.github.com/repos/bitcoin/bitcoin/assignees{/user}",
-        "branches_url": "https://api.github.com/repos/bitcoin/bitcoin/branches{/branch}",
-        "tags_url": "https://api.github.com/repos/bitcoin/bitcoin/tags",
-        "blobs_url": "https://api.github.com/repos/bitcoin/bitcoin/git/blobs{/sha}",
-        "git_tags_url": "https://api.github.com/repos/bitcoin/bitcoin/git/tags{/sha}",
-        "git_refs_url": "https://api.github.com/repos/bitcoin/bitcoin/git/refs{/sha}",
-        "trees_url": "https://api.github.com/repos/bitcoin/bitcoin/git/trees{/sha}",
-        "statuses_url": "https://api.github.com/repos/bitcoin/bitcoin/statuses/{sha}",
-        "languages_url": "https://api.github.com/repos/bitcoin/bitcoin/languages",
-        "stargazers_url": "https://api.github.com/repos/bitcoin/bitcoin/stargazers",
-        "contributors_url": "https://api.github.com/repos/bitcoin/bitcoin/contributors",
-        "subscribers_url": "https://api.github.com/repos/bitcoin/bitcoin/subscribers",
-        "subscription_url": "https://api.github.com/repos/bitcoin/bitcoin/subscription",
-        "commits_url": "https://api.github.com/repos/bitcoin/bitcoin/commits{/sha}",
-        "git_commits_url": "https://api.github.com/repos/bitcoin/bitcoin/git/commits{/sha}",
-        "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/comments{/number}",
-        "issue_comment_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/comments{/number}",
-        "contents_url": "https://api.github.com/repos/bitcoin/bitcoin/contents/{+path}",
-        "compare_url": "https://api.github.com/repos/bitcoin/bitcoin/compare/{base}...{head}",
-        "merges_url": "https://api.github.com/repos/bitcoin/bitcoin/merges",
-        "archive_url": "https://api.github.com/repos/bitcoin/bitcoin/{archive_format}{/ref}",
-        "downloads_url": "https://api.github.com/repos/bitcoin/bitcoin/downloads",
-        "issues_url": "https://api.github.com/repos/bitcoin/bitcoin/issues{/number}",
-        "pulls_url": "https://api.github.com/repos/bitcoin/bitcoin/pulls{/number}",
-        "milestones_url": "https://api.github.com/repos/bitcoin/bitcoin/milestones{/number}",
-        "notifications_url": "https://api.github.com/repos/bitcoin/bitcoin/notifications{?since,all,participating}",
-        "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/labels{/name}",
-        "releases_url": "https://api.github.com/repos/bitcoin/bitcoin/releases{/id}",
-        "deployments_url": "https://api.github.com/repos/bitcoin/bitcoin/deployments",
-        "created_at": "2010-12-19T15:16:43Z",
-        "updated_at": "2026-08-25T09:42:43Z",
-        "pushed_at": "2026-08-25T09:42:06Z",
-        "git_url": "git://github.com/bitcoin/bitcoin.git",
-        "ssh_url": "git@github.com:bitcoin/bitcoin.git",
-        "clone_url": "https://github.com/bitcoin/bitcoin.git",
-        "svn_url": "https://github.com/bitcoin/bitcoin",
-        "homepage": "https://bitcoincore.org/en/download",
-        "size": 322956,
-        "stargazers_count": 90003,
-        "watchers_count": 90003,
-        "language": "C++",
-        "has_issues": true,
-        "has_projects": true,
-        "has_downloads": false,
-        "has_wiki": false,
-        "has_pages": false,
-        "has_discussions": false,
-        "forks_count": 39326,
-        "mirror_url": null,
-        "archived": false,
-        "disabled": false,
-        "open_issues_count": 701,
-        "license": {
-          "key": "mit",
-          "name": "MIT License",
-          "spdx_id": "MIT",
-          "url": "https://api.github.com/licenses/mit",
-          "node_id": "MDc6TGljZW5zZTEz"
-        },
-        "allow_forking": true,
-        "is_template": false,
-        "web_commit_signoff_required": false,
-        "has_pull_requests": true,
-        "pull_request_creation_policy": "all",
-        "topics": [
-          "bitcoin",
-          "c-plus-plus",
-          "cryptocurrency",
-          "cryptography",
-          "p2p"
-        ],
-        "visibility": "public",
-        "forks": 39326,
-        "open_issues": 701,
-        "watchers": 90003,
-        "default_branch": "master",
-        "temp_clone_token": null,
-        "custom_properties": {},
-        "organization": {
-          "login": "bitcoin",
-          "id": 528860,
-          "node_id": "MDEyOk9yZ2FuaXphdGlvbjUyODg2MA==",
-          "avatar_url": "https://avatars.githubusercontent.com/u/528860?v=4",
-          "gravatar_id": "",
-          "url": "https://api.github.com/users/bitcoin",
-          "html_url": "https://github.com/bitcoin",
-          "followers_url": "https://api.github.com/users/bitcoin/followers",
-          "following_url": "https://api.github.com/users/bitcoin/following{/other_user}",
-          "gists_url": "https://api.github.com/users/bitcoin/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/bitcoin/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/bitcoin/subscriptions",
-          "organizations_url": "https://api.github.com/users/bitcoin/orgs",
-          "repos_url": "https://api.github.com/users/bitcoin/repos",
-          "events_url": "https://api.github.com/users/bitcoin/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/bitcoin/received_events",
-          "type": "Organization",
-          "user_view_type": "public",
-          "site_admin": false
-        },
-        "network_count": 39326,
-        "subscribers_count": 4103
+        "timestamp": "2026-08-25T15:09:31.828997"
       }
     },
     "sentiment": {
@@ -1032,23 +823,27 @@
         "combined_score": 2,
         "overall_sentiment": "bearish",
         "recommendation": "Greed - Consider taking profits",
-        "timestamp": "2026-08-25T14:48:27.595496",
+        "timestamp": "2026-08-25T15:09:31.829504",
         "confidence": 0.81
       }
     }
   },
   "symbol": "",
-  "name": "bitcoin",
+  "name": "usd1-wlfi",
   "rank": null,
   "categories": [
-    "Smart Contract Platform",
-    "Layer 1 (L1)",
-    "FTX Holdings",
-    "Proof of Work (PoW)",
-    "Bitcoin Ecosystem",
-    "GMCI 30 Index",
-    "GMCI Index",
-    "Coinbase 50 Index"
+    "Stablecoins",
+    "USD Stablecoin",
+    "Solana Ecosystem",
+    "Ethereum Ecosystem",
+    "Aptos Ecosystem",
+    "Mantle Ecosystem",
+    "Tron Ecosystem",
+    "Morph L2 Ecosystem",
+    "World Liberty Financial Portfolio",
+    "Plume Network Ecosystem",
+    "Trump-Affiliated",
+    "Monad Ecosystem"
   ],
-  "category_slug": "layer-1"
+  "category_slug": "layer-2"
 }

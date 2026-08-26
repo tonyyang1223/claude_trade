@@ -1,49 +1,49 @@
 {
-  "coin_id": "bitcoin",
-  "research_time": "2026-08-25T14:48:01.182252",
+  "coin_id": "dai",
+  "research_time": "2026-08-25T14:26:26.331133",
   "sources": {
     "market": {
       "status": "ok",
       "data": {
-        "id": "bitcoin",
-        "symbol": "BTC",
-        "name": "Bitcoin",
-        "current_price": 79179,
-        "market_cap": 1589386469217,
-        "market_cap_rank": 1,
-        "total_volume": 50707018172,
-        "circulating_supply": 20075012.0,
-        "total_supply": 20075012.0,
-        "max_supply": 21000000.0,
-        "price_change_24h": -508.16935024662234,
-        "price_change_percentage_24h": -0.63771,
-        "last_updated": "2026-08-25T14:45:40.000Z"
+        "id": "dai",
+        "symbol": "DAI",
+        "name": "Dai",
+        "current_price": 1.0,
+        "market_cap": 4579683394,
+        "market_cap_rank": 23,
+        "total_volume": 355496336,
+        "circulating_supply": 4580025255.160915,
+        "total_supply": 4580025255.160915,
+        "max_supply": null,
+        "price_change_24h": 0.00013583,
+        "price_change_percentage_24h": 0.01359,
+        "last_updated": "2026-08-25T14:24:40.000Z"
       }
     },
     "funding_rate": {
       "status": "ok",
       "data": {
-        "symbol": "BITCOINUSDT",
-        "coin_id": "BITCOINUSDT",
+        "symbol": "DAIUSDT",
+        "coin_id": "DAIUSDT",
         "exchanges": [],
         "avg_funding_rate": 0.0,
         "funding_rate_change": 0.0,
         "confidence": 0.1,
-        "timestamp": "2026-08-25T14:48:04.751722",
+        "timestamp": "2026-08-25T14:26:29.974452",
         "error": "API unavailable"
       }
     },
     "open_interest": {
       "status": "ok",
       "data": {
-        "symbol": "BITCOINUSDT",
-        "coin_id": "BITCOINUSDT",
+        "symbol": "DAIUSDT",
+        "coin_id": "DAIUSDT",
         "total_open_interest": 0.0,
         "oi_change_24h": 0.0,
         "oi_change_7d": 0.0,
         "exchanges": [],
         "confidence": 0.1,
-        "timestamp": "2026-08-25T14:48:04.893330",
+        "timestamp": "2026-08-25T14:26:30.116485",
         "error": "API unavailable"
       }
     },
@@ -384,74 +384,42 @@
           "Strato": 4965076.01807843
         },
         "confidence": 0.9,
-        "timestamp": "2026-08-25T14:48:05.835058"
+        "timestamp": "2026-08-25T14:15:53.463806"
       }
     },
     "social_stats": {
       "status": "ok",
       "data": {
-        "coin": "bitcoin",
-        "ticker": "BTC",
-        "timestamp": "2026-08-25T14:48:08.549478",
+        "coin": "dai",
+        "ticker": "DAI",
+        "timestamp": "2026-08-25T14:26:32.769910",
         "overall": {
-          "mentions": 213,
-          "upvotes": 1025,
+          "mentions": 1,
+          "upvotes": 0,
           "signal": 50,
           "buzz": 0.0,
           "intensity": 0.0
         },
         "reddit": {
-          "subscribers": 21300,
-          "active_users": 21,
+          "subscribers": 100,
+          "active_users": 0,
           "posts_per_hour": 0,
-          "upvotes": 1025
+          "upvotes": 0
         },
         "price": {
-          "current": 79241.04,
-          "change_24h_pct": -0.54
+          "current": 0.999623,
+          "change_24h_pct": -0.08
         },
         "trend": {
-          "direction": "up",
+          "direction": "down",
           "mention_history": [
             [
-              1787650231,
-              196
+              1780608018,
+              1
             ],
             [
-              1787652032,
-              198
-            ],
-            [
-              1787653833,
-              196
-            ],
-            [
-              1787655632,
-              197
-            ],
-            [
-              1787659237,
-              198
-            ],
-            [
-              1787661032,
-              205
-            ],
-            [
-              1787662833,
-              207
-            ],
-            [
-              1787664630,
-              209
-            ],
-            [
-              1787666445,
-              210
-            ],
-            [
-              1787668234,
-              213
+              1780608134,
+              1
             ]
           ]
         }
@@ -460,21 +428,21 @@
     "twitter": {
       "status": "ok",
       "data": {
-        "username": "bitcoin",
-        "name": ") on X",
+        "username": "dai",
+        "name": null,
         "bio": null,
-        "followers": 8800000,
-        "following": 13,
-        "tweets_count": 30100,
+        "followers": null,
+        "following": null,
+        "tweets_count": null,
         "source": "Jina Reader",
         "confidence": 0.7,
-        "timestamp": "2026-08-25T10:30:59.288721"
+        "timestamp": "2026-08-25T14:26:33.772327"
       }
     },
     "reddit": {
       "status": "ok",
       "data": {
-        "coin_name": "BITCOIN",
+        "coin_name": "DAI",
         "total_mentions": 40,
         "unique_subreddits": 4,
         "avg_score": 0,
@@ -486,8 +454,8 @@
         },
         "posts": [
           {
-            "title": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=BITCOIN&restrict_sr=1&sort=relevance",
-            "content": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=BITCOIN&restrict_sr=1&sort=relevance",
+            "title": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=DAI&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=DAI&restrict_sr=1&sort=relevance",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "cryptocurrency"
@@ -549,15 +517,15 @@
             "subreddit": "cryptocurrency"
           },
           {
-            "title": "**01a03879-33bf-7f69-bc22-6635c77c6395**",
-            "content": "**01a03879-33bf-7f69-bc22-6635c77c6395**",
+            "title": "**01a03950-e0c9-7080-84be-6d9af2466561**",
+            "content": "**01a03950-e0c9-7080-84be-6d9af2466561**",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "cryptocurrency"
           },
           {
-            "title": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=BITCOIN&restrict_sr=1&sort=relevance",
-            "content": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=BITCOIN&restrict_sr=1&sort=relevance",
+            "title": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=DAI&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=DAI&restrict_sr=1&sort=relevance",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "CryptoMarkets"
@@ -619,8 +587,8 @@
             "subreddit": "CryptoMarkets"
           },
           {
-            "title": "**01a03879-3ddf-7cba-9aad-ad6f6295b292**",
-            "content": "**01a03879-3ddf-7cba-9aad-ad6f6295b292**",
+            "title": "**01a03950-e816-780b-a703-fdf491a91123**",
+            "content": "**01a03950-e816-780b-a703-fdf491a91123**",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "CryptoMarkets"
@@ -628,7 +596,7 @@
         ],
         "source": "Reddit (Free)",
         "confidence": 0.6,
-        "timestamp": "2026-08-25T14:48:09.553058"
+        "timestamp": "2026-08-25T14:26:42.541566"
       }
     },
     "crypto_news": {
@@ -647,20 +615,20 @@
           "confidence": 0.7
         },
         {
-          "title": "[Sign In](https://www.coindesk.com/auth/login?returnTo=%2F%3Flocale%3Den%26rw_remaining%3D3%26rw_plan%3D3-plan%26rw_allowed%3Dfalse%26rw_limit%3D3%26rw_state%3Denabled%26country%3DUS%26city%3DHouston%",
-          "content": "[Sign In](https://www.coindesk.com/auth/login?returnTo=%2F%3Flocale%3Den%26rw_remaining%3D3%26rw_plan%3D3-plan%26rw_allowed%3Dfalse%26rw_limit%3D3%26rw_state%3Denabled%26country%3DUS%26city%3DHouston%26countryRegion%3DTX%26region%3Dcle1%26subregion%3DNorth%2BAmerica%26oficialCountryName%3DUnited%2BStates%2Bof%2BAmerica%26currencyCode%3DUSD%26currencySymbol%3D%2524%26currencyName%3DUnited%2BStates%2Bdollar%26viewport%3Ddesktop&reg_module=navigation \"Sign in to your CoinDesk account\")",
+          "title": "[Sign In](https://www.coindesk.com/auth/login?returnTo=%2F&reg_module=navigation&ext-country=US \"Sign in to your CoinDesk account\")",
+          "content": "[Sign In](https://www.coindesk.com/auth/login?returnTo=%2F&reg_module=navigation&ext-country=US \"Sign in to your CoinDesk account\")",
           "source": "coindesk",
           "confidence": 0.7
         },
         {
-          "title": "[Sign Up](https://www.coindesk.com/auth/login?returnTo=%2F%3Flocale%3Den%26rw_remaining%3D3%26rw_plan%3D3-plan%26rw_allowed%3Dfalse%26rw_limit%3D3%26rw_state%3Denabled%26country%3DUS%26city%3DHouston%",
-          "content": "[Sign Up](https://www.coindesk.com/auth/login?returnTo=%2F%3Flocale%3Den%26rw_remaining%3D3%26rw_plan%3D3-plan%26rw_allowed%3Dfalse%26rw_limit%3D3%26rw_state%3Denabled%26country%3DUS%26city%3DHouston%26countryRegion%3DTX%26region%3Dcle1%26subregion%3DNorth%2BAmerica%26oficialCountryName%3DUnited%2BStates%2Bof%2BAmerica%26currencyCode%3DUSD%26currencySymbol%3D%2524%26currencyName%3DUnited%2BStates%2Bdollar%26viewport%3Ddesktop&screen_hint=signup&reg_module=navigation \"Sign up for a free CoinDesk ",
+          "title": "[Sign Up](https://www.coindesk.com/auth/login?returnTo=%2F&screen_hint=signup&reg_module=navigation&ext-country=US \"Sign up for a free CoinDesk account\")",
+          "content": "[Sign Up](https://www.coindesk.com/auth/login?returnTo=%2F&screen_hint=signup&reg_module=navigation&ext-country=US \"Sign up for a free CoinDesk account\")",
           "source": "coindesk",
           "confidence": 0.7
         },
         {
-          "title": "![Image 1: jwp-player-placeholder](https://www.coindesk.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fs3y3vcno%2Fstaging%2Fac6bf763b67c66aeb40bc1b8d64de9e4fea8527f-2000x1500.png&w=3840&q=",
-          "content": "![Image 1: jwp-player-placeholder](https://www.coindesk.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fs3y3vcno%2Fstaging%2Fac6bf763b67c66aeb40bc1b8d64de9e4fea8527f-2000x1500.png&w=3840&q=75)",
+          "title": "[Video 2](blob:https://www.coindesk.com/6358aec1-1e22-47b0-982b-11bdedb806ee)",
+          "content": "[Video 2](blob:https://www.coindesk.com/6358aec1-1e22-47b0-982b-11bdedb806ee)",
           "source": "coindesk",
           "confidence": 0.7
         },
@@ -702,13 +670,13 @@
         },
         {
           "title": "Markdown Content:",
-          "content": "Markdown Content:\n[[Video 2](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-animation-black.mp4?v=2)![Image 10: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-black.svg)![Image 11: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-white.svg)](https://decrypt.co/)[](https://decrypt.co/)[](https://decrypt.co/university)[](https://decrypt.co/u",
+          "content": "Markdown Content:\n[[Video 3](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-animation-black.mp4?v=2)![Image 12: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-black.svg)![Image 13: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-white.svg)](https://decrypt.co/)[](https://decrypt.co/)[](https://decrypt.co/university)[](https://decrypt.co/u",
           "source": "decrypt",
           "confidence": 0.7
         },
         {
-          "title": "[![Image 12: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 1",
-          "content": "[![Image 12: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 13: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-black.svg@webp)](https://decrypt.co/)",
+          "title": "[![Image 14: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 1",
+          "content": "[![Image 14: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 15: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-black.svg@webp)](https://decrypt.co/)",
           "source": "decrypt",
           "confidence": 0.7
         },
@@ -768,7 +736,7 @@
           "title": "居然没人讨论玄戒 O3,不应该呀？",
           "content": "在 B 站看了几个 up 的视频，虽然是在开发版上测，但是真的强。",
           "node": "qna",
-          "replies": 165,
+          "replies": 160,
           "member": "hailaz",
           "created": 1787624325,
           "url": "https://www.v2ex.com/t/1236977",
@@ -780,7 +748,7 @@
           "title": "为什么机器人一定是“人”呢",
           "content": "我一直有个没太想明白的问题：为什么现在的机器人，尤其是所谓的“通用机器人”，都在大力往“人形”方向设计？\r\n\r\n人类真正厉害的，我觉得可能主要是“脑袋”——会思考、会学习、会判断、会适应环境。至于身体，其实并没有想象中那么优秀。\r\n\r\n比如，想让机器人跑得快，为什么一定要用两条腿？轮胎不是更高效吗？\r\n\r\n想让它拧螺丝，为什么还要设计一只机械手去拿螺丝刀？直接把手做成螺丝刀，不是更简单直接？\r\n\r\n如果目标真的是“什么都能干”，那为什么是两只手？三头六臂听起来反而更符合“通用”的逻辑把。",
           "node": "programmer",
-          "replies": 151,
+          "replies": 142,
           "member": "tht1286545749",
           "created": 1787623700,
           "url": "https://www.v2ex.com/t/1236973",
@@ -792,7 +760,7 @@
           "title": "干了件蠢事，拿 WD-40 喷了刹车盘",
           "content": "起因：\r\n 100 块的 手机支架不能正常回弹了，遂去 pdd 买了一瓶 wd40 ，想着缓解下。\r\n 结果喷完后，我脑子立刻生了一个 idea ，我刹车的时候老是发出异响，让我很难受，所以我直接就喷上去了，前后都喷了。。。。。\r\n\r\n好了，刹车没了，下午去换了刹车片，还是不行，刹车效果很差，要换碟了",
           "node": "life",
-          "replies": 145,
+          "replies": 130,
           "member": "rafa",
           "created": 1787636270,
           "url": "https://www.v2ex.com/t/1237045",
@@ -804,7 +772,7 @@
           "title": "“万一免五”股票基金大笑脸低佣开户，抽键盘迈从 Ace 68 V2；鼠标迈从 A7 V3 PRO+。 [8.25 日~8.31 日]",
           "content": "这周抽键盘迈从 Ace 68 V2 ；鼠标迈从 A7 V3 PRO+\r\n大笑脸开户，低门槛免 5 券商，股票基金 etf 全网超低费率，北交所免五港股通免五两融免五量化免五，欢迎来开！\r\n⚠️开户和推荐朋友都有红包！\r\n⚠️回帖即可参与抽奖！\r\nhttps://i.v2ex.co/p96eAHV9l.jpeg\r\n⚠️大笑脸低佣开户推荐：\r\nYH 证券：ETF 万 0.5 免 5 [etf 费率最低，适合 etf ，打新，纳指，宽基，LOF 套利，逆回购 1 折，新手必备]\r\nGF 证券：ETF 万 0.5 免 5 [ETF 费率低]\r\nCC 证券：万 1 免 5 [低门槛股票 etf 双免 5]\r\nDB 证券：万 0.741 免 5 [国企券商，股票 etf 费率都很低]\r\nGT*证券：万 0.8 免 5 [头部龙头券商，费率最优惠，大客户专享，综合费率最低]\r\nGX 证券：万 0.851 免 5 [头部龙头券商，综合费率也很低]\r\n\r\n⚠️大笑脸联系方式和最新具体券商表格清单，随时更新 www.daxiaolian.com\r\n备用链接 https://shimo.im/docs/rp",
           "node": "promotions",
-          "replies": 134,
+          "replies": 128,
           "member": "daxiaolian",
           "created": 1787617760,
           "url": "https://www.v2ex.com/t/1236935",
@@ -812,14 +780,14 @@
           "confidence": 0.9
         },
         {
-          "id": 1236961,
-          "title": "发现了最好的助眠药物",
-          "content": "上周出差执行一周\r\n换床不适应+同事突发甲流+项目执行工作繁重+压力太大皮质醇爆表\r\n每日平均睡眠低至 4-5 小时\r\n每天 2-3 杯咖啡顶着才不至于崩溃\r\n\r\n周五执行结束，周五和周六晚上依然是 4 小时睡眠\r\n人都快疯了\r\n\r\n周日突发荨麻疹，无奈之下吃了一颗盐酸左西替利嗪\r\n好嘛，直接开启嗜睡模式\r\n周日中午 11 点半吃上药\r\n下午一直在景点之间骑车，当时还没啥感觉\r\n最后一个景点逛完，吃了顿钵钵鸡打车回酒店\r\n从上了网约车，就开启了睡眠模式\r\n钵钵鸡到酒店，睡了 20 分钟\r\n酒店到机场睡了一路，70 分钟\r\n机场候机，坐下就睡，又睡了 40 分钟，差点错过登机\r\n上了飞机坐下又开始睡，飞了 150 分钟，中间就清醒了 10 分钟吃了个飞机餐\r\n下了飞机从机场回家的路上又睡一个小时\r\n到了家洗完澡 11 点多，倒头就睡，一觉睡到早上 6 点半我老公离家\r\n6 点 45 又续上，睡到 8 点闹铃响，又按掉闹铃再续 10 分钟\r\n\r\n让 AI 帮我算了算，吃上药到早上起床的这段时间\r\n总共睡了 14 个小时+\r\n这可比我平时撸完铁吃的什么褪黑素 南非醉茄 谷氨酸镁都管用多了……",
-          "node": "share",
-          "replies": 106,
-          "member": "FaustinaD",
-          "created": 1787622182,
-          "url": "https://www.v2ex.com/t/1236961",
+          "id": 1236954,
+          "title": "大家有没有关注到最近的“男性觉醒”现象",
+          "content": "这些年可能经济不景气，感觉很少刷到给女朋友送 xx 的话题或者广告了，再加上最近刷抖音发现很多所谓的男性觉醒，用 xxn 的话术回应男女不公平现象，并且最近一些地方出现了对男性不公待遇现象更是加重了对立，我想知道整个社会都逐渐倾向还是只是因为我的信息茧房问题",
+          "node": "internet",
+          "replies": 111,
+          "member": "cxc520589",
+          "created": 1787621314,
+          "url": "https://www.v2ex.com/t/1236954",
           "source": "V2EX",
           "confidence": 0.9
         }
@@ -830,7 +798,7 @@
       "data": [
         {
           "bvid": null,
-          "title": "bitcoin-哔哩哔哩_bilibili",
+          "title": "dai-哔哩哔哩_bilibili",
           "description": "",
           "author": null,
           "play": null,
@@ -842,9 +810,9 @@
     "community_score": {
       "status": "ok",
       "data": {
-        "coin": "bitcoin",
-        "community_score": 2,
-        "total_signals": 4,
+        "coin": "dai",
+        "community_score": 1,
+        "total_signals": 1,
         "breakdown": {
           "v2ex": {
             "mentions": 0,
@@ -855,7 +823,7 @@
             "source": "Bilibili"
           },
           "news": {
-            "mentions": 3,
+            "mentions": 0,
             "source": "Crypto News"
           },
           "twitter": {
@@ -868,150 +836,7 @@
           }
         },
         "source": "CommunityClient",
-        "timestamp": "2026-08-25T14:48:25.800911"
-      }
-    },
-    "github": {
-      "status": "ok",
-      "data": {
-        "id": 1181927,
-        "node_id": "MDEwOlJlcG9zaXRvcnkxMTgxOTI3",
-        "name": "bitcoin",
-        "full_name": "bitcoin/bitcoin",
-        "private": false,
-        "owner": {
-          "login": "bitcoin",
-          "id": 528860,
-          "node_id": "MDEyOk9yZ2FuaXphdGlvbjUyODg2MA==",
-          "avatar_url": "https://avatars.githubusercontent.com/u/528860?v=4",
-          "gravatar_id": "",
-          "url": "https://api.github.com/users/bitcoin",
-          "html_url": "https://github.com/bitcoin",
-          "followers_url": "https://api.github.com/users/bitcoin/followers",
-          "following_url": "https://api.github.com/users/bitcoin/following{/other_user}",
-          "gists_url": "https://api.github.com/users/bitcoin/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/bitcoin/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/bitcoin/subscriptions",
-          "organizations_url": "https://api.github.com/users/bitcoin/orgs",
-          "repos_url": "https://api.github.com/users/bitcoin/repos",
-          "events_url": "https://api.github.com/users/bitcoin/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/bitcoin/received_events",
-          "type": "Organization",
-          "user_view_type": "public",
-          "site_admin": false
-        },
-        "html_url": "https://github.com/bitcoin/bitcoin",
-        "description": "Bitcoin Core integration/staging tree",
-        "fork": false,
-        "url": "https://api.github.com/repos/bitcoin/bitcoin",
-        "forks_url": "https://api.github.com/repos/bitcoin/bitcoin/forks",
-        "keys_url": "https://api.github.com/repos/bitcoin/bitcoin/keys{/key_id}",
-        "collaborators_url": "https://api.github.com/repos/bitcoin/bitcoin/collaborators{/collaborator}",
-        "teams_url": "https://api.github.com/repos/bitcoin/bitcoin/teams",
-        "hooks_url": "https://api.github.com/repos/bitcoin/bitcoin/hooks",
-        "issue_events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/events{/number}",
-        "events_url": "https://api.github.com/repos/bitcoin/bitcoin/events",
-        "assignees_url": "https://api.github.com/repos/bitcoin/bitcoin/assignees{/user}",
-        "branches_url": "https://api.github.com/repos/bitcoin/bitcoin/branches{/branch}",
-        "tags_url": "https://api.github.com/repos/bitcoin/bitcoin/tags",
-        "blobs_url": "https://api.github.com/repos/bitcoin/bitcoin/git/blobs{/sha}",
-        "git_tags_url": "https://api.github.com/repos/bitcoin/bitcoin/git/tags{/sha}",
-        "git_refs_url": "https://api.github.com/repos/bitcoin/bitcoin/git/refs{/sha}",
-        "trees_url": "https://api.github.com/repos/bitcoin/bitcoin/git/trees{/sha}",
-        "statuses_url": "https://api.github.com/repos/bitcoin/bitcoin/statuses/{sha}",
-        "languages_url": "https://api.github.com/repos/bitcoin/bitcoin/languages",
-        "stargazers_url": "https://api.github.com/repos/bitcoin/bitcoin/stargazers",
-        "contributors_url": "https://api.github.com/repos/bitcoin/bitcoin/contributors",
-        "subscribers_url": "https://api.github.com/repos/bitcoin/bitcoin/subscribers",
-        "subscription_url": "https://api.github.com/repos/bitcoin/bitcoin/subscription",
-        "commits_url": "https://api.github.com/repos/bitcoin/bitcoin/commits{/sha}",
-        "git_commits_url": "https://api.github.com/repos/bitcoin/bitcoin/git/commits{/sha}",
-        "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/comments{/number}",
-        "issue_comment_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/comments{/number}",
-        "contents_url": "https://api.github.com/repos/bitcoin/bitcoin/contents/{+path}",
-        "compare_url": "https://api.github.com/repos/bitcoin/bitcoin/compare/{base}...{head}",
-        "merges_url": "https://api.github.com/repos/bitcoin/bitcoin/merges",
-        "archive_url": "https://api.github.com/repos/bitcoin/bitcoin/{archive_format}{/ref}",
-        "downloads_url": "https://api.github.com/repos/bitcoin/bitcoin/downloads",
-        "issues_url": "https://api.github.com/repos/bitcoin/bitcoin/issues{/number}",
-        "pulls_url": "https://api.github.com/repos/bitcoin/bitcoin/pulls{/number}",
-        "milestones_url": "https://api.github.com/repos/bitcoin/bitcoin/milestones{/number}",
-        "notifications_url": "https://api.github.com/repos/bitcoin/bitcoin/notifications{?since,all,participating}",
-        "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/labels{/name}",
-        "releases_url": "https://api.github.com/repos/bitcoin/bitcoin/releases{/id}",
-        "deployments_url": "https://api.github.com/repos/bitcoin/bitcoin/deployments",
-        "created_at": "2010-12-19T15:16:43Z",
-        "updated_at": "2026-08-25T09:42:43Z",
-        "pushed_at": "2026-08-25T09:42:06Z",
-        "git_url": "git://github.com/bitcoin/bitcoin.git",
-        "ssh_url": "git@github.com:bitcoin/bitcoin.git",
-        "clone_url": "https://github.com/bitcoin/bitcoin.git",
-        "svn_url": "https://github.com/bitcoin/bitcoin",
-        "homepage": "https://bitcoincore.org/en/download",
-        "size": 322956,
-        "stargazers_count": 90003,
-        "watchers_count": 90003,
-        "language": "C++",
-        "has_issues": true,
-        "has_projects": true,
-        "has_downloads": false,
-        "has_wiki": false,
-        "has_pages": false,
-        "has_discussions": false,
-        "forks_count": 39326,
-        "mirror_url": null,
-        "archived": false,
-        "disabled": false,
-        "open_issues_count": 701,
-        "license": {
-          "key": "mit",
-          "name": "MIT License",
-          "spdx_id": "MIT",
-          "url": "https://api.github.com/licenses/mit",
-          "node_id": "MDc6TGljZW5zZTEz"
-        },
-        "allow_forking": true,
-        "is_template": false,
-        "web_commit_signoff_required": false,
-        "has_pull_requests": true,
-        "pull_request_creation_policy": "all",
-        "topics": [
-          "bitcoin",
-          "c-plus-plus",
-          "cryptocurrency",
-          "cryptography",
-          "p2p"
-        ],
-        "visibility": "public",
-        "forks": 39326,
-        "open_issues": 701,
-        "watchers": 90003,
-        "default_branch": "master",
-        "temp_clone_token": null,
-        "custom_properties": {},
-        "organization": {
-          "login": "bitcoin",
-          "id": 528860,
-          "node_id": "MDEyOk9yZ2FuaXphdGlvbjUyODg2MA==",
-          "avatar_url": "https://avatars.githubusercontent.com/u/528860?v=4",
-          "gravatar_id": "",
-          "url": "https://api.github.com/users/bitcoin",
-          "html_url": "https://github.com/bitcoin",
-          "followers_url": "https://api.github.com/users/bitcoin/followers",
-          "following_url": "https://api.github.com/users/bitcoin/following{/other_user}",
-          "gists_url": "https://api.github.com/users/bitcoin/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/bitcoin/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/bitcoin/subscriptions",
-          "organizations_url": "https://api.github.com/users/bitcoin/orgs",
-          "repos_url": "https://api.github.com/users/bitcoin/repos",
-          "events_url": "https://api.github.com/users/bitcoin/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/bitcoin/received_events",
-          "type": "Organization",
-          "user_view_type": "public",
-          "site_admin": false
-        },
-        "network_count": 39326,
-        "subscribers_count": 4103
+        "timestamp": "2026-08-25T14:27:00.833897"
       }
     },
     "sentiment": {
@@ -1032,23 +857,21 @@
         "combined_score": 2,
         "overall_sentiment": "bearish",
         "recommendation": "Greed - Consider taking profits",
-        "timestamp": "2026-08-25T14:48:27.595496",
+        "timestamp": "2026-08-25T14:27:00.834417",
         "confidence": 0.81
       }
     }
   },
   "symbol": "",
-  "name": "bitcoin",
+  "name": "dai",
   "rank": null,
   "categories": [
-    "Smart Contract Platform",
-    "Layer 1 (L1)",
-    "FTX Holdings",
-    "Proof of Work (PoW)",
-    "Bitcoin Ecosystem",
-    "GMCI 30 Index",
-    "GMCI Index",
-    "Coinbase 50 Index"
+    "Stablecoins",
+    "Decentralized Finance (DeFi)",
+    "USD Stablecoin",
+    "Ethereum Ecosystem",
+    "Crypto-backed Stablecoin",
+    "Fiat-backed Stablecoin"
   ],
-  "category_slug": "layer-1"
+  "category_slug": "defi"
 }

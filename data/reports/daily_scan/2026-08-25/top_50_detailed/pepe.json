@@ -1,49 +1,49 @@
 {
-  "coin_id": "ethereum",
-  "research_time": "2026-08-25T23:26:57.499285",
+  "coin_id": "pepe",
+  "research_time": "2026-08-25T23:37:25.657573",
   "sources": {
     "market": {
       "status": "ok",
       "data": {
-        "id": "ethereum",
-        "symbol": "ETH",
-        "name": "Ethereum",
-        "current_price": 2450.84,
-        "market_cap": 295754724819,
-        "market_cap_rank": 2,
-        "total_volume": 15359576117,
-        "circulating_supply": 120681302.5213096,
-        "total_supply": 120681302.5213096,
-        "max_supply": null,
-        "price_change_24h": -31.223678330650728,
-        "price_change_percentage_24h": -1.25797,
-        "last_updated": "2026-08-25T23:23:40.000Z"
+        "id": "pepe",
+        "symbol": "PEPE",
+        "name": "Pepe",
+        "current_price": 3.85e-06,
+        "market_cap": 1617779728,
+        "market_cap_rank": 53,
+        "total_volume": 469400801,
+        "circulating_supply": 420690000000000.0,
+        "total_supply": 420690000000000.0,
+        "max_supply": 420690000000000.0,
+        "price_change_24h": -1.78516389437e-07,
+        "price_change_percentage_24h": -4.43568,
+        "last_updated": "2026-08-25T23:34:40.000Z"
       }
     },
     "funding_rate": {
       "status": "ok",
       "data": {
-        "symbol": "ETHEREUMUSDT",
-        "coin_id": "ETHEREUMUSDT",
+        "symbol": "PEPEUSDT",
+        "coin_id": "PEPEUSDT",
         "exchanges": [],
         "avg_funding_rate": 0.0,
         "funding_rate_change": 0.0,
         "confidence": 0.1,
-        "timestamp": "2026-08-25T23:27:00.991632",
+        "timestamp": "2026-08-25T23:37:29.180995",
         "error": "API unavailable"
       }
     },
     "open_interest": {
       "status": "ok",
       "data": {
-        "symbol": "ETHEREUMUSDT",
-        "coin_id": "ETHEREUMUSDT",
+        "symbol": "PEPEUSDT",
+        "coin_id": "PEPEUSDT",
         "total_open_interest": 0.0,
         "oi_change_24h": 0.0,
         "oi_change_7d": 0.0,
         "exchanges": [],
         "confidence": 0.1,
-        "timestamp": "2026-08-25T23:27:01.133406",
+        "timestamp": "2026-08-25T23:37:29.320446",
         "error": "API unavailable"
       }
     },
@@ -390,91 +390,46 @@
     "social_stats": {
       "status": "ok",
       "data": {
-        "coin": "ethereum",
-        "ticker": "ETH",
-        "timestamp": "2026-08-25T23:27:03.686282",
+        "coin": "pepe",
+        "ticker": "PEPE",
+        "timestamp": "2026-08-25T23:37:32.259338",
         "overall": {
-          "mentions": 41,
-          "upvotes": 222,
+          "mentions": 0,
+          "upvotes": 0,
           "signal": 50,
           "buzz": 0.0,
           "intensity": 0.0
         },
         "reddit": {
-          "subscribers": 4100,
-          "active_users": 4,
+          "subscribers": 0,
+          "active_users": 0,
           "posts_per_hour": 0,
-          "upvotes": 222
+          "upvotes": 0
         },
         "price": {
-          "current": 2451.63,
-          "change_24h_pct": -1.1
-        },
-        "trend": {
-          "direction": "down",
-          "mention_history": [
-            [
-              1787682632,
-              43
-            ],
-            [
-              1787684436,
-              43
-            ],
-            [
-              1787686234,
-              42
-            ],
-            [
-              1787688032,
-              41
-            ],
-            [
-              1787689832,
-              40
-            ],
-            [
-              1787691633,
-              38
-            ],
-            [
-              1787693430,
-              41
-            ],
-            [
-              1787695230,
-              42
-            ],
-            [
-              1787697029,
-              41
-            ],
-            [
-              1787698829,
-              41
-            ]
-          ]
+          "current": 4e-06,
+          "change_24h_pct": -4.42
         }
       }
     },
     "twitter": {
       "status": "ok",
       "data": {
-        "username": "ethereum",
-        "name": ") on X",
+        "username": "pepe",
+        "name": null,
         "bio": null,
         "followers": null,
         "following": null,
         "tweets_count": null,
         "source": "Jina Reader",
         "confidence": 0.7,
-        "timestamp": "2026-08-25T19:12:06.957295"
+        "timestamp": "2026-08-25T23:37:33.261383"
       }
     },
     "reddit": {
       "status": "ok",
       "data": {
-        "coin_name": "ETHEREUM",
+        "coin_name": "PEPE",
         "total_mentions": 40,
         "unique_subreddits": 4,
         "avg_score": 0,
@@ -486,8 +441,8 @@
         },
         "posts": [
           {
-            "title": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=ETHEREUM&restrict_sr=1&sort=relevance",
-            "content": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=ETHEREUM&restrict_sr=1&sort=relevance",
+            "title": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=PEPE&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=PEPE&restrict_sr=1&sort=relevance",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "cryptocurrency"
@@ -549,15 +504,15 @@
             "subreddit": "cryptocurrency"
           },
           {
-            "title": "**01a03a56-6ea2-7d80-be1f-565f955aced3**",
-            "content": "**01a03a56-6ea2-7d80-be1f-565f955aced3**",
+            "title": "**01a03b49-50cf-73d6-9266-5c9a7d12bb48**",
+            "content": "**01a03b49-50cf-73d6-9266-5c9a7d12bb48**",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "cryptocurrency"
           },
           {
-            "title": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=ETHEREUM&restrict_sr=1&sort=relevance",
-            "content": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=ETHEREUM&restrict_sr=1&sort=relevance",
+            "title": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=PEPE&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=PEPE&restrict_sr=1&sort=relevance",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "CryptoMarkets"
@@ -619,8 +574,8 @@
             "subreddit": "CryptoMarkets"
           },
           {
-            "title": "**01a03a56-75d5-71b1-8253-48d95d3aac8d**",
-            "content": "**01a03a56-75d5-71b1-8253-48d95d3aac8d**",
+            "title": "**01a03b49-5708-70db-af41-af7fab182b1c**",
+            "content": "**01a03b49-5708-70db-af41-af7fab182b1c**",
             "source": "Jina Reader",
             "confidence": 0.5,
             "subreddit": "CryptoMarkets"
@@ -628,7 +583,7 @@
         ],
         "source": "Reddit (Free)",
         "confidence": 0.6,
-        "timestamp": "2026-08-25T23:27:04.688916"
+        "timestamp": "2026-08-25T23:37:40.690400"
       }
     },
     "crypto_news": {
@@ -806,7 +761,7 @@
       "data": [
         {
           "bvid": null,
-          "title": "ethereum-哔哩哔哩_bilibili",
+          "title": "pepe-哔哩哔哩_bilibili",
           "description": "",
           "author": null,
           "play": null,
@@ -818,9 +773,9 @@
     "community_score": {
       "status": "ok",
       "data": {
-        "coin": "ethereum",
+        "coin": "pepe",
         "community_score": 1,
-        "total_signals": 2,
+        "total_signals": 1,
         "breakdown": {
           "v2ex": {
             "mentions": 0,
@@ -831,7 +786,7 @@
             "source": "Bilibili"
           },
           "news": {
-            "mentions": 1,
+            "mentions": 0,
             "source": "Crypto News"
           },
           "twitter": {
@@ -844,155 +799,7 @@
           }
         },
         "source": "CommunityClient",
-        "timestamp": "2026-08-25T23:27:20.782773"
-      }
-    },
-    "github": {
-      "status": "ok",
-      "data": {
-        "id": 15452919,
-        "node_id": "MDEwOlJlcG9zaXRvcnkxNTQ1MjkxOQ==",
-        "name": "go-ethereum",
-        "full_name": "ethereum/go-ethereum",
-        "private": false,
-        "owner": {
-          "login": "ethereum",
-          "id": 6250754,
-          "node_id": "MDEyOk9yZ2FuaXphdGlvbjYyNTA3NTQ=",
-          "avatar_url": "https://avatars.githubusercontent.com/u/6250754?v=4",
-          "gravatar_id": "",
-          "url": "https://api.github.com/users/ethereum",
-          "html_url": "https://github.com/ethereum",
-          "followers_url": "https://api.github.com/users/ethereum/followers",
-          "following_url": "https://api.github.com/users/ethereum/following{/other_user}",
-          "gists_url": "https://api.github.com/users/ethereum/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/ethereum/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/ethereum/subscriptions",
-          "organizations_url": "https://api.github.com/users/ethereum/orgs",
-          "repos_url": "https://api.github.com/users/ethereum/repos",
-          "events_url": "https://api.github.com/users/ethereum/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/ethereum/received_events",
-          "type": "Organization",
-          "user_view_type": "public",
-          "site_admin": false
-        },
-        "html_url": "https://github.com/ethereum/go-ethereum",
-        "description": "Go implementation of the Ethereum protocol",
-        "fork": false,
-        "url": "https://api.github.com/repos/ethereum/go-ethereum",
-        "forks_url": "https://api.github.com/repos/ethereum/go-ethereum/forks",
-        "keys_url": "https://api.github.com/repos/ethereum/go-ethereum/keys{/key_id}",
-        "collaborators_url": "https://api.github.com/repos/ethereum/go-ethereum/collaborators{/collaborator}",
-        "teams_url": "https://api.github.com/repos/ethereum/go-ethereum/teams",
-        "hooks_url": "https://api.github.com/repos/ethereum/go-ethereum/hooks",
-        "issue_events_url": "https://api.github.com/repos/ethereum/go-ethereum/issues/events{/number}",
-        "events_url": "https://api.github.com/repos/ethereum/go-ethereum/events",
-        "assignees_url": "https://api.github.com/repos/ethereum/go-ethereum/assignees{/user}",
-        "branches_url": "https://api.github.com/repos/ethereum/go-ethereum/branches{/branch}",
-        "tags_url": "https://api.github.com/repos/ethereum/go-ethereum/tags",
-        "blobs_url": "https://api.github.com/repos/ethereum/go-ethereum/git/blobs{/sha}",
-        "git_tags_url": "https://api.github.com/repos/ethereum/go-ethereum/git/tags{/sha}",
-        "git_refs_url": "https://api.github.com/repos/ethereum/go-ethereum/git/refs{/sha}",
-        "trees_url": "https://api.github.com/repos/ethereum/go-ethereum/git/trees{/sha}",
-        "statuses_url": "https://api.github.com/repos/ethereum/go-ethereum/statuses/{sha}",
-        "languages_url": "https://api.github.com/repos/ethereum/go-ethereum/languages",
-        "stargazers_url": "https://api.github.com/repos/ethereum/go-ethereum/stargazers",
-        "contributors_url": "https://api.github.com/repos/ethereum/go-ethereum/contributors",
-        "subscribers_url": "https://api.github.com/repos/ethereum/go-ethereum/subscribers",
-        "subscription_url": "https://api.github.com/repos/ethereum/go-ethereum/subscription",
-        "commits_url": "https://api.github.com/repos/ethereum/go-ethereum/commits{/sha}",
-        "git_commits_url": "https://api.github.com/repos/ethereum/go-ethereum/git/commits{/sha}",
-        "comments_url": "https://api.github.com/repos/ethereum/go-ethereum/comments{/number}",
-        "issue_comment_url": "https://api.github.com/repos/ethereum/go-ethereum/issues/comments{/number}",
-        "contents_url": "https://api.github.com/repos/ethereum/go-ethereum/contents/{+path}",
-        "compare_url": "https://api.github.com/repos/ethereum/go-ethereum/compare/{base}...{head}",
-        "merges_url": "https://api.github.com/repos/ethereum/go-ethereum/merges",
-        "archive_url": "https://api.github.com/repos/ethereum/go-ethereum/{archive_format}{/ref}",
-        "downloads_url": "https://api.github.com/repos/ethereum/go-ethereum/downloads",
-        "issues_url": "https://api.github.com/repos/ethereum/go-ethereum/issues{/number}",
-        "pulls_url": "https://api.github.com/repos/ethereum/go-ethereum/pulls{/number}",
-        "milestones_url": "https://api.github.com/repos/ethereum/go-ethereum/milestones{/number}",
-        "notifications_url": "https://api.github.com/repos/ethereum/go-ethereum/notifications{?since,all,participating}",
-        "labels_url": "https://api.github.com/repos/ethereum/go-ethereum/labels{/name}",
-        "releases_url": "https://api.github.com/repos/ethereum/go-ethereum/releases{/id}",
-        "deployments_url": "https://api.github.com/repos/ethereum/go-ethereum/deployments",
-        "created_at": "2013-12-26T13:05:46Z",
-        "updated_at": "2026-08-25T22:32:50Z",
-        "pushed_at": "2026-08-25T21:33:35Z",
-        "git_url": "git://github.com/ethereum/go-ethereum.git",
-        "ssh_url": "git@github.com:ethereum/go-ethereum.git",
-        "clone_url": "https://github.com/ethereum/go-ethereum.git",
-        "svn_url": "https://github.com/ethereum/go-ethereum",
-        "homepage": "https://geth.ethereum.org",
-        "size": 239087,
-        "stargazers_count": 51318,
-        "watchers_count": 51318,
-        "language": "Go",
-        "has_issues": true,
-        "has_projects": true,
-        "has_downloads": false,
-        "has_wiki": true,
-        "has_pages": true,
-        "has_discussions": false,
-        "forks_count": 22123,
-        "mirror_url": null,
-        "archived": false,
-        "disabled": false,
-        "open_issues_count": 418,
-        "license": {
-          "key": "lgpl-3.0",
-          "name": "GNU Lesser General Public License v3.0",
-          "spdx_id": "LGPL-3.0",
-          "url": "https://api.github.com/licenses/lgpl-3.0",
-          "node_id": "MDc6TGljZW5zZTEy"
-        },
-        "allow_forking": true,
-        "is_template": false,
-        "web_commit_signoff_required": false,
-        "has_pull_requests": true,
-        "pull_request_creation_policy": "all",
-        "topics": [
-          "blockchain",
-          "ethereum",
-          "geth",
-          "go",
-          "p2p"
-        ],
-        "visibility": "public",
-        "forks": 22123,
-        "open_issues": 418,
-        "watchers": 51318,
-        "default_branch": "master",
-        "temp_clone_token": null,
-        "custom_properties": {
-          "last_reviewed": "2020-01-01",
-          "team": [
-            "to be defined"
-          ]
-        },
-        "organization": {
-          "login": "ethereum",
-          "id": 6250754,
-          "node_id": "MDEyOk9yZ2FuaXphdGlvbjYyNTA3NTQ=",
-          "avatar_url": "https://avatars.githubusercontent.com/u/6250754?v=4",
-          "gravatar_id": "",
-          "url": "https://api.github.com/users/ethereum",
-          "html_url": "https://github.com/ethereum",
-          "followers_url": "https://api.github.com/users/ethereum/followers",
-          "following_url": "https://api.github.com/users/ethereum/following{/other_user}",
-          "gists_url": "https://api.github.com/users/ethereum/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/ethereum/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/ethereum/subscriptions",
-          "organizations_url": "https://api.github.com/users/ethereum/orgs",
-          "repos_url": "https://api.github.com/users/ethereum/repos",
-          "events_url": "https://api.github.com/users/ethereum/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/ethereum/received_events",
-          "type": "Organization",
-          "user_view_type": "public",
-          "site_admin": false
-        },
-        "network_count": 22123,
-        "subscribers_count": 2231
+        "timestamp": "2026-08-25T23:37:47.921026"
       }
     },
     "sentiment": {
@@ -1013,30 +820,25 @@
         "combined_score": 2,
         "overall_sentiment": "bearish",
         "recommendation": "Greed - Consider taking profits",
-        "timestamp": "2026-08-25T23:27:22.151436",
+        "timestamp": "2026-08-25T23:37:47.921568",
         "confidence": 0.81
       }
     }
   },
   "symbol": "",
-  "name": "ethereum",
+  "name": "pepe",
   "rank": null,
   "categories": [
-    "Smart Contract Platform",
-    "Layer 1 (L1)",
+    "BNB Chain Ecosystem",
+    "Avalanche Ecosystem",
+    "Meme",
+    "Arbitrum Ecosystem",
     "Ethereum Ecosystem",
-    "FTX Holdings",
-    "Multicoin Capital Portfolio",
-    "Proof of Stake (PoS)",
-    "Alameda Research Portfolio",
-    "Andreessen Horowitz (a16z) Portfolio",
-    "GMCI Layer 1 Index",
-    "GMCI 30 Index",
-    "Delphi Ventures Portfolio",
-    "Galaxy Digital Portfolio",
+    "Frog-Themed",
+    "GMCI Meme Index",
     "GMCI Index",
-    "World Liberty Financial Portfolio",
-    "Coinbase 50 Index"
+    "The Boy’s Club",
+    "4chan-Themed"
   ],
-  "category_slug": "layer-1"
+  "category_slug": "meme"
 }

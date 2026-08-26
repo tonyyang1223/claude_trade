@@ -1,0 +1,842 @@
+{
+  "coin_id": "bitcoin-cash",
+  "research_time": "2026-08-25T14:05:12.727637",
+  "sources": {
+    "market": {
+      "status": "ok",
+      "data": {
+        "id": "bitcoin-cash",
+        "symbol": "BCH",
+        "name": "Bitcoin Cash",
+        "current_price": 267.84,
+        "market_cap": 5376172774,
+        "market_cap_rank": 21,
+        "total_volume": 243320319,
+        "circulating_supply": 20080046.77165078,
+        "total_supply": 20080121.77165078,
+        "max_supply": 21000000.0,
+        "price_change_24h": -7.106070168006909,
+        "price_change_percentage_24h": -2.58454,
+        "last_updated": "2026-08-25T14:02:40.000Z"
+      }
+    },
+    "funding_rate": {
+      "status": "ok",
+      "data": {
+        "symbol": "BITCOIN-CASHUSDT",
+        "coin_id": "BITCOIN-CASHUSDT",
+        "exchanges": [],
+        "avg_funding_rate": 0.0,
+        "funding_rate_change": 0.0,
+        "confidence": 0.1,
+        "timestamp": "2026-08-25T14:05:16.425589",
+        "error": "API unavailable"
+      }
+    },
+    "open_interest": {
+      "status": "ok",
+      "data": {
+        "symbol": "BITCOIN-CASHUSDT",
+        "coin_id": "BITCOIN-CASHUSDT",
+        "total_open_interest": 0.0,
+        "oi_change_24h": 0.0,
+        "oi_change_7d": 0.0,
+        "exchanges": [],
+        "confidence": 0.1,
+        "timestamp": "2026-08-25T14:05:16.569108",
+        "error": "API unavailable"
+      }
+    },
+    "stablecoin_flows": {
+      "status": "ok",
+      "data": {
+        "stablecoins": [
+          {
+            "name": "Tether",
+            "symbol": "USDT",
+            "total_supply": 183183729104.7998,
+            "mint_change_24h": -24747513.24661255
+          },
+          {
+            "name": "USD Coin",
+            "symbol": "USDC",
+            "total_supply": 73811120689.27583,
+            "mint_change_24h": 153178796.51643372
+          },
+          {
+            "name": "Sky Dollar",
+            "symbol": "USDS",
+            "total_supply": 6616219266.285491,
+            "mint_change_24h": -45646604.93300533
+          },
+          {
+            "name": "Dai",
+            "symbol": "DAI",
+            "total_supply": 4779520382.225328,
+            "mint_change_24h": -9274577.891541481
+          },
+          {
+            "name": "Ethena USDe",
+            "symbol": "USDe",
+            "total_supply": 4067214428.417224,
+            "mint_change_24h": -10593136.49326992
+          },
+          {
+            "name": "World Liberty Financial USD",
+            "symbol": "USD1",
+            "total_supply": 4061984985.709265,
+            "mint_change_24h": 48072652.98748541
+          },
+          {
+            "name": "Global Dollar",
+            "symbol": "USDG",
+            "total_supply": 3338454887.5023685,
+            "mint_change_24h": 15199794.79704094
+          },
+          {
+            "name": "Circle USYC",
+            "symbol": "USYC",
+            "total_supply": 2923610259.8078194,
+            "mint_change_24h": 84956.49399900436
+          },
+          {
+            "name": "PayPal USD",
+            "symbol": "PYUSD",
+            "total_supply": 2766520562.0276246,
+            "mint_change_24h": -110287770.87853384
+          },
+          {
+            "name": "BlackRock USD",
+            "symbol": "BUIDL",
+            "total_supply": 2640302792.960449,
+            "mint_change_24h": 52130246.71000004
+          },
+          {
+            "name": "Ondo US Dollar Yield",
+            "symbol": "USDY",
+            "total_supply": 2160355359.523662,
+            "mint_change_24h": 4430798.442406654
+          },
+          {
+            "name": "Ripple USD",
+            "symbol": "RLUSD",
+            "total_supply": 2072584495.6210332,
+            "mint_change_24h": -4995689.561837435
+          },
+          {
+            "name": "USDD",
+            "symbol": "USDD",
+            "total_supply": 1507183872.3044367,
+            "mint_change_24h": 92041870.46807146
+          },
+          {
+            "name": "United Stables",
+            "symbol": "U",
+            "total_supply": 1276827587.2978647,
+            "mint_change_24h": -1848737.9674973488
+          },
+          {
+            "name": "USDGO",
+            "symbol": "USDGO",
+            "total_supply": 1239605555.4165137,
+            "mint_change_24h": 45003637.12226915
+          },
+          {
+            "name": "Falcon USD",
+            "symbol": "USDf",
+            "total_supply": 1174393130.363418,
+            "mint_change_24h": 14992.302775382996
+          },
+          {
+            "name": "GHO",
+            "symbol": "GHO",
+            "total_supply": 698193226.9223952,
+            "mint_change_24h": 0.0
+          },
+          {
+            "name": "USDX Money USDX",
+            "symbol": "USDX",
+            "total_supply": 683442223.6265625,
+            "mint_change_24h": 0
+          },
+          {
+            "name": "YLDS",
+            "symbol": "YLDS",
+            "total_supply": 680217312.9160663,
+            "mint_change_24h": -8186616.956847787
+          },
+          {
+            "name": "Usual USD",
+            "symbol": "USD0",
+            "total_supply": 550143928.182362,
+            "mint_change_24h": -24954.557520747185
+          }
+        ],
+        "total_supply": 307416684270.6607,
+        "net_flows_24h": 176073727.76967642,
+        "chain_distribution": {
+          "Manta": 5931673.985796964,
+          "ThunderCore": 410633.27395226294,
+          "Movement": 38072617.91571225,
+          "Shiden": 32743.210790551755,
+          "Corn": 0,
+          "Starknet": 152335990.47038934,
+          "Tron": 92961120109.66272,
+          "CORE": 2752372.4043782963,
+          "ApeChain": 414790.8144522242,
+          "Zilliqa": 0,
+          "Evmos": 0,
+          "Peaq": 841814.4606948406,
+          "Monad": 729597037.0846786,
+          "SX Network": 0,
+          "Milkomeda C1": 0,
+          "Aptos": 1237264257.0231483,
+          "Tezos": 48704030.31515381,
+          "PulseChain": 35562979.56683931,
+          "Kusama": 239724.87594419147,
+          "Immutable zkEVM": 11415159.351304121,
+          "Hedera": 32548019.40245923,
+          "Loopring": 990.6538063924637,
+          "Algorand": 39736099.29836226,
+          "Polygon": 3060615363.5282683,
+          "DefiChain": 0,
+          "MANTRA": 645065.285374968,
+          "Unichain": 30068906.19230218,
+          "Metis": 6336478.96404692,
+          "Wanchain": 853116.4926470016,
+          "Kava": 77440608.39231189,
+          "Ontology": 0,
+          "Ink": 164555802.30340666,
+          "Kaia": 246880346.82909128,
+          "Reinetwork": 2140.8497923536875,
+          "Morph": 31964888.386691056,
+          "IoTeX": 3971845.962329058,
+          "Osmosis": 28336597.391759254,
+          "Ethereum": 146932059604.3269,
+          "Cardano": 66652987.251798265,
+          "XDC": 66452473.047134474,
+          "Linea": 37047407.92160654,
+          "Waves": 402500952.9051253,
+          "EthereumClassic": 73797.01142730651,
+          "Soneium": 7710584.2664924245,
+          "Vana": 72533.92634831037,
+          "Rari": 0,
+          "Somnia": 1939889.8461518905,
+          "Mode": 869104.8169648213,
+          "KCC": 10592977.392128244,
+          "Kardia": 0,
+          "Vaulta": 1716107.8152938324,
+          "Berachain": 63608671.927655794,
+          "EDU Chain": 1371048.4573203856,
+          "Crab": 0,
+          "Bittorrent": 332330.3483348382,
+          "Theta": 36891.386255234116,
+          "MultiversX": 7933960.693654888,
+          "Katana": 13283368.548313871,
+          "OP Mainnet": 496500102.6814755,
+          "IOTA EVM": 611625.839623795,
+          "Statemine": 239724.87594419147,
+          "Glue": 0,
+          "Harmony": 8477841.288783282,
+          "BSC": 13882518895.804565,
+          "Dogechain": 0,
+          "Flow": 73617312.43491104,
+          "Astar": 1385079.6534130217,
+          "Heco": 0,
+          "Oasis Emerald": 404997.3163794925,
+          "Data Network": 875435.2165817972,
+          "Citrea": 7172961.721487525,
+          "Avalanche": 1485015284.0074015,
+          "Telos": 712745.1195881515,
+          "Arbitrum": 3633256352.2169538,
+          "Stacks": 12366414.317677796,
+          "Redbelly": 804749.2491573377,
+          "Viction": 20449.600591022114,
+          "GOAT": 112289.7668977363,
+          "ZKsync Lite": 0,
+          "Sui": 420667537.9076649,
+          "Zircuit": 469166.90110475454,
+          "Arbitrum Nova": 345859.75340880966,
+          "Plasma": 865023186.3136021,
+          "Rootstock": 12466631.089052847,
+          "Abstract": 6645430.364732899,
+          "Moonbeam": 0,
+          "TON": 728359098.7896816,
+          "ZKsync Era": 37517891.40822056,
+          "Aurora": 4633130.504063776,
+          "Sei": 303954236.5121919,
+          "Gravity by Galxe": 598446.3823973846,
+          "Injective": 13974964.168627186,
+          "LightLink": 23924.86421678529,
+          "Canto": 5651242.047735784,
+          "Scroll": 9499826.352145448,
+          "Moonriver": 0,
+          "Mixin": 34478003.733969785,
+          "Meter": 1681285.3614962786,
+          "Stable": 22778144.64337277,
+          "X Layer": 1968750679.237256,
+          "Etherlink": 18803210.22154722,
+          "Gnosis": 17536953.964513768,
+          "Nibiru": 112608.093779968,
+          "Conflux": 20044227.481154114,
+          "Omni": 80033980.99969397,
+          "Rls": 7344.501725248462,
+          "Celo": 109291048.13533047,
+          "Taiko": 804828.5256408493,
+          "Fuse": 216902.57141725795,
+          "MegaETH": 20043851.653562482,
+          "Fantom": 337480617.647536,
+          "Hyperliquid L1": 6910037704.252102,
+          "Zora": 9.998993778668168e-07,
+          "OKTChain": 9266662.71934134,
+          "Hemi": 6693896.766592512,
+          "Mantle": 549373860.1090305,
+          "Near": 115694748.30700806,
+          "Terra Classic": 0,
+          "Flare": 44765786.92556205,
+          "Plume Mainnet": 7837660.284816671,
+          "Boba": 1581208.9554901351,
+          "NEO": 0,
+          "Syscoin": 235486.29339113293,
+          "ICP": 3667210.544365784,
+          "Solana": 15905578533.510986,
+          "Swellchain": 2180.8341718767283,
+          "0G": 169.56992995010097,
+          "Tempo": 52823891.50349379,
+          "Everscale": 0,
+          "Polkadot": 68814351.47497392,
+          "Horizen": 3375.1435267305637,
+          "BSquared": 5105296.8389478605,
+          "Superposition": 95199.55574657765,
+          "BOB": 20383187.760971975,
+          "XRPL": 1046950716.6705629,
+          "WEMIX3.0": 2.999903256473333,
+          "Botanix": 0,
+          "Edu_chain": 109263.3605409383,
+          "Camp Network": 88.6594710476044,
+          "Zkfair": 85605.81778567466,
+          "Moca": 0.8999721769049025,
+          "Karura": 621431.1564572491,
+          "Lisk": 586830.9303399416,
+          "Cronos": 183793969.74746922,
+          "Base": 4958728353.465816,
+          "Noble": 108552639.42903958,
+          "GateLayer": 235019.9281350375,
+          "Ronin": 1.0361889656939722,
+          "Shape": 155374.82675063508,
+          "edgeX L1": 3053462.600659115,
+          "DFK": 706429.1163196658,
+          "Kadena": 0,
+          "World Chain": 17971120.76412168,
+          "Codex": 51269182.313776545,
+          "Degen": 665.5445103547984,
+          "Xc": 0,
+          "Ap3x": 82.03482985173804,
+          "Bittensor EVM": 116740.86153521258,
+          "Stellar": 869042679.7902755,
+          "Bitlayer": 404513.06509063364,
+          "Fogo": 855415.900862715,
+          "Orderly Network": 49.80077438386834,
+          "Gensyn": 770516.1173804676,
+          "Doma": 1182502.5075038148,
+          "Pharos": 12881939.103819726,
+          "Polygon zkEVM": 0,
+          "Elastos": 110258.12357796839,
+          "Nero": 10.999659939948808,
+          "Sonic": 127107948.29608794,
+          "Perennial": 0,
+          "Xai": 25.016464603342275,
+          "Aztec": 0,
+          "Velas": 7807.835112474239,
+          "Fraxtal": 13506854.285285816,
+          "Blast": 12716906.291829308,
+          "smartBCH": 73756007.33362792,
+          "Acala": 0,
+          "Ergo": 312647.7289761109,
+          "Kujira": 0,
+          "EthereumPoW": 1444771.8819340428,
+          "re.al": 0,
+          "Concordium": 0,
+          "Secret": 0,
+          "Kiteai": 1.9025048587472602,
+          "Penumbra": 486.11533164812346,
+          "Agoric": 150036.66847522787,
+          "Robinhood Chain": 736267497.168916,
+          "VeChain": 9844.376602766533,
+          "Q Protocol": 0,
+          "Bifrost Network": 1517691.20744406,
+          "Archway": 17602.603608845937,
+          "Icon": 910136.1797691815,
+          "Havah": 4.467422435039284,
+          "BEVM": 0,
+          "Filecoin": 168855.95218601704,
+          "Abcore": 18518835.949511003,
+          "Songbird": 1151636.1196807653,
+          "Provenance": 49004180.32167906,
+          "TAC": 0.5799679433466006,
+          "Mezo": 29607996.218463976,
+          "Hydration": 12653952.55594587,
+          "Saga": 154379017.2669272,
+          "Chia": 43316.66175178658,
+          "Voi Network": 21766.855017422466,
+          "Fluent": 2096981.359639011,
+          "exSat": 0.282895599617695,
+          "Strato": 4965076.01807843
+        },
+        "confidence": 0.9,
+        "timestamp": "2026-08-25T13:43:59.652251"
+      }
+    },
+    "social_stats": {
+      "status": "ok",
+      "data": {}
+    },
+    "twitter": {
+      "status": "ok",
+      "data": {
+        "username": "bitcoin-cash",
+        "name": null,
+        "bio": null,
+        "followers": null,
+        "following": null,
+        "tweets_count": null,
+        "source": "Jina Reader",
+        "confidence": 0.7,
+        "timestamp": "2026-08-25T14:05:20.431621"
+      }
+    },
+    "reddit": {
+      "status": "ok",
+      "data": {
+        "coin_name": "BITCOIN-CASH",
+        "total_mentions": 40,
+        "unique_subreddits": 4,
+        "avg_score": 0,
+        "subreddits": {
+          "cryptocurrency": 10,
+          "CryptoMarkets": 10,
+          "defi": 10,
+          "altcoin": 10
+        },
+        "posts": [
+          {
+            "title": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=BITCOIN-CASH&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=BITCOIN-CASH&restrict_sr=1&sort=relevance",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Warning: Target URL returned error 403: Forbidden",
+            "content": "Warning: Target URL returned error 403: Forbidden",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Markdown Content:",
+            "content": "Markdown Content:\n## whoa there, pardner!",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Your request has been blocked due to a network policy.",
+            "content": "Your request has been blocked due to a network policy.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "content": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and ",
+            "content": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and is something unique and descriptive and try again. if you're supplying an alternate User-Agent string, try changing back to default as that can sometimes result in a block.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "content": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?tick",
+            "content": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?ticket_form_id=21879292693140).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "When contacting us, please include your Reddit account along with the following code:",
+            "content": "When contacting us, please include your Reddit account along with the following code:",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "**01a0393d-750c-7000-ade3-c7c2cd3bda60**",
+            "content": "**01a0393d-750c-7000-ade3-c7c2cd3bda60**",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=BITCOIN-CASH&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=BITCOIN-CASH&restrict_sr=1&sort=relevance",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Warning: Target URL returned error 403: Forbidden",
+            "content": "Warning: Target URL returned error 403: Forbidden",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Markdown Content:",
+            "content": "Markdown Content:\n## whoa there, pardner!",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Your request has been blocked due to a network policy.",
+            "content": "Your request has been blocked due to a network policy.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "content": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and ",
+            "content": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and is something unique and descriptive and try again. if you're supplying an alternate User-Agent string, try changing back to default as that can sometimes result in a block.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "content": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?tick",
+            "content": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?ticket_form_id=21879292693140).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "When contacting us, please include your Reddit account along with the following code:",
+            "content": "When contacting us, please include your Reddit account along with the following code:",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "**01a0393d-7a09-7bb4-bb37-c3507c1f5ec7**",
+            "content": "**01a0393d-7a09-7bb4-bb37-c3507c1f5ec7**",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          }
+        ],
+        "source": "Reddit (Free)",
+        "confidence": 0.6,
+        "timestamp": "2026-08-25T14:05:29.141894"
+      }
+    },
+    "crypto_news": {
+      "status": "ok",
+      "data": [
+        {
+          "title": "Title: CoinDesk: Bitcoin, Ethereum, XRP, Crypto News and Price Data",
+          "content": "Title: CoinDesk: Bitcoin, Ethereum, XRP, Crypto News and Price Data",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "[](https://www.coindesk.com/)",
+          "content": "[](https://www.coindesk.com/)\n*   News \n*   Video \n*   [Prices](https://www.coindesk.com/price)\n*   Research \n*   Events \n*   Data & Indices \n*   More \n*   Sponsored",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Sign In](https://www.coindesk.com/auth/login?returnTo=%2F&reg_module=navigation&ext-country=US \"Sign in to your CoinDesk account\")",
+          "content": "[Sign In](https://www.coindesk.com/auth/login?returnTo=%2F&reg_module=navigation&ext-country=US \"Sign in to your CoinDesk account\")",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Sign Up](https://www.coindesk.com/auth/login?returnTo=%2F&screen_hint=signup&reg_module=navigation&ext-country=US \"Sign up for a free CoinDesk account\")",
+          "content": "[Sign Up](https://www.coindesk.com/auth/login?returnTo=%2F&screen_hint=signup&reg_module=navigation&ext-country=US \"Sign up for a free CoinDesk account\")",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Video 2](blob:https://www.coindesk.com/6358aec1-1e22-47b0-982b-11bdedb806ee)",
+          "content": "[Video 2](blob:https://www.coindesk.com/6358aec1-1e22-47b0-982b-11bdedb806ee)",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "Title: Cointelegraph Bitcoin & Ethereum Blockchain News",
+          "content": "Title: Cointelegraph Bitcoin & Ethereum Blockchain News",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "Markdown Content:",
+          "content": "Markdown Content:\n[![Image 1: Cointelegraph](https://cointelegraph.com/_platypus/img/logos/en.svg)](https://cointelegraph.com/)",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "[](https://twitter.com/cointelegraph)[](https://telegram.me/cointelegraph)[](https://www.facebook.com/cointelegraph)[](https://www.youtube.com/channel/UCRqBu-grVX1p97WaX4d-OuQ)",
+          "content": "[](https://twitter.com/cointelegraph)[](https://telegram.me/cointelegraph)[](https://www.facebook.com/cointelegraph)[](https://www.youtube.com/channel/UCRqBu-grVX1p97WaX4d-OuQ)",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Markets](https://cointelegraph.com/category/markets)",
+          "content": "[Markets](https://cointelegraph.com/category/markets)",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Research](https://cointelegraph.com/category/research)",
+          "content": "[Research](https://cointelegraph.com/category/research)",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "Title: Decrypt: AI, Bitcoin, Culture, Gaming, and Crypto News - Decrypt",
+          "content": "Title: Decrypt: AI, Bitcoin, Culture, Gaming, and Crypto News - Decrypt",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "Markdown Content:",
+          "content": "Markdown Content:\n[[Video 3](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-animation-black.mp4?v=2)![Image 12: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-black.svg)![Image 13: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-white.svg)](https://decrypt.co/)[](https://decrypt.co/)[](https://decrypt.co/university)[](https://decrypt.co/u",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "[![Image 14: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 1",
+          "content": "[![Image 14: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 15: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-black.svg@webp)](https://decrypt.co/)",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "[News](https://decrypt.co/news)[Learn](https://decrypt.co/university)[Videos](https://decrypt.co/videos)[Newsletters](https://decrypt.co/newsletters)",
+          "content": "[News](https://decrypt.co/news)[Learn](https://decrypt.co/university)[Videos](https://decrypt.co/videos)[Newsletters](https://decrypt.co/newsletters)",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "Sign Up[Partner with us](https://dastan.co/partner)",
+          "content": "Sign Up[Partner with us](https://dastan.co/partner)",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "Markdown Content:",
+          "content": "Markdown Content:\n[Discover the institutional crypto exchange LMAX Digital through high-level info and live data here.](https://www.theblock.co/lmax)",
+          "source": "theblock",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Institutional crypto intel Explore](https://www.theblock.pro/)",
+          "content": "[Institutional crypto intel Explore](https://www.theblock.pro/)",
+          "source": "theblock",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Try it free](https://www.theblock.co/campus?modal=marketing)",
+          "content": "[Try it free](https://www.theblock.co/campus?modal=marketing)",
+          "source": "theblock",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Today's top stories](https://www.theblock.co/news)",
+          "content": "[Today's top stories](https://www.theblock.co/news)\n*   [Business](https://www.theblock.co/news/business)\n*   [Deals](https://www.theblock.co/news/deals)\n*   [DeFi](https://www.theblock.co/news/defi)\n*   [Ecosystems](https://www.theblock.co/news/ecosystems)\n*   [Macro](https://www.theblock.co/news/macro)\n*   [Markets](https://www.theblock.co/news/markets)\n*   [Regulation](https://www.theblock.co/news/regulation)\n*   [Web3](https://www.theblock.co/news/web3)",
+          "source": "theblock",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Data](https://www.theblock.co/data/crypto-markets/spot)",
+          "content": "[Data](https://www.theblock.co/data/crypto-markets/spot)",
+          "source": "theblock",
+          "confidence": 0.7
+        }
+      ]
+    },
+    "rss": {
+      "status": "ok",
+      "data": []
+    },
+    "v2ex": {
+      "status": "ok",
+      "data": [
+        {
+          "id": 1236977,
+          "title": "居然没人讨论玄戒 O3,不应该呀？",
+          "content": "在 B 站看了几个 up 的视频，虽然是在开发版上测，但是真的强。",
+          "node": "qna",
+          "replies": 160,
+          "member": "hailaz",
+          "created": 1787624325,
+          "url": "https://www.v2ex.com/t/1236977",
+          "source": "V2EX",
+          "confidence": 0.9
+        },
+        {
+          "id": 1236973,
+          "title": "为什么机器人一定是“人”呢",
+          "content": "我一直有个没太想明白的问题：为什么现在的机器人，尤其是所谓的“通用机器人”，都在大力往“人形”方向设计？\r\n\r\n人类真正厉害的，我觉得可能主要是“脑袋”——会思考、会学习、会判断、会适应环境。至于身体，其实并没有想象中那么优秀。\r\n\r\n比如，想让机器人跑得快，为什么一定要用两条腿？轮胎不是更高效吗？\r\n\r\n想让它拧螺丝，为什么还要设计一只机械手去拿螺丝刀？直接把手做成螺丝刀，不是更简单直接？\r\n\r\n如果目标真的是“什么都能干”，那为什么是两只手？三头六臂听起来反而更符合“通用”的逻辑把。",
+          "node": "programmer",
+          "replies": 142,
+          "member": "tht1286545749",
+          "created": 1787623700,
+          "url": "https://www.v2ex.com/t/1236973",
+          "source": "V2EX",
+          "confidence": 0.9
+        },
+        {
+          "id": 1237045,
+          "title": "干了件蠢事，拿 WD-40 喷了刹车盘",
+          "content": "起因：\r\n 100 块的 手机支架不能正常回弹了，遂去 pdd 买了一瓶 wd40 ，想着缓解下。\r\n 结果喷完后，我脑子立刻生了一个 idea ，我刹车的时候老是发出异响，让我很难受，所以我直接就喷上去了，前后都喷了。。。。。\r\n\r\n好了，刹车没了，下午去换了刹车片，还是不行，刹车效果很差，要换碟了",
+          "node": "life",
+          "replies": 130,
+          "member": "rafa",
+          "created": 1787636270,
+          "url": "https://www.v2ex.com/t/1237045",
+          "source": "V2EX",
+          "confidence": 0.9
+        },
+        {
+          "id": 1236935,
+          "title": "“万一免五”股票基金大笑脸低佣开户，抽键盘迈从 Ace 68 V2；鼠标迈从 A7 V3 PRO+。 [8.25 日~8.31 日]",
+          "content": "这周抽键盘迈从 Ace 68 V2 ；鼠标迈从 A7 V3 PRO+\r\n大笑脸开户，低门槛免 5 券商，股票基金 etf 全网超低费率，北交所免五港股通免五两融免五量化免五，欢迎来开！\r\n⚠️开户和推荐朋友都有红包！\r\n⚠️回帖即可参与抽奖！\r\nhttps://i.v2ex.co/p96eAHV9l.jpeg\r\n⚠️大笑脸低佣开户推荐：\r\nYH 证券：ETF 万 0.5 免 5 [etf 费率最低，适合 etf ，打新，纳指，宽基，LOF 套利，逆回购 1 折，新手必备]\r\nGF 证券：ETF 万 0.5 免 5 [ETF 费率低]\r\nCC 证券：万 1 免 5 [低门槛股票 etf 双免 5]\r\nDB 证券：万 0.741 免 5 [国企券商，股票 etf 费率都很低]\r\nGT*证券：万 0.8 免 5 [头部龙头券商，费率最优惠，大客户专享，综合费率最低]\r\nGX 证券：万 0.851 免 5 [头部龙头券商，综合费率也很低]\r\n\r\n⚠️大笑脸联系方式和最新具体券商表格清单，随时更新 www.daxiaolian.com\r\n备用链接 https://shimo.im/docs/rp",
+          "node": "promotions",
+          "replies": 128,
+          "member": "daxiaolian",
+          "created": 1787617760,
+          "url": "https://www.v2ex.com/t/1236935",
+          "source": "V2EX",
+          "confidence": 0.9
+        },
+        {
+          "id": 1236954,
+          "title": "大家有没有关注到最近的“男性觉醒”现象",
+          "content": "这些年可能经济不景气，感觉很少刷到给女朋友送 xx 的话题或者广告了，再加上最近刷抖音发现很多所谓的男性觉醒，用 xxn 的话术回应男女不公平现象，并且最近一些地方出现了对男性不公待遇现象更是加重了对立，我想知道整个社会都逐渐倾向还是只是因为我的信息茧房问题",
+          "node": "internet",
+          "replies": 111,
+          "member": "cxc520589",
+          "created": 1787621314,
+          "url": "https://www.v2ex.com/t/1236954",
+          "source": "V2EX",
+          "confidence": 0.9
+        }
+      ]
+    },
+    "bilibili": {
+      "status": "ok",
+      "data": [
+        {
+          "bvid": null,
+          "title": "bitcoin-cash-哔哩哔哩_bilibili",
+          "description": "",
+          "author": null,
+          "play": null,
+          "source": "Bilibili (Jina)",
+          "confidence": 0.6
+        }
+      ]
+    },
+    "community_score": {
+      "status": "ok",
+      "data": {
+        "coin": "bitcoin-cash",
+        "community_score": 1,
+        "total_signals": 1,
+        "breakdown": {
+          "v2ex": {
+            "mentions": 0,
+            "source": "V2EX"
+          },
+          "bilibili": {
+            "video_count": 1,
+            "source": "Bilibili"
+          },
+          "news": {
+            "mentions": 0,
+            "source": "Crypto News"
+          },
+          "twitter": {
+            "tweets": 0,
+            "source": "Twitter"
+          },
+          "reddit": {
+            "posts": 0,
+            "source": "Reddit"
+          }
+        },
+        "source": "CommunityClient",
+        "timestamp": "2026-08-25T14:05:44.103981"
+      }
+    },
+    "sentiment": {
+      "status": "ok",
+      "data": {
+        "fear_greed": {
+          "value": 74,
+          "classification": "Greed",
+          "score": 2
+        },
+        "trend": {
+          "direction": "stable",
+          "change": -8.25,
+          "start_value": 74,
+          "end_value": 46,
+          "confidence": 0.8
+        },
+        "combined_score": 2,
+        "overall_sentiment": "bearish",
+        "recommendation": "Greed - Consider taking profits",
+        "timestamp": "2026-08-25T14:05:44.104571",
+        "confidence": 0.81
+      }
+    }
+  },
+  "symbol": "",
+  "name": "bitcoin-cash",
+  "rank": null,
+  "categories": [
+    "Smart Contract Platform",
+    "Layer 1 (L1)",
+    "Bitcoin Fork",
+    "Proof of Work (PoW)",
+    "Coinbase 50 Index"
+  ],
+  "category_slug": "layer-1"
+}

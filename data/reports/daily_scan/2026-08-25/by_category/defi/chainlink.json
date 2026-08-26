@@ -1,0 +1,1156 @@
+{
+  "coin_id": "chainlink",
+  "research_time": "2026-08-25T13:00:56.491085",
+  "sources": {
+    "market": {
+      "status": "ok",
+      "data": {
+        "id": "chainlink",
+        "symbol": "LINK",
+        "name": "Chainlink",
+        "current_price": 11.62,
+        "market_cap": 8692541409,
+        "market_cap_rank": 15,
+        "total_volume": 498224853,
+        "circulating_supply": 748099970.424884,
+        "total_supply": 1000000000.0,
+        "max_supply": 1000000000.0,
+        "price_change_24h": -0.10921936340900018,
+        "price_change_percentage_24h": -0.93142,
+        "last_updated": "2026-08-25T12:58:50.000Z"
+      }
+    },
+    "funding_rate": {
+      "status": "ok",
+      "data": {
+        "symbol": "CHAINLINKUSDT",
+        "coin_id": "CHAINLINKUSDT",
+        "exchanges": [],
+        "avg_funding_rate": 0.0,
+        "funding_rate_change": 0.0,
+        "confidence": 0.1,
+        "timestamp": "2026-08-25T13:01:00.055398",
+        "error": "API unavailable"
+      }
+    },
+    "open_interest": {
+      "status": "ok",
+      "data": {
+        "symbol": "CHAINLINKUSDT",
+        "coin_id": "CHAINLINKUSDT",
+        "total_open_interest": 0.0,
+        "oi_change_24h": 0.0,
+        "oi_change_7d": 0.0,
+        "exchanges": [],
+        "confidence": 0.1,
+        "timestamp": "2026-08-25T13:01:00.195499",
+        "error": "API unavailable"
+      }
+    },
+    "stablecoin_flows": {
+      "status": "ok",
+      "data": {
+        "stablecoins": [
+          {
+            "name": "Tether",
+            "symbol": "USDT",
+            "total_supply": 183173396325.49362,
+            "mint_change_24h": -24746117.319885254
+          },
+          {
+            "name": "USD Coin",
+            "symbol": "USDC",
+            "total_supply": 73734537479.12198,
+            "mint_change_24h": 80453492.83818054
+          },
+          {
+            "name": "Sky Dollar",
+            "symbol": "USDS",
+            "total_supply": 6617259915.719729,
+            "mint_change_24h": -45080616.8670845
+          },
+          {
+            "name": "Dai",
+            "symbol": "DAI",
+            "total_supply": 4775803836.809539,
+            "mint_change_24h": -12298636.260250092
+          },
+          {
+            "name": "Ethena USDe",
+            "symbol": "USDe",
+            "total_supply": 4067530406.844014,
+            "mint_change_24h": -10404480.675640583
+          },
+          {
+            "name": "World Liberty Financial USD",
+            "symbol": "USD1",
+            "total_supply": 4061623881.27823,
+            "mint_change_24h": 48068379.400048256
+          },
+          {
+            "name": "Global Dollar",
+            "symbol": "USDG",
+            "total_supply": 3338513872.3463955,
+            "mint_change_24h": 15200063.351673603
+          },
+          {
+            "name": "Circle USYC",
+            "symbol": "USYC",
+            "total_supply": 2923610259.8078194,
+            "mint_change_24h": 84956.49399900436
+          },
+          {
+            "name": "PayPal USD",
+            "symbol": "PYUSD",
+            "total_supply": 2760627734.679991,
+            "mint_change_24h": -116380918.00039577
+          },
+          {
+            "name": "BlackRock USD",
+            "symbol": "BUIDL",
+            "total_supply": 2640302792.960449,
+            "mint_change_24h": 52130246.71000004
+          },
+          {
+            "name": "Ondo US Dollar Yield",
+            "symbol": "USDY",
+            "total_supply": 2160165651.74586,
+            "mint_change_24h": 4430394.393641472
+          },
+          {
+            "name": "Ripple USD",
+            "symbol": "RLUSD",
+            "total_supply": 2072640425.903049,
+            "mint_change_24h": -4995824.37435174
+          },
+          {
+            "name": "USDD",
+            "symbol": "USDD",
+            "total_supply": 1507051161.8300254,
+            "mint_change_24h": 92033766.00217342
+          },
+          {
+            "name": "United Stables",
+            "symbol": "U",
+            "total_supply": 1276975176.1395597,
+            "mint_change_24h": -1848951.6636126041
+          },
+          {
+            "name": "USDGO",
+            "symbol": "USDGO",
+            "total_supply": 1239675386.0691674,
+            "mint_change_24h": 45006172.31044936
+          },
+          {
+            "name": "Falcon USD",
+            "symbol": "USDf",
+            "total_supply": 1174202726.029921,
+            "mint_change_24h": 14989.87207365036
+          },
+          {
+            "name": "GHO",
+            "symbol": "GHO",
+            "total_supply": 698161253.305233,
+            "mint_change_24h": 0.0
+          },
+          {
+            "name": "USDX Money USDX",
+            "symbol": "USDX",
+            "total_supply": 683442223.6265625,
+            "mint_change_24h": 0
+          },
+          {
+            "name": "YLDS",
+            "symbol": "YLDS",
+            "total_supply": 679896837.5550941,
+            "mint_change_24h": -8503009.964014769
+          },
+          {
+            "name": "Usual USD",
+            "symbol": "USD0",
+            "total_supply": 550134308.9499035,
+            "mint_change_24h": -24954.121191859245
+          }
+        ],
+        "total_supply": 307373172593.09106,
+        "net_flows_24h": 147343368.48643976,
+        "chain_distribution": {
+          "Manta": 5929644.107895767,
+          "ThunderCore": 410613.01754491107,
+          "Movement": 38072544.17098488,
+          "Shiden": 32741.936398475103,
+          "Corn": 0,
+          "Starknet": 152328348.44101396,
+          "Tron": 92955872984.97523,
+          "CORE": 2752219.728943235,
+          "ApeChain": 414768.93929057004,
+          "Zilliqa": 0,
+          "Peaq": 836350.5189526132,
+          "Evmos": 0,
+          "Monad": 727816048.7387818,
+          "Milkomeda C1": 0,
+          "SX Network": 0,
+          "Aptos": 1237194623.8319705,
+          "Tezos": 48810582.69561356,
+          "PulseChain": 35558902.49865306,
+          "Kusama": 239711.353868568,
+          "Immutable zkEVM": 11414621.147574192,
+          "Hedera": 32546314.294732682,
+          "Loopring": 990.5687026101286,
+          "Algorand": 39294066.78091194,
+          "Polygon": 3062733801.1213827,
+          "MANTRA": 645040.9230278234,
+          "DefiChain": 0,
+          "Unichain": 30067793.104457334,
+          "Metis": 6335302.769704142,
+          "Wanchain": 853071.2046683871,
+          "Kava": 77436665.94516814,
+          "Ontology": 0,
+          "Ink": 164565967.38471517,
+          "Kaia": 246866156.31831646,
+          "Reinetwork": 2140.72903442833,
+          "Morph": 33960013.90731011,
+          "IoTeX": 3971628.3040150884,
+          "Osmosis": 28313344.51031416,
+          "Ethereum": 146931566164.3982,
+          "XDC": 66451127.60886453,
+          "Cardano": 66689051.49663435,
+          "Linea": 37042083.58066254,
+          "Waves": 402500939.3427764,
+          "EthereumClassic": 73792.70278786775,
+          "Soneium": 7712973.255345998,
+          "Vana": 72530.12598369349,
+          "Rari": 0,
+          "Somnia": 1940266.1136490193,
+          "Mode": 869058.2965804582,
+          "Kardia": 0,
+          "KCC": 10592387.53991537,
+          "Vaulta": 1716011.0154120303,
+          "Berachain": 63605860.64379162,
+          "EDU Chain": 1370971.8536744511,
+          "Crab": 0,
+          "Bittorrent": 332311.59983281064,
+          "Theta": 36890.32329774226,
+          "MultiversX": 7931543.497090354,
+          "Katana": 13283027.39644015,
+          "OP Mainnet": 495728758.2380779,
+          "IOTA EVM": 611601.4364895141,
+          "Statemine": 239711.353868568,
+          "Glue": 0,
+          "Harmony": 8477276.621639183,
+          "BSC": 13881536506.195877,
+          "Flow": 73622837.52809747,
+          "Dogechain": 0,
+          "Astar": 1385015.33723096,
+          "Oasis Emerald": 404974.79873555707,
+          "Heco": 0,
+          "Citrea": 7172932.915224742,
+          "Data Network": 875389.3517109299,
+          "Avalanche": 1452958351.2048633,
+          "Telos": 712706.9699746694,
+          "Arbitrum": 3637622785.57354,
+          "Stacks": 12395468.246558892,
+          "Redbelly": 804704.3525999268,
+          "Viction": 20448.577788417915,
+          "ZKsync Lite": 0,
+          "GOAT": 112283.79895095334,
+          "Sui": 420521964.01190084,
+          "Zircuit": 469147.4375929561,
+          "Arbitrum Nova": 345447.7378940178,
+          "Plasma": 865689440.8572984,
+          "Rootstock": 12466011.742019339,
+          "Abstract": 6645077.845296,
+          "Moonbeam": 0,
+          "TON": 728330513.2871644,
+          "ZKsync Era": 37526594.01071202,
+          "Aurora": 4632897.1062250845,
+          "Sei": 303929623.4802129,
+          "Gravity by Galxe": 598414.2212563526,
+          "Injective": 13972142.435179694,
+          "LightLink": 23923.599952279066,
+          "Canto": 5650974.33930575,
+          "Scroll": 9499314.239175683,
+          "Moonriver": 0,
+          "Mixin": 34476062.187011905,
+          "Meter": 1681247.221842446,
+          "Stable": 22776859.824136734,
+          "X Layer": 1968775171.7940824,
+          "Etherlink": 18802537.457523763,
+          "Gnosis": 17538633.193704907,
+          "Nibiru": 112602.24882951233,
+          "Omni": 80029466.55145717,
+          "Conflux": 20043097.01537458,
+          "Rls": 7344.117045780963,
+          "Taiko": 804814.185395068,
+          "Celo": 109254241.51224549,
+          "Fuse": 216617.2982948241,
+          "MegaETH": 20043659.409507353,
+          "Fantom": 337461285.4685529,
+          "Hyperliquid L1": 6916103923.08367,
+          "Zora": 9.998429768990401e-07,
+          "OKTChain": 9266150.48267823,
+          "Hemi": 6693102.865890045,
+          "Mantle": 549347029.984698,
+          "Near": 115688373.96098103,
+          "Terra Classic": 0,
+          "Flare": 44771684.520827666,
+          "Plume Mainnet": 7785938.215677235,
+          "Boba": 1581115.6550313232,
+          "NEO": 0,
+          "Syscoin": 235472.87990153304,
+          "ICP": 3689074.581233193,
+          "Solana": 15836856396.461197,
+          "Swellchain": 2180.774212940312,
+          "0G": 169.56104452953494,
+          "Tempo": 52818039.17991702,
+          "Everscale": 0,
+          "Polkadot": 68810598.14609644,
+          "Horizen": 3374.966750299764,
+          "BSquared": 5105052.511049799,
+          "Superposition": 95212.19636284931,
+          "BOB": 20382214.972432047,
+          "XRPL": 1046976449.0830644,
+          "WEMIX3.0": 2.999746133617305,
+          "Botanix": 0,
+          "Edu_chain": 109257.63776596868,
+          "Camp Network": 88.6548274214225,
+          "Zkfair": 85601.33409755769,
+          "Moca": 0.8999250399852449,
+          "Karura": 621415.5721044568,
+          "Lisk": 586800.1944981836,
+          "Cronos": 183784348.9724963,
+          "Base": 4961542753.251562,
+          "Noble": 108050422.83516803,
+          "GateLayer": 235007.61873730863,
+          "Shape": 155366.6888426938,
+          "Ronin": 1.0361346942872782,
+          "Kadena": 0,
+          "DFK": 706392.1164063859,
+          "edgeX L1": 3053302.672580249,
+          "World Chain": 17970073.55942094,
+          "Codex": 50761406.35261612,
+          "Degen": 665.5096518125921,
+          "Xc": 0,
+          "Ap3x": 82.03053319759353,
+          "Bittensor EVM": 116734.74711884266,
+          "Stellar": 868959892.0842605,
+          "Bitlayer": 404500.4223606651,
+          "Fogo": 855371.0976214288,
+          "Orderly Network": 49.79816601978636,
+          "Gensyn": 770475.7608480637,
+          "Doma": 1182440.5727828073,
+          "Polygon zkEVM": 0,
+          "Pharos": 12881639.361243945,
+          "Elastos": 110252.48451238299,
+          "Nero": 10.99908382204188,
+          "Sonic": 127098848.81026813,
+          "Perennial": 0,
+          "Xai": 25.01515434163376,
+          "Aztec": 0,
+          "Velas": 7806.706055012778,
+          "Fraxtal": 13505975.097297123,
+          "Blast": 12693155.829992782,
+          "smartBCH": 73753979.51701947,
+          "Acala": 0,
+          "Ergo": 312639.13317110005,
+          "Kujira": 0,
+          "EthereumPoW": 1444732.159984285,
+          "re.al": 0,
+          "Concordium": 0,
+          "Secret": 0,
+          "Kiteai": 1.9026373351932622,
+          "Penumbra": 486.07264766618636,
+          "Agoric": 152403.48014997065,
+          "Robinhood Chain": 736295852.9591047,
+          "VeChain": 9847.97814620151,
+          "Q Protocol": 0,
+          "Bifrost Network": 0,
+          "Archway": 17662.937972718133,
+          "Icon": 913255.7459801623,
+          "Havah": 4.482734890898428,
+          "BEVM": 0,
+          "Filecoin": 167902.35238639993,
+          "Abcore": 18517189.65250535,
+          "Songbird": 1152124.4265154211,
+          "Provenance": 48891263.06629059,
+          "TAC": 0.579951997952179,
+          "Mezo": 29620957.479461137,
+          "Hydration": 12653952.55594587,
+          "Saga": 154374772.83523235,
+          "Chia": 43315.47082172815,
+          "Voi Network": 21766.2565686762,
+          "Fluent": 2096923.7061165054,
+          "exSat": 0.2828878218052007,
+          "Strato": 4965076.01807843
+        },
+        "confidence": 0.9,
+        "timestamp": "2026-08-25T12:39:39.882322"
+      }
+    },
+    "social_stats": {
+      "status": "ok",
+      "data": {
+        "coin": "chainlink",
+        "ticker": "LINK",
+        "timestamp": "2026-08-25T13:01:02.744575",
+        "overall": {
+          "mentions": 7,
+          "upvotes": 8,
+          "signal": 50,
+          "buzz": 0.0,
+          "intensity": 0.0
+        },
+        "reddit": {
+          "subscribers": 700,
+          "active_users": 0,
+          "posts_per_hour": 0,
+          "upvotes": 8
+        },
+        "price": {
+          "current": 5.785,
+          "change_24h_pct": 3.8599640933572683
+        },
+        "trend": {
+          "direction": "down",
+          "mention_history": [
+            [
+              1787560234,
+              12
+            ],
+            [
+              1787562040,
+              11
+            ],
+            [
+              1787563837,
+              11
+            ],
+            [
+              1787565648,
+              10
+            ],
+            [
+              1787567435,
+              10
+            ],
+            [
+              1787569241,
+              9
+            ],
+            [
+              1787571034,
+              8
+            ],
+            [
+              1787572852,
+              8
+            ],
+            [
+              1787574633,
+              8
+            ],
+            [
+              1787576440,
+              7
+            ]
+          ]
+        }
+      }
+    },
+    "twitter": {
+      "status": "ok",
+      "data": {
+        "username": "chainlink",
+        "name": ") on X",
+        "bio": null,
+        "followers": null,
+        "following": null,
+        "tweets_count": 12800,
+        "source": "Jina Reader",
+        "confidence": 0.7,
+        "timestamp": "2026-08-25T13:01:03.747180"
+      }
+    },
+    "reddit": {
+      "status": "ok",
+      "data": {
+        "coin_name": "CHAINLINK",
+        "total_mentions": 40,
+        "unique_subreddits": 4,
+        "avg_score": 0,
+        "subreddits": {
+          "cryptocurrency": 10,
+          "CryptoMarkets": 10,
+          "defi": 10,
+          "altcoin": 10
+        },
+        "posts": [
+          {
+            "title": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=CHAINLINK&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/cryptocurrency/search/?q=CHAINLINK&restrict_sr=1&sort=relevance",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Warning: Target URL returned error 403: Forbidden",
+            "content": "Warning: Target URL returned error 403: Forbidden",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Markdown Content:",
+            "content": "Markdown Content:\n## whoa there, pardner!",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Your request has been blocked due to a network policy.",
+            "content": "Your request has been blocked due to a network policy.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "content": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and ",
+            "content": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and is something unique and descriptive and try again. if you're supplying an alternate User-Agent string, try changing back to default as that can sometimes result in a block.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "content": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?tick",
+            "content": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?ticket_form_id=21879292693140).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "When contacting us, please include your Reddit account along with the following code:",
+            "content": "When contacting us, please include your Reddit account along with the following code:",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "**01a03902-ad5e-7716-8b34-1d41025ae433**",
+            "content": "**01a03902-ad5e-7716-8b34-1d41025ae433**",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "cryptocurrency"
+          },
+          {
+            "title": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=CHAINLINK&restrict_sr=1&sort=relevance",
+            "content": "URL Source: https://old.reddit.com/r/CryptoMarkets/search/?q=CHAINLINK&restrict_sr=1&sort=relevance",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Warning: Target URL returned error 403: Forbidden",
+            "content": "Warning: Target URL returned error 403: Forbidden",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Markdown Content:",
+            "content": "Markdown Content:\n## whoa there, pardner!",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Your request has been blocked due to a network policy.",
+            "content": "Your request has been blocked due to a network policy.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "content": "Try logging in or creating an account [here](https://www.reddit.com/login/) to get back to browsing.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and ",
+            "content": "If you're running a script or application, please register or sign in with your developer credentials [here](https://www.reddit.com/wiki/api/). Additionally make sure your User-Agent is not empty and is something unique and descriptive and try again. if you're supplying an alternate User-Agent string, try changing back to default as that can sometimes result in a block.",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "content": "You can read Reddit's Terms of Service [here](https://www.reddit.com/wiki/api/).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?tick",
+            "content": "If you think that we've incorrectly blocked you or you would like to discuss easier ways to get the data you want, please file a ticket [here](https://support.reddithelp.com/hc/en-us/requests/new?ticket_form_id=21879292693140).",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "When contacting us, please include your Reddit account along with the following code:",
+            "content": "When contacting us, please include your Reddit account along with the following code:",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          },
+          {
+            "title": "**01a03902-b37b-718c-b78b-48bccff011d9**",
+            "content": "**01a03902-b37b-718c-b78b-48bccff011d9**",
+            "source": "Jina Reader",
+            "confidence": 0.5,
+            "subreddit": "CryptoMarkets"
+          }
+        ],
+        "source": "Reddit (Free)",
+        "confidence": 0.6,
+        "timestamp": "2026-08-25T13:01:18.313553"
+      }
+    },
+    "crypto_news": {
+      "status": "ok",
+      "data": [
+        {
+          "title": "Title: CoinDesk: Bitcoin, Ethereum, XRP, Crypto News and Price Data",
+          "content": "Title: CoinDesk: Bitcoin, Ethereum, XRP, Crypto News and Price Data",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "[](https://www.coindesk.com/)",
+          "content": "[](https://www.coindesk.com/)\n*   News \n*   Video \n*   [Prices](https://www.coindesk.com/price)\n*   Research \n*   Events \n*   Data & Indices \n*   More \n*   Sponsored",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Sign In](https://www.coindesk.com/auth/login?returnTo=%2F&reg_module=navigation&ext-country=US \"Sign in to your CoinDesk account\")",
+          "content": "[Sign In](https://www.coindesk.com/auth/login?returnTo=%2F&reg_module=navigation&ext-country=US \"Sign in to your CoinDesk account\")",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Sign Up](https://www.coindesk.com/auth/login?returnTo=%2F&screen_hint=signup&reg_module=navigation&ext-country=US \"Sign up for a free CoinDesk account\")",
+          "content": "[Sign Up](https://www.coindesk.com/auth/login?returnTo=%2F&screen_hint=signup&reg_module=navigation&ext-country=US \"Sign up for a free CoinDesk account\")",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Video 2](blob:https://www.coindesk.com/6358aec1-1e22-47b0-982b-11bdedb806ee)",
+          "content": "[Video 2](blob:https://www.coindesk.com/6358aec1-1e22-47b0-982b-11bdedb806ee)",
+          "source": "coindesk",
+          "confidence": 0.7
+        },
+        {
+          "title": "Title: Cointelegraph Bitcoin & Ethereum Blockchain News",
+          "content": "Title: Cointelegraph Bitcoin & Ethereum Blockchain News",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "Markdown Content:",
+          "content": "Markdown Content:\n[![Image 1: Cointelegraph](https://cointelegraph.com/_platypus/img/logos/en.svg)](https://cointelegraph.com/)",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "[](https://twitter.com/cointelegraph)[](https://telegram.me/cointelegraph)[](https://www.facebook.com/cointelegraph)[](https://www.youtube.com/channel/UCRqBu-grVX1p97WaX4d-OuQ)",
+          "content": "[](https://twitter.com/cointelegraph)[](https://telegram.me/cointelegraph)[](https://www.facebook.com/cointelegraph)[](https://www.youtube.com/channel/UCRqBu-grVX1p97WaX4d-OuQ)",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Markets](https://cointelegraph.com/category/markets)",
+          "content": "[Markets](https://cointelegraph.com/category/markets)",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Research](https://cointelegraph.com/category/research)",
+          "content": "[Research](https://cointelegraph.com/category/research)",
+          "source": "cointelegraph",
+          "confidence": 0.7
+        },
+        {
+          "title": "Title: Decrypt: AI, Bitcoin, Culture, Gaming, and Crypto News - Decrypt",
+          "content": "Title: Decrypt: AI, Bitcoin, Culture, Gaming, and Crypto News - Decrypt",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "Markdown Content:",
+          "content": "Markdown Content:\n[[Video 3](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-animation-black.mp4?v=2)![Image 12: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-black.svg)![Image 13: Decrypt logo](https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/full-logo-white.svg)](https://decrypt.co/)[](https://decrypt.co/)[](https://decrypt.co/university)[](https://decrypt.co/u",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "[![Image 14: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 1",
+          "content": "[![Image 14: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-white.svg@webp)![Image 15: Decrypt logo](https://img.decrypt.co/insecure/rs:fit:3840:0:0:0/plain/https://cdn.decrypt.co/wp-content/themes/decrypt-media/assets/images/branding-2024/logo-mark-black.svg@webp)](https://decrypt.co/)",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "[News](https://decrypt.co/news)[Learn](https://decrypt.co/university)[Videos](https://decrypt.co/videos)[Newsletters](https://decrypt.co/newsletters)",
+          "content": "[News](https://decrypt.co/news)[Learn](https://decrypt.co/university)[Videos](https://decrypt.co/videos)[Newsletters](https://decrypt.co/newsletters)",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "Sign Up[Partner with us](https://dastan.co/partner)",
+          "content": "Sign Up[Partner with us](https://dastan.co/partner)",
+          "source": "decrypt",
+          "confidence": 0.7
+        },
+        {
+          "title": "Markdown Content:",
+          "content": "Markdown Content:\n[Discover the institutional crypto exchange LMAX Digital through high-level info and live data here.](https://www.theblock.co/lmax)",
+          "source": "theblock",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Institutional crypto intel Explore](https://www.theblock.pro/)",
+          "content": "[Institutional crypto intel Explore](https://www.theblock.pro/)",
+          "source": "theblock",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Try it free](https://www.theblock.co/campus?modal=marketing)",
+          "content": "[Try it free](https://www.theblock.co/campus?modal=marketing)",
+          "source": "theblock",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Today's top stories](https://www.theblock.co/news)",
+          "content": "[Today's top stories](https://www.theblock.co/news)\n*   [Business](https://www.theblock.co/news/business)\n*   [Deals](https://www.theblock.co/news/deals)\n*   [DeFi](https://www.theblock.co/news/defi)\n*   [Ecosystems](https://www.theblock.co/news/ecosystems)\n*   [Macro](https://www.theblock.co/news/macro)\n*   [Markets](https://www.theblock.co/news/markets)\n*   [Regulation](https://www.theblock.co/news/regulation)\n*   [Web3](https://www.theblock.co/news/web3)",
+          "source": "theblock",
+          "confidence": 0.7
+        },
+        {
+          "title": "[Data](https://www.theblock.co/data/crypto-markets/spot)",
+          "content": "[Data](https://www.theblock.co/data/crypto-markets/spot)",
+          "source": "theblock",
+          "confidence": 0.7
+        }
+      ]
+    },
+    "rss": {
+      "status": "ok",
+      "data": []
+    },
+    "v2ex": {
+      "status": "ok",
+      "data": [
+        {
+          "id": 1236977,
+          "title": "居然没人讨论玄戒 O3,不应该呀？",
+          "content": "在 B 站看了几个 up 的视频，虽然是在开发版上测，但是真的强。",
+          "node": "qna",
+          "replies": 160,
+          "member": "hailaz",
+          "created": 1787624325,
+          "url": "https://www.v2ex.com/t/1236977",
+          "source": "V2EX",
+          "confidence": 0.9
+        },
+        {
+          "id": 1236973,
+          "title": "为什么机器人一定是“人”呢",
+          "content": "我一直有个没太想明白的问题：为什么现在的机器人，尤其是所谓的“通用机器人”，都在大力往“人形”方向设计？\r\n\r\n人类真正厉害的，我觉得可能主要是“脑袋”——会思考、会学习、会判断、会适应环境。至于身体，其实并没有想象中那么优秀。\r\n\r\n比如，想让机器人跑得快，为什么一定要用两条腿？轮胎不是更高效吗？\r\n\r\n想让它拧螺丝，为什么还要设计一只机械手去拿螺丝刀？直接把手做成螺丝刀，不是更简单直接？\r\n\r\n如果目标真的是“什么都能干”，那为什么是两只手？三头六臂听起来反而更符合“通用”的逻辑把。",
+          "node": "programmer",
+          "replies": 142,
+          "member": "tht1286545749",
+          "created": 1787623700,
+          "url": "https://www.v2ex.com/t/1236973",
+          "source": "V2EX",
+          "confidence": 0.9
+        },
+        {
+          "id": 1237045,
+          "title": "干了件蠢事，拿 WD-40 喷了刹车盘",
+          "content": "起因：\r\n 100 块的 手机支架不能正常回弹了，遂去 pdd 买了一瓶 wd40 ，想着缓解下。\r\n 结果喷完后，我脑子立刻生了一个 idea ，我刹车的时候老是发出异响，让我很难受，所以我直接就喷上去了，前后都喷了。。。。。\r\n\r\n好了，刹车没了，下午去换了刹车片，还是不行，刹车效果很差，要换碟了",
+          "node": "life",
+          "replies": 130,
+          "member": "rafa",
+          "created": 1787636270,
+          "url": "https://www.v2ex.com/t/1237045",
+          "source": "V2EX",
+          "confidence": 0.9
+        },
+        {
+          "id": 1236935,
+          "title": "“万一免五”股票基金大笑脸低佣开户，抽键盘迈从 Ace 68 V2；鼠标迈从 A7 V3 PRO+。 [8.25 日~8.31 日]",
+          "content": "这周抽键盘迈从 Ace 68 V2 ；鼠标迈从 A7 V3 PRO+\r\n大笑脸开户，低门槛免 5 券商，股票基金 etf 全网超低费率，北交所免五港股通免五两融免五量化免五，欢迎来开！\r\n⚠️开户和推荐朋友都有红包！\r\n⚠️回帖即可参与抽奖！\r\nhttps://i.v2ex.co/p96eAHV9l.jpeg\r\n⚠️大笑脸低佣开户推荐：\r\nYH 证券：ETF 万 0.5 免 5 [etf 费率最低，适合 etf ，打新，纳指，宽基，LOF 套利，逆回购 1 折，新手必备]\r\nGF 证券：ETF 万 0.5 免 5 [ETF 费率低]\r\nCC 证券：万 1 免 5 [低门槛股票 etf 双免 5]\r\nDB 证券：万 0.741 免 5 [国企券商，股票 etf 费率都很低]\r\nGT*证券：万 0.8 免 5 [头部龙头券商，费率最优惠，大客户专享，综合费率最低]\r\nGX 证券：万 0.851 免 5 [头部龙头券商，综合费率也很低]\r\n\r\n⚠️大笑脸联系方式和最新具体券商表格清单，随时更新 www.daxiaolian.com\r\n备用链接 https://shimo.im/docs/rp",
+          "node": "promotions",
+          "replies": 128,
+          "member": "daxiaolian",
+          "created": 1787617760,
+          "url": "https://www.v2ex.com/t/1236935",
+          "source": "V2EX",
+          "confidence": 0.9
+        },
+        {
+          "id": 1236954,
+          "title": "大家有没有关注到最近的“男性觉醒”现象",
+          "content": "这些年可能经济不景气，感觉很少刷到给女朋友送 xx 的话题或者广告了，再加上最近刷抖音发现很多所谓的男性觉醒，用 xxn 的话术回应男女不公平现象，并且最近一些地方出现了对男性不公待遇现象更是加重了对立，我想知道整个社会都逐渐倾向还是只是因为我的信息茧房问题",
+          "node": "internet",
+          "replies": 111,
+          "member": "cxc520589",
+          "created": 1787621314,
+          "url": "https://www.v2ex.com/t/1236954",
+          "source": "V2EX",
+          "confidence": 0.9
+        }
+      ]
+    },
+    "bilibili": {
+      "status": "ok",
+      "data": [
+        {
+          "bvid": null,
+          "title": "chainlink-哔哩哔哩_bilibili",
+          "description": "",
+          "author": null,
+          "play": null,
+          "source": "Bilibili (Jina)",
+          "confidence": 0.6
+        }
+      ]
+    },
+    "community_score": {
+      "status": "ok",
+      "data": {
+        "coin": "chainlink",
+        "community_score": 1,
+        "total_signals": 1,
+        "breakdown": {
+          "v2ex": {
+            "mentions": 0,
+            "source": "V2EX"
+          },
+          "bilibili": {
+            "video_count": 1,
+            "source": "Bilibili"
+          },
+          "news": {
+            "mentions": 0,
+            "source": "Crypto News"
+          },
+          "twitter": {
+            "tweets": 0,
+            "source": "Twitter"
+          },
+          "reddit": {
+            "posts": 0,
+            "source": "Reddit"
+          }
+        },
+        "source": "CommunityClient",
+        "timestamp": "2026-08-25T13:01:38.910615"
+      }
+    },
+    "github": {
+      "status": "ok",
+      "data": {
+        "id": 111455867,
+        "node_id": "MDEwOlJlcG9zaXRvcnkxMTE0NTU4Njc=",
+        "name": "chainlink",
+        "full_name": "smartcontractkit/chainlink",
+        "private": false,
+        "owner": {
+          "login": "smartcontractkit",
+          "id": 25111032,
+          "node_id": "MDEyOk9yZ2FuaXphdGlvbjI1MTExMDMy",
+          "avatar_url": "https://avatars.githubusercontent.com/u/25111032?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/smartcontractkit",
+          "html_url": "https://github.com/smartcontractkit",
+          "followers_url": "https://api.github.com/users/smartcontractkit/followers",
+          "following_url": "https://api.github.com/users/smartcontractkit/following{/other_user}",
+          "gists_url": "https://api.github.com/users/smartcontractkit/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/smartcontractkit/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/smartcontractkit/subscriptions",
+          "organizations_url": "https://api.github.com/users/smartcontractkit/orgs",
+          "repos_url": "https://api.github.com/users/smartcontractkit/repos",
+          "events_url": "https://api.github.com/users/smartcontractkit/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/smartcontractkit/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/smartcontractkit/chainlink",
+        "description": "node of the decentralized oracle network, bridging on and off-chain computation",
+        "fork": false,
+        "url": "https://api.github.com/repos/smartcontractkit/chainlink",
+        "forks_url": "https://api.github.com/repos/smartcontractkit/chainlink/forks",
+        "keys_url": "https://api.github.com/repos/smartcontractkit/chainlink/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/smartcontractkit/chainlink/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/smartcontractkit/chainlink/teams",
+        "hooks_url": "https://api.github.com/repos/smartcontractkit/chainlink/hooks",
+        "issue_events_url": "https://api.github.com/repos/smartcontractkit/chainlink/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/smartcontractkit/chainlink/events",
+        "assignees_url": "https://api.github.com/repos/smartcontractkit/chainlink/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/smartcontractkit/chainlink/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/smartcontractkit/chainlink/tags",
+        "blobs_url": "https://api.github.com/repos/smartcontractkit/chainlink/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/smartcontractkit/chainlink/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/smartcontractkit/chainlink/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/smartcontractkit/chainlink/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/smartcontractkit/chainlink/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/smartcontractkit/chainlink/languages",
+        "stargazers_url": "https://api.github.com/repos/smartcontractkit/chainlink/stargazers",
+        "contributors_url": "https://api.github.com/repos/smartcontractkit/chainlink/contributors",
+        "subscribers_url": "https://api.github.com/repos/smartcontractkit/chainlink/subscribers",
+        "subscription_url": "https://api.github.com/repos/smartcontractkit/chainlink/subscription",
+        "commits_url": "https://api.github.com/repos/smartcontractkit/chainlink/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/smartcontractkit/chainlink/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/smartcontractkit/chainlink/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/smartcontractkit/chainlink/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/smartcontractkit/chainlink/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/smartcontractkit/chainlink/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/smartcontractkit/chainlink/merges",
+        "archive_url": "https://api.github.com/repos/smartcontractkit/chainlink/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/smartcontractkit/chainlink/downloads",
+        "issues_url": "https://api.github.com/repos/smartcontractkit/chainlink/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/smartcontractkit/chainlink/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/smartcontractkit/chainlink/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/smartcontractkit/chainlink/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/smartcontractkit/chainlink/labels{/name}",
+        "releases_url": "https://api.github.com/repos/smartcontractkit/chainlink/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/smartcontractkit/chainlink/deployments",
+        "created_at": "2017-11-20T19:50:46Z",
+        "updated_at": "2026-08-25T11:07:09Z",
+        "pushed_at": "2026-08-25T12:54:14Z",
+        "git_url": "git://github.com/smartcontractkit/chainlink.git",
+        "ssh_url": "org-25111032@github.com:smartcontractkit/chainlink.git",
+        "clone_url": "https://github.com/smartcontractkit/chainlink.git",
+        "svn_url": "https://github.com/smartcontractkit/chainlink",
+        "homepage": "https://chain.link",
+        "size": 1066829,
+        "stargazers_count": 8235,
+        "watchers_count": 8235,
+        "language": "Go",
+        "has_issues": true,
+        "has_projects": false,
+        "has_downloads": false,
+        "has_wiki": true,
+        "has_pages": false,
+        "has_discussions": false,
+        "forks_count": 1979,
+        "mirror_url": null,
+        "archived": false,
+        "disabled": false,
+        "open_issues_count": 197,
+        "license": {
+          "key": "other",
+          "name": "Other",
+          "spdx_id": "NOASSERTION",
+          "url": null,
+          "node_id": "MDc6TGljZW5zZTA="
+        },
+        "allow_forking": true,
+        "is_template": false,
+        "web_commit_signoff_required": false,
+        "has_pull_requests": true,
+        "pull_request_creation_policy": "all",
+        "topics": [
+          "blockchain",
+          "chainlink",
+          "ethereum",
+          "golang",
+          "oracle",
+          "solidity"
+        ],
+        "visibility": "public",
+        "forks": 1979,
+        "open_issues": 197,
+        "watchers": 8235,
+        "default_branch": "develop",
+        "temp_clone_token": null,
+        "custom_properties": {
+          "175a3ae9a42a0725fd59df84fd6b6bb9e80c3410fe6ed01c261183b88d0b3685": "true",
+          "bD7pZT2_bR7tTztskWOel9BfIP_18t-_7ubsg8zK1ObjOmatm1thMhwb2KRFrRbA": "true",
+          "BF90RIMR2zNNMaPR9NiJMhIy3JMFzpVcTzmNMrIT7QY": "true",
+          "hjbqxmxaSwjDi0alLjMgKfDIqEyABwH0EzFJ-PBXcLU": "false",
+          "K3Z_8P_Tmqy8p5TGySJy5IzzppZyE0pcPwAFQeZMt4_euxJhKK60YAKOcUEJlZJV": "false",
+          "Nn2nLp0Vg2-1phwBG1EYJvq8P7-L3XhRpv-72tWCvXg": "false"
+        },
+        "organization": {
+          "login": "smartcontractkit",
+          "id": 25111032,
+          "node_id": "MDEyOk9yZ2FuaXphdGlvbjI1MTExMDMy",
+          "avatar_url": "https://avatars.githubusercontent.com/u/25111032?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/smartcontractkit",
+          "html_url": "https://github.com/smartcontractkit",
+          "followers_url": "https://api.github.com/users/smartcontractkit/followers",
+          "following_url": "https://api.github.com/users/smartcontractkit/following{/other_user}",
+          "gists_url": "https://api.github.com/users/smartcontractkit/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/smartcontractkit/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/smartcontractkit/subscriptions",
+          "organizations_url": "https://api.github.com/users/smartcontractkit/orgs",
+          "repos_url": "https://api.github.com/users/smartcontractkit/repos",
+          "events_url": "https://api.github.com/users/smartcontractkit/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/smartcontractkit/received_events",
+          "type": "Organization",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "network_count": 1979,
+        "subscribers_count": 308
+      }
+    },
+    "sentiment": {
+      "status": "ok",
+      "data": {
+        "fear_greed": {
+          "value": 74,
+          "classification": "Greed",
+          "score": 2
+        },
+        "trend": {
+          "direction": "stable",
+          "change": -8.25,
+          "start_value": 74,
+          "end_value": 46,
+          "confidence": 0.8
+        },
+        "combined_score": 2,
+        "overall_sentiment": "bearish",
+        "recommendation": "Greed - Consider taking profits",
+        "timestamp": "2026-08-25T13:01:40.258082",
+        "confidence": 0.81
+      }
+    }
+  },
+  "symbol": "",
+  "name": "chainlink",
+  "rank": null,
+  "categories": [
+    "Infrastructure",
+    "Decentralized Finance (DeFi)",
+    "Oracle",
+    "BNB Chain Ecosystem",
+    "Solana Ecosystem",
+    "Avalanche Ecosystem",
+    "Polygon Ecosystem",
+    "Near Protocol Ecosystem",
+    "Gnosis Chain Ecosystem",
+    "Fantom Ecosystem",
+    "Harmony Ecosystem",
+    "Arbitrum Ecosystem",
+    "Celo Ecosystem",
+    "Moonriver Ecosystem",
+    "Moonbeam Ecosystem",
+    "Ethereum Ecosystem",
+    "XDC Ecosystem",
+    "Cronos Ecosystem",
+    "Metis Ecosystem",
+    "Optimism Ecosystem",
+    "Kaia Ecosystem",
+    "ZkSync Ecosystem",
+    "Real World Assets (RWA)",
+    "Mantle Ecosystem",
+    "Linea Ecosystem",
+    "Base Ecosystem",
+    "Shibarium Ecosystem",
+    "Ronin Ecosystem",
+    "Starknet Ecosystem",
+    "Osmosis Ecosystem",
+    "Hedera Ecosystem",
+    "Scroll Ecosystem",
+    "Berachain Ecosystem",
+    "Merlin Chain Ecosystem",
+    "Blast Ecosystem",
+    "WEMIX Ecosystem",
+    "Cross-chain Communication",
+    "Mode Ecosystem",
+    "Zora Ecosystem",
+    "Bitlayer Ecosystem",
+    "Core Ecosystem",
+    "Energi Ecosystem",
+    "Sora Ecosystem",
+    "Polygon zkEVM Ecosystem",
+    "Huobi ECO Chain Ecosystem",
+    "Milkomeda (Cardano) Ecosystem",
+    "Astar Ecosystem",
+    "opBNB Ecosystem",
+    "Rootstock Ecosystem",
+    "NEO Ecosystem",
+    "Fraxtal Ecosystem",
+    "X Layer Ecosystem",
+    "GMCI DeFi Index",
+    "GMCI 30 Index",
+    "Sonic Ecosystem",
+    "Etherlink Ecosystem",
+    "RWA Protocol",
+    "GMCI Index",
+    "Zircuit Ecosystem",
+    "Cronos zkEVM Ecosystem",
+    "Sei Network Ecosystem",
+    "Mint Ecosystem",
+    "World Chain Ecosystem",
+    "ApeChain Ecosystem",
+    "Morph L2 Ecosystem",
+    "Bittensor Ecosystem",
+    "Kroma Ecosystem",
+    "BSquared Network Ecosystem",
+    "World Liberty Financial Portfolio",
+    "Abstract Ecosystem",
+    "Ink Ecosystem",
+    "Soneium Ecosystem",
+    "Lisk Ecosystem",
+    "Made in USA",
+    "Unichain Ecosystem",
+    "HyperEVM Ecosystem",
+    "Coinbase 50 Index",
+    "Corn Ecosystem",
+    "Chain Abstraction",
+    "Superseed Ecosystem",
+    "Lens Ecosystem",
+    "Plume Network Ecosystem",
+    "Hydration Ecosystem",
+    "Hemi Ecosystem",
+    "Katana Ecosystem",
+    "Botanix Ecosystem",
+    "TAC Ecosystem",
+    "HashKey Chain Ecosystem",
+    "Plasma Ecosystem",
+    "x402 Ecosystem",
+    "MegaETH Ecosystem",
+    "Monad Ecosystem",
+    "BOB Network Ecosystem",
+    "Stable Ecosystem",
+    "Henesys Ecosystem",
+    "Bittensor EVM Ecosystem",
+    "Privacy Infrastructure",
+    "Base Native",
+    "Privacy",
+    "Tempo Ecosystem",
+    "Robinhood Ecosystem",
+    "Pharos Ecosystem"
+  ],
+  "category_slug": "defi"
+}
