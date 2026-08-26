@@ -4,7 +4,17 @@
       "Bash(git init *)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(python \"d:\\\\gitpro\\\\claude_trading\\\\scripts\\\\data_collection\\\\extract_srt_text.py\")"
+      "Bash(python \"d:\\\\gitpro\\\\claude_trading\\\\scripts\\\\data_collection\\\\extract_srt_text.py\")",
+      "Bash(rm -rf .git/refs/original/)",
+      "Bash(git reflog *)",
+      "Bash(git gc *)",
+      "Bash(git count-objects *)",
+      "Bash(git stash *)",
+      "Bash(git push *)",
+      "Read(//c/Users/P52S/.claude/**)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\P52S\\.claude"
     ]
   }
 }

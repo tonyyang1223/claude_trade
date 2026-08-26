@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>资金与生态</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#e6edf3;font-family:"Segoe UI","Microsoft YaHei",sans-serif;padding:20px;min-height:100vh}
+a{text-decoration:none;color:inherit}
+.nav{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;border-bottom:1px solid #30363d;padding-bottom:14px}
+.nav a{padding:8px 16px;border:1px solid #30363d;border-radius:8px;font-size:14px;color:#8b949e;transition:.15s}
+.nav a:hover{color:#e6edf3;border-color:#58a6ff}
+.nav a.active{background:#1f6feb33;color:#58a6ff;border-color:#58a6ff}
+h1{font-size:22px;margin-bottom:4px}
+.sub{color:#8b949e;font-size:12px;margin-bottom:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 16px}
+.card .label{color:#8b949e;font-size:12px;margin-bottom:6px}
+.card .val{font-size:22px;font-weight:600}
+.grid{display:grid;gap:16px;margin-bottom:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(480px,1fr))}
+.chart{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px}
+.chart h3{font-size:14px;color:#8b949e;margin-bottom:8px;font-weight:500}
+.chart .box{height:360px}
+.chart .box.tall{height:440px}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#161b22}
+th{color:#8b949e;text-align:right;padding:8px 10px;border-bottom:1px solid #30363d;cursor:pointer;user-select:none;white-space:nowrap;position:sticky;top:0;background:#161b22}
+th:first-child,td:first-child{text-align:left}
+th:hover{color:#58a6ff}
+td{padding:7px 10px;text-align:right;border-bottom:1px solid #21262d;white-space:nowrap}
+tr:hover td{background:#1c2129}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;background:#30363d;color:#8b949e}
+.up{color:#f6465d}.down{color:#2ebd85}
+.loading{color:#8b949e;text-align:center;padding:40px}
+.err{background:#f6465d;color:#fff;padding:12px;border-radius:8px;margin-bottom:12px}
+.src-note{color:#8b949e;font-size:11px;margin-top:24px;border-top:1px solid #30363d;padding-top:10px;line-height:1.8}
+.tbl-wrap{max-height:600px;overflow:auto}
+.badge{font-size:11px;padding:2px 8px;border-radius:4px;background:#1f6feb33;color:#58a6ff;margin-left:8px}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#30363d;border-radius:4px}</style>
+</head><body>
+<div class="nav">
+<a href="index.html">首页</a>
+<a href="market.html">市场总览</a>
+<a href="sectors.html">板块分析</a>
+<a href="deep.html">深度研究</a>
+<a href="funds.html" class="active">资金与生态</a>
+</div>
+<h1>资金与生态 <span class="badge">2026-08-26</span></h1>
+<div class="sub">稳定币供应量与24h增减 · Ethereum TVL · GitHub 仓库 · 主流币两日对比</div><div class="kpis" id="kpis"><div class="loading">加载中...</div></div>
+<div class="grid g2">
+<div class="chart"><h3>稳定币供应量 与 24h 增减</h3><div class="box tall" id="c_stable"></div></div>
+<div class="chart"><h3>主流币价格两日对比</h3><div class="box tall" id="c_cmp"></div></div>
+</div>
+<script>
+const UP='#f6465d',DOWN='#2ebd85',TXT='#e6edf3',SUB='#8b949e',SPLIT='#30363d';
+const charts=[];
+function mk(id,opt){const el=document.getElementById(id);if(!el)return;const c=echarts.init(el);
+opt.tooltip=opt.tooltip||{backgroundColor:'#161b22',borderColor:SPLIT,textStyle:{color:TXT}};
+opt.grid=Object.assign({left:50,right:30,top:30,bottom:50},opt.grid||{});
+c.setOption(Object.assign({backgroundColor:'transparent',textStyle:{color:TXT}},opt));
+charts.push(c);return c;}
+window.addEventListener('resize',()=>charts.forEach(c=>c.resize()));
+function fm(v){return v==null?'-':(Math.abs(v)>=1e12?(v/1e12).toFixed(2)+'T':Math.abs(v)>=1e9?(v/1e9).toFixed(1)+'B':Math.abs(v)>=1e6?(v/1e6).toFixed(1)+'M':v.toLocaleString());}
+function fp(v){return v==null?'-':'$'+(Math.abs(v)>=1?v.toLocaleString(undefined,{maximumFractionDigits:Math.abs(v)>=100?0:4}):v.toFixed(6));}
+function pct(v){return v==null?'-':(v>0?'+':'')+v.toFixed(2)+'%';}
+function cls(v){return v>0?'up':(v<0?'down':'');}
+function showErr(msg){document.body.insertAdjacentHTML('afterbegin','<div class="err">'+msg+'</div>');}
+function loadJSON(url){return fetch(url).then(r=>{if(!r.ok)throw new Error(url+' '+r.status);return r.json();}).catch(e=>{showErr('加载 '+url+' 失败: '+e.message);throw e;});}
+function hbar(id,items,color,valfmt){mk(id,{grid:{left:80,right:70},xAxis:{type:'value',axisLabel:{color:SUB},splitLine:{lineStyle:{color:'#21262d'}}},
+yAxis:{type:'category',data:items.map(i=>i.sym).reverse(),axisLabel:{color:TXT}},
+series:[{type:'bar',barWidth:'60%',data:items.map(i=>({value:i.v,itemStyle:{color:color}})).reverse(),
+label:{show:true,position:'right',color:SUB,fontSize:10,formatter:p=>valfmt(p.value)}}]});}
+function kpiCards(items){document.getElementById('kpis').innerHTML=items.map(x=>'<div class="card"><div class="label">'+x.l+'</div><div class="val '+(x.c||'')+'">'+x.v+'</div></div>').join('');}
+Promise.resolve(JSON.parse('{"stablecoins": [{"name": "Tether", "symbol": "USDT", "total_supply": 183161886994.3061, "mint_change_24h": -36744331.29940796}, {"name": "USD Coin", "symbol": "USDC", "total_supply": 73658517593.00372, "mint_change_24h": 7254694.838653564}, {"name": "Sky Dollar", "symbol": "USDS", "total_supply": 6606108814.16229, "mint_change_24h": -54722286.50237274}, {"name": "Dai", "symbol": "DAI", "total_supply": 4774259105.4154825, "mint_change_24h": -14129237.9706707}, {"name": "World Liberty Financial USD", "symbol": "USD1", "total_supply": 4075433981.100972, "mint_change_24h": 62998626.998235226}, {"name": "Ethena USDe", "symbol": "USDe", "total_supply": 4071965810.3680944, "mint_change_24h": -5487685.35466671}, {"name": "Global Dollar", "symbol": "USDG", "total_supply": 3330175168.2700524, "mint_change_24h": 6842070.9025502205}, {"name": "Circle USYC", "symbol": "USYC", "total_supply": 2923893411.184425, "mint_change_24h": 113290.95887756348}, {"name": "BlackRock USD", "symbol": "BUIDL", "total_supply": 2783104636.9404488, "mint_change_24h": 194932090.68999958}, {"name": "PayPal USD", "symbol": "PYUSD", "total_supply": 2761553115.629913, "mint_change_24h": -115316158.86861753}, {"name": "Ondo US Dollar Yield", "symbol": "USDY", "total_supply": 2175064100.8195596, "mint_change_24h": 29290059.521411657}, {"name": "Ripple USD", "symbol": "RLUSD", "total_supply": 2078737367.2387686, "mint_change_24h": 1314073.058343172}, {"name": "USDD", "symbol": "USDD", "total_supply": 1507011690.3406558, "mint_change_24h": 92031355.52673054}, {"name": "United Stables", "symbol": "U", "total_supply": 1281263381.7693386, "mint_change_24h": 2648065.8707585335}, {"name": "USDGO", "symbol": "USDGO", "total_supply": 1239577777.0735178, "mint_change_24h": 45002628.63496232}, {"name": "Falcon USD", "symbol": "USDf", "total_supply": 1174209359.7763438, "mint_change_24h": 14989.956759929657}, {"name": "GHO", "symbol": "GHO", "total_supply": 698102798.1051747, "mint_change_24h": 0.0}, {"name": "USDX Money USDX", "symbol": "USDX", "total_supply": 683442223.6265625, "mint_change_24h": 0}, {"name": "YLDS", "symbol": "YLDS", "total_supply": 677876548.1538867, "mint_change_24h": -10429861.902239919}, {"name": "Usual USD", "symbol": "USD0", "total_supply": 549625209.1944711, "mint_change_24h": -474665.64732921124}], "ethTvl": 49093075545.98918, "github": {"repo": "bitcoin/bitcoin", "stars": 90005, "forks": 39331}, "dayCmp": [{"sym": "BTC", "name": "Bitcoin", "prev": 78898, "cur": 78442, "pct": -0.577961418540394}, {"sym": "ETH", "name": "Ethereum", "prev": 2453.65, "cur": 2439.04, "pct": -0.5954394473539473}, {"sym": "USDT", "name": "Tether", "prev": 0.999875, "cur": 0.999909, "pct": 0.003400425053140594}, {"sym": "BNB", "name": "BNB", "prev": 696.67, "cur": 692.41, "pct": -0.6114803278453201}, {"sym": "XRP", "name": "XRP", "prev": 1.45, "cur": 1.43, "pct": -1.3793103448275874}, {"sym": "USDC", "name": "USDC", "prev": 0.999839, "cur": 0.999909, "pct": 0.007001127181477668}, {"sym": "SOL", "name": "Solana", "prev": 97.06, "cur": 96.3, "pct": -0.7830208118689523}, {"sym": "TRX", "name": "TRON", "prev": 0.336226, "cur": 0.335527, "pct": -0.20789587955720412}, {"sym": "FIGR_HELOC", "name": "Figure Heloc", "prev": 1.039, "cur": 1.01, "pct": -2.79114533205004}, {"sym": "HYPE", "name": "Hyperliquid", "prev": 80.07, "cur": 80.05, "pct": -0.024978144123886627}], "queueLen": 194, "lightTotal": 1110, "deepTotal": 69}')).then(d=>{
+kpiCards([
+{l:'Ethereum TVL',v:d.ethTvl?'$'+fm(d.ethTvl):'-'},
+{l:'USDT 供应量',v:d.stablecoins.length?'$'+fm(d.stablecoins[0].total_supply):'-'},
+{l:'BTC 仓库 Stars',v:d.github?d.github.stars.toLocaleString():'-'},
+{l:'深度研究队列剩余',v:d.queueLen},
+{l:'轻量监控总数',v:d.lightTotal},
+]);
+if(d.stablecoins.length){
+const s=d.stablecoins;
+mk('c_stable',{tooltip:{trigger:'axis',backgroundColor:'#161b22',borderColor:SPLIT,textStyle:{color:TXT}},
+xAxis:{type:'category',data:s.map(x=>x.symbol),axisLabel:{color:TXT,rotate:30,fontSize:10}},
+yAxis:[{type:'value',name:'供应量',nameTextStyle:{color:SUB},axisLabel:{color:SUB,formatter:v=>fm(v)},splitLine:{lineStyle:{color:'#21262d'}}},
+{type:'value',name:'24h增减',nameTextStyle:{color:SUB},axisLabel:{color:SUB,formatter:v=>fm(v)},splitLine:{show:false}}],
+series:[{type:'bar',data:s.map(x=>x.total_supply),itemStyle:{color:'#58a6ff'},barWidth:'45%',
+label:{show:true,position:'top',color:SUB,fontSize:9,formatter:p=>'$'+fm(p.value)}},
+{type:'scatter',yAxisIndex:1,data:s.map(x=>x.mint_change_24h),symbolSize:12,
+itemStyle:{color:p=>p.value>=0?UP:DOWN},
+label:{show:true,position:'right',color:SUB,fontSize:9,formatter:p=>(p.value>=0?'+':'')+'$'+fm(p.value)}}]});
+}else document.getElementById('c_stable').innerHTML='<div class="loading">无稳定币数据</div>';
+if(d.dayCmp.length){
+mk('c_cmp',{tooltip:{trigger:'axis',backgroundColor:'#161b22',borderColor:SPLIT,textStyle:{color:TXT}},
+legend:{data:[{name:'当前价'},{name:'前一日'}],textStyle:{color:SUB},top:5},
+xAxis:{type:'category',data:d.dayCmp.map(x=>x.sym),axisLabel:{color:TXT}},
+yAxis:{type:'value',name:'价格',nameTextStyle:{color:SUB},axisLabel:{color:SUB,formatter:v=>'$'+fm(v)},splitLine:{lineStyle:{color:'#21262d'}}}},
+series:[{type:'bar',name:'当前价',barWidth:'50%',data:d.dayCmp.map(x=>({value:x.cur,itemStyle:{color:x.pct>=0?UP:DOWN}})),
+label:{show:true,position:'top',color:SUB,fontSize:10,formatter:p=>'$'+fm(p.value)}},
+{type:'scatter',name:'前一日',data:d.dayCmp.map(x=>x.prev),symbol:'diamond',symbolSize:10,itemStyle:{color:'#8b949e'}}]});
+}else document.getElementById('c_cmp').innerHTML='<div class="loading">无对比数据</div>';
+}).catch(e=>console.error(e));
+</script><div class="src-note">稳定币来自深度研究 stablecoin_flows; TVL 来自 DefiLlama; GitHub 来自 bitcoin/bitcoin 仓库。</div></body></html>

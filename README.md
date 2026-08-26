@@ -10,7 +10,7 @@
 
 本项目构建了完整的数字货币量化投研体系，包含：
 
-- **数据采集层**: 5个API数据源自动采集，每日定时运行
+- **数据采集层**: 10+ 个API数据源自动采集，每日定时运行
 - **因子分析层**: 16个量化因子计算、归一化、评分系统
 - **回测框架**: 适配数字货币市场的回测引擎（UTC 00:00调仓）
 - **监控系统**: 鲸鱼交易监控、多币种对比分析
@@ -140,11 +140,12 @@ claude_trade/
 │   ├── research/              # Alpha研究
 │   └── utils/                 # 工具函数
 │
-├── tests/                      # 测试（205个）
+├── tests/                      # 测试（240+ 个，含 src/research 新增 91 个）
 │   ├── conftest.py            # 共享fixtures
 │   ├── analysis/              # 分析测试
 │   ├── data_collection/       # 采集测试
-│   └── report/                # 报告测试
+│   ├── report/                # 报告测试
+│   └── research/              # Alpha 研究模块测试（新增）
 │
 ├── docs/                       # 文档
 │   └── superpowers/           # 设计规范
@@ -207,7 +208,7 @@ pytest tests/
 pytest --cov=src tests/
 ```
 
-**测试统计**: 205 个测试用例
+**测试统计**: 240+ 个测试用例（含 `src/research/` 新增 91 个）
 
 ---
 
@@ -228,8 +229,8 @@ crontab -l
 | 里程碑 | 目标日期 | 状态 |
 |--------|----------|------|
 | Day 0 数据入库 | 2026-06-05 | ✅ 完成 |
-| Day 30 因子分析可用 | 2026-07-05 | ⏳ 积累中 |
-| Day 90 回测有样本 | 2026-09-05 | ⏳ 待积累 |
+| Day 30 因子分析可用 | 2026-07-05 | ✅ 完成 |
+| Day 90 回测有样本 | 2026-09-05 | ⏳ 待积累（数据曾断档 8 周，已于 2026-08-25 恢复采集） |
 | Day 252 Alpha研究就绪 | 2027-02-15 | ⏳ 待积累 |
 
 ---
@@ -247,7 +248,7 @@ crontab -l
 
 - **代码行数**: ~14,000 行
 - **测试用例**: 205 个
-- **数据源**: 5 个
+- **数据源**: 10+ 个
 - **量化因子**: 16 个
 - **评分维度**: 7 个
 
@@ -256,6 +257,12 @@ crontab -l
 ## 注意事项
 
 - API 密钥等敏感信息请勿提交到 Git
-- 数据文件已通过 .gitignore 排除
+- 数据文件已通过 .gitignore 排除（原始数据每日由服务器 `163.61.30.46` 采集，本地需 scp 拉取到 `data/raw_server/` 或读取 `data/reports/daily_scan/`）
 - 建议先在测试网验证策略
 - 量化投资有风险，请谨慎决策
+
+## 测试说明（补充）
+
+- `src/research/`（最大模块，17 个文件）此前无测试覆盖，现已补充 `tests/research/` 共 **91 个测试用例**，覆盖：因子判别、有效因子数、层级权重、分类、冗余检测、漂移、稳定性、缺失率、相关性、覆盖率、退役建议、健康看板、就绪度评估、生命周期、数据积累规划、因子排名、DuckDB 研究库及整包导入冒烟测试。
+- 运行测试需安装项目依赖（至少 `pytest scipy pandas numpy duckdb requests pydantic pyyaml`）。专用分析环境位于 `C:/Users/P52S/.workbuddy-ai/binaries/python/envs/default`。
+- 看板相关脚本（`scripts/analysis/build_dashboard.py` 等）依赖 `data/reports/daily_scan/` 与 `data/raw_server/` 的真实产物，仅在有数据后生成 `reports/crypto_dashboard.html` 等看板。
