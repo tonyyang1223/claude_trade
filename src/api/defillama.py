@@ -324,6 +324,118 @@ class DefiLlamaClient:
             print(f"Warning: Failed to fetch TVL for {protocol_slug}: {e}")
             return self._get_protocol_tvl_fallback(protocol_slug)
 
+    def get_protocol_fees(
+        self,
+        protocol_slug: str,
+        aggregate_versions: bool = True
+    ) -> Dict[str, Any]:
+        """Get fee/revenue data for a protocol from DefiLlama ``/overview/fees``.
+
+        The per-protocol endpoint (used by :meth:`get_protocol_tvl`) does not
+        expose fees for parent protocols, so fee data is pulled from the
+        fees overview instead.
+
+        Args:
+            protocol_slug: DefiLlama slug (e.g., 'uniswap', 'curve-dex')
+            aggregate_versions: If True, also sum child versions named
+                ``<slug>-v<N>`` (e.g. uniswap-v1..v4). Uniswap is reported by
+                DefiLlama only as per-version rows, so aggregation is required
+                to get a protocol-level fee figure.
+
+        Returns:
+            Dictionary with fee metrics including:
+            - fees_24h / fees_7d / fees_30d / fees_annualized / fees_all_time
+            - change_1d / change_7d
+            - included_slugs: slugs that were summed
+        """
+        cache_key = f"protocol_fees_{protocol_slug}_{aggregate_versions}"
+
+        cached = self.cache.load(cache_key)
+        if cached:
+            return cached
+
+        try:
+            response = self.session.get(
+                f"{self.BASE_URL}/overview/fees",
+                timeout=60
+            )
+
+            if response.status_code == 200:
+                protocols = (response.json() or {}).get("protocols") or []
+
+                wanted = {protocol_slug}
+                if aggregate_versions:
+                    prefix = protocol_slug + "-v"
+                    for item in protocols:
+                        slug = item.get("slug") or ""
+                        if slug.startswith(prefix) and slug[len(prefix):].isdigit():
+                            wanted.add(slug)
+
+                def total(field: str) -> float:
+                    return sum(
+                        (item.get(field) or 0)
+                        for item in protocols
+                        if item.get("slug") in wanted
+                    )
+
+                matched = sorted(
+                    slug for slug in wanted
+                    if any((item.get("slug") == slug) for item in protocols)
+                )
+
+                result = {
+                    "slug": protocol_slug,
+                    "fees_24h": total("total24h"),
+                    "fees_7d": total("total7d"),
+                    "fees_30d": total("total30d"),
+                    "fees_annualized": total("annualized1y"),
+                    "fees_all_time": total("totalAllTime"),
+                    "change_1d": next(
+                        (item.get("change_1d") for item in protocols
+                         if item.get("slug") == protocol_slug), None
+                    ),
+                    "change_7d": next(
+                        (item.get("change_7d") for item in protocols
+                         if item.get("slug") == protocol_slug), None
+                    ),
+                    "included_slugs": matched,
+                    "confidence": 0.9 if matched else 0.1,
+                    "timestamp": datetime.now().isoformat()
+                }
+
+                self.cache.save(cache_key, result)
+                return result
+
+            return self._get_protocol_fees_fallback(protocol_slug)
+
+        except Exception as e:
+            print(f"Warning: Failed to fetch fees for {protocol_slug}: {e}")
+            return self._get_protocol_fees_fallback(protocol_slug)
+
+    def _get_protocol_fees_fallback(self, protocol_slug: str) -> Dict[str, Any]:
+        """Fallback fee data when the fees endpoint is unavailable.
+
+        Args:
+            protocol_slug: DefiLlama slug
+
+        Returns:
+            Empty fee data with low confidence
+        """
+        return {
+            "slug": protocol_slug,
+            "fees_24h": 0.0,
+            "fees_7d": 0.0,
+            "fees_30d": 0.0,
+            "fees_annualized": 0.0,
+            "fees_all_time": 0.0,
+            "change_1d": None,
+            "change_7d": None,
+            "included_slugs": [],
+            "confidence": 0.1,
+            "timestamp": datetime.now().isoformat(),
+            "error": "Fees API unavailable"
+        }
+
     def _get_protocol_tvl_fallback(self, protocol_slug: str) -> Dict[str, Any]:
         """Fallback protocol TVL data.
 

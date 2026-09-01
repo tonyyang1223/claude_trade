@@ -100,6 +100,28 @@
 - `scripts/report/generate_report.py`
 - 输出: `reports/top{N}_comparison.html`
 
+### 7. 代币与 DeFi 协议研究 ✅
+
+**功能**:
+
+- **代币研究**: 代币经济（流通率 / 待解锁量 / 稀释倍数）、估值（FDV/MC）、涨跌与 ATH 回撤
+- **协议对比**: TVL、费用（24h / 30d / 年化）、资本效率（费用/TVL）、P/S（FDV 与市值双口径）
+- **解锁抛压**: 待解锁占比、稀释倍数、风险分档（高 / 中 / 低），支持多代币横向对比
+- **报告产出**: Plotly 交互式 HTML（深色主题），或 JSON 供程序化消费
+
+**核心文件**:
+- `src/research/token_defi.py` — 研究模块（纯指标函数 + `TokenDefiResearcher`）
+- `scripts/research/token_defi_report.py` — 报告 CLI
+- `docs/research/token_defi/` — 方法论文档（4 篇 + 索引）
+- `.workbuddy/skills/crypto-token-defi-research/SKILL.md` — WorkBuddy 项目级技能
+
+**新增客户端方法**（均为纯新增，不破坏既有调用）:
+- `CoinGeckoClient.get_coin_research_data()` — 补 FDV / ATH / 7d·30d 涨跌
+- `DefiLlamaClient.get_protocol_fees()` — 费用查询，内置 `<slug>-v<N>` 子版本聚合
+  （Uniswap 在 DefiLlama 只有 v1~v4 子项，必须聚合才是协议级费用）
+
+**输出**: `reports/token_research_<ts>.html`、`reports/protocol_compare_<ts>.html`、`reports/unlock_pressure_<ts>.html`
+
 ---
 
 ## 目录结构
@@ -128,7 +150,8 @@ claude_trade/
 │   ├── data_collection/       # 数据采集
 │   ├── analysis/              # 分析脚本
 │   ├── report/                # 报告生成
-│   └── scoring/               # 评分脚本
+│   ├── scoring/               # 评分脚本
+│   └── research/              # 代币/协议研究脚本
 │
 ├── src/                        # 核心模块
 │   ├── api/                   # API客户端 (5个)
@@ -148,7 +171,9 @@ claude_trade/
 │   └── research/              # Alpha 研究模块测试（新增）
 │
 ├── docs/                       # 文档
-│   └── superpowers/           # 设计规范
+│   ├── superpowers/           # 设计规范
+│   └── research/              # 研究方法论
+│       └── token_defi/        # 代币与 DeFi 协议研究（4 篇 + 索引）
 │
 └── logs/                       # 日志
     ├── collector.log          # 采集日志
@@ -196,6 +221,22 @@ python scripts/report/generate_report.py --top-n 50
 python scripts/analysis/visualize_factors.py --days 30
 ```
 
+### 6. 代币与 DeFi 协议研究
+
+```bash
+# 代币研究（代币经济 + 估值 + 涨跌）
+python scripts/research/token_defi_report.py --token ethena
+
+# 协议对比（写法：slug 或 slug:coin_id）
+python scripts/research/token_defi_report.py --compare uniswap:uniswap curve-dex:curve-dao-token
+
+# 解锁抛压分析（多代币横向对比）
+python scripts/research/token_defi_report.py --unlock arbitrum ethena uniswap curve-dao-token
+
+# 输出 JSON（便于程序化消费）
+python scripts/research/token_defi_report.py --token ethena --format json
+```
+
 ---
 
 ## 测试
@@ -208,7 +249,7 @@ pytest tests/
 pytest --cov=src tests/
 ```
 
-**测试统计**: 240+ 个测试用例（含 `src/research/` 新增 91 个）
+**测试统计**: 275+ 个测试用例（含 `src/research/` 新增 91 个、代币与 DeFi 协议研究模块新增 35 个）
 
 ---
 
@@ -265,4 +306,6 @@ crontab -l
 
 - `src/research/`（最大模块，17 个文件）此前无测试覆盖，现已补充 `tests/research/` 共 **91 个测试用例**，覆盖：因子判别、有效因子数、层级权重、分类、冗余检测、漂移、稳定性、缺失率、相关性、覆盖率、退役建议、健康看板、就绪度评估、生命周期、数据积累规划、因子排名、DuckDB 研究库及整包导入冒烟测试。
 - 运行测试需安装项目依赖（至少 `pytest scipy pandas numpy duckdb requests pydantic pyyaml`）。专用分析环境位于 `C:/Users/P52S/.workbuddy-ai/binaries/python/envs/default`。
-- 看板相关脚本（`scripts/analysis/build_dashboard.py` 等）依赖 `data/reports/daily_scan/` 与 `data/raw_server/` 的真实产物，仅在有数据后生成 `reports/crypto_dashboard.html` 等看板。
+- `tests/research/test_token_defi.py` 共 **35 个测试用例**，覆盖流通率 / 稀释倍数 / 待解锁量 /
+  FDV·MC / P/S / 资本效率 / 解锁风险分档等纯函数边界（缺失值、除零、阈值边界），
+  以及通过 mock 客户端验证 `TokenDefiResearcher` 的字段映射、P/S 计算与失败隔离。全部离线运行，不依赖网络。

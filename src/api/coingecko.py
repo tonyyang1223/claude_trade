@@ -88,6 +88,64 @@ class CoinGeckoClient(BaseAPIClient):
             "last_updated": data.get("last_updated")
         }
 
+    def get_coin_research_data(self, coin_id: str) -> Dict[str, Any]:
+        """Get extended market data for token research (tokenomics / valuation).
+
+        Complements ``get_coin_data`` with the fields needed by
+        :mod:`src.research.token_defi`: fully diluted valuation, ATH and
+        7d/30d price changes. Existing clients are unaffected.
+
+        Args:
+            coin_id: CoinGecko coin ID (e.g., 'ethena')
+
+        Returns:
+            Dictionary with research-grade market data, including:
+            - price / market_cap / fdv
+            - circulating_supply / total_supply / max_supply
+            - ath, ath_change_pct
+            - change_24h / change_7d / change_30d
+            - categories, last_updated
+        """
+        self._wait_for_rate_limit()
+        url = f"{self.BASE_URL}/coins/{coin_id}"
+        params = {
+            "localization": "false",
+            "tickers": "false",
+            "community_data": "false",
+            "developer_data": "false",
+            "sparkline": "false",
+        }
+
+        response = self.session.get(url, params=params, timeout=30)
+        response.raise_for_status()
+
+        data = response.json()
+        market_data = data.get("market_data", {})
+
+        def usd(key: str) -> Optional[float]:
+            value = market_data.get(key, {})
+            return value.get("usd") if isinstance(value, dict) else None
+
+        return {
+            "id": data.get("id"),
+            "symbol": (data.get("symbol") or "").upper(),
+            "name": data.get("name"),
+            "categories": data.get("categories") or [],
+            "price": usd("current_price"),
+            "market_cap": usd("market_cap"),
+            "fdv": usd("fully_diluted_valuation"),
+            "circulating_supply": market_data.get("circulating_supply"),
+            "total_supply": market_data.get("total_supply"),
+            "max_supply": market_data.get("max_supply"),
+            "total_volume": usd("total_volume"),
+            "ath": usd("ath"),
+            "ath_change_pct": usd("ath_change_percentage"),
+            "change_24h": market_data.get("price_change_percentage_24h"),
+            "change_7d": market_data.get("price_change_percentage_7d"),
+            "change_30d": market_data.get("price_change_percentage_30d"),
+            "last_updated": data.get("last_updated"),
+        }
+
     def get_market_data(self) -> Dict[str, Any]:
         """Get global market data.
 

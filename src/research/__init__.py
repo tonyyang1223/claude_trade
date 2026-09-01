@@ -16,6 +16,19 @@ from src.research.lifecycle import FactorLifecycleManager, FactorStage
 from src.research.retirement import FactorRetirementAdvisor
 from src.research.accumulation import DataAccumulationPlanner, DataPriority
 from src.research.readiness import AlphaReadinessAssessor, ReadinessLevel
+from src.research.token_defi import (
+    TokenDefiResearcher,
+    TokenSnapshot,
+    ProtocolSnapshot,
+    UnlockProfile,
+    circulating_ratio,
+    dilution_multiple,
+    locked_supply,
+    fdv_mc_ratio,
+    price_to_sales,
+    fee_to_tvl,
+    unlock_risk_level,
+)
 
 __all__ = [
     "FactorClassifier", "classify_all_factors",
@@ -25,5 +38,9 @@ __all__ = [
     "FactorCoverageAnalyzer", "FactorHealthDashboard", "FactorDriftAnalyzer",
     "FactorMissingRateAnalyzer", "FactorLifecycleManager", "FactorStage",
     "FactorRetirementAdvisor", "DataAccumulationPlanner", "DataPriority",
-    "AlphaReadinessAssessor", "ReadinessLevel"
+    "AlphaReadinessAssessor", "ReadinessLevel",
+    # 代币与 DeFi 协议研究
+    "TokenDefiResearcher", "TokenSnapshot", "ProtocolSnapshot", "UnlockProfile",
+    "circulating_ratio", "dilution_multiple", "locked_supply", "fdv_mc_ratio",
+    "price_to_sales", "fee_to_tvl", "unlock_risk_level"
 ]
