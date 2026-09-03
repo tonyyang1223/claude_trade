@@ -35,13 +35,16 @@ class DefiLlamaClient:
     BASE_URL = "https://api.llama.fi"
     STABLECOINS_URL = "https://stablecoins.llama.fi"  # Dedicated stablecoins API
 
-    def __init__(self, cache_dir: Path = Path("data/cache")):
+    def __init__(self, cache_dir: Path = Path("data/cache"), timeout: float = 30.0):
         """Initialize DefiLlama client.
 
         Args:
             cache_dir: Directory for caching data
+            timeout: Per-request socket timeout in seconds (lowered by batch
+                runners so a blocked host fails fast instead of hanging).
         """
         self.cache = DataCache(cache_dir, expire_hours=0.5)  # 30 minutes TTL
+        self.timeout = timeout
         self.session = requests.Session()
 
     def get_stablecoin_flows(self) -> Dict[str, Any]:
@@ -268,7 +271,7 @@ class DefiLlamaClient:
         try:
             response = self.session.get(
                 f"{self.BASE_URL}/protocol/{protocol_slug}",
-                timeout=30
+                timeout=self.timeout
             )
 
             if response.status_code == 200:

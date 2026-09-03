@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bibi (Binance bibi) · BNB Chain 深度审计报告</title>
+<style>
+  :root{ --bg:#0b1020; --panel:#121a2e; --panel2:#0e1526; --line:#23304d; --txt:#e8edf7; --dim:#8fa0bf;
+    --cyan:#22d3ee; --blue:#3b82f6; --violet:#8b5cf6; --green:#34d399; --red:#f87171; --amber:#fbbf24; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--txt); font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif; line-height:1.65; padding:28px 16px 60px; }
+  .wrap{ max-width:1080px; margin:0 auto; }
+  header{ background:linear-gradient(135deg,#0f2c55 0%,#14203f 45%,#221538 100%); border:1px solid var(--line); border-radius:18px; padding:28px 30px; margin-bottom:20px; }
+  header .tag{ display:inline-block; font-size:12px; letter-spacing:2px; color:var(--cyan); border:1px solid rgba(34,211,238,.4); border-radius:20px; padding:2px 12px; margin-bottom:12px; }
+  h1{ font-size:30px; font-weight:800; background:linear-gradient(90deg,var(--cyan),var(--blue),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+  header .sub{ color:var(--dim); margin-top:6px; font-size:13px; word-break:break-all; }
+  .badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  .badge{ border-radius:10px; padding:6px 14px; font-size:13px; font-weight:700; }
+  .b-risk-high{ background:rgba(248,113,113,.16); color:#fca5a5; border:1px solid rgba(248,113,113,.5); }
+  .b-risk-low{ background:rgba(52,211,153,.14); color:var(--green); border:1px solid rgba(52,211,153,.5); }
+  .b-live{ background:rgba(34,211,238,.12); color:var(--cyan); border:1px solid rgba(34,211,238,.4); }
+  .verdict{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:20px 0; }
+  .vcard{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px; }
+  .vcard .t{ font-size:12px; color:var(--dim); letter-spacing:1px; }
+  .vcard .v{ font-size:22px; font-weight:800; margin-top:4px; }
+  .c-cyan{ color:var(--cyan); } .c-green{ color:var(--green); } .c-amber{ color:var(--amber); }
+  .c-red{ color:var(--red); } .c-violet{ color:var(--violet); } .c-blue{ color:var(--blue); } .c-dim{ color:var(--dim); }
+  section{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px 26px; margin-bottom:18px; }
+  h2{ font-size:19px; margin-bottom:4px; display:flex; align-items:center; gap:10px; }
+  h2 .no{ background:linear-gradient(135deg,var(--blue),var(--violet)); border-radius:8px; color:#fff; font-size:13px; width:26px; height:26px; display:inline-flex; align-items:center; justify-content:center; flex:none; }
+  .lead{ color:var(--dim); font-size:13px; margin-bottom:14px; }
+  table{ width:100%; border-collapse:collapse; margin:10px 0 6px; font-size:13.5px; }
+  th{ text-align:left; color:var(--cyan); font-weight:600; border-bottom:1px solid var(--line); padding:8px 10px; white-space:nowrap; }
+  td{ padding:7px 10px; border-bottom:1px solid rgba(35,48,77,.5); vertical-align:top; }
+  tr:last-child td{ border-bottom:none; }
+  td.k{ color:var(--dim); white-space:nowrap; width:26%; }
+  .ok{ color:var(--green); font-weight:700; }
+  .warn{ color:var(--amber); font-weight:700; }
+  .bad{ color:var(--red); font-weight:700; }
+  .mono{ font-family:ui-monospace,Consolas,"Courier New",monospace; font-size:12.5px; word-break:break-all; }
+  ul{ padding-left:18px; } li{ margin:5px 0; }
+  .flag{ background:var(--panel2); border-left:3px solid var(--cyan); padding:10px 14px; border-radius:8px; margin:8px 0; font-size:13.5px; }
+  .flag.w{ border-left-color:var(--amber); }
+  .flag.b{ border-left-color:var(--red); }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media(max-width:760px){ .grid2{ grid-template-columns:1fr; } }
+  .mini{ background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .mini h3{ font-size:14px; color:var(--blue); margin-bottom:8px; }
+  .callout{ background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(59,130,246,.08)); border:1px solid rgba(139,92,246,.4); border-radius:14px; padding:16px 20px; margin:14px 0; font-size:14px; }
+  .disclaimer{ color:var(--dim); font-size:12px; border-top:1px solid var(--line); margin-top:24px; padding-top:14px; }
+  .hl{ background:rgba(251,191,36,.14); color:#fcd34d; border-radius:4px; padding:0 5px; }
+  .hlr{ background:rgba(248,113,113,.16); color:#fda4af; border-radius:4px; padding:0 5px; }
+  .stepper{ font-size:12px; color:var(--dim); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="tag">BNB CHAIN · ON-CHAIN DEEP AUDIT · 2026-09-03</span>
+  <h1>Binance bibi (bibi) 深度审计报告</h1>
+  <div class="sub mono">0x9212cf1f9f4a9c69bb010146ba5b0725169d4444</div>
+  <div class="badges">
+    <span class="badge b-risk-low">合约层风险：低</span>
+    <span class="badge b-risk-high">项目/市场层风险：高</span>
+    <span class="badge b-live">状态：活跃交易中（1 年老币 · 24h +93%）</span>
+  </div>
+</header>
+
+<div class="verdict">
+  <div class="vcard"><div class="t">综合判断</div><div class="v c-amber">⚠ 高风险投机品</div></div>
+  <div class="vcard"><div class="t">代码安全结论</div><div class="v c-green">无 Rug 后门 · 非蜜罐</div></div>
+  <div class="vcard"><div class="t">当前价格 / 市值</div><div class="v c-cyan">$0.000511 · ~$51.7 万</div></div>
+  <div class="vcard"><div class="t">24h 涨幅 / 成交</div><div class="v c-cyan">+93.3% · $161 万</div></div>
+</div>
+
+<!-- ============ 1 合约基础信息 ============ -->
+<section>
+  <h2><span class="no">1</span>合约基础信息</h2>
+  <div class="lead">来源：GoPlus Security 官方审计（chain 56）+ BSC 公共 RPC 直读（eth_getCode / eth_call）+ DexScreener。</div>
+  <table>
+    <tr><td class="k">合约地址</td><td class="mono">0x9212cf1f9f4a9c69bb010146ba5b0725169d4444</td></tr>
+    <tr><td class="k">代币符号 / 名称</td><td>bibi / <b>Binance bibi</b>（总供应 <b>10 亿枚</b>，decimals=18）</td></tr>
+    <tr><td class="k">合约类型</td><td><span class="ok">ERC-20 代币合约</span> + Ownable（标准轻量模板，非 DEX/借贷/质押协议）</td></tr>
+    <tr><td class="k">源码验证</td><td><span class="ok">✅ 已开源</span>（GoPlus is_open_source=1；BSCScan 需付费 Key，未能拉取源文本）</td></tr>
+    <tr><td class="k">发行方式</td><td><span class="hl">four.meme</span> 发射台发行（GoPlus launchpad_token=four.meme）→ BSC Meme 发射台</td></tr>
+    <tr><td class="k">部署者</td><td class="mono">0x36b854d67ba956fd359911e5d3c177caaaff9464</td></tr>
+    <tr><td class="k">创建者当前持仓</td><td><span class="ok">0 枚 · 0%</span>（已完全清仓）</td></tr>
+    <tr><td class="k">创建交易 Hash</td><td><span class="warn">未取到</span>（BSCScan V1 弃用 / V2 需付费 Key，本机受限）</td></tr>
+    <tr><td class="k">主交易池</td><td class="mono">PancakeSwap V2 (bibi/WBNB) 0xb250…3aB67 · 创建于 2025-08-27（币龄 371.8 天）</td></tr>
+    <tr><td class="k">代码规模</td><td>Runtime 字节码 <b>3.73 KB</b>（小合约，符合标准轻量 ERC-20）</td></tr>
+    <tr><td class="k">标准性判断</td><td>含 owner()/transferOwnership/renounceOwnership 等 Ownable 特征；无代理插槽 → 非 OpenZeppelin Proxy 系，更接近 Meme 发射台标准模板 + Ownable</td></tr>
+  </table>
+</section>
+
+<!-- ============ 2 核心功能与机制 ============ -->
+<section>
+  <h2><span class="no">2</span>核心功能与机制</h2>
+  <div class="grid2">
+    <div class="mini">
+      <h3>代币经济模型</h3>
+      <ul>
+        <li>总供应 <b>10 亿</b>，固定上限</li>
+        <li><span class="ok">不可增发</span>（无 mint 函数 / is_mintable=0）</li>
+        <li><span class="ok">买卖税 0%</span>、转账税 0%（buy/sell/transfer_tax=0）</li>
+        <li><span class="ok">非蜜罐</span>：可自由买入卖出（is_honeypot=0, cannot_buy/sell_all=0）</li>
+        <li>无烧币函数；销毁走转账至 0xdead 标准路径</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h3>权限架构</h3>
+      <ul>
+        <li>owner 已<span class="ok">永久弃权</span>：owner() = 0x000…000</li>
+        <li><span class="ok">不可夺回所有权</span>（can_take_back_ownership=0）</li>
+        <li><span class="ok">非代理合约</span>（is_proxy=0），实现不可替换</li>
+        <li>无 hidden_owner（hidden_owner=0）</li>
+        <li>owner_balance=0 · owner_change_balance=0</li>
+      </ul>
+    </div>
+  </div>
+  <div style="height:14px"></div>
+  <table>
+    <tr><th>特殊机制检查</th><th>结论</th></tr>
+    <tr><td>暂停 / 转账冻结 (transfer_pausable)</td><td><span class="ok">不存在 = 0</span></td></tr>
+    <tr><td>黑名单 / 白名单</td><td><span class="ok">不存在（is_blacklisted=0, is_whitelisted=0）</span></td></tr>
+    <tr><td>防巨鲸 / 反鲸机制</td><td><span class="ok">不存在（is_anti_whale=0）</span></td></tr>
+    <tr><td>滑点操控 / 冷却限制</td><td><span class="ok">不存在（slippage_modifiable=0, cooldown=0）</span></td></tr>
+    <tr><td>LP 锁仓（链上真值）</td><td><span class="ok">✅ Pancake LP Token ≈99.9999% 已销毁至 0x…dead（is_locked=1）→ 撤池（rug）路径已封死</span></td></tr>
+  </table>
+  <div class="flag w">🔍 行为一致性：代码层「无税、无冻结、无特权」与链上实际可自由交易、无异常买卖阻断的现象一致，未见代码与行为背离。</div>
+</section>
+
+<!-- ============ 3 安全风险审计 ============ -->
+<section>
+  <h2><span class="no">3</span>安全风险审计（字节码反汇编级）</h2>
+  <div class="lead">方法：对 runtime 字节码（7,644 hex 字符 / 3.73 KB）做真实反汇编（跳过 PUSH 数据段），再叠加 58 项特权函数签名扫描，双重交叉验证。</div>
+  <table>
+    <tr><th>风险类别</th><th>反汇编真值</th><th>结论</th></tr>
+    <tr><td>DELEGATECALL / 代理后门</td><td class="mono">0 次</td><td><span class="ok">✅ 不存在</span></td></tr>
+    <tr><td>SELFDESTRUCT / 自毁</td><td class="mono">0 次</td><td><span class="ok">✅ 不存在</span></td></tr>
+    <tr><td>CALL / CALLCODE（外部调用面）</td><td class="mono">0 次</td><td><span class="ok">✅ 无任何外部调用 → 无重入攻击面、无偷转资产面</span></td></tr>
+    <tr><td>CREATE / CREATE2（动态创建）</td><td class="mono">0 次</td><td><span class="ok">✅ 不存在</span></td></tr>
+    <tr><td>重入漏洞</td><td>无外部调用 + 无回调路径</td><td><span class="ok">✅ 结构上不可重入</span></td></tr>
+    <tr><td>整数溢出</td><td>14×SSTORE / 25×SLOAD，纯存储逻辑</td><td>现代 Solidity 编译器默认内置溢出检查；无裸汇编算术 → <span class="ok">低风险</span></td></tr>
+    <tr><td>权限越权 / 后门管理员</td><td>owner=0x0 · hidden_owner=0</td><td><span class="ok">✅ 无特权主体</span></td></tr>
+    <tr><td>授权/钓鱼式提币</td><td>GoPlus external_call=0</td><td><span class="ok">✅ 无授权外调提币逻辑</span></td></tr>
+    <tr><td>同创建者蜜罐</td><td>honeypot_with_same_creator=0</td><td><span class="ok">✅ 无</span></td></tr>
+  </table>
+  <div class="flag">✅ <b>硬证据</b>：字节码 <b>0 次外部调用</b>（含 CALL/DELEGATECALL/STATICCALL/CREATE/CREATE2 全部为零），是一个<b>纯粹的存储型 ERC-20</b>——代码层面不存在 rug、抽池、后门、升级替换的任何可能路径。</div>
+  <div class="flag w">⚠️ 附注：签名扫描曾「子串命中」rescueFunds/transferOwnership 等签名（3.7KB 字节码中 4 字节随机匹配），但经反汇编核实均非真实可调用外部提币函数；以反汇编结果为最终依据。</div>
+</section>
+
+<!-- ============ 4 项目背景与综合评估 ============ -->
+<section>
+  <h2><span class="no">4</span>项目背景与综合评估</h2>
+  <div class="grid2">
+    <div class="mini">
+      <h3>运营痕迹</h3>
+      <ul>
+        <li>币龄 <b>371.8 天</b>，持续在 DEX 交易</li>
+        <li>持币地址 <b>57,619 个</b>（真实散户盘）</li>
+        <li>社媒：X <span class="mono">x.com/bibifansbsc</span> + Telegram <span class="mono">BinanceBiBiCTO</span>（群名含 <b>CTO = 社区接管</b>）</li>
+        <li>发行平台 four.meme（BSC Meme 发射台）</li>
+      </ul>
+    </div>
+    <div class="mini">
+      <h3>资金结构（关注）</h3>
+      <ul>
+        <li>主池 Pancake LP ≈ <b>$17.7 万</b>；另有 <b>474 个 Uniswap V4 微池</b>（各 ~$500-1,400，合计 ~$21.6 万，疑似自动化铺池/做市基础设施）</li>
+        <li>Top10 持币 ≈ <b>45%</b>（其中 16.9% 为 Pancake LP 池合约 — 属锁定流动性；扣除后头部个人/实体 ~28%）</li>
+        <li>单一地址 0x4b0f…a644 持 <b>10.8%</b>、0x1622…9360 持 4.5%</li>
+        <li>24h 换手 ≈ <b>3 倍市值</b>，买卖笔数 9,179/9,886（略偏卖）</li>
+      </ul>
+    </div>
+  </div>
+  <div style="height:14px"></div>
+  <div class="callout">
+    <b>🧭 综合研判：</b>
+    该合约<b>不是 Rug Pull / 不是钓鱼 / 不是蜜罐</b>——代码被证明不可抽池、不可增发、无后门，LP 已烧毁，owner 已弃权，1 年存活 + 5.7 万持币者表明它是<b>真实持续运营的社区 Meme 币</b>（经历 CTO 接管的典型 BSC 老币）。
+    <br><br>
+    但风险等级评定为 <b class="hlr">高（项目/市场层面）</b>：① 名称刻意蹭 <b>"Binance" 官方品牌</b>，官方背书不存在，属高风险仿冒命名；② 单日 <b>+93%</b> 的脉冲拉盘叠加高换手，符合老币被短期资金爆炒特征，追高接盘风险极大；③ 市值仅约 <b>$51 万</b>、主池流动性 <b>$17 万</b>，单个大户（10.8%）即可引发显著滑点与砸盘；④ 无任何外部审计报告可见。
+  </div>
+</section>
+
+<!-- ============ 取证数据 ============ -->
+<section>
+  <h2><span class="no">+</span>取证明细（GoPlus · RPC · DexScreener）</h2>
+  <table>
+    <tr><th>数据项</th><th>值</th><th>来源</th></tr>
+    <tr><td>chainId</td><td class="mono">0x38 (56)</td><td>BSC RPC</td></tr>
+    <tr><td>totalSupply / decimals</td><td class="mono">1,000,000,000e18 / 18</td><td>BSC RPC eth_call</td></tr>
+    <tr><td>owner()</td><td class="mono">0x0000000000000000000000000000000000000000</td><td>BSC RPC eth_call</td></tr>
+    <tr><td>字节码 / 反汇编</td><td class="mono">7,644 hex · 2,274 ops · 0 外调 · 0 delegatecall · 0 selfdestruct</td><td>BSC RPC eth_getCode</td></tr>
+    <tr><td>GoPlus 安全矩阵</td><td>open_source=1 · mintable=0 · proxy=0 · selfdestruct=0 · hidden_owner=0 · external_call=0 · honeypot=0 · tax(买/卖/转)=0 · pausable=0 · blacklist=0</td><td>GoPlus</td></tr>
+    <tr><td>持币者</td><td class="mono">57,619 地址；Top10≈45%</td><td>GoPlus</td></tr>
+    <tr><td>LP 锁仓</td><td class="mono">LP ≈100% → 0xdead (is_locked=1)</td><td>GoPlus</td></tr>
+    <tr><td>市场</td><td>价 $0.0005106 · MC ~$51 万 · 24h 量 $161 万 · 24h +93.3% · 池创建 2025-08-27</td><td>DexScreener</td></tr>
+    <tr><td>自动化 8 维基线</td><td><b>5.7 / 10</b> · 🟡 轻仓观察（1-3%）· 缺 sentiment 维度</td><td>src/chain 管线</td></tr>
+  </table>
+  <div class="stepper">📌 备注：现有 src/chain 8 维基线因生产域名 api.goplus.io 在本机 SSL 握手失败而丢失 GoPlus 审计字段，红旗显示「LP 锁仓未知」为保守降级结论；本次审计改用镜像端点 api.gopluslabs.io 补齐了 LP≈100% 已锁死、57,619 持币者等关键真值。</div>
+</section>
+
+<div class="disclaimer">⚠️ 本报告由 AI 基于链上公开数据（BSC RPC / GoPlus Security / DexScreener）自动生成，仅供技术研究参考，<b>不构成任何投资建议或代币推荐</b>。Meme 币价格波动剧烈、归零风险极高，请自行核验并谨慎决策。分析时间：2026-09-03。</div>
+
+</div>
+</body>
+</html>

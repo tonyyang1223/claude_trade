@@ -1,0 +1,129 @@
+{
+  "chain": "robinhood",
+  "address": "0xb7eaecc89d3e2f9fd597d61726ae824900db8360",
+  "symbol": "STRATTON",
+  "name": "Stratton Market",
+  "profile": {
+    "chain": "robinhood",
+    "address": "0xb7eaecc89d3e2f9fd597d61726ae824900db8360",
+    "symbol": "STRATTON",
+    "name": "Stratton Market",
+    "total_supply": 1000000000.0,
+    "price_usd": 0.003759,
+    "market_cap": 3571393.0,
+    "volume_24h": 9455913.56,
+    "fdv": 3571393.0,
+    "created_at": null,
+    "age_days": 0.4
+  },
+  "dex": {
+    "price_usd": 0.003759,
+    "liquidity_usd": 161980.41,
+    "volume_24h": 9455913.56,
+    "buy_sell_ratio": 1.109,
+    "price_change_24h": 8909.0,
+    "fdv": 3571393.0,
+    "market_cap": 3571393.0,
+    "pair_address": "0xa2c4e1cae8e4fe7cbd06dc26b09e20dbc6b7d719d877e62a95aa8f4c47229274",
+    "quote_symbol": "spy",
+    "base_symbol": "STRATTON",
+    "base_name": "Stratton Market",
+    "source": "dexscreener",
+    "price_changes": {
+      "m5": 5.29,
+      "h1": 14.26,
+      "h6": -7.4,
+      "h24": 8909.0
+    },
+    "txns": {
+      "m5": {
+        "buys": 7,
+        "sells": 3
+      },
+      "h1": {
+        "buys": 88,
+        "sells": 61
+      },
+      "h6": {
+        "buys": 1090,
+        "sells": 804
+      },
+      "h24": {
+        "buys": 11445,
+        "sells": 10318
+      }
+    },
+    "age_days": 0.4,
+    "socials": [],
+    "image_url": "https://cdn.dexscreener.com/cms/images/lC67rkoouuphI4O0?width=800&height=800&quality=95&format=auto",
+    "price_anomaly": null
+  },
+  "security": {
+    "is_verified": null,
+    "owner_renounced": null,
+    "is_mintable": false,
+    "can_take_back_ownership": null,
+    "buy_tax_pct": null,
+    "sell_tax_pct": null,
+    "hidden_honeypot": null,
+    "is_in_blacklist": null,
+    "is_proxy": false,
+    "can_blacklist": false,
+    "can_pause": false,
+    "has_owner_fn": false
+  },
+  "holders": {
+    "total_holders": null,
+    "top10_pct": null,
+    "top50_pct": null,
+    "creator_pct": null,
+    "snipe_pct": null
+  },
+  "liquidity": {
+    "total_liquidity_usd": 161980.41,
+    "locked_pct": null,
+    "locked_until": null,
+    "is_burned": null,
+    "dex": "dexscreener"
+  },
+  "flags": [
+    "✅ 未发现增发函数（供应量固定）",
+    "✅ 合约未实现 owner()（无管理员私钥）",
+    "✅ 非可升级代理（实现不可替换）",
+    "⚠️ LP 锁仓与持币集中度均未知：合约层面无后门，但撤池（rug）与大户砸盘两大风险未经验证，安全分上限压至 7.5"
+  ],
+  "notes": {
+    "security": [
+      "✅ 未发现增发函数（供应量固定）",
+      "✅ 合约未实现 owner()（无管理员私钥）",
+      "✅ 非可升级代理（实现不可替换）",
+      "⚠️ LP 锁仓与持币集中度均未知：合约层面无后门，但撤池（rug）与大户砸盘两大风险未经验证，安全分上限压至 7.5"
+    ],
+    "trend": [
+      "⚠️ 币龄 0.40 天：24h 涨跌 +8909.0% 实为「自发行价以来」涨幅，不代表日内趋势，本维度改用 h6 -7.4%",
+      "h6 跌幅 -7.4%",
+      "流动性 $161,980，深度充足"
+    ],
+    "momentum": [
+      "⚠️ 币龄仅 0.40 天（<1 天）：h24 涨跌幅以发行价为基数、不代表动能，方向判定改用 m5/h1/h6",
+      "多周期涨跌分化，动能不明",
+      "24h +8909%（新币上线即暴涨，此时追高=接盘风险极高）",
+      "近 1h 买盘占优（88/61）"
+    ],
+    "liquidity_health": [
+      "流动性/市值仅 5%，易被大额砸盘操控",
+      "24h 换手 58x，异常高（疑似对敲/纯短线）"
+    ],
+    "innovation": [
+      "叙事「Uncategorized」技术含量基准分 4.0"
+    ],
+    "taxonomy": [
+      "识别类别：Uncategorized"
+    ]
+  },
+  "missing": [
+    "sentiment",
+    "community"
+  ],
+  "error": null
+}

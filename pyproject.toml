@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chain-token-forensics-engine"
+version = "2.0.0"
+description = "可配置的链上代币取证分析引擎：多链(BSC/Solana/Robinhood) 8 维评分 + 决策护栏 + 双格式报告"
+readme = "docs/chain_token_analysis/skill_design.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "pydantic>=2.0",
+    "requests>=2.28",
+    "PyYAML>=6.0",
+]
+
+[project.scripts]
+chain-forensic = "chain_engine.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["chain*", "chain_engine*"]

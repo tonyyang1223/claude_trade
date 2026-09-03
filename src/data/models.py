@@ -3,6 +3,13 @@ from datetime import datetime
 from typing import Optional, List, Dict
 from pydantic import BaseModel, Field
 
+# Research disclaimer (also defined in src.analysis.advice). Kept local to avoid a
+# circular import (models -> analysis.advice -> analysis.__init__ -> technical -> models).
+DISCLAIMER = (
+    "⚠️ 本研究为量化模型输出的研究参考，不构成任何投资建议或买卖指令。"
+    "加密资产波动剧烈，可能造成全部本金损失。请自行研究并谨慎决策，风险自担。"
+)
+
 
 class CoinData(BaseModel):
     """Represents data for a single cryptocurrency.
@@ -272,6 +279,16 @@ class ProjectScore(BaseModel):
     risk_level: str
     entry_suggestion: Optional[str] = None
     factor_contributions: Dict[str, Dict] = Field(default_factory=dict)
+
+    # ── Type-aware evaluation extensions (all optional; legacy callers unaffected) ──
+    token_type: Optional[str] = None
+    peer_group: Optional[str] = None
+    dimension_scores: Dict[str, int] = Field(default_factory=dict)
+    data_coverage: Optional[float] = None
+    action: Optional[str] = None
+    position_range: Optional[str] = None
+    advice_triggers: List[str] = Field(default_factory=list)
+    disclaimer: str = DISCLAIMER
 
     analyzed_at: datetime = Field(default_factory=datetime.now)
 

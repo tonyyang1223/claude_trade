@@ -1,0 +1,25 @@
+# 示例覆盖配置：meme_strict —— 新发 Meme 更保守的护栏
+# 用法: python scripts/chain/analyze_token.py bnb 0x… --config config/chain/meme_strict.yaml
+# 局部覆盖即可，未写字段自动回落默认。
+
+decision:
+  hard_block_security_lt: 5.0        # 安全分 <5 即硬拦截（默认 4.0）
+  guard_age_level: 3                 # 币龄 <1 天直接降到「回避」（默认第 2 档）
+  guard_liquidity_level: 3           # 流动性健康 <3 分直接回避
+  guard_newcoin_days_lt: 14.0        # <14 天且 LP 未知即回避（默认 7 天）
+
+market:
+  liq_abs_bad_usd: 100000            # 流动性 <$100K 视为滑点高风险（默认 $50K）
+
+weights:
+  categories:
+    Meme:
+      security: 0.30                # 默认 0.25（提升欺诈权重）
+      trend: 0.13                   # 默认 0.15
+      momentum: 0.15                # 默认 0.18
+      liquidity_health: 0.12
+      sentiment: 0.12
+      innovation: 0.03              # 默认 0.05
+      taxonomy: 0.08
+      community: 0.07               # 默认 0.05
+    # 注：类别权重须提供完整 8 维且和为 1（引擎在加载期校验）

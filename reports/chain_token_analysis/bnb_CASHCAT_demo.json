@@ -1,0 +1,76 @@
+{
+  "chain": "bnb",
+  "address": "0xDemo0000000000000000000000000000000000",
+  "symbol": "CASHCAT",
+  "name": "Demo Cat",
+  "profile": {
+    "chain": "bnb",
+    "address": "0xDemo",
+    "symbol": "CASHCAT",
+    "name": "Demo Cat",
+    "total_supply": 1000000000.0,
+    "price_usd": 0.045,
+    "market_cap": 45000000.0,
+    "volume_24h": 8000000.0,
+    "fdv": 45000000.0,
+    "created_at": null,
+    "age_days": 40.0
+  },
+  "dex": {
+    "price_usd": 0.045,
+    "liquidity_usd": 2100000.0,
+    "volume_24h": 8000000.0,
+    "buy_sell_ratio": 1.15,
+    "price_change_24h": 12.0,
+    "fdv": 45000000.0,
+    "pair_address": null,
+    "source": "dexscreener(demo)"
+  },
+  "security": {
+    "is_verified": true,
+    "owner_renounced": true,
+    "is_mintable": false,
+    "can_take_back_ownership": false,
+    "buy_tax_pct": 0.0,
+    "sell_tax_pct": 0.0,
+    "hidden_honeypot": false,
+    "is_in_blacklist": false
+  },
+  "holders": {
+    "total_holders": 29300,
+    "top10_pct": 38.0,
+    "top50_pct": null,
+    "creator_pct": 2.0,
+    "snipe_pct": 8.0
+  },
+  "liquidity": {
+    "total_liquidity_usd": 2100000.0,
+    "locked_pct": 82.0,
+    "locked_until": "2027-01-01",
+    "is_burned": false,
+    "dex": "PancakeSwap"
+  },
+  "flags": [
+    "⚠️ LP 未销毁（团队可撤池）"
+  ],
+  "notes": {
+    "security": [
+      "⚠️ LP 未销毁（团队可撤池）"
+    ],
+    "trend": [
+      "24h 涨幅 +12.0%，温和上行",
+      "流动性 $2,100,000，深度充足"
+    ],
+    "innovation": [
+      "叙事「Meme」技术含量基准分 4.0",
+      "合约已开源验证，工程透明度高"
+    ],
+    "taxonomy": [
+      "识别类别：Meme"
+    ]
+  },
+  "missing": [
+    "sentiment"
+  ],
+  "error": null
+}

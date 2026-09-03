@@ -37,6 +37,9 @@ from src.api.twitter import TwitterClient
 from src.api.reddit_free import RedditFreeClient
 from src.api.community import CommunityClient
 from src.data.cache import DataCache
+# Reuse the type-aware classifier (single source of truth, fixes the old
+# substring bug e.g. 'Chainlink' -> 'ai' via word-boundary matching).
+from src.research.token_classification import classify_coin
 
 logging.basicConfig(
     level=logging.INFO,
@@ -59,63 +62,6 @@ REFRESH_HOURS = {
     (51, 200): 24,   # Top 51-200: refresh every 24 hours
     (201, 800): 168, # Top 201-800: refresh once per week (essentially "once")
 }
-
-# ── Category mapping ──
-
-CATEGORY_MAP = {
-    "decentralized finance (defi)": "defi", "defi": "defi",
-    "layer 1": "layer-1", "layer 1 (l1)": "layer-1", "l1": "layer-1",
-    "layer 2": "layer-2", "layer 2 (l2)": "layer-2", "l2": "layer-2",
-    "meme": "meme", "memes": "meme",
-    "gaming": "gaming", "gamefi": "gaming",
-    "nft": "nft", "non-fungible-tokens": "nft",
-    "exchange": "exchange", "centralized exchange": "exchange", "dex": "exchange",
-    "stablecoin": "stablecoin", "stablecoins": "stablecoin",
-    "privacy": "privacy",
-    "real world assets": "rwa", "rwa": "rwa",
-    "artificial intelligence": "ai", "ai": "ai",
-    "oracle": "oracle", "oracles": "oracle",
-    "storage": "storage", "bridge": "bridge", "bridges": "bridge",
-    "yield aggregator": "yield", "yield": "yield",
-    "lending": "lending", "borrowing": "lending",
-    "derivatives": "derivatives",
-    "prediction market": "prediction",
-    "liquid staking": "liquid-staking", "restaking": "restaking",
-    "smart contract platform": "layer-1",
-    "proof of stake": "pos", "proof of work": "pow",
-    "ecosystem": "ecosystem",
-    "portfolio": "portfolio",
-    "index": "index",
-    "made in usa": "regional",
-    "etf": "etf",
-    "tokenized": "rwa",
-}
-
-CATEGORY_PRIORITY = [
-    "defi", "layer-1", "layer-2", "meme", "gaming", "nft", "stablecoin",
-    "rwa", "ai", "oracle", "exchange", "lending", "derivatives",
-    "liquid-staking", "restaking", "yield", "prediction", "privacy",
-    "bridge", "storage", "etf", "pos", "pow", "ecosystem",
-    "regional", "portfolio", "index", "unclassified",
-]
-
-
-def classify_coin(categories: List[str]) -> str:
-    """Map CoinGecko categories to directory slug."""
-    matched = set()
-    for cat in (categories or []):
-        lower = cat.lower().strip()
-        if lower in CATEGORY_MAP:
-            matched.add(CATEGORY_MAP[lower])
-        else:
-            for key, slug in CATEGORY_MAP.items():
-                if key in lower or lower in key:
-                    matched.add(slug)
-                    break
-    for priority_cat in CATEGORY_PRIORITY:
-        if priority_cat in matched:
-            return priority_cat
-    return "unclassified"
 
 
 # ── State management ──

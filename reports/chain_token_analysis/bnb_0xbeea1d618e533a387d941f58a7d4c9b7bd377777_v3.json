@@ -1,0 +1,120 @@
+{
+  "chain": "bnb",
+  "address": "0xbeea1d618e533a387d941f58a7d4c9b7bd377777",
+  "symbol": "牛来",
+  "name": "牛来",
+  "profile": {
+    "chain": "bnb",
+    "address": "0xbeea1d618e533a387d941f58a7d4c9b7bd377777",
+    "symbol": "牛来",
+    "name": "牛来",
+    "total_supply": 1000000000.0,
+    "price_usd": null,
+    "market_cap": null,
+    "volume_24h": null,
+    "fdv": null,
+    "created_at": null,
+    "age_days": 17.5
+  },
+  "dex": {
+    "price_usd": 0.07393,
+    "liquidity_usd": 1098945.97,
+    "volume_24h": 24621026.4,
+    "buy_sell_ratio": 1.261,
+    "price_change_24h": -19.3,
+    "fdv": 73935182.0,
+    "market_cap": 73935182.0,
+    "pair_address": "0xE5Ae318389B8D6d09370a675479c64862152D126",
+    "quote_symbol": "usdt",
+    "source": "dexscreener",
+    "price_changes": {
+      "m5": 3.06,
+      "h1": -9.67,
+      "h6": -13.28,
+      "h24": -19.3
+    },
+    "txns": {
+      "m5": {
+        "buys": 232,
+        "sells": 100
+      },
+      "h1": {
+        "buys": 1302,
+        "sells": 863
+      },
+      "h6": {
+        "buys": 3954,
+        "sells": 3572
+      },
+      "h24": {
+        "buys": 21683,
+        "sells": 17193
+      }
+    },
+    "age_days": 17.5,
+    "socials": [
+      "https://x.com/search?q=%24%E7%89%9B%E6%9D%A5"
+    ],
+    "image_url": "https://cdn.dexscreener.com/cms/images/dkCAlAHQEmiOVsnu?width=800&height=800&quality=95&format=auto",
+    "price_anomaly": null
+  },
+  "security": {
+    "is_verified": null,
+    "owner_renounced": true,
+    "is_mintable": null,
+    "can_take_back_ownership": null,
+    "buy_tax_pct": null,
+    "sell_tax_pct": null,
+    "hidden_honeypot": null,
+    "is_in_blacklist": null
+  },
+  "holders": {
+    "total_holders": null,
+    "top10_pct": null,
+    "top50_pct": null,
+    "creator_pct": null,
+    "snipe_pct": null
+  },
+  "liquidity": {
+    "total_liquidity_usd": 1098945.97,
+    "locked_pct": null,
+    "locked_until": null,
+    "is_burned": null,
+    "dex": "dexscreener"
+  },
+  "flags": [
+    "⚠️ 安全数据不完整（仅核验 1 项：owner/开源/mint/税率/honeypot/持币集中度/LP 锁仓多数未知），安全分按低置信度下调至 7.0"
+  ],
+  "notes": {
+    "security": [
+      "⚠️ 安全数据不完整（仅核验 1 项：owner/开源/mint/税率/honeypot/持币集中度/LP 锁仓多数未知），安全分按低置信度下调至 7.0"
+    ],
+    "trend": [
+      "24h 跌幅 -19.3%",
+      "买卖比 1.261（买方占优）",
+      "流动性 $1,098,946，深度充足"
+    ],
+    "momentum": [
+      "近 4 周期普跌，动能向下",
+      "近 1h 买盘占优（1302/863）"
+    ],
+    "liquidity_health": [
+      "流动性/市值仅 1%，易被大额砸盘操控",
+      "24h 换手 22x，异常高（疑似对敲/纯短线）",
+      "流动性 >$500K，滑点可控"
+    ],
+    "innovation": [
+      "叙事「Meme」技术含量基准分 4.0"
+    ],
+    "taxonomy": [
+      "识别类别：Meme"
+    ],
+    "community": [
+      "仅有 1 个社媒渠道：https://x.com/search?q=%24%E7%89%9B%E6%9D%A5"
+    ]
+  },
+  "missing": [
+    "sentiment"
+  ],
+  "error": null
+}

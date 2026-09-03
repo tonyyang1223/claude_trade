@@ -1,0 +1,131 @@
+{
+  "chain": "robinhood",
+  "address": "0x39dbed3a2bd333467115de45665cc57f813c4571",
+  "symbol": "PONS",
+  "name": "Pons",
+  "profile": {
+    "chain": "robinhood",
+    "address": "0x39dbed3a2bd333467115de45665cc57f813c4571",
+    "symbol": "PONS",
+    "name": "Pons",
+    "total_supply": 1000000000.0,
+    "price_usd": 0.5033,
+    "market_cap": 355744350.0,
+    "volume_24h": 26662466.78,
+    "fdv": 355744350.0,
+    "created_at": null,
+    "age_days": 47.0
+  },
+  "dex": {
+    "price_usd": 0.5033,
+    "liquidity_usd": 3156062.61,
+    "volume_24h": 26662466.78,
+    "buy_sell_ratio": 1.014,
+    "price_change_24h": 23.43,
+    "fdv": 355744350.0,
+    "market_cap": 355744350.0,
+    "pair_address": "0x4be9657ec9002e528f4f17a5c43edc525a07f888f7b180c2afbf75e096c4f38a",
+    "quote_symbol": "usdg",
+    "base_symbol": "PONS",
+    "base_name": "Pons",
+    "source": "dexscreener",
+    "price_changes": {
+      "m5": -0.94,
+      "h1": 7.17,
+      "h6": 23.36,
+      "h24": 23.43
+    },
+    "txns": {
+      "m5": {
+        "buys": 101,
+        "sells": 19
+      },
+      "h1": {
+        "buys": 1023,
+        "sells": 747
+      },
+      "h6": {
+        "buys": 3333,
+        "sells": 3668
+      },
+      "h24": {
+        "buys": 11200,
+        "sells": 11044
+      }
+    },
+    "age_days": 47.0,
+    "socials": [
+      "https://x.com/ponsdotfamily"
+    ],
+    "image_url": "https://cdn.dexscreener.com/cms/images/dkmXs8KYMyMXjuU1?width=800&height=800&quality=95&format=auto",
+    "price_anomaly": null
+  },
+  "security": {
+    "is_verified": null,
+    "owner_renounced": null,
+    "is_mintable": false,
+    "can_take_back_ownership": null,
+    "buy_tax_pct": null,
+    "sell_tax_pct": null,
+    "hidden_honeypot": null,
+    "is_in_blacklist": null,
+    "is_proxy": false,
+    "can_blacklist": false,
+    "can_pause": false,
+    "has_owner_fn": false
+  },
+  "holders": {
+    "total_holders": null,
+    "top10_pct": null,
+    "top50_pct": null,
+    "creator_pct": null,
+    "snipe_pct": null
+  },
+  "liquidity": {
+    "total_liquidity_usd": 3156062.61,
+    "locked_pct": null,
+    "locked_until": null,
+    "is_burned": null,
+    "dex": "dexscreener"
+  },
+  "flags": [
+    "✅ 未发现增发函数（供应量固定）",
+    "✅ 合约未实现 owner()（无管理员私钥）",
+    "✅ 非可升级代理（实现不可替换）",
+    "⚠️ LP 锁仓与持币集中度均未知：合约层面无后门，但撤池（rug）与大户砸盘两大风险未经验证，安全分上限压至 7.5"
+  ],
+  "notes": {
+    "security": [
+      "✅ 未发现增发函数（供应量固定）",
+      "✅ 合约未实现 owner()（无管理员私钥）",
+      "✅ 非可升级代理（实现不可替换）",
+      "⚠️ LP 锁仓与持币集中度均未知：合约层面无后门，但撤池（rug）与大户砸盘两大风险未经验证，安全分上限压至 7.5"
+    ],
+    "trend": [
+      "24h 涨幅 +23.4%，强势但未过热",
+      "流动性 $3,156,063，深度充足"
+    ],
+    "momentum": [
+      "近 4 周期普涨，动能向上",
+      "近 1h 买盘占优（1023/747）"
+    ],
+    "liquidity_health": [
+      "流动性/市值仅 1%，易被大额砸盘操控",
+      "24h 换手 8x，交易活跃",
+      "流动性 >$500K，滑点可控"
+    ],
+    "innovation": [
+      "叙事「Uncategorized」技术含量基准分 4.0"
+    ],
+    "taxonomy": [
+      "识别类别：Uncategorized"
+    ],
+    "community": [
+      "仅有 1 个社媒渠道：https://x.com/ponsdotfamily"
+    ]
+  },
+  "missing": [
+    "sentiment"
+  ],
+  "error": null
+}

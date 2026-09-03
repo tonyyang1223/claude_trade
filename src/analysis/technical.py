@@ -1,5 +1,4 @@
 """Technical analysis module for cryptocurrency indicators."""
-import ccxt
 import pandas as pd
 import numpy as np
 from datetime import datetime
@@ -30,6 +29,7 @@ class TechnicalAnalyzer:
         Args:
             cache_dir: Directory for caching OHLCV data
         """
+        import ccxt  # 延迟导入：避免在模块加载时强制依赖 ccxt
         self.exchange = ccxt.binance()
         self.cache = DataCache(cache_dir, expire_hours=1)
 

@@ -14,6 +14,9 @@ from src.analysis.sentiment import SentimentAnalyzer
 from src.analysis.onchain import OnchainAnalyzer
 from src.analysis.github_analyzer import GithubAnalyzer
 from src.data.coin_mappings import COIN_TO_SYMBOL, COIN_TO_REPO
+from src.analysis.profiles import get_profile, TypeProfile
+from src.analysis import advice as advice_mod
+from src.analysis import tokenomics as tx
 
 
 class Scorer:
@@ -68,7 +71,12 @@ class Scorer:
         sentiment_analyzer: Optional[SentimentAnalyzer] = None,
         onchain_analyzer: Optional[OnchainAnalyzer] = None,
         github_analyzer: Optional[GithubAnalyzer] = None,
-        enable_phase1: bool = False
+        enable_phase1: bool = False,
+        token_type: Optional[str] = None,
+        profile: Optional[TypeProfile] = None,
+        token_researcher=None,
+        reddit_client=None,
+        apply_coverage_cap: bool = True,
     ):
         """Initialize scorer with optional custom weights and dependencies.
 
@@ -96,14 +104,38 @@ class Scorer:
         self.coinglass = coinglass_client or CoinglassClient()
         self.defillama = defillama_client or DefiLlamaClient()
 
-        # Initialize analyzers
-        self.technical = technical_analyzer or TechnicalAnalyzer()
-        self.sentiment = sentiment_analyzer or SentimentAnalyzer()
-        self.onchain = onchain_analyzer or OnchainAnalyzer()
-        self.github = github_analyzer or GithubAnalyzer()
-
         # Flag for Phase 1 features
         self.enable_phase1 = enable_phase1
+
+        # Resolve type-aware profile (None => legacy 7-dim behavior)
+        if profile is not None:
+            self.profile = profile
+        elif token_type is not None:
+            self.profile = get_profile(token_type)
+        else:
+            self.profile = None
+
+        # Initialize analyzers.
+        # - Legacy mode (no profile): keep byte-for-byte compatible behavior by
+        #   creating default analyzers when none are supplied.
+        # - Typed mode: store the passed value AS-IS so a caller can pass ``None``
+        #   to *skip* a blocked analyzer (e.g. Binance/GitHub in a restricted
+        #   network). A skipped analyzer yields a ``None`` dimension — excluded
+        #   from the weighted total and the coverage metric, never a fabricated 3.
+        if self.profile is None:
+            self.technical = technical_analyzer or TechnicalAnalyzer()
+            self.sentiment = sentiment_analyzer or SentimentAnalyzer()
+            self.onchain = onchain_analyzer or OnchainAnalyzer()
+            self.github = github_analyzer or GithubAnalyzer()
+        else:
+            self.technical = technical_analyzer
+            self.sentiment = sentiment_analyzer
+            self.onchain = onchain_analyzer
+            self.github = github_analyzer
+
+        self.token_researcher = token_researcher
+        self.reddit_client = reddit_client
+        self.apply_coverage_cap = apply_coverage_cap
 
     def _validate_weights(self) -> None:
         """Validate that weights sum to 1.0."""
@@ -284,15 +316,26 @@ class Scorer:
 
         return adjusted
 
-    def score_project(self, coin_id: str) -> ProjectScore:
+    def score_project(self, coin_id: str, token_type: Optional[str] = None) -> ProjectScore:
         """Generate comprehensive project score.
+
+        Routes to the legacy 7-dimension scorer when no type profile is active,
+        otherwise to the type-aware scorer (differentiated weights + extra dims).
 
         Args:
             coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+            token_type: Optional override of the instance profile's token type.
 
         Returns:
             ProjectScore object with all scoring data
         """
+        if self.profile is None and token_type is None:
+            return self._score_project_legacy(coin_id)
+        profile = self.profile or get_profile(token_type or "unclassified")
+        return self._score_project_typed(coin_id, profile)
+
+    def _score_project_legacy(self, coin_id: str) -> ProjectScore:
+        """Legacy 7-dimension scorer (backward compatible, unchanged behavior)."""
         # 获取各维度数据
         market_data = self._get_market_data(coin_id)
         technical = self._get_technical_indicators(coin_id)
@@ -341,6 +384,153 @@ class Scorer:
             risk_level=risk_level,
             factor_contributions=factor_contributions
         )
+
+    def _score_project_typed(self, coin_id: str, profile: TypeProfile) -> ProjectScore:
+        """Type-aware scorer: differentiated weights + extended dimensions.
+
+        Only dimensions present in ``profile.weights`` are fetched and scored
+        (structural non-applicability). Missing data yields ``None`` (never a
+        default 3) and is simply excluded from the weighted total, with the
+        resulting coverage tracked and used to cap the final rating.
+        """
+        market_data = self._get_market_data(coin_id)
+
+        # Tokenomics/valuation require a research snapshot (best effort).
+        need_snapshot = self.token_researcher is not None and (
+            profile.is_applicable("tokenomics") or profile.is_applicable("valuation")
+        )
+        snapshot = None
+        if need_snapshot:
+            try:
+                snapshot = self.token_researcher.analyze_token(coin_id)
+            except Exception as e:
+                print(f"Warning: token research failed for {coin_id}: {e}")
+
+        reddit_mentions = None
+        if profile.is_applicable("narrative") and self.reddit_client is not None:
+            try:
+                reddit_mentions = self.reddit_client.get_coin_mentions(coin_id)
+            except Exception as e:
+                print(f"Warning: reddit mentions failed for {coin_id}: {e}")
+
+        raw: Dict[str, Optional[int]] = {}
+        for dim in profile.applicable_dims:
+            raw[dim] = self._score_typed_dim(dim, coin_id, market_data, snapshot, reddit_mentions)
+
+        scored = {d: s for d, s in raw.items() if s is not None}
+        if scored:
+            w_sum = sum(profile.weights[d] for d in scored)
+            weighted = sum(profile.weights[d] * s for d, s in scored.items())
+            total = (weighted / w_sum * 20) if w_sum > 0 else 0.0
+            coverage = w_sum
+        else:
+            total = 0.0
+            coverage = 0.0
+
+        rating = self.generate_rating(total)
+        if self.apply_coverage_cap:
+            rating = advice_mod.apply_coverage_cap(rating, coverage)
+        risk_level = self.determine_risk_level(rating)
+        advice = advice_mod.build_advice(rating, risk_level, coverage, profile)
+
+        def core(dim: str, default: int = 3) -> int:
+            return int(scored.get(dim, default))
+
+        return ProjectScore(
+            coin_id=coin_id,
+            coin_name=market_data.name if market_data else coin_id,
+            symbol=market_data.symbol.upper() if market_data else coin_id.upper(),
+            market_score=core("market"),
+            technical_score=core("technical"),
+            onchain_score=core("onchain"),
+            sentiment_score=core("sentiment"),
+            github_score=core("github"),
+            social_score=core("social"),
+            risk_score=core("risk"),
+            total_score=round(total, 2),
+            rating=rating,
+            recommendation=advice.action,
+            risk_level=risk_level,
+            factor_contributions={
+                d: {"raw_score": s, "weight": round(profile.weights[d], 3)}
+                for d, s in scored.items()
+            },
+            token_type=profile.token_type,
+            peer_group=profile.family,
+            dimension_scores={d: int(s) for d, s in scored.items()},
+            data_coverage=round(coverage, 3),
+            action=advice.action,
+            position_range=advice.position_range,
+            advice_triggers=advice.triggers,
+            disclaimer=advice.disclaimer,
+        )
+
+    def _score_typed_dim(
+        self,
+        dim: str,
+        coin_id: str,
+        market_data,
+        snapshot,
+        reddit_mentions,
+    ) -> Optional[int]:
+        """Dispatch a single dimension score for the typed path."""
+        try:
+            if dim == "market":
+                return self._score_market(market_data)
+            if dim == "technical":
+                if self.technical is None:
+                    return None
+                t = self._get_technical_indicators(coin_id)
+                return self._score_technical(t) if t is not None else None
+            if dim == "onchain":
+                if self.onchain is None:
+                    return None
+                o = self._get_onchain_data(coin_id)
+                return o.onchain_signal if (o and not getattr(o, "is_default", False)) else None
+            if dim == "sentiment":
+                if self.sentiment is None:
+                    return None
+                s = self._get_sentiment_data(coin_id)
+                return s.sentiment_signal if s else None
+            if dim == "github":
+                if self.github is None:
+                    return None
+                g = self._get_github_data(coin_id)
+                return g.activity_score if g else None
+            if dim == "social":
+                so = self._get_social_data(coin_id)
+                return so.social_score if so else None
+            if dim == "risk":
+                r = self._get_risk_data(coin_id, market_data)
+                return r.risk_score if r else None
+            if dim == "tokenomics":
+                return tx.score_tokenomics(snapshot) if snapshot else None
+            if dim == "valuation":
+                return tx.score_valuation(snapshot) if snapshot else None
+            if dim == "narrative":
+                return tx.score_narrative(reddit_mentions=reddit_mentions)
+            if dim == "peg_stability":
+                price = market_data.current_price if market_data else None
+                return tx.score_peg_stability(price=price, target=1.0)
+            if dim == "tvl":
+                if self.defillama is None:
+                    return None
+                try:
+                    slug = self.defillama.get_protocol_slug(coin_id)
+                    if slug:
+                        data = self.defillama.get_protocol_tvl(slug)
+                        from src.data.models import TVLData
+                        tvl = TVLData(
+                            protocol=data.get("protocol", slug), slug=slug,
+                            tvl=data.get("tvl", 0), tvl_change_7d=data.get("tvl_change_7d", 0),
+                        )
+                        return tx.score_tvl_momentum(tvl)
+                except Exception as e:
+                    print(f"Warning: tvl score failed for {coin_id}: {e}")
+                return None
+        except Exception as e:
+            print(f"Warning: dim '{dim}' score failed for {coin_id}: {e}")
+        return None
 
     def _score_market(self, market_data: Optional[CoinData]) -> int:
         """Score market data (1-5)."""
@@ -421,6 +611,8 @@ class Scorer:
         market_data = self._get_market_data(coin_id)
         market_cap = market_data.market_cap if market_data else None
 
+        if self.technical is None:
+            return None
         try:
             return self.technical.analyze(symbol, days=200, market_cap=market_cap)
         except Exception as e:
@@ -436,6 +628,8 @@ class Scorer:
         Returns:
             OnchainData object or None if fetch fails
         """
+        if self.onchain is None:
+            return None
         try:
             return self.onchain.analyze(coin_id)
         except Exception as e:
@@ -451,6 +645,8 @@ class Scorer:
         Returns:
             SentimentData object or None if fetch fails
         """
+        if self.sentiment is None:
+            return None
         try:
             return self.sentiment.analyze(coin_id)
         except Exception as e:
@@ -468,6 +664,8 @@ class Scorer:
         """
         repo_path = COIN_TO_REPO.get(coin_id)
         if not repo_path:
+            return None
+        if self.github is None:
             return None
 
         try:
@@ -516,16 +714,19 @@ class Scorer:
             print(f"Warning: Failed to fetch social data for {coin_id}: {e}")
             return None
 
-    def _get_risk_data(self, coin_id: str) -> Optional[RiskData]:
+    def _get_risk_data(self, coin_id: str, market_data: Optional[CoinData] = None) -> Optional[RiskData]:
         """Calculate risk assessment for coin based on market data.
 
         Args:
             coin_id: Cryptocurrency ID (e.g., 'bitcoin')
+            market_data: Optional pre-fetched market data (avoids a redundant
+                CoinGecko call when the caller already has it).
 
         Returns:
             RiskData object with volatility, liquidity, and maturity scores
         """
-        market_data = self._get_market_data(coin_id)
+        if market_data is None:
+            market_data = self._get_market_data(coin_id)
         risk_factors: List[str] = []
 
         # Volatility risk (from price change)

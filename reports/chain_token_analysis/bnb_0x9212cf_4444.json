@@ -1,0 +1,129 @@
+{
+  "chain": "bnb",
+  "address": "0x9212cf1f9f4a9c69bb010146ba5b0725169d4444",
+  "symbol": "bibi",
+  "name": "Binance bibi",
+  "profile": {
+    "chain": "bnb",
+    "address": "0x9212cf1f9f4a9c69bb010146ba5b0725169d4444",
+    "symbol": "bibi",
+    "name": "Binance bibi",
+    "total_supply": 1000000000.0,
+    "price_usd": 0.0005106,
+    "market_cap": 510697.0,
+    "volume_24h": 1604867.54,
+    "fdv": 510697.0,
+    "created_at": null,
+    "age_days": 371.8
+  },
+  "dex": {
+    "price_usd": 0.0005106,
+    "liquidity_usd": 176439.94,
+    "volume_24h": 1604867.54,
+    "buy_sell_ratio": 0.928,
+    "price_change_24h": 93.25,
+    "fdv": 510697.0,
+    "market_cap": 510697.0,
+    "pair_address": "0xb2505B8a1AB470aCfbC12dD255E7Fa298a23aB67",
+    "quote_symbol": "wbnb",
+    "base_symbol": "bibi",
+    "base_name": "Binance bibi",
+    "source": "dexscreener",
+    "price_changes": {
+      "m5": -3.58,
+      "h1": -3.83,
+      "h6": 6.43,
+      "h24": 93.25
+    },
+    "txns": {
+      "m5": {
+        "buys": 299,
+        "sells": 234
+      },
+      "h1": {
+        "buys": 403,
+        "sells": 424
+      },
+      "h6": {
+        "buys": 5218,
+        "sells": 5909
+      },
+      "h24": {
+        "buys": 9179,
+        "sells": 9886
+      }
+    },
+    "age_days": 371.8,
+    "socials": [
+      "https://x.com/bibifansbsc",
+      "https://t.me/BinanceBiBiCTO"
+    ],
+    "image_url": "https://cdn.dexscreener.com/cms/images/594b15940cfcc945ba45d80666f09f1180cee177136dd3ee0c98a3cd83713bea?width=800&height=800&quality=95&format=auto",
+    "price_anomaly": null
+  },
+  "security": {
+    "is_verified": null,
+    "owner_renounced": true,
+    "is_mintable": false,
+    "can_take_back_ownership": null,
+    "buy_tax_pct": null,
+    "sell_tax_pct": null,
+    "hidden_honeypot": null,
+    "is_in_blacklist": null,
+    "is_proxy": false,
+    "can_blacklist": false,
+    "can_pause": false,
+    "has_owner_fn": true
+  },
+  "holders": {
+    "total_holders": null,
+    "top10_pct": null,
+    "top50_pct": null,
+    "creator_pct": null,
+    "snipe_pct": null
+  },
+  "liquidity": {
+    "total_liquidity_usd": 176439.94,
+    "locked_pct": null,
+    "locked_until": null,
+    "is_burned": null,
+    "dex": "dexscreener"
+  },
+  "flags": [
+    "✅ 未发现增发函数（供应量固定）",
+    "✅ 非可升级代理（实现不可替换）",
+    "⚠️ LP 锁仓与持币集中度均未知：合约层面无后门，但撤池（rug）与大户砸盘两大风险未经验证，安全分上限压至 7.5"
+  ],
+  "notes": {
+    "security": [
+      "✅ 未发现增发函数（供应量固定）",
+      "✅ 非可升级代理（实现不可替换）",
+      "⚠️ LP 锁仓与持币集中度均未知：合约层面无后门，但撤池（rug）与大户砸盘两大风险未经验证，安全分上限压至 7.5"
+    ],
+    "trend": [
+      "24h 涨幅 +93.2%，短期过热/获利盘重",
+      "流动性 $176,440，深度充足"
+    ],
+    "momentum": [
+      "多周期涨跌分化，动能不明",
+      "24h +93%（追高/逃顶风险）"
+    ],
+    "liquidity_health": [
+      "流动性/市值 35%，深度健康、难操控",
+      "24h 换手 9x，交易活跃"
+    ],
+    "innovation": [
+      "叙事「Uncategorized」技术含量基准分 4.0"
+    ],
+    "taxonomy": [
+      "识别类别：Uncategorized"
+    ],
+    "community": [
+      "有 2 个官方社媒/渠道（https://x.com/bibifansbsc, https://t.me/BinanceBiBiCTO）"
+    ]
+  },
+  "missing": [
+    "sentiment"
+  ],
+  "error": null
+}

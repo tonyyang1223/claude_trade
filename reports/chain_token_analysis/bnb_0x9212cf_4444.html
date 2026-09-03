@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bibi · BNB 链上代币分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#0b1020;--panel:#121a33;--panel2:#0f1730;--line:#22305c;--txt:#e6edff;--muted:#8aa0c8;--cyan:#22d3ee;--purple:#a78bfa;}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#16224a 0%,var(--bg) 55%);color:var(--txt);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;padding:28px}
+  .wrap{max-width:960px;margin:0 auto}
+  h1{font-size:24px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+  .addr{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--cyan);word-break:break-all}
+  .hero{display:flex;gap:18px;align-items:center;background:linear-gradient(135deg,#15224a,#0f1730);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-bottom:18px}
+  .gauge{--c:#fb923c;width:120px;height:120px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;background:conic-gradient(var(--c) 203deg,#1c2748 0);position:relative}
+  .gauge::after{content:"";position:absolute;inset:12px;border-radius:50%;background:var(--panel2)}
+  .gauge .gv{position:relative;font-size:30px;font-weight:700;color:var(--c)}
+  .gauge .gl{position:relative;font-size:11px;color:var(--muted)}
+  .hero .meta{flex:1}
+  .badge{display:inline-block;padding:6px 12px;border-radius:999px;font-weight:700;font-size:15px;background:#fb923c22;color:#fb923c;border:1px solid #fb923c66}
+  .kv{margin-top:10px;display:flex;gap:22px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+  .kv b{color:var(--txt)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:18px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .card-v{font-size:18px;font-weight:700}
+  .card-k{font-size:12px;color:var(--muted);margin-top:2px}
+  .section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:16px}
+  .section h2{font-size:16px;margin:0 0 12px;color:var(--cyan)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  .dim{margin-bottom:14px}
+  .dim-head{display:flex;align-items:center;gap:10px}
+  .dim-name{width:96px;color:var(--muted);font-size:13px}
+  .bar{flex:1;height:10px;background:#1c2748;border-radius:6px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:6px}
+  .sc{width:54px;text-align:right;font-size:13px;font-weight:600}
+  .na{color:var(--muted);font-size:12px}
+  .dim-notes{margin:6px 0 0 106px;padding:0;list-style:none;font-size:12px;color:var(--muted)}
+  .dim-notes li{margin:2px 0}
+  ul.flags{margin:0;padding-left:18px} ul.flags li{margin:5px 0;font-size:13px}
+  .flag{color:#ff8fa3} .ok{color:#7ee2b8;list-style:none;margin-left:-18px}
+  .trig{margin:8px 0 0;padding-left:18px;font-size:13px} .trig li{margin:4px 0}
+  .disclaim{margin-top:14px;font-size:11px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;line-height:1.5}
+  .miss{font-size:12px;color:#fbbf24}
+  .anomaly{margin:12px 0;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.5;
+    background:#3a2a12;border:1px solid #fbbf2466;color:#ffd98a}
+  table.mt{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+  table.mt th{text-align:left;color:var(--muted);font-weight:500;padding:4px 8px;border-bottom:1px solid var(--line)}
+  table.mt td{padding:4px 8px;border-bottom:1px solid #1a2547}
+  table.mt td.up{color:#34d399} table.mt td.dn{color:#ff8fa3}
+  canvas{max-height:300px}
+</style></head>
+<body><div class="wrap">
+  <h1>bibi · BNB 链上代币分析报告</h1>
+  <div class="sub">链上代币多维分析 · 自动生成于本地 · 仅基于公开数据</div>
+  <div class="addr">0x9212cf1f9f4a9c69bb010146ba5b0725169d4444</div>
+
+  <div class="hero">
+    <div class="gauge"><div><div class="gv">5.7</div><div class="gl">综合分/10</div></div></div>
+    <div class="meta">
+      <span class="badge">🟡 轻仓观察</span>
+      <div class="kv">
+        <span>风险等级：<b>中</b></span>
+        <span>建议仓位：<b>1%-3%</b></span>
+        <span>链：<b>BNB</b></span>
+        <span>名称：<b>Binance bibi</b></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards"><div class="card"><div class="card-v">$0.000511 (计价：WBNB)</div><div class="card-k">价格</div></div><div class="card"><div class="card-v">$510.7K</div><div class="card-k">市值 MC</div></div><div class="card"><div class="card-v">$510.7K</div><div class="card-k">完全稀释 FDV</div></div><div class="card"><div class="card-v">$176.4K</div><div class="card-k">流动性</div></div><div class="card"><div class="card-v">$1.60M</div><div class="card-k">24h 成交量</div></div><div class="card"><div class="card-v">+93.2%</div><div class="card-k">24h 涨跌</div></div><div class="card"><div class="card-v">372 天</div><div class="card-k">币龄</div></div><div class="card"><div class="card-v">0.928</div><div class="card-k">买卖比(笔数)</div></div><div class="card"><div class="card-v">9179/9886</div><div class="card-k">24h 买卖笔数</div></div><div class="card"><div class="card-v">2 个</div><div class="card-k">官方渠道</div></div></div>
+
+  
+
+  <div class="grid2">
+    <div class="section">
+      <h2>多维评分（7 项已计）</h2>
+      <canvas id="radar"></canvas>
+      <div style="margin-top:12px"><div class="dim"><div class="dim-head"><span class="dim-name">欺诈/安全</span><div class="bar"><div class="bar-fill" style="width:75%;background:#ff5c7a"></div></div><span class="sc">7.5/10</span></div><ul class="dim-notes"><li>✅ 未发现增发函数（供应量固定）</li><li>✅ 非可升级代理（实现不可替换）</li><li>⚠️ LP 锁仓与持币集中度均未知：合约层面无后门，但撤池（rug）与大户砸盘两大风险未经验证，安全分上限压至 7.5</li></ul></div>
+<div class="dim"><div class="dim-head"><span class="dim-name">趋势强弱</span><div class="bar"><div class="bar-fill" style="width:45%;background:#22d3ee"></div></div><span class="sc">4.5/10</span></div><ul class="dim-notes"><li>24h 涨幅 +93.2%，短期过热/获利盘重</li><li>流动性 $176,440，深度充足</li></ul></div>
+<div class="dim"><div class="dim-head"><span class="dim-name">多周期动量</span><div class="bar"><div class="bar-fill" style="width:40%;background:#f472b6"></div></div><span class="sc">4.0/10</span></div><ul class="dim-notes"><li>多周期涨跌分化，动能不明</li><li>24h +93%（追高/逃顶风险）</li></ul></div>
+<div class="dim"><div class="dim-head"><span class="dim-name">流动性健康</span><div class="bar"><div class="bar-fill" style="width:75%;background:#38bdf8"></div></div><span class="sc">7.5/10</span></div><ul class="dim-notes"><li>流动性/市值 35%，深度健康、难操控</li><li>24h 换手 9x，交易活跃</li></ul></div>
+<div class="dim"><div class="dim-head"><span class="dim-name">社媒情绪</span><span class="na">缺失（已排除加权）</span></div><ul class="dim-notes"></ul></div>
+<div class="dim"><div class="dim-head"><span class="dim-name">技术创新</span><div class="bar"><div class="bar-fill" style="width:40%;background:#34d399"></div></div><span class="sc">4.0/10</span></div><ul class="dim-notes"><li>叙事「Uncategorized」技术含量基准分 4.0</li></ul></div>
+<div class="dim"><div class="dim-head"><span class="dim-name">类别清晰</span><div class="bar"><div class="bar-fill" style="width:30%;background:#fbbf24"></div></div><span class="sc">3.0/10</span></div><ul class="dim-notes"><li>识别类别：Uncategorized</li></ul></div>
+<div class="dim"><div class="dim-head"><span class="dim-name">社区基础</span><div class="bar"><div class="bar-fill" style="width:65%;background:#facc15"></div></div><span class="sc">6.5/10</span></div><ul class="dim-notes"><li>有 2 个官方社媒/渠道（https://x.com/bibifansbsc, https://t.me/BinanceBiBiCTO）</li></ul></div></div>
+    </div>
+    <div class="section">
+      <h2>欺诈红旗</h2>
+      <ul class="flags"><li class="flag">✅ 未发现增发函数（供应量固定）</li><li class="flag">✅ 非可升级代理（实现不可替换）</li><li class="flag">⚠️ LP 锁仓与持币集中度均未知：合约层面无后门，但撤池（rug）与大户砸盘两大风险未经验证，安全分上限压至 7.5</li></ul>
+    </div>
+  </div>
+
+  <div class="section"><h2>多周期涨跌（Meme 动量）</h2><table class="mt"><tr><th>周期</th><th>涨跌幅</th></tr><tr><td>m5</td><td class="dn">-3.6%</td></tr><tr><td>h1</td><td class="dn">-3.8%</td></tr><tr><td>h6</td><td class="up">+6.4%</td></tr><tr><td>h24</td><td class="up">+93.2%</td></tr></table></div>
+
+  <div class="section">
+    <h2>决策与触发条件</h2>
+    <ul class="trig"><li>触发：24h 涨幅 &gt;35% 已过热，回调至均线再考虑</li><li>以下维度数据缺失（已排除出加权）：sentiment</li></ul>
+    <p class="miss">缺失维度：sentiment</p>
+    <div class="disclaim">⚠️ 本分析由 AI 基于公开链上数据自动生成，仅供参考，不构成任何投资建议或个股推荐。加密资产（尤其新发 Meme/链上代币）风险极高，可能存在归零、rug、流动性枯竭等情形，决策需谨慎。</div>
+  </div>
+</div>
+<script>
+var ctx=document.getElementById('radar');
+if(ctx){new Chart(ctx,{type:'radar',data:{labels:["欺诈/安全", "趋势强弱", "多周期动量", "流动性健康", "社媒情绪", "技术创新", "类别清晰", "社区基础"],datasets:[{data:[7.5, 4.5, 4.0, 7.5, 0, 4.0, 3.0, 6.5],
+backgroundColor:'rgba(34,211,238,.18)',borderColor:'#22d3ee',pointBackgroundColor:'#a78bfa',borderWidth:2}]},
+options:{scales:{r:{min:0,max:10,grid:{color:'#22305c'},angleLines:{color:'#22305c'},
+pointLabels:{color:'#cdd9ff',font:{size:12}},ticks:{color:'#5f74a3',backdropColor:'transparent'}}},
+plugins:{legend:{display:false}}}});}
+</script>
+</body></html>

@@ -25,7 +25,7 @@ class CoinGeckoClient(BaseAPIClient):
     """
 
     BASE_URL = "https://api.coingecko.com/api/v3"
-    MIN_CALL_INTERVAL = 1.2  # 50 calls/min = 1.2s/call
+    MIN_CALL_INTERVAL = 3.0  # ~20 calls/min, stays under keyless free-tier limit
 
     def __init__(self, api_key: Optional[str] = None):
         """Initialize CoinGecko client.
@@ -36,6 +36,23 @@ class CoinGeckoClient(BaseAPIClient):
         self.api_key = api_key
         self.session = requests.Session()
         self.last_call_time = 0
+
+        # Retry on rate-limit / transient errors with exponential backoff so a
+        # 429 from the keyless free tier is retried instead of failing the run.
+        try:
+            from requests.adapters import HTTPAdapter
+            from urllib3.util.retry import Retry
+            retry = Retry(
+                total=3,
+                backoff_factor=0.5,
+                status_forcelist=[429, 500, 502, 503, 504],
+                allowed_methods=["GET"],
+            )
+            adapter = HTTPAdapter(max_retries=retry)
+            self.session.mount("https://", adapter)
+            self.session.mount("http://", adapter)
+        except Exception:
+            pass
 
         if api_key:
             self.session.headers.update({"x-api-key": api_key})

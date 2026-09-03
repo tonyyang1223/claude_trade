@@ -1,0 +1,71 @@
+{
+  "chain": "bnb",
+  "address": "0xbeea1d618e533a387d941f58a7d4c9b7bd377777",
+  "symbol": null,
+  "name": null,
+  "profile": {
+    "chain": "bnb",
+    "address": "0xbeea1d618e533a387d941f58a7d4c9b7bd377777",
+    "symbol": "牛来",
+    "name": "牛来",
+    "total_supply": 1000000000.0,
+    "price_usd": null,
+    "market_cap": null,
+    "volume_24h": null,
+    "fdv": null,
+    "created_at": null,
+    "age_days": null
+  },
+  "dex": {
+    "price_usd": 703.81,
+    "liquidity_usd": 1242552.01,
+    "volume_24h": 2377417.53,
+    "buy_sell_ratio": 0.656,
+    "price_change_24h": -1.0,
+    "fdv": 33486487.0,
+    "pair_address": "0x595d70977Dff3C841DF0bc0138Ce89f80C7C9423",
+    "source": "dexscreener"
+  },
+  "security": {
+    "is_verified": null,
+    "owner_renounced": true,
+    "is_mintable": null,
+    "can_take_back_ownership": null,
+    "buy_tax_pct": null,
+    "sell_tax_pct": null,
+    "hidden_honeypot": null,
+    "is_in_blacklist": null
+  },
+  "holders": {
+    "total_holders": null,
+    "top10_pct": null,
+    "top50_pct": null,
+    "creator_pct": null,
+    "snipe_pct": null
+  },
+  "liquidity": {
+    "total_liquidity_usd": 1242552.01,
+    "locked_pct": null,
+    "locked_until": null,
+    "is_burned": null,
+    "dex": "dexscreener"
+  },
+  "flags": [],
+  "notes": {
+    "trend": [
+      "24h 跌幅 -1.0%",
+      "买卖比 0.656（卖方占优）",
+      "流动性 $1,242,552，深度充足"
+    ],
+    "innovation": [
+      "叙事「Uncategorized」技术含量基准分 4.0"
+    ],
+    "taxonomy": [
+      "识别类别：Uncategorized"
+    ]
+  },
+  "missing": [
+    "sentiment"
+  ],
+  "error": null
+}
