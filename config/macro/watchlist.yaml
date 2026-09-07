@@ -1,0 +1,50 @@
+# 每小时宏观市场扫描配置 (scripts/macro/hourly_macro_scan.py)
+# 所有阈值与币种清单均可调；修改后无需改代码。
+
+# 市场宽度采样：取市值 Top N 计算涨跌家数占比（CoinGecko 上限 250）
+top_n: 100
+
+# 重点观察币种（CoinGecko id 列表）——每小时快照的核心跟踪对象
+watchlist:
+  - bitcoin
+  - ethereum
+  - solana
+  - binancecoin
+  - ripple
+  - dogecoin
+  - cardano
+  - avalanche-2
+  - tron
+  - chainlink
+  - polkadot
+  - litecoin
+  - uniswap
+  - aave
+
+# DeFiLlama 链 TVL 跟踪（链 slug）
+chains:
+  - Ethereum
+  - Solana
+  - BSC
+  - Arbitrum
+  - Base
+  - Avalanche
+
+# 异动检测阈值
+anomaly:
+  h1_pct: 3.0          # 1h 涨跌幅超过 ±3% 视为异动
+  h24_pct: 10.0        # 24h 涨跌幅超过 ±10% 视为异动
+  turnover_x: 0.15     # 24h 成交量/市值 > 15% 视为交易过热
+
+# 市场状态(regime)判定权重
+regime:
+  breadth_up_pct_gte: 60   # Top N 中 24h 上涨家数占比 ≥60% 偏 risk-on
+  breadth_up_pct_lte: 40   # ≤40% 偏 risk-off
+  mcap_change_gte: 1.0     # 全局市值 24h 变化 ≥ +1% 偏 risk-on
+  mcap_change_lte: -1.0    # ≤ -1% 偏 risk-off
+
+# 数据源开关（本机网络：alternative.me 被墙，默认关闭）
+sources:
+  coingecko: true
+  defillama: true
+  fear_greed: false        # alternative.me F&G 指数（被墙环境保持 false）

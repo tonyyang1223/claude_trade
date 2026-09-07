@@ -181,6 +181,7 @@ class CoinGeckoClient(BaseAPIClient):
         return {
             "total_market_cap": data.get("total_market_cap", {}).get("usd"),
             "total_volume": data.get("total_volume", {}).get("usd"),
+            "market_cap_change_percentage_24h": data.get("market_cap_change_percentage_24h_usd"),
             "btc_dominance": market_cap_percentage.get("btc"),
             "eth_dominance": market_cap_percentage.get("eth"),
             "market_cap_percentage": market_cap_percentage,
@@ -220,11 +221,15 @@ class CoinGeckoClient(BaseAPIClient):
             "github_stars": community.get("stars")
         }
 
-    def get_top_coins(self, limit: int = 100) -> List[Dict[str, Any]]:
+    def get_top_coins(self, limit: int = 100,
+                      price_change_percentage: str = "24h") -> List[Dict[str, Any]]:
         """Get top coins by market cap.
 
         Args:
             limit: Number of coins to retrieve (max 250)
+            price_change_percentage: Comma-separated periods to request,
+                e.g. "1h,24h,7d". Fields are returned as
+                price_change_percentage_<p>_in_currency (None if absent).
 
         Returns:
             List of coin data dictionaries
@@ -236,7 +241,8 @@ class CoinGeckoClient(BaseAPIClient):
             "order": "market_cap_desc",
             "per_page": min(limit, 250),
             "page": 1,
-            "sparkline": "false"
+            "sparkline": "false",
+            "price_change_percentage": price_change_percentage,
         }
 
         response = self.session.get(url, params=params, timeout=30)
@@ -258,6 +264,11 @@ class CoinGeckoClient(BaseAPIClient):
                 "max_supply": coin.get("max_supply"),
                 "price_change_24h": coin.get("price_change_24h"),
                 "price_change_percentage_24h": coin.get("price_change_percentage_24h"),
+                "price_change_percentage_1h": coin.get("price_change_percentage_1h_in_currency"),
+                "price_change_percentage_24h_currency": coin.get("price_change_percentage_24h_in_currency"),
+                "price_change_percentage_7d": coin.get("price_change_percentage_7d_in_currency"),
+                "ath": coin.get("ath"),
+                "ath_change_percentage": coin.get("ath_change_percentage"),
                 "last_updated": coin.get("last_updated")
             }
             for coin in coins
