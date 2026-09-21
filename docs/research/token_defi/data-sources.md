@@ -3,6 +3,25 @@
 > 本模块（`src/research/token_defi.py`）复用了项目已有的两个 API 客户端，
 > 并为研究场景补充了两个方法。本文档记录可用数据源、新增方法、限流与调用纪律。
 
+## 0. 网页研究数据源（web_research，本次新增）
+
+`src/research/web_research.py` 的 `TokenWebResearcher` 采用**混合抓取**策略，
+为代币研究补充 API 给不了的「关键信息」：项目叙事、官方/社媒链接、社区情绪、
+上线时间，以及官网审计机构、团队/融资线索、近期新闻/社区动态。
+
+- 结构化主干：**CoinGecko `/coins/{id}` API**（见下方 `get_coin_profile`），可靠、免 key，
+  与框架「不裸请求 CoinGecko」的红线一致（走既有客户端，非独立 HTTP）。
+- 深度字段（API 无）：官网首页文本抓取（审计机构命中 + 团队/融资关键词）、
+  CoinGecko 新闻页抓取 + Reddit 社区动态兜底。
+- 技术路线：**静态 bs4 为主 + 可选渲染钩子**。渲染钩子优先 `Scrapling`，其次 `Playwright`，
+  最后回退静态 `requests`——三者均 lazy import，缺失不报错。启用方式：`TokenWebResearcher(use_render=True)`
+  或 CLI `--render`（需另装 `scrapling` / `playwright`）。
+- 失败隔离：任一源失败只跳过并告警，不中断、不编造；缺字段置 `None` / 空列表。
+- 落盘：`scripts/research/token_web_research.py --token <id> --format all`。
+
+> 注意：CoinGecko 网页（`coingecko.com`）强反爬（裸请求常 403），故结构化数据一律走 API；
+> 新闻页抓取依赖渲染钩子或用户本地网络可达；审计/团队为 best-effort 文本命中，需人工核验。
+
 ## 1. 免 key 数据源（当前使用）
 
 ### CoinGecko —— 代币行情 / 供应 / 估值
@@ -12,6 +31,8 @@
 - 可用于研究的方法：
   - `get_coin_data(coin_id)` — 既有方法：价格 / 市值 / 供应 / 24h 涨跌。
   - **`get_coin_research_data(coin_id)`** — 本次新增：补充 FDV、ATH、7d/30d 涨跌、categories。
+  - **`get_coin_profile(coin_id)`** — 本次新增（供 `web_research`）：叙事描述、官方/社媒链接、分类、上线时间、社区情绪投票、关注人数。
+  - **`search_coins(query)`** — 本次新增（供 `web_research`）：按名称/符号搜索解析 coin id。
 - coin id 不确定时先用 `GET /api/v3/search?query=<名称>` 查正确 id。
 
 ### DefiLlama —— 协议 TVL / 费用 / 稳定币流向

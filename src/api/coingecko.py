@@ -1,6 +1,7 @@
 """CoinGecko API client implementation."""
 import requests
 import time
+from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 from src.api.base import BaseAPIClient
 
@@ -305,3 +306,117 @@ class CoinGeckoClient(BaseAPIClient):
         except Exception as e:
             print(f"Warning: Failed to get asset platform for {coin_id}: {e}")
             return None
+
+    def search_coins(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
+        """Search coins by name/symbol to resolve a CoinGecko coin id.
+
+        Used by web research to turn a free-text token query (e.g. "Ethena")
+        into the canonical coin id.
+
+        Args:
+            query: Search term (name or symbol)
+            limit: Max number of results to return
+
+        Returns:
+            List of dicts: {"id", "name", "symbol", "thumb"}
+        """
+        self._wait_for_rate_limit()
+        url = f"{self.BASE_URL}/search"
+        params = {"query": query}
+
+        try:
+            response = self.session.get(url, params=params, timeout=30)
+            response.raise_for_status()
+            coins = response.json().get("coins", [])
+            return [
+                {
+                    "id": c.get("id"),
+                    "name": c.get("name"),
+                    "symbol": (c.get("symbol") or "").upper(),
+                    "thumb": c.get("thumb"),
+                }
+                for c in coins[:limit]
+            ]
+        except Exception as e:
+            print(f"Warning: CoinGecko search failed for '{query}': {e}")
+            return []
+
+    def get_coin_profile(self, coin_id: str) -> Dict[str, Any]:
+        """Get web-research-grade profile for a coin (narrative, links, sentiment).
+
+        Complements ``get_coin_data`` / ``get_coin_research_data`` with the fields
+        that power the token web-research module: project description, official &
+        community links, categories, launch date, community sentiment votes and
+        CoinGecko watchlist size. Existing methods are unaffected.
+
+        Args:
+            coin_id: CoinGecko coin ID (e.g. 'bitcoin', 'ethena')
+
+        Returns:
+            Normalized dict with:
+            - id, symbol, name
+            - description (project narrative, English)
+            - categories (list)
+            - genesis_date (launch date, ISO) / watchlist_users
+            - sentiment: {up_pct, down_pct}
+            - official_links: {website, whitepaper, explorers, forum, github}
+            - community_links: {twitter, facebook, telegram, reddit}
+            - source, fetched_at
+        """
+        self._wait_for_rate_limit()
+        url = f"{self.BASE_URL}/coins/{coin_id}"
+        params = {
+            "localization": "false",
+            "tickers": "false",
+            "market_data": "false",
+            "community_data": "true",
+            "developer_data": "false",
+            "sparkline": "false",
+        }
+
+        response = self.session.get(url, params=params, timeout=30)
+        response.raise_for_status()
+
+        data = response.json()
+        links = data.get("links", {}) or {}
+
+        def _first(items: Any) -> Optional[str]:
+            if isinstance(items, list):
+                return next((x for x in items if x), None)
+            return items or None
+
+        def _clean_list(items: Any) -> List[str]:
+            if not isinstance(items, list):
+                return []
+            return [x for x in items if x]
+
+        return {
+            "id": data.get("id"),
+            "symbol": (data.get("symbol") or "").upper(),
+            "name": data.get("name"),
+            "description": (data.get("description") or {}).get("en"),
+            "categories": data.get("categories") or [],
+            "genesis_date": data.get("genesis_date"),
+            "watchlist_users": data.get("watchlist_portfolio_users"),
+            "sentiment": {
+                "up_pct": data.get("sentiment_votes_up_percentage"),
+                "down_pct": data.get("sentiment_votes_down_percentage"),
+            },
+            "market_cap_rank": data.get("market_cap_rank"),
+            "official_links": {
+                "website": _first(links.get("homepage")),
+                "whitepaper": links.get("whitepaper") or None,
+                "explorers": _clean_list(links.get("blockchain_site")),
+                "forum": _first(links.get("official_forum_url")),
+                "github": _clean_list(links.get("repos_url", {}).get("github")),
+            },
+            "community_links": {
+                "twitter": links.get("twitter_screen_name") or None,
+                "facebook": links.get("facebook_username") or None,
+                "telegram": links.get("telegram_channel_identifier") or None,
+                "reddit": links.get("subreddit_url") or None,
+            },
+            "source": "CoinGecko",
+            "fetched_at": data.get("last_updated")
+            or datetime.now(timezone.utc).isoformat(),
+        }

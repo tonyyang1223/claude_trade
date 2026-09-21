@@ -43,3 +43,10 @@ responses>=0.23.0
 
 # Reddit API
 praw>=7.7.0
+
+# Web Research (token web scraping: static bs4 + optional render hook)
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+# Optional (only needed when --render is used): Scrapling (anti-bot/adaptive) or Playwright (JS rendering)
+# scrapling>=0.4.0
+# playwright>=1.40.0

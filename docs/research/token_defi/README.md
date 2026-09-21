@@ -8,7 +8,9 @@
 | 位置 | 作用 |
 |---|---|
 | `src/research/token_defi.py` | 核心模块：指标计算 + `TokenDefiResearcher` 取数封装 |
+| `src/research/web_research.py` | 网页研究模块：`TokenWebResearcher` 混合抓取（叙事/链接/情绪/审计/团队/新闻） |
 | `scripts/research/token_defi_report.py` | CLI：生成 Plotly HTML 报告（或 JSON） |
+| `scripts/research/token_web_research.py` | CLI：代币网页关键信息研究（`--token` / `--format` / `--render`） |
 | `.workbuddy/skills/crypto-token-defi-research/SKILL.md` | WorkBuddy 项目级技能，在本仓库内自动触发 |
 
 ## 2. 快速开始
@@ -83,7 +85,29 @@ for p in profiles:
 - [`onchain-metrics.md`](onchain-metrics.md) — 链上指标解读（MVRV / NVT / 流向 / 巨鲸）
 - [`data-sources.md`](data-sources.md) — 数据源、新增客户端方法与限流约定
 
-## 7. 与其他模块边界
+## 7. 网页研究（web_research）
+
+> 补充「API 给不了的关键信息」：项目叙事、官方/社媒链接、社区情绪、上线时间，以及官网审计机构、团队/融资线索、近期新闻/社区动态。
+
+```bash
+# 单代币网页研究（JSON）
+python scripts/research/token_web_research.py --token ethena
+
+# 全格式（JSON + Markdown + HTML），启用渲染钩子抓 JS 重度页
+python scripts/research/token_web_research.py --token bitcoin --format all --render
+```
+
+```python
+from src.research.web_research import TokenWebResearcher
+researcher = TokenWebResearcher()
+profile = researcher.analyze("solana")          # 也可传名称/符号，自动解析 id
+print(profile.description, profile.official_links, profile.audit_info)
+```
+
+- 结构化主干走 CoinGecko API（`get_coin_profile`），深度字段走真实网页抓取（混合渲染钩子）。
+- 失败隔离、不编造数据、带来源与 `fetched_at`，与 token_defi 红线一致。
+
+## 8. 与其他模块边界
 
 - 本模块只做**研究框架与数据呈现**，不产出交易信号；量化因子见 `src/factors/`。
 - 加密**衍生品**（永续 / 资金费率 / 爆仓）不在本模块范围，见 `src/api/coinglass.py` 与 `src/factors/derivatives.py`。
