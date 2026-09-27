@@ -1,0 +1,472 @@
+{
+ "fetched_at": "2026-09-14T11:37:11+08:00",
+ "snapshot_file": "2026-09-14/1137.json",
+ "duration_s": 7.9,
+ "sources_used": [
+  "coingecko/global",
+  "coingecko/markets",
+  "defillama/tvl"
+ ],
+ "global": {
+  "total_market_cap": 2646435312105.339,
+  "total_volume": 59314427051.27021,
+  "market_cap_change_percentage_24h": -2.326159941962003,
+  "btc_dominance": 58.915654879494014,
+  "eth_dominance": 11.584130531004018,
+  "market_cap_percentage": {
+   "btc": 58.915654879494014,
+   "eth": 11.584130531004018,
+   "usdt": 6.913541991063621,
+   "bnb": 3.635916360079671,
+   "xrp": 3.2643616119267236,
+   "usdc": 2.7995562377415655,
+   "sol": 2.2389730154427108,
+   "trx": 1.2129390713340946,
+   "steth": 0.9161120287543807,
+   "zec": 0.7094888600279334
+  },
+  "active_cryptocurrencies": 21176,
+  "markets": 1496
+ },
+ "breadth": {
+  "sample": 100,
+  "up_24h": 35,
+  "down_24h": 65,
+  "up_pct_24h": 35.0,
+  "up_1h": 64,
+  "up_pct_1h": 64.0
+ },
+ "regime": {
+  "label": "🔴 Risk-Off",
+  "score": -2,
+  "votes": [
+   "市值24h -2.33% → 偏空",
+   "宽度 35.0% 上涨 → 偏空"
+  ]
+ },
+ "fear_greed": null,
+ "watchlist": [
+  {
+   "id": "bitcoin",
+   "symbol": "BTC",
+   "name": "Bitcoin",
+   "rank": 1,
+   "price": 77679,
+   "p1h": 0.6,
+   "p24h": 0.58265,
+   "p7d": -3.0,
+   "market_cap": 1560440826154,
+   "total_volume": 19151032546
+  },
+  {
+   "id": "ethereum",
+   "symbol": "ETH",
+   "name": "Ethereum",
+   "rank": 2,
+   "price": 2512.67,
+   "p1h": 0.7,
+   "p24h": -0.32631,
+   "p7d": 0.2,
+   "market_cap": 306663306771,
+   "total_volume": 10764421402
+  },
+  {
+   "id": "solana",
+   "symbol": "SOL",
+   "name": "Solana",
+   "rank": 7,
+   "price": 100.94,
+   "p1h": 0.9,
+   "p24h": -0.94547,
+   "p7d": -4.1,
+   "market_cap": 59243642326,
+   "total_volume": 2251211462
+  },
+  {
+   "id": "binancecoin",
+   "symbol": "BNB",
+   "name": "BNB",
+   "rank": 4,
+   "price": 722.82,
+   "p1h": 0.6,
+   "p24h": -0.65966,
+   "p7d": -3.4,
+   "market_cap": 96267722933,
+   "total_volume": 841191297
+  },
+  {
+   "id": "ripple",
+   "symbol": "XRP",
+   "name": "XRP",
+   "rank": 5,
+   "price": 1.38,
+   "p1h": 1.4,
+   "p24h": 0.81127,
+   "p7d": -2.6,
+   "market_cap": 86519437508,
+   "total_volume": 1329729193
+  },
+  {
+   "id": "dogecoin",
+   "symbol": "DOGE",
+   "name": "Dogecoin",
+   "rank": 11,
+   "price": 0.083927,
+   "p1h": 1.2,
+   "p24h": -0.99517,
+   "p7d": -6.8,
+   "market_cap": 13085869166,
+   "total_volume": 459385554
+  },
+  {
+   "id": "cardano",
+   "symbol": "ADA",
+   "name": "Cardano",
+   "rank": 18,
+   "price": 0.207481,
+   "p1h": 1.4,
+   "p24h": 0.10927,
+   "p7d": -6.2,
+   "market_cap": 7786785767,
+   "total_volume": 258258693
+  },
+  {
+   "id": "avalanche-2",
+   "symbol": "AVAX",
+   "name": "Avalanche",
+   "rank": 30,
+   "price": 7.41,
+   "p1h": 0.6,
+   "p24h": -0.04963,
+   "p7d": -5.3,
+   "market_cap": 3281685410,
+   "total_volume": 180250795
+  },
+  {
+   "id": "tron",
+   "symbol": "TRX",
+   "name": "TRON",
+   "rank": 8,
+   "price": 0.338927,
+   "p1h": 0.1,
+   "p24h": -0.29658,
+   "p7d": 1.0,
+   "market_cap": 32175383936,
+   "total_volume": 345333983
+  },
+  {
+   "id": "chainlink",
+   "symbol": "LINK",
+   "name": "Chainlink",
+   "rank": 16,
+   "price": 11.39,
+   "p1h": 0.5,
+   "p24h": -0.96151,
+   "p7d": -12.6,
+   "market_cap": 8517671644,
+   "total_volume": 313665817
+  },
+  {
+   "id": "polkadot",
+   "symbol": "DOT",
+   "name": "Polkadot",
+   "rank": 50,
+   "price": 1.018,
+   "p1h": 0.8,
+   "p24h": 0.62154,
+   "p7d": 3.8,
+   "market_cap": 1733028815,
+   "total_volume": 113293066
+  },
+  {
+   "id": "litecoin",
+   "symbol": "LTC",
+   "name": "Litecoin",
+   "rank": 24,
+   "price": 54.33,
+   "p1h": 0.2,
+   "p24h": 1.30012,
+   "p7d": 0.0,
+   "market_cap": 4219070274,
+   "total_volume": 234387585
+  },
+  {
+   "id": "uniswap",
+   "symbol": "UNI",
+   "name": "Uniswap",
+   "rank": 25,
+   "price": 6.42,
+   "p1h": 1.8,
+   "p24h": 1.19276,
+   "p7d": -10.6,
+   "market_cap": 4004098111,
+   "total_volume": 363853958
+  },
+  {
+   "id": "aave",
+   "symbol": "AAVE",
+   "name": "Aave",
+   "rank": 44,
+   "price": 125.93,
+   "p1h": 0.7,
+   "p24h": -1.25295,
+   "p7d": -5.7,
+   "market_cap": 1943306769,
+   "total_volume": 200672861
+  }
+ ],
+ "anomalies": [
+  {
+   "symbol": "BTW",
+   "name": "Bitway",
+   "rank": 45,
+   "price": 0.695367,
+   "p1h": 6.1,
+   "p24h": 25.50785,
+   "p7d": 56.9,
+   "turnover_pct": 2.3,
+   "reasons": [
+    "1h +6.10%",
+    "24h +25.51%"
+   ],
+   "strength": 12.753925
+  },
+  {
+   "symbol": "FIL",
+   "name": "Filecoin",
+   "rank": 84,
+   "price": 0.976393,
+   "p1h": -0.2,
+   "p24h": 19.70463,
+   "p7d": 22.7,
+   "turnover_pct": 42.6,
+   "reasons": [
+    "24h +19.70%",
+    "换手 43%"
+   ],
+   "strength": 9.852315
+  },
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "rank": 68,
+   "price": 4.63,
+   "p1h": 5.3,
+   "p24h": 9.90303,
+   "p7d": -0.6,
+   "turnover_pct": 5.8,
+   "reasons": [
+    "1h +5.30%"
+   ],
+   "strength": 5.3
+  },
+  {
+   "symbol": "ARB",
+   "name": "Arbitrum",
+   "rank": 77,
+   "price": 0.139431,
+   "p1h": 2.8,
+   "p24h": -0.30893,
+   "p7d": -26.5,
+   "turnover_pct": 15.6,
+   "reasons": [
+    "换手 16%"
+   ],
+   "strength": 2.8
+  },
+  {
+   "symbol": "USDT",
+   "name": "Tether",
+   "rank": 3,
+   "price": 0.999625,
+   "p1h": 0.0,
+   "p24h": -0.02145,
+   "p7d": 0.0,
+   "turnover_pct": 20.8,
+   "reasons": [
+    "换手 21%"
+   ],
+   "strength": 0.010725
+  },
+  {
+   "symbol": "USDG",
+   "name": "Global Dollar",
+   "rank": 29,
+   "price": 0.999881,
+   "p1h": 0.0,
+   "p24h": -0.00425,
+   "p7d": 0.0,
+   "turnover_pct": 28.1,
+   "reasons": [
+    "换手 28%"
+   ],
+   "strength": 0.002125
+  },
+  {
+   "symbol": "USD1",
+   "name": "USD1",
+   "rank": 23,
+   "price": 0.999644,
+   "p1h": 0.0,
+   "p24h": 0.00054,
+   "p7d": 0.0,
+   "turnover_pct": 18.0,
+   "reasons": [
+    "换手 18%"
+   ],
+   "strength": 0.00027
+  }
+ ],
+ "chain_tvl": {
+  "Ethereum": {
+   "chain": "Ethereum",
+   "tvl": 49590781062.252594,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-14T11:37:16.883603"
+  },
+  "Solana": {
+   "chain": "Solana",
+   "tvl": 5822981388.907048,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-14T11:37:17.303280"
+  },
+  "BSC": {
+   "chain": "BSC",
+   "tvl": 5895946885.115142,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-14T11:37:17.707358"
+  },
+  "Arbitrum": {
+   "chain": "Arbitrum",
+   "tvl": 1388021207.4693666,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-14T11:37:18.136253"
+  },
+  "Base": {
+   "chain": "Base",
+   "tvl": 5554592977.595898,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-14T11:37:18.577765"
+  },
+  "Avalanche": {
+   "chain": "Avalanche",
+   "tvl": 466223390.0326578,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-14T11:37:18.992840"
+  }
+ },
+ "diff_prev": {
+  "since": "2026-09-13T12:34:51+08:00",
+  "rows": [
+   {
+    "symbol": "BTC",
+    "prev": 77203,
+    "cur": 77679,
+    "delta_pct": 0.62
+   },
+   {
+    "symbol": "ETH",
+    "prev": 2522.32,
+    "cur": 2512.67,
+    "delta_pct": -0.38
+   },
+   {
+    "symbol": "SOL",
+    "prev": 101.68,
+    "cur": 100.94,
+    "delta_pct": -0.73
+   },
+   {
+    "symbol": "BNB",
+    "prev": 727.02,
+    "cur": 722.82,
+    "delta_pct": -0.58
+   },
+   {
+    "symbol": "XRP",
+    "prev": 1.36,
+    "cur": 1.38,
+    "delta_pct": 1.47
+   },
+   {
+    "symbol": "DOGE",
+    "prev": 0.084703,
+    "cur": 0.083927,
+    "delta_pct": -0.92
+   },
+   {
+    "symbol": "ADA",
+    "prev": 0.207154,
+    "cur": 0.207481,
+    "delta_pct": 0.16
+   },
+   {
+    "symbol": "AVAX",
+    "prev": 7.4,
+    "cur": 7.41,
+    "delta_pct": 0.14
+   },
+   {
+    "symbol": "TRX",
+    "prev": 0.339309,
+    "cur": 0.338927,
+    "delta_pct": -0.11
+   },
+   {
+    "symbol": "LINK",
+    "prev": 11.5,
+    "cur": 11.39,
+    "delta_pct": -0.96
+   },
+   {
+    "symbol": "DOT",
+    "prev": 1.006,
+    "cur": 1.018,
+    "delta_pct": 1.19
+   },
+   {
+    "symbol": "LTC",
+    "prev": 53.66,
+    "cur": 54.33,
+    "delta_pct": 1.25
+   },
+   {
+    "symbol": "UNI",
+    "prev": 6.38,
+    "cur": 6.42,
+    "delta_pct": 0.63
+   },
+   {
+    "symbol": "AAVE",
+    "prev": 127.23,
+    "cur": 125.93,
+    "delta_pct": -1.02
+   }
+  ],
+  "tracked": 14
+ },
+ "thresholds": {
+  "h1_pct": 3.0,
+  "h24_pct": 10.0,
+  "turnover_x": 0.15
+ },
+ "errors": []
+}
