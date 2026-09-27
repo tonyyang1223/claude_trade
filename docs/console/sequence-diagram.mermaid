@@ -1,0 +1,67 @@
+%% ===================== 场景 A：打开百倍币机会雷达（纯本地） =====================
+sequenceDiagram
+    autonumber
+    actor U as 用户
+    participant P as OpportunityRadar 页面(React)
+    participant C as api/client.ts(Axios)
+    participant R as FastAPI /api/opportunity/radar
+    participant S as OpportunityService
+    participant D as DataLoader
+    participant E as ECharts 组件
+
+    U->>P: 打开「百倍币机会雷达」面板
+    P->>C: GET /api/opportunity/radar?date=latest
+    C->>R: HTTP 请求(经 Vite proxy → :8000)
+    R->>S: radar(date, mcapMax, sort)
+    S->>D: resolve_scan_date("latest")
+    D-->>S: 2026-08-26(字典序最大且含 summary)
+    S->>D: load_all_coins() / load_deep() / load_by_category()
+    D-->>S: 本地 JSON 列表(缺失→空默认)
+    S->>S: 5 维归一 + 加权 → composite
+    S-->>R: OpportunityRadarResponse
+    R-->>C: ApiEnvelope{code:0, data}
+    C-->>P: data(OpportunityRadar)
+    P->>E: 渲染排行榜表格 + 雷达图(选中行联动)
+    E-->>U: 可视化机会排行榜
+
+%% ===================== 场景 B：查看币种档案并触发实时抓取 =====================
+sequenceDiagram
+    autonumber
+    actor U as 用户
+    participant P as TokenProfile 页面(React)
+    participant C as api/client.ts(Axios)
+    participant R1 as FastAPI /api/tokens/{id}
+    participant R2 as FastAPI /api/tokens/{id}/research
+    participant T as TokenService
+    participant W as WebResearchService
+    participant SR as src.research.web_research
+    participant E as ECharts/列表
+
+    U->>P: 从总览点击某币 → /token/:id
+    P->>C: GET /api/tokens/{id}?date=latest
+    C->>R1: HTTP
+    R1->>T: detail(id, date)
+    T->>T: 读 top_50_detailed + by_category(离线基线)
+    T-->>R1: TokenDetailResponse(dataSource="offline")
+    R1-->>C: ApiEnvelope{code:0, data}
+    C-->>P: 首屏渲染叙事/社区/新闻计数
+    E-->>U: 离线档案(不阻塞)
+
+    U->>P: 点击「实时抓取」
+    P->>C: POST /api/tokens/{id}/research
+    C->>R2: HTTP(loading 态)
+    R2->>W: research(id, force?)
+    W->>SR: TokenWebResearcher.analyze(id) [可能触网/超时]
+    alt 成功
+        SR-->>W: WebProfile(叙事/链接/新闻列表)
+        W-->>R2: WebResearchResponse
+        R2-->>C: ApiEnvelope{code:0, data}
+        C-->>P: 合并 news/narrative
+        P->>E: 刷新列表 + 提示「已更新」
+    else 失败/超时
+        SR--xW: 异常(网络不可达)
+        W-->>R2: 空结构 + message(失败兜底)
+        R2-->>C: ApiEnvelope{code:0, data:空}
+        C-->>P: 保留离线内容 + 错误提示
+    end
+    E-->>U: 更新后的档案 / 兜底提示

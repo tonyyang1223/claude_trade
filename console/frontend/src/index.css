@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: 'Segoe UI', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+/* 滚动条（与看板一致） */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 玻璃拟态面板工具类 */
+@layer components {
+  .glass {
+    @apply rounded-xl border border-border bg-panel/80 backdrop-blur-sm shadow-glass;
+  }
+  .panel-title {
+    @apply text-sm font-medium text-sub;
+  }
+  .kpi-val {
+    @apply text-2xl font-semibold text-txt;
+  }
+}
+
+/* 涨跌颜色工具类（国内红涨绿跌） */
+.text-up {
+  color: #f6465d;
+}
+.text-down {
+  color: #2ebd85;
+}

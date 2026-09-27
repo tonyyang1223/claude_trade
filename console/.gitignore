@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.py[cod]
+backend/cache/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/package-lock.json
+frontend/vite.config.ts.timestamp-*.mjs

@@ -1,0 +1,241 @@
+classDiagram
+    %% ===================== 响应信封 / 通用模型 =====================
+    class ApiEnvelope~T~ {
+        +int code
+        +string message
+        +T data
+    }
+    class CoinBrief {
+        +string id
+        +string sym
+        +string name
+        +int rank
+        +float price
+        +float mcap
+        +float vol
+        +float chg24
+        +float chg7d
+    }
+    class NewsItem {
+        +string title
+        +string url
+        +string source
+        +string date
+        +string kind
+    }
+    class SectorStat {
+        +string cat
+        +int count
+        +float mcap
+        +float avgChg
+    }
+
+    %% ===================== 响应模型（schemas） =====================
+    class MarketOverviewResponse {
+        +dict meta
+        +dict kpi
+        +dict distribution
+        +CoinBrief[] gainers
+        +CoinBrief[] losers
+        +CoinBrief[] topByMcap
+        +SectorStat[] sectors
+    }
+    class TokenDetailResponse {
+        +CoinBrief basic
+        +float ath
+        +float athChg
+        +dict narrative
+        +dict social
+        +NewsItem[] news
+        +bool scoresAvailable
+        +bool onchainAvailable
+        +string dataSource
+    }
+    class WebResearchResponse {
+        +string coinId
+        +string description
+        +string[] categories
+        +dict officialLinks
+        +dict communityLinks
+        +dict sentiment
+        +NewsItem[] news
+        +float confidence
+    }
+    class OpportunityItem {
+        +string id
+        +float composite
+        +dict dims
+        +string category
+    }
+    class OpportunityRadarResponse {
+        +dict meta
+        +OpportunityItem[] rankings
+    }
+    class ComparisonResponse {
+        +dict[] projects
+        +dict matrix
+        +string winner
+        +string summary
+    }
+    class OnchainResponse {
+        +string chain
+        +string address
+        +dict dims
+        +float total
+        +string decision
+        +string risk
+        +string[] triggers
+        +string disclaimer
+    }
+    class ScoreResponse {
+        +string coinId
+        +dict scores
+        +float totalScore
+        +string rating
+        +dict advice
+    }
+    class MacroResponse {
+        +float currentDominance
+        +string trend
+        +string marketPhase
+        +bool altcoinSeason
+        +string recommendation
+    }
+
+    %% ===================== 后端服务层 =====================
+    class DataLoader {
+        +resolve_scan_date(date?) string
+        +load_summary(date) dict
+        +load_all_coins(date) list
+        +load_deep(date) dict
+        +load_by_category(date) dict
+        +read_parquet(source, date) DataFrame
+    }
+    class MarketService {
+        +overview(date) MarketOverviewResponse
+    }
+    class TokenService {
+        +list_coins(date, q, limit) CoinBrief[]
+        +detail(id, date) TokenDetailResponse
+    }
+    class OpportunityService {
+        +radar(date, mcapMax, sort) OpportunityRadarResponse
+        -score_dims(...) dict
+    }
+    class DefiService {
+        +analyze(coin_ids) ComparisonResponse
+    }
+    class ChainService {
+        +analyze(chain, query) OnchainResponse
+    }
+    class ScoreService {
+        +score(id) ScoreResponse
+    }
+    class MacroService {
+        +dominance() MacroResponse
+    }
+    class ComparisonService {
+        +compare(coin_ids) ComparisonResponse
+    }
+    class WebResearchService {
+        +research(id, force) WebResearchResponse
+    }
+
+    %% ===================== 路由层 =====================
+    class MarketRouter {
+        +GET /api/health
+        +GET /api/market/overview
+        +GET /api/tokens
+        +GET /api/tokens/{id}
+    }
+    class OpportunityRouter {
+        +GET /api/opportunity/radar
+    }
+    class AnalysisRouter {
+        +POST /api/comparison
+        +GET /api/onchain
+        +GET /api/score/{id}
+        +GET /api/macro/btc-dominance
+        +POST /api/tokens/{id}/research
+    }
+
+    %% ===================== 复用的外部 src 模块（import） =====================
+    class SrcTokenDefi <<import>> {
+        TokenDefiResearcher
+    }
+    class SrcWebResearch <<import>> {
+        TokenWebResearcher
+    }
+    class SrcChain <<import>> {
+        orchestrator.analyze
+    }
+    class SrcScorer <<import>> {
+        Scorer / advice
+    }
+    class SrcBtcDominance <<import>> {
+        BTCDominanceAnalyzer
+    }
+    class SrcComparison <<import>> {
+        ProjectComparator
+    }
+
+    %% ===================== 关系 =====================
+    MarketRouter ..> MarketService : 调用
+    MarketRouter ..> TokenService : 调用
+    OpportunityRouter ..> OpportunityService : 调用
+    AnalysisRouter ..> ComparisonService : 调用
+    AnalysisRouter ..> ChainService : 调用
+    AnalysisRouter ..> ScoreService : 调用
+    AnalysisRouter ..> MacroService : 调用
+    AnalysisRouter ..> WebResearchService : 调用
+
+    MarketService ..> DataLoader : 读本地
+    TokenService ..> DataLoader : 读本地
+    OpportunityService ..> DataLoader : 读本地
+    DefiService ..> SrcTokenDefi : import
+    ComparisonService ..> SrcComparison : import
+    ChainService ..> SrcChain : import
+    ScoreService ..> SrcScorer : import
+    MacroService ..> SrcBtcDominance : import
+    WebResearchService ..> SrcWebResearch : import
+    DefiService ..> SrcTokenDefi
+    ComparisonService ..> SrcComparison
+
+    MarketService ..> MarketOverviewResponse : 产出
+    TokenService ..> TokenDetailResponse : 产出
+    TokenService ..> WebResearchResponse : 复用
+    OpportunityService ..> OpportunityRadarResponse : 产出
+    ComparisonService ..> ComparisonResponse : 产出
+    ChainService ..> OnchainResponse : 产出
+    ScoreService ..> ScoreResponse : 产出
+    MacroService ..> MacroResponse : 产出
+
+    ApiEnvelope <|-- MarketOverviewResponse
+    ApiEnvelope <|-- TokenDetailResponse
+    ApiEnvelope <|-- OpportunityRadarResponse
+    ApiEnvelope <|-- ComparisonResponse
+    ApiEnvelope <|-- OnchainResponse
+    ApiEnvelope <|-- ScoreResponse
+    ApiEnvelope <|-- MacroResponse
+    ApiEnvelope <|-- WebResearchResponse
+
+    %% ===================== 前端（TS） =====================
+    class ApiClient {
+        +get(path, params) Promise~ApiEnvelope~
+        +post(path, body) Promise~ApiEnvelope~
+    }
+    class AppStore {
+        +date: string
+        +selectedTokens: string[]
+    }
+    class Pages {
+        MarketOverview
+        TokenProfile
+        Comparison
+        Onchain
+        ScoreAdvice
+        OpportunityRadar
+    }
+    ApiClient ..> ApiEnvelope : 解包
+    Pages ..> ApiClient : 请求
+    Pages ..> AppStore : 读取
