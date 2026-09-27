@@ -8,3 +8,6 @@ frontend/node_modules/
 frontend/dist/
 frontend/package-lock.json
 frontend/vite.config.ts.timestamp-*.mjs
+frontend/*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts

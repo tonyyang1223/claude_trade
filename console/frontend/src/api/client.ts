@@ -34,7 +34,9 @@ export class ApiError extends Error {
 }
 
 const api = axios.create({
-  baseURL: '/api',
+  // 端点路径已含 /api 前缀（与 Vite dev proxy 转发的 /api 一一对应），
+  // 故 baseURL 留空，避免拼接成 /api/api/... 导致 404。
+  baseURL: '',
   timeout: 60000,
 });
 

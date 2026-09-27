@@ -11,12 +11,13 @@ from pathlib import Path
 
 # 目录推导:
 #   console/backend/core/paths.py
-#     parents[0] = console/backend
-#     parents[1] = console
-#     parents[2] = claude_trading  <-- 项目根
-BACKEND_DIR = Path(__file__).resolve().parents[1]
-APP_DIR = Path(__file__).resolve().parents[1]          # console
-PROJECT_ROOT = Path(__file__).resolve().parents[2]      # claude_trading
+#     parents[0] = console/backend/core
+#     parents[1] = console/backend
+#     parents[2] = console
+#     parents[3] = claude_trading  <-- 项目根
+BACKEND_DIR = Path(__file__).resolve().parents[1]       # console/backend
+APP_DIR = Path(__file__).resolve().parents[2]          # console
+PROJECT_ROOT = Path(__file__).resolve().parents[3]      # claude_trading
 
 # 注入项目根到 sys.path（最靠前，确保优先命中 src）
 if str(PROJECT_ROOT) not in sys.path:
