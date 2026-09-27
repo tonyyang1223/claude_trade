@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { COLORS } from '../../theme';
 
 interface State {
   hasError: boolean;
@@ -22,7 +23,7 @@ export default class ErrorBoundary extends Component<{ children: ReactNode }, St
   render() {
     if (this.state.hasError) {
       return (
-        <Box sx={{ p: 3, textAlign: 'center', color: '#8b949e' }}>
+        <Box sx={{ p: 3, textAlign: 'center', color: COLORS.sub }}>
           <Typography sx={{ color: '#f6465d', mb: 1 }}>页面渲染出错</Typography>
           <Typography sx={{ fontSize: 12, mb: 2 }}>{this.state.message}</Typography>
           <Button variant="outlined" size="small" onClick={this.handleRetry}>

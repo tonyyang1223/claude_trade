@@ -1,10 +1,7 @@
-// 后端端点路径常量（与后端 routers 一致）。
+// 后端端点路径常量（与后端 routers 一致；路径已含 /api 前缀）。
 export const ENDPOINTS = {
-  health: '/api/health',
   meta: '/api/meta',
   marketOverview: '/api/market/overview',
-  sectors: '/api/sectors',
-  tokens: '/api/tokens',
   tokenDetail: (id: string) => `/api/tokens/${id}`,
   tokenResearch: (id: string) => `/api/tokens/${id}/research`,
   opportunityRadar: '/api/opportunity/radar',

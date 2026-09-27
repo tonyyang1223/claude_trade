@@ -72,14 +72,14 @@ export default function ScoresAdvice() {
             placeholder="CoinGecko 币种 ID，如 bitcoin"
             sx={{ flex: 1, minWidth: 260, input: { color: COLORS.text } }}
           />
-          <Button variant="contained" onClick={() => load(coinId)} disabled={loading} sx={{ bgcolor: COLORS.accent, color: '#0d1117' }}>
-            {loading ? <CircularProgress size={18} sx={{ color: '#0d1117' }} /> : '获取评分'}
+          <Button variant="contained" onClick={() => load(coinId)} disabled={loading} sx={{ bgcolor: COLORS.accent, color: COLORS.bg }}>
+            {loading ? <CircularProgress size={18} sx={{ color: COLORS.bg }} /> : '获取评分'}
           </Button>
         </Box>
         {error && <Box sx={{ mt: 1, color: COLORS.up, fontSize: 13 }}>{error}</Box>}
       </Card>
 
-      {loading && <Loading label="正在计算多维评分…" />}
+      {loading && <Loading label="正在计算多维评分：需联网抓取 7 个维度，实测约 30 秒…" />}
 
       {!loading && data && (
         <Grid container spacing={2}>

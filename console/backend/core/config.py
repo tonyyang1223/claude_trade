@@ -33,10 +33,3 @@ RADAR_WEIGHTS: Dict[str, float] = {
 
 # 纳入「小市值加分」的市值上限（USD）；超过则 mcapScale 维度置空。
 RADAR_MCAP_CAP = 5_000_000_000.0  # 50 亿
-
-# 默认排序字段（composite / growth / community / mcapScale ...）
-RADAR_DEFAULT_SORT = "composite"
-
-RISK_DISCLAIMER = (
-    "风险提示：以上仅为基于公开数据的整理，不构成任何投资建议。"
-)

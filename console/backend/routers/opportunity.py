@@ -12,7 +12,7 @@ router = APIRouter(tags=["opportunity"])
 
 
 @router.get("/api/opportunity/radar")
-async def opportunity_radar(
+def opportunity_radar(
     date: Optional[str] = Query(None, description="扫描日期"),
     mcapMax: Optional[float] = Query(None, description="市值上限过滤（USD）"),
     sort: str = Query("composite", description="排序: composite|growth|community|mcapScale|narrative"),

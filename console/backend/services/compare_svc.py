@@ -37,7 +37,6 @@ def compare(coin_ids: List[str]) -> ComparisonResponse:
                 github_score=getattr(p, "github_score", None),
                 social_score=getattr(p, "social_score", None),
                 risk_score=getattr(p, "risk_score", None),
-                disclaimer=None,
             ).model_dump())
 
         return ComparisonResponse(

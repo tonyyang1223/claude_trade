@@ -90,8 +90,8 @@ export default function Onchain() {
             control={<Switch checked={demo} onChange={(e) => setDemo(e.target.checked)} />}
             label={<span style={{ color: COLORS.sub, fontSize: 13 }}>Demo 模式</span>}
           />
-          <Button variant="contained" onClick={run} disabled={loading} sx={{ bgcolor: COLORS.accent, color: '#0d1117' }}>
-            {loading ? <CircularProgress size={18} sx={{ color: '#0d1117' }} /> : '分析'}
+          <Button variant="contained" onClick={run} disabled={loading} sx={{ bgcolor: COLORS.accent, color: COLORS.bg }}>
+            {loading ? <CircularProgress size={18} sx={{ color: COLORS.bg }} /> : '分析'}
           </Button>
         </Box>
         {error && (
@@ -99,7 +99,7 @@ export default function Onchain() {
         )}
       </Card>
 
-      {loading && <Loading label="正在进行链上多维分析…" />}
+      {loading && <Loading label="正在进行链上多维分析（RPC + 行情源，约 1 分钟）…" />}
 
       {!loading && data && (
         <Grid container spacing={2}>

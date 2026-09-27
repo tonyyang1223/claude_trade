@@ -1,6 +1,4 @@
 """data.loader.resolve_scan_date 单元测试（真实数据 + 受控 mock 双覆盖）。"""
-from pathlib import Path
-
 from core import paths
 from data import loader
 
@@ -50,3 +48,31 @@ def test_list_scan_dates_sorted_and_nonempty():
     assert dates, "应有可用扫描日期"
     assert dates == sorted(dates)
     assert "2026-08-26" in dates
+
+
+# --------------------------------------------------------------------------
+# 加固回归：外部入参（?date=）不得把读数据请求放大成 500 信封
+# --------------------------------------------------------------------------
+def test_load_by_category_raw_invalid_date_does_not_raise():
+    # 非 YYYY-MM-DD 触发「跳过 7 日窗口扫描」分支（早期实现会 strptime 抛 ValueError）
+    assert loader.load_by_category_raw("not-a-date") == {}
+    assert loader.load_by_category_raw("") == {}
+
+
+def test_raw_loaders_survive_missing_scan_dir(tmp_path, monkeypatch):
+    # 未采集环境（daily_scan 目录缺失）下三个读取入口都必须安全返回空
+    monkeypatch.setattr(paths, "DAILY_SCAN_DIR", tmp_path / "does-not-exist")
+
+    assert loader.load_by_category_raw("2026-08-26") == {}
+    assert loader.load_deep_raw("2026-08-26") == {}
+    assert loader.list_scan_dates() == []
+    assert loader.resolve_scan_date(None) is None
+
+
+def test_load_by_category_raw_real_data_shape():
+    # 真实数据下应解析出板块字典，且每板块是非空记录列表
+    raw = loader.load_by_category_raw("2026-08-26")
+    assert raw, "应有板块数据"
+    for cat, members in raw.items():
+        assert isinstance(cat, str) and members
+        assert all(isinstance(m, dict) for m in members)

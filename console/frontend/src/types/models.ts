@@ -1,17 +1,5 @@
 // 前端类型定义 —— 与后端 data/schemas.py（Pydantic）一一对应。
 
-export interface ApiEnvelope<T> {
-  code: number;
-  message: string;
-  data: T;
-}
-
-export interface ApiError {
-  code: number;
-  message: string;
-  data: unknown;
-}
-
 export interface CoinBrief {
   id: string;
   sym?: string;
@@ -69,12 +57,11 @@ export interface TokenDetail {
   basic: CoinBrief;
   ath?: number;
   athChg?: number;
+  /** 离线基线仅含 categories；description/officialLinks/communityLinks 由实时抓取补全 */
   narrative: Record<string, any>;
   social: Record<string, any>;
+  /** 离线基线恒为空列表（计数见 social.newsCount），实时列表由 research 返回 */
   news: NewsItem[];
-  scoresAvailable: boolean;
-  onchainAvailable: boolean;
-  dataSource: string;
 }
 
 export interface WebResearch {
@@ -108,7 +95,6 @@ export interface ComparisonProject {
   github_score?: number;
   social_score?: number;
   risk_score?: number;
-  unlock?: Record<string, any>;
 }
 
 export interface Comparison {
@@ -156,17 +142,10 @@ export interface Macro {
 
 export interface MetaInfo {
   date?: string;
-  prevDay?: string;
   scanTime?: string;
   deepTotal?: number;
   lightTotal?: number;
   coinCnt?: number;
   availableDates: string[];
   weights: Record<string, number>;
-}
-
-export interface HealthInfo {
-  status: string;
-  version: string;
-  dataDate?: string;
 }

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { COLORS } from '../../theme';
 
 interface Props {
   title: ReactNode;
@@ -13,11 +14,11 @@ export default function PageHeader({ title, subtitle, actions }: Props) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', mb: 2, gap: 2, flexWrap: 'wrap' }}>
       <Box>
-        <Typography variant="h5" sx={{ fontWeight: 700, color: '#e6edf3' }}>
+        <Typography variant="h5" sx={{ fontWeight: 700, color: COLORS.text }}>
           {title}
         </Typography>
         {subtitle && (
-          <Typography sx={{ color: '#8b949e', fontSize: 13, mt: 0.5 }}>{subtitle}</Typography>
+          <Typography sx={{ color: COLORS.sub, fontSize: 13, mt: 0.5 }}>{subtitle}</Typography>
         )}
       </Box>
       {actions && <Box>{actions}</Box>}

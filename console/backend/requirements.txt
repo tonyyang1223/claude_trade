@@ -2,13 +2,11 @@
 # 应用目录: console/backend
 # 说明: src/ 自身依赖（coingecko/defillama/reddit 客户端、scrapling/playwright 可选）
 #       沿用项目根 requirements.txt，控制台不重复声明；后端通过 sys.path 注入项目根复用 src。
+#       控制台仅读取 daily_scan JSON，不直接依赖 pandas/pyarrow。
 
 fastapi>=0.110,<1.0
 uvicorn[standard]>=0.27
-pandas>=2.0
-pyarrow>=14.0          # 读 parquet
 pydantic>=2.5
-python-multipart>=0.0.9
 # 复用 src 模块所需（项目根已装则沿用）
 requests>=2.31
 beautifulsoup4>=4.12   # web_research 静态抓取

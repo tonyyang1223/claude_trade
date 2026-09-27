@@ -5,8 +5,6 @@ GET /api/onchain?chain=&query= 可能触网（RPC/DexScreener/GoPlus）或走 de
 """
 from __future__ import annotations
 
-from typing import Optional
-
 from data.schemas import OnchainResponse
 
 

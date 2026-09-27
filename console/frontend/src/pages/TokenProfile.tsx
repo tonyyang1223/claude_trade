@@ -19,7 +19,7 @@ import EmptyState from '../components/common/EmptyState';
 
 function Row({ label, value, color }: { label: string; value: ReactNode; color?: string }) {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 0.75, borderBottom: '1px solid #21262d' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 0.75, borderBottom: `1px solid ${COLORS.split}` }}>
       <Typography sx={{ color: COLORS.sub, fontSize: 13 }}>{label}</Typography>
       <Typography sx={{ color: color || COLORS.text, fontSize: 13, fontWeight: 500 }}>{value}</Typography>
     </Box>
@@ -49,7 +49,7 @@ export default function TokenProfile() {
   const handleResearch = () => {
     setResearching(true);
     setWarn(null);
-    postTokenResearch(id, true)
+    postTokenResearch(id)
       .then((r) => {
         setResearch(r);
         if (r.description || r.news.length) setWarn(null);
@@ -94,9 +94,9 @@ export default function TokenProfile() {
               size="small"
               variant="contained"
               disabled={researching}
-              sx={{ bgcolor: COLORS.accent, color: '#0d1117' }}
+              sx={{ bgcolor: COLORS.accent, color: COLORS.bg }}
             >
-              {researching ? <CircularProgress size={16} sx={{ color: '#0d1117' }} /> : '实时抓取'}
+              {researching ? <CircularProgress size={16} sx={{ color: COLORS.bg }} /> : '实时抓取'}
             </Button>
           </Box>
         }
@@ -163,7 +163,7 @@ export default function TokenProfile() {
             {news.length ? (
               <Box sx={{ maxHeight: 320, overflow: 'auto' }}>
                 {news.map((n, i) => (
-                  <Box key={i} sx={{ py: 1, borderBottom: '1px solid #21262d' }}>
+                  <Box key={i} sx={{ py: 1, borderBottom: `1px solid ${COLORS.split}` }}>
                     <a href={n.url || '#'} target="_blank" rel="noreferrer" style={{ color: COLORS.text, fontSize: 13, textDecoration: 'none' }}>
                       {n.title || '(无标题)'}
                     </a>

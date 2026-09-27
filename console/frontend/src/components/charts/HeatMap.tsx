@@ -46,7 +46,7 @@ export default function HeatMap({ xCategories, yCategories, data, min = -10, max
       left: 'center',
       bottom: 0,
       textStyle: { color: COLORS.sub },
-      inRange: { color: [COLORS.down, '#30363d', COLORS.up] },
+      inRange: { color: [COLORS.down, COLORS.border, COLORS.up] },
     },
     series: [
       {

@@ -1,3 +1,4 @@
+import { COLORS } from '../theme';
 // 通用格式化工具（金额 / 百分比 / 数字）。
 
 export function fmtMcap(v: number | null | undefined): string {
@@ -28,6 +29,6 @@ export function fmtPrice(v: number | null | undefined): string {
 }
 
 export function colorForChange(v: number | null | undefined): string {
-  if (v == null || v === 0) return '#8b949e';
+  if (v == null || v === 0) return COLORS.sub;
   return v > 0 ? '#f6465d' : '#2ebd85';
 }

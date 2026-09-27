@@ -5,7 +5,7 @@ models.ts 完全对齐：前端用 chg24 / mcap / vol 等短字段，避免大�
 """
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -79,12 +79,12 @@ class TokenDetailResponse(BaseModel):
     basic: CoinBrief
     ath: Optional[float] = None
     athChg: Optional[float] = None
-    narrative: dict = Field(default_factory=dict)  # {description,categories,genesisDate,officialLinks,communityLinks}
-    social: dict = Field(default_factory=dict)  # {mentions,upvotes,redditSubs,communityScore,newsCount,sentiment,signal}
+    # 离线基线仅含 {categories}；{description, officialLinks, communityLinks} 由 E10 实时抓取补全
+    narrative: dict = Field(default_factory=dict)
+    # {mentions, upvotes, redditSubs, communityScore, newsCount, biliCount, sentiment, signal}
+    social: dict = Field(default_factory=dict)
+    # 离线基线恒为空列表：新闻计数见 social.newsCount，实时列表由 E10 填充
     news: List[NewsItem] = Field(default_factory=list)
-    scoresAvailable: bool = False
-    onchainAvailable: bool = False
-    dataSource: str = "offline"  # offline | live
 
 
 class WebResearchResponse(BaseModel):
@@ -121,7 +121,6 @@ class ComparisonProject(BaseModel):
     github_score: Optional[float] = None
     social_score: Optional[float] = None
     risk_score: Optional[float] = None
-    disclaimer: Optional[str] = None
 
 
 class ComparisonResponse(BaseModel):
@@ -181,7 +180,6 @@ class MacroResponse(BaseModel):
 # --------------------------------------------------------------------------
 class MetaResponse(BaseModel):
     date: Optional[str] = None
-    prevDay: Optional[str] = None
     scanTime: Optional[str] = None
     deepTotal: Optional[int] = None
     lightTotal: Optional[int] = None

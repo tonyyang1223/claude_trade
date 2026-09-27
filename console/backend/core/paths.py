@@ -15,41 +15,21 @@ from pathlib import Path
 #     parents[1] = console/backend
 #     parents[2] = console
 #     parents[3] = claude_trading  <-- 项目根
-BACKEND_DIR = Path(__file__).resolve().parents[1]       # console/backend
-APP_DIR = Path(__file__).resolve().parents[2]          # console
-PROJECT_ROOT = Path(__file__).resolve().parents[3]      # claude_trading
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 # 注入项目根到 sys.path（最靠前，确保优先命中 src）
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-
-def ensure_project_root() -> None:
-    """幂等地确保项目根在 sys.path 中（供其他模块显式调用）。"""
-    if str(PROJECT_ROOT) not in sys.path:
-        sys.path.insert(0, str(PROJECT_ROOT))
-
-
-# --------------------------------------------------------------------------
-# 数据与缓存目录
-# --------------------------------------------------------------------------
-DATA_DIR = PROJECT_ROOT / "data"
-REPORTS_DIR = PROJECT_ROOT / "reports"
-DAILY_SCAN_DIR = DATA_DIR / "reports" / "daily_scan"
-RAW_SERVER_DIR = DATA_DIR / "raw_server"
-CACHE_DIR = APP_DIR / "backend" / "cache"
-
-for _d in (CACHE_DIR,):
-    try:
-        _d.mkdir(parents=True, exist_ok=True)
-    except Exception:
-        pass
+# 扫描数据目录：data/reports/daily_scan/<YYYY-MM-DD>/
+DAILY_SCAN_DIR = PROJECT_ROOT / "data" / "reports" / "daily_scan"
 
 
 def resolve_scan_date(date: str | None = None) -> str | None:
-    """解析最新扫描日期。
+    """解析扫描日期。
 
-    - 传入合法 ``YYYY-MM-DD`` 且对应目录存在 → 原样返回；
+    - 传入非空且非 ``latest`` 的日期 → **原样返回**（不校验目录是否存在，
+      读取失败时由上层按「数据缺失」兜底）；
     - 缺省或 ``latest`` → 取 ``DAILY_SCAN_DIR`` 下字典序最大、且含 ``summary.json`` 的目录；
     - 无可用目录 → 返回 ``None``。
     """

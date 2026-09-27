@@ -113,12 +113,12 @@ export default function HundredXRadar() {
               <Box sx={{ maxHeight: 520, overflow: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
                   <thead>
-                    <tr style={{ color: COLORS.sub, textAlign: 'right', position: 'sticky', top: 0, background: '#161b22' }}>
-                      <th style={{ textAlign: 'left', padding: '8px 8px', borderBottom: '1px solid #30363d' }}>#</th>
-                      <th style={{ textAlign: 'left', padding: '8px 8px', borderBottom: '1px solid #30363d' }}>币种</th>
-                      <th style={{ padding: '8px 8px', borderBottom: '1px solid #30363d' }}>综合</th>
-                      <th style={{ padding: '8px 8px', borderBottom: '1px solid #30363d' }}>市值</th>
-                      <th style={{ padding: '8px 8px', borderBottom: '1px solid #30363d' }}>板块</th>
+                    <tr style={{ color: COLORS.sub, textAlign: 'right', position: 'sticky', top: 0, background: COLORS.panel }}>
+                      <th style={{ textAlign: 'left', padding: '8px 8px', borderBottom: `1px solid ${COLORS.border}` }}>#</th>
+                      <th style={{ textAlign: 'left', padding: '8px 8px', borderBottom: `1px solid ${COLORS.border}` }}>币种</th>
+                      <th style={{ padding: '8px 8px', borderBottom: `1px solid ${COLORS.border}` }}>综合</th>
+                      <th style={{ padding: '8px 8px', borderBottom: `1px solid ${COLORS.border}` }}>市值</th>
+                      <th style={{ padding: '8px 8px', borderBottom: `1px solid ${COLORS.border}` }}>板块</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -1,9 +1,11 @@
 classDiagram
     %% ===================== 响应信封 / 通用模型 =====================
-    class ApiEnvelope~T~ {
+    %% 信封 {code,message,data} 由 core/envelope.py 构造；前端 client.ts 拦截器解包后即丢弃，
+    %% 故 TS 侧不再定义 ApiEnvelope，仅保留失败路径的 ApiError。
+    class Envelope {
         +int code
         +string message
-        +T data
+        +any data
     }
     class CoinBrief {
         +string id
@@ -30,7 +32,7 @@ classDiagram
         +float avgChg
     }
 
-    %% ===================== 响应模型（schemas） =====================
+    %% ===================== 响应模型（data/schemas.py） =====================
     class MarketOverviewResponse {
         +dict meta
         +dict kpi
@@ -47,9 +49,6 @@ classDiagram
         +dict narrative
         +dict social
         +NewsItem[] news
-        +bool scoresAvailable
-        +bool onchainAvailable
-        +string dataSource
     }
     class WebResearchResponse {
         +string coinId
@@ -71,8 +70,15 @@ classDiagram
         +dict meta
         +OpportunityItem[] rankings
     }
+    class ComparisonProject {
+        +string coin_id
+        +float total_score
+        +string rating
+        +string risk_level
+        +float[] dims_7
+    }
     class ComparisonResponse {
-        +dict[] projects
+        +ComparisonProject[] projects
         +dict matrix
         +string winner
         +string summary
@@ -84,7 +90,10 @@ classDiagram
         +float total
         +string decision
         +string risk
+        +string position
         +string[] triggers
+        +string[] missing
+        +dict[] flags
         +string disclaimer
     }
     class ScoreResponse {
@@ -92,6 +101,8 @@ classDiagram
         +dict scores
         +float totalScore
         +string rating
+        +string recommendation
+        +string riskLevel
         +dict advice
     }
     class MacroResponse {
@@ -101,141 +112,187 @@ classDiagram
         +bool altcoinSeason
         +string recommendation
     }
+    class MetaResponse {
+        +string date
+        +int deepTotal
+        +int lightTotal
+        +int coinCnt
+        +string[] availableDates
+        +dict weights
+    }
+    class HealthResponse {
+        +string status
+        +string version
+        +string dataDate
+    }
 
-    %% ===================== 后端服务层 =====================
+    %% ===================== 后端数据层 =====================
     class DataLoader {
         +resolve_scan_date(date?) string
+        +list_scan_dates() string[]
         +load_summary(date) dict
         +load_all_coins(date) list
-        +load_deep(date) dict
-        +load_by_category(date) dict
-        +read_parquet(source, date) DataFrame
+        +load_by_category_raw(date) dict
+        +load_deep_raw(date) dict
+        +find_coin_raw(date, coinId) dict
     }
+    class Paths {
+        +PROJECT_ROOT
+        +DAILY_SCAN_DIR
+        +resolve_scan_date(date) string
+        +list_scan_dates() string[]
+    }
+
+    %% ===================== 后端服务层（services/*_svc.py） =====================
     class MarketService {
-        +overview(date) MarketOverviewResponse
+        +build_meta(date) dict
+        +build_overview(date) MarketOverviewResponse
+        +build_sectors(date) SectorStat[]
     }
     class TokenService {
-        +list_coins(date, q, limit) CoinBrief[]
-        +detail(id, date) TokenDetailResponse
+        +build_detail(id, date) TokenDetailResponse
     }
     class OpportunityService {
-        +radar(date, mcapMax, sort) OpportunityRadarResponse
-        -score_dims(...) dict
-    }
-    class DefiService {
-        +analyze(coin_ids) ComparisonResponse
+        +compute(date, mcapMax, sort) OpportunityRadarResponse
+        -_deep_fields(coinId, deep) dict
     }
     class ChainService {
-        +analyze(chain, query) OnchainResponse
+        +analyze(chain, query, demo) OnchainResponse
     }
     class ScoreService {
         +score(id) ScoreResponse
     }
-    class MacroService {
-        +dominance() MacroResponse
-    }
     class ComparisonService {
-        +compare(coin_ids) ComparisonResponse
+        +compare(coinIds) ComparisonResponse
+    }
+    class MacroService {
+        +btc_dominance() MacroResponse
     }
     class WebResearchService {
-        +research(id, force) WebResearchResponse
+        +research(id, timeout) (WebResearchResponse, message)
+        -_run_with_timeout(func, timeout)
+    }
+    class CommonHelpers {
+        +coin_brief_from_light(c) CoinBrief
+        +coin_brief_from_market(mkt, id) CoinBrief
     }
 
-    %% ===================== 路由层 =====================
-    class MarketRouter {
+    %% ===================== 路由层（routers/*.py，全部同步 def） =====================
+    class MetaRouter {
         +GET /api/health
+        +GET /api/meta
+    }
+    class MarketRouter {
         +GET /api/market/overview
-        +GET /api/tokens
+    }
+    class TokensRouter {
         +GET /api/tokens/{id}
     }
     class OpportunityRouter {
         +GET /api/opportunity/radar
     }
-    class AnalysisRouter {
+    class CompareRouter {
         +POST /api/comparison
+    }
+    class ChainRouter {
         +GET /api/onchain
+    }
+    class ScoresRouter {
         +GET /api/score/{id}
+    }
+    class MacroRouter {
         +GET /api/macro/btc-dominance
+    }
+    class ResearchRouter {
         +POST /api/tokens/{id}/research
     }
 
     %% ===================== 复用的外部 src 模块（import） =====================
-    class SrcTokenDefi <<import>> {
-        TokenDefiResearcher
-    }
     class SrcWebResearch <<import>> {
-        TokenWebResearcher
+        TokenWebResearcher.analyze
     }
     class SrcChain <<import>> {
-        orchestrator.analyze
+        chain.orchestrator.analyze
     }
     class SrcScorer <<import>> {
-        Scorer / advice
+        Scorer.score_project / advice.build_advice
     }
     class SrcBtcDominance <<import>> {
-        BTCDominanceAnalyzer
+        BTCDominanceAnalyzer.analyze
     }
     class SrcComparison <<import>> {
-        ProjectComparator
+        ProjectComparator.compare_projects
     }
 
     %% ===================== 关系 =====================
+    MetaRouter ..> MarketService : 调用
     MarketRouter ..> MarketService : 调用
-    MarketRouter ..> TokenService : 调用
+    TokensRouter ..> TokenService : 调用
     OpportunityRouter ..> OpportunityService : 调用
-    AnalysisRouter ..> ComparisonService : 调用
-    AnalysisRouter ..> ChainService : 调用
-    AnalysisRouter ..> ScoreService : 调用
-    AnalysisRouter ..> MacroService : 调用
-    AnalysisRouter ..> WebResearchService : 调用
+    CompareRouter ..> ComparisonService : 调用
+    ChainRouter ..> ChainService : 调用
+    ScoresRouter ..> ScoreService : 调用
+    MacroRouter ..> MacroService : 调用
+    ResearchRouter ..> WebResearchService : 调用
 
     MarketService ..> DataLoader : 读本地
+    MarketService ..> CommonHelpers : 用
     TokenService ..> DataLoader : 读本地
+    TokenService ..> CommonHelpers : 用
     OpportunityService ..> DataLoader : 读本地
-    DefiService ..> SrcTokenDefi : import
-    ComparisonService ..> SrcComparison : import
+    DataLoader ..> Paths : 日期/路径
+
     ChainService ..> SrcChain : import
     ScoreService ..> SrcScorer : import
+    ComparisonService ..> SrcComparison : import
     MacroService ..> SrcBtcDominance : import
     WebResearchService ..> SrcWebResearch : import
-    DefiService ..> SrcTokenDefi
-    ComparisonService ..> SrcComparison
 
     MarketService ..> MarketOverviewResponse : 产出
     TokenService ..> TokenDetailResponse : 产出
-    TokenService ..> WebResearchResponse : 复用
     OpportunityService ..> OpportunityRadarResponse : 产出
     ComparisonService ..> ComparisonResponse : 产出
     ChainService ..> OnchainResponse : 产出
     ScoreService ..> ScoreResponse : 产出
     MacroService ..> MacroResponse : 产出
+    WebResearchService ..> WebResearchResponse : 产出
+    MetaRouter ..> MetaResponse : 产出
+    MetaRouter ..> HealthResponse : 产出
 
-    ApiEnvelope <|-- MarketOverviewResponse
-    ApiEnvelope <|-- TokenDetailResponse
-    ApiEnvelope <|-- OpportunityRadarResponse
-    ApiEnvelope <|-- ComparisonResponse
-    ApiEnvelope <|-- OnchainResponse
-    ApiEnvelope <|-- ScoreResponse
-    ApiEnvelope <|-- MacroResponse
-    ApiEnvelope <|-- WebResearchResponse
+    Envelope <|-- MarketOverviewResponse
+    Envelope <|-- TokenDetailResponse
+    Envelope <|-- OpportunityRadarResponse
+    Envelope <|-- ComparisonResponse
+    Envelope <|-- OnchainResponse
+    Envelope <|-- ScoreResponse
+    Envelope <|-- MacroResponse
+    Envelope <|-- WebResearchResponse
 
     %% ===================== 前端（TS） =====================
     class ApiClient {
-        +get(path, params) Promise~ApiEnvelope~
-        +post(path, body) Promise~ApiEnvelope~
+        +get(path, params) Promise~T~
+        +post(path, body) Promise~T~
+        -拦截器：code===0 解包 data；否则抛 ApiError
+        -按端点超时：本地 60s / 分析类 300s
+    }
+    class ApiError {
+        +int code
+        +string message
+        +any data
     }
     class AppStore {
         +date: string
-        +selectedTokens: string[]
+        +setDate(d)
     }
     class Pages {
         MarketOverview
         TokenProfile
         Comparison
         Onchain
-        ScoreAdvice
-        OpportunityRadar
+        ScoresAdvice
+        HundredXRadar
     }
-    ApiClient ..> ApiEnvelope : 解包
+    ApiClient ..> Envelope : 解包
+    ApiClient ..> ApiError : 失败路径
     Pages ..> ApiClient : 请求
-    Pages ..> AppStore : 读取
+    Pages ..> AppStore : 读取 date

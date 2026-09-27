@@ -8,19 +8,8 @@ from __future__ import annotations
 from typing import Optional
 
 from data import loader
-from data.schemas import CoinBrief, NewsItem, TokenDetailResponse
+from data.schemas import TokenDetailResponse
 from services.common import coin_brief_from_market
-
-
-def _dig(raw: dict, *path, default=None):
-    cur = raw
-    for k in path:
-        if not isinstance(cur, dict):
-            return default
-        cur = cur.get(k)
-        if cur is None:
-            return default
-    return cur if cur is not None else default
 
 
 def build_detail(coin_id: str, date: Optional[str] = None) -> Optional[TokenDetailResponse]:
@@ -51,12 +40,11 @@ def build_detail(coin_id: str, date: Optional[str] = None) -> Optional[TokenDeta
     basic.name = basic.name or raw.get("name")
     basic.rank = basic.rank or raw.get("rank")
 
+    # 离线基线只填「扫描数据里真实存在」的字段：description / genesisDate / 官方与社区
+    # 链接在 daily_scan 中并未落盘，由 E10 实时抓取补全，故此处不再预置恒为 None/{}
+    # 的占位键（前端以可选链读取，缺键与空值等价）。
     narrative = {
-        "description": None,
         "categories": raw.get("categories") or [],
-        "genesisDate": None,
-        "officialLinks": {},
-        "communityLinks": {},
     }
 
     social = {
@@ -80,8 +68,6 @@ def build_detail(coin_id: str, date: Optional[str] = None) -> Optional[TokenDeta
         athChg=mkt.get("ath_change_percentage"),
         narrative=narrative,
         social=social,
-        news=[],  # 离线基线：新闻计数驱动在 social.newsCount；实时列表由 E10 填充
-        scoresAvailable=False,
-        onchainAvailable=False,
-        dataSource="offline",
+        # 离线基线 news 恒为空：新闻计数见 social.newsCount，实时列表由 E10 填充
+        news=[],
     )

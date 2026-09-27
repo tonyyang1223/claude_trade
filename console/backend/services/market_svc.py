@@ -1,45 +1,30 @@
 """市场总览聚合服务（纯本地，零网络依赖）。
 
-聚合 KPI / 涨跌分布 / 涨跌榜 / 市值榜 / 板块统计。
-btcDominance 由 macro 服务 best-effort 填充，可能为空，不阻塞总览。
+聚合 KPI / 涨跌分布 / 涨跌榜 / 市值榜 / 板块统计，并提供 /api/meta 元信息。
+BTC 占比不在此处获取（避免总览触网），由 ``/api/macro/btc-dominance`` 单独提供。
 """
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import Dict, List, Optional
+from typing import List, Optional
 
 from data import loader
-from data.schemas import CoinBrief, MarketOverviewResponse, SectorStat
+from data.schemas import MarketOverviewResponse, SectorStat
 from services.common import coin_brief_from_light
 
 
 def build_meta(date: Optional[str] = None) -> dict:
+    """构造 /api/meta 的数据元信息（纯本地）。"""
     date = loader.resolve_scan_date(date)
     summary = loader.load_summary(date) if date else None
-    ms = (summary or {}).get("market_stats", {}) or {}
-    state = (summary or {}).get("state_stats", {}) or {}
-    cats = (summary or {}).get("categories", {}) or {}
+    coins = loader.load_all_coins(date) if date else []
     return {
         "date": date,
-        "prevDay": None,  # 由 overview 统一计算
         "scanTime": (summary or {}).get("scan_time"),
         "deepTotal": (summary or {}).get("deep_researched"),
         "lightTotal": (summary or {}).get("light_researched"),
-        "coinCnt": ms.get("total_market_cap") and (summary or {}).get("total_coins"),
-        "queueLen": state.get("queue_length"),
-        "categoryCnt": len(cats) if isinstance(cats, dict) else None,
+        "coinCnt": len(coins) or None,
     }
-
-
-def _btc_dominance_best_effort() -> Optional[float]:
-    """best-effort 获取 BTC 占比（可能触网，失败返回 None，不阻塞）。"""
-    try:
-        from src.analysis.btc_dominance import BTCDominanceAnalyzer
-
-        return float(BTCDominanceAnalyzer().analyze().current_dominance)
-    except Exception as exc:  # noqa: BLE001
-        print(f"[market_svc] BTC 占比获取失败（忽略）: {exc}")
-        return None
 
 
 def build_overview(date: Optional[str] = None) -> MarketOverviewResponse:
@@ -52,8 +37,6 @@ def build_overview(date: Optional[str] = None) -> MarketOverviewResponse:
         )
 
     summary = loader.load_summary(date)
-    ms = (summary or {}).get("market_stats", {}) or {}
-    state = (summary or {}).get("state_stats", {}) or {}
 
     coins = loader.load_all_coins(date)
     if not coins:
@@ -84,25 +67,22 @@ def build_overview(date: Optional[str] = None) -> MarketOverviewResponse:
                     key=lambda x: (x.get("change_24h_pct") or 0))[:15]
     top_by_mcap = sorted(coins, key=lambda x: -(x.get("market_cap") or 0))[:15]
 
+    # 不提供 fearGreed：summary.market_stats.fear_greed_index 在全部已采集日期恒为
+    # null（采集端未落盘），前端亦无该卡位；BTC 占比由 /api/macro 单独提供。
     kpi = {
         "totalMcap": total_mcap,
         "coinCnt": len(coins),
         "avgChg": round(avg_chg, 4),
         "upCnt": up_cnt,
         "downCnt": down_cnt,
-        "fearGreed": ms.get("fear_greed_index"),
-        "btcDominance": _btc_dominance_best_effort(),
         "deepTotal": (summary or {}).get("deep_researched"),
     }
 
     meta = {
         "date": date,
-        "prevDay": None,
         "scanTime": (summary or {}).get("scan_time"),
         "deepTotal": (summary or {}).get("deep_researched"),
         "lightTotal": (summary or {}).get("light_researched"),
-        "queueLen": state.get("queue_length"),
-        "categoryCnt": len((summary or {}).get("categories", {}) or {}),
     }
 
     return MarketOverviewResponse(
@@ -137,7 +117,7 @@ def build_sectors(date: Optional[str] = None) -> List[SectorStat]:
         if not parsed:
             continue
         mcaps = [p["mcap"] for p in parsed if p.get("mcap")]
-        chgs = [p["chg24"] for p in parsed if p.get("chg24") is not None]
+        chgs = [p["chg24"] for p in parsed if p["chg24"] is not None]
         out.append(SectorStat(
             cat=cat,
             count=len(parsed),

@@ -1,4 +1,4 @@
-"""E1 /api/health、/api/meta —— 健康检查与数据元信息（纯本地）。"""
+"""E1 /api/health、E2 /api/meta —— 健康检查与数据元信息（纯本地）。"""
 from __future__ import annotations
 
 from fastapi import APIRouter
@@ -13,24 +13,14 @@ router = APIRouter(tags=["meta"])
 
 
 @router.get("/api/health")
-async def health() -> dict:
+def health() -> dict:
     date = loader.resolve_scan_date(None)
     return success(HealthResponse(status="ok", version=APP_VERSION, dataDate=date).model_dump())
 
 
 @router.get("/api/meta")
-async def meta() -> dict:
-    date = loader.resolve_scan_date(None)
-    base = build_meta(date)
+def meta() -> dict:
+    base = build_meta(None)
     base["availableDates"] = loader.list_scan_dates()
     base["weights"] = RADAR_WEIGHTS
-    return success(MetaResponse(**{
-        "date": base.get("date"),
-        "prevDay": base.get("prevDay"),
-        "scanTime": base.get("scanTime"),
-        "deepTotal": base.get("deepTotal"),
-        "lightTotal": base.get("lightTotal"),
-        "coinCnt": base.get("coinCnt"),
-        "availableDates": base.get("availableDates"),
-        "weights": base.get("weights"),
-    }).model_dump())
+    return success(MetaResponse(**base).model_dump())

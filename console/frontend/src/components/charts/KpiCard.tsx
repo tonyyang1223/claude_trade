@@ -22,7 +22,7 @@ export default function KpiCard({ label, value, delta, deltaFormatter, accent = 
       elevation={0}
       sx={{
         bgcolor: 'rgba(22,27,34,0.85)',
-        border: '1px solid #30363d',
+        border: `1px solid ${COLORS.border}`,
         borderRadius: 2,
         p: 1.75,
       }}

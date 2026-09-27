@@ -32,7 +32,7 @@ export default function BarChart({
   const axisCommon = {
     axisLine: { lineStyle: { color: COLORS.border } },
     axisLabel: { color: COLORS.sub, fontSize: 11 },
-    splitLine: { lineStyle: { color: '#21262d' } },
+    splitLine: { lineStyle: { color: COLORS.split } },
   };
 
   const option: Record<string, any> = {

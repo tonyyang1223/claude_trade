@@ -1,8 +1,6 @@
 """E7 GET /api/onchain —— 链上分析（复用 src.chain，可能触网或走 demo）。"""
 from __future__ import annotations
 
-from typing import Optional
-
 from fastapi import APIRouter, Query
 
 from core.envelope import failure, success
@@ -12,7 +10,7 @@ router = APIRouter(tags=["onchain"])
 
 
 @router.get("/api/onchain")
-async def onchain(
+def onchain(
     chain: str = Query(..., description="链名: bnb / sol / robinhood"),
     query: str = Query(..., description="代币符号或合约地址"),
     demo: bool = Query(False, description="离线样例模式（不触网）"),

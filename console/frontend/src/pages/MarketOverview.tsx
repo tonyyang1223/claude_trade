@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { useAppStore } from '../store/useAppStore';
-import { getMarketOverview, getMeta, ApiError } from '../api/client';
-import type { MarketOverview as MO, MetaInfo } from '../types/models';
+import { getMarketOverview, getMeta, getMacroBtcDominance, ApiError } from '../api/client';
+import type { MarketOverview as MO, Macro, MetaInfo } from '../types/models';
 import { COLORS } from '../theme';
 import { fmtMcap, fmtPct, fmtNum, colorForChange } from '../utils/format';
 import PageHeader from '../components/common/PageHeader';
@@ -17,16 +17,23 @@ export default function MarketOverview() {
   const { date } = useAppStore();
   const [data, setData] = useState<MO | null>(null);
   const [meta, setMeta] = useState<MetaInfo | null>(null);
+  const [macro, setMacro] = useState<Macro | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
-    Promise.all([getMarketOverview(date), getMeta().catch(() => null)])
-      .then(([ov, m]) => {
+    Promise.all([
+      getMarketOverview(date),
+      getMeta().catch(() => null),
+      // BTC 占比走独立宏观端点（可能触网），失败不阻塞总览。
+      getMacroBtcDominance().catch(() => null),
+    ])
+      .then(([ov, m, mac]) => {
         setData(ov);
         setMeta(m);
+        setMacro(mac);
       })
       .catch((e: ApiError) => setError(e.message || '加载失败'))
       .finally(() => setLoading(false));
@@ -96,7 +103,7 @@ export default function MarketOverview() {
         <Grid item xs={6} md={2}>
           <KpiCard
             label="BTC 占比"
-            value={k.btcDominance != null ? `${k.btcDominance.toFixed(1)}%` : '—'}
+            value={macro?.currentDominance != null ? `${macro.currentDominance.toFixed(1)}%` : '—'}
           />
         </Grid>
       </Grid>
@@ -139,10 +146,10 @@ export default function MarketOverview() {
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
                 <thead>
                   <tr style={{ color: COLORS.sub, textAlign: 'right' }}>
-                    <th style={{ textAlign: 'left', padding: '8px 10px', borderBottom: '1px solid #30363d' }}>板块</th>
-                    <th style={{ padding: '8px 10px', borderBottom: '1px solid #30363d' }}>币种数</th>
-                    <th style={{ padding: '8px 10px', borderBottom: '1px solid #30363d' }}>总市值</th>
-                    <th style={{ padding: '8px 10px', borderBottom: '1px solid #30363d' }}>平均 24h</th>
+                    <th style={{ textAlign: 'left', padding: '8px 10px', borderBottom: `1px solid ${COLORS.border}` }}>板块</th>
+                    <th style={{ padding: '8px 10px', borderBottom: `1px solid ${COLORS.border}` }}>币种数</th>
+                    <th style={{ padding: '8px 10px', borderBottom: `1px solid ${COLORS.border}` }}>总市值</th>
+                    <th style={{ padding: '8px 10px', borderBottom: `1px solid ${COLORS.border}` }}>平均 24h</th>
                   </tr>
                 </thead>
                 <tbody>

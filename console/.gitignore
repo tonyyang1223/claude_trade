@@ -1,7 +1,12 @@
 # Python
 __pycache__/
 *.py[cod]
+
+# 运行时缓存：由 src/data/cache.py 的 DataCache 在 CWD 下创建。
+# 后端从 console/backend 启动时，缓存落在 data/cache（注意不是 backend/cache），
+# 内含抓取到的 GitHub/价格原始响应（单次分析可达数 MB），不得入库。
 backend/cache/
+backend/data/cache/
 
 # Node / frontend
 frontend/node_modules/

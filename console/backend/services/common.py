@@ -1,7 +1,7 @@
 """服务层共享工具：币种简表映射与归一化。"""
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Optional
 
 from data.schemas import CoinBrief
 
@@ -34,11 +34,3 @@ def coin_brief_from_market(mkt: dict, coin_id: Optional[str] = None) -> CoinBrie
         chg24=(mkt.get("price_change_percentage_24h") or 0.0),
         chg7d=0.0,
     )
-
-
-def safe_norm(value: Optional[float], lo: float, hi: float) -> Optional[float]:
-    """把 value 线性归一化到 0-100；区间退化或 value 缺失时返回 None。"""
-    if value is None or hi <= lo:
-        return None
-    v = (value - lo) / (hi - lo)
-    return max(0.0, min(100.0, v * 100.0))

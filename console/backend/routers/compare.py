@@ -12,7 +12,7 @@ router = APIRouter(tags=["comparison"])
 
 
 @router.post("/api/comparison")
-async def comparison(coin_ids: List[str] = Body(...)) -> dict:
+def comparison(coin_ids: List[str] = Body(...)) -> dict:
     if not coin_ids or len(coin_ids) < 2:
         return failure(400, "至少需要 2 个币种进行对比")
     if len(coin_ids) > 5:

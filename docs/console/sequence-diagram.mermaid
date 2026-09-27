@@ -1,27 +1,29 @@
-%% ===================== 场景 A：打开百倍币机会雷达（纯本地） =====================
+%% ===================== 场景 A：打开百倍币机会雷达（纯本地，实测 < 0.2s） =====================
 sequenceDiagram
     autonumber
     actor U as 用户
-    participant P as OpportunityRadar 页面(React)
+    participant P as HundredXRadar 页面(React)
     participant C as api/client.ts(Axios)
     participant R as FastAPI /api/opportunity/radar
-    participant S as OpportunityService
-    participant D as DataLoader
-    participant E as ECharts 组件
+    participant S as services/opportunity_svc.compute
+    participant D as data/loader + core/paths
+    participant E as ECharts 雷达图
 
     U->>P: 打开「百倍币机会雷达」面板
     P->>C: GET /api/opportunity/radar?date=latest
-    C->>R: HTTP 请求(经 Vite proxy → :8000)
-    R->>S: radar(date, mcapMax, sort)
+    C->>R: HTTP 请求（经 Vite proxy → :8000）
+    Note over R: 同步 def → Starlette 线程池执行<br/>（不占用事件循环，可与其他面板并发）
+    R->>S: compute(date, mcap_max, sort)
     S->>D: resolve_scan_date("latest")
-    D-->>S: 2026-08-26(字典序最大且含 summary)
-    S->>D: load_all_coins() / load_deep() / load_by_category()
-    D-->>S: 本地 JSON 列表(缺失→空默认)
-    S->>S: 5 维归一 + 加权 → composite
+    D-->>S: 2026-08-26（字典序最大且含 summary.json）
+    S->>D: load_all_coins() / load_deep_raw() / load_by_category_raw()
+    D-->>S: 本地 JSON（缺失→空结构，不抛异常）
+    S->>S: 5 维 min-max 归一 → 仅对非空维度加权归一到 composite
     S-->>R: OpportunityRadarResponse
-    R-->>C: ApiEnvelope{code:0, data}
-    C-->>P: data(OpportunityRadar)
-    P->>E: 渲染排行榜表格 + 雷达图(选中行联动)
+    R-->>C: HTTP 200 信封 {code:0, message:"ok", data}
+    C->>C: 拦截器解包 data（code!=0 则抛 ApiError）
+    C-->>P: OpportunityRadar
+    P->>E: 渲染排行榜表格 + 雷达图（选中行联动）
     E-->>U: 可视化机会排行榜
 
 %% ===================== 场景 B：查看币种档案并触发实时抓取 =====================
@@ -32,36 +34,39 @@ sequenceDiagram
     participant C as api/client.ts(Axios)
     participant R1 as FastAPI /api/tokens/{id}
     participant R2 as FastAPI /api/tokens/{id}/research
-    participant T as TokenService
-    participant W as WebResearchService
+    participant T as services/token_svc
+    participant W as services/web_research_svc
     participant SR as src.research.web_research
-    participant E as ECharts/列表
 
-    U->>P: 从总览点击某币 → /token/:id
+    U->>P: 从雷达/总览进入 → /token/:id
     P->>C: GET /api/tokens/{id}?date=latest
     C->>R1: HTTP
-    R1->>T: detail(id, date)
-    T->>T: 读 top_50_detailed + by_category(离线基线)
-    T-->>R1: TokenDetailResponse(dataSource="offline")
-    R1-->>C: ApiEnvelope{code:0, data}
-    C-->>P: 首屏渲染叙事/社区/新闻计数
-    E-->>U: 离线档案(不阻塞)
+    R1->>T: build_detail(id, date)
+    T->>T: load_deep_raw + load_by_category_raw（离线基线）
+    alt 命中该币
+        T-->>R1: TokenDetailResponse（narrative 仅 categories / social 信号 / news 空）
+        R1-->>C: 信封 {code:0, data}
+    else 未命中
+        T-->>R1: None
+        R1-->>C: 信封 {code:404, message:"未找到币种档案", data:空结构}
+    end
+    C-->>P: 首屏渲染（分类标签 / 社区信号 / 空新闻占位）
 
     U->>P: 点击「实时抓取」
-    P->>C: POST /api/tokens/{id}/research
-    C->>R2: HTTP(loading 态)
-    R2->>W: research(id, force?)
-    W->>SR: TokenWebResearcher.analyze(id) [可能触网/超时]
+    P->>C: POST /api/tokens/{id}/research（无 body）
+    C->>R2: HTTP（页面进入 loading 态）
+    R2->>W: research(id)
+    W->>W: 守护线程执行 + join(25s) 超时
+    W->>SR: TokenWebResearcher().analyze(id)  [触网，内部 DataCache 24h]
     alt 成功
-        SR-->>W: WebProfile(叙事/链接/新闻列表)
-        W-->>R2: WebResearchResponse
-        R2-->>C: ApiEnvelope{code:0, data}
-        C-->>P: 合并 news/narrative
-        P->>E: 刷新列表 + 提示「已更新」
-    else 失败/超时
-        SR--xW: 异常(网络不可达)
-        W-->>R2: 空结构 + message(失败兜底)
-        R2-->>C: ApiEnvelope{code:0, data:空}
-        C-->>P: 保留离线内容 + 错误提示
+        SR-->>W: WebProfile（叙事/分类/链接/情绪/新闻列表）
+        W-->>R2: WebResearchResponse + "ok"
+        R2-->>C: 信封 {code:0, data}
+        C-->>P: 合并 news / narrative，副标题切为「实时抓取」
+    else 超时或异常
+        SR--xW: 超时(>25s) / 网络不可达
+        W-->>R2: 空结构 + message("实时抓取超时(>25s)，已保留离线基线")
+        R2-->>C: 信封 {code:503, message, data:空结构}
+        C-->>P: 抛 ApiError → 保留离线内容 + 黄色提示条
     end
-    E-->>U: 更新后的档案 / 兜底提示
+    P-->>U: 更新后的档案 / 兜底提示

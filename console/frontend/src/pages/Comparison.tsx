@@ -68,9 +68,9 @@ export default function Comparison() {
             variant="contained"
             onClick={() => run(ids)}
             disabled={loading}
-            sx={{ bgcolor: COLORS.accent, color: '#0d1117' }}
+            sx={{ bgcolor: COLORS.accent, color: COLORS.bg }}
           >
-            {loading ? <CircularProgress size={18} sx={{ color: '#0d1117' }} /> : '开始对比'}
+            {loading ? <CircularProgress size={18} sx={{ color: COLORS.bg }} /> : '开始对比'}
           </Button>
         </Box>
         <Box sx={{ mt: 1, display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
@@ -92,7 +92,7 @@ export default function Comparison() {
         </Box>
       )}
 
-      {loading && <Loading label="正在对比（可能需联网获取各维度数据）…" />}
+      {loading && <Loading label="正在对比：需逐币联网抓取 7 个维度，实测 2 币约 2–3 分钟，请勿关闭页面…" />}
 
       {!loading && result && (
         <Grid container spacing={2}>
@@ -107,9 +107,9 @@ export default function Comparison() {
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
                   <thead>
                     <tr style={{ color: COLORS.sub, textAlign: 'right' }}>
-                      <th style={{ textAlign: 'left', padding: 8, borderBottom: '1px solid #30363d' }}>维度</th>
+                      <th style={{ textAlign: 'left', padding: 8, borderBottom: `1px solid ${COLORS.border}` }}>维度</th>
                       {result.projects.map((p) => (
-                        <th key={p.coin_id} style={{ padding: 8, borderBottom: '1px solid #30363d' }}>{p.symbol || p.coin_id}</th>
+                        <th key={p.coin_id} style={{ padding: 8, borderBottom: `1px solid ${COLORS.border}` }}>{p.symbol || p.coin_id}</th>
                       ))}
                     </tr>
                   </thead>

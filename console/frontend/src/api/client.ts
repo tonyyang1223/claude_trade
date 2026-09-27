@@ -1,16 +1,13 @@
 import axios, { AxiosError } from 'axios';
 import { ENDPOINTS } from './endpoints';
 import type {
-  CoinBrief,
   Comparison,
-  HealthInfo,
   Macro,
   MarketOverview,
   MetaInfo,
   Onchain,
   OpportunityRadar,
   Score,
-  SectorStat,
   TokenDetail,
   WebResearch,
 } from '../types/models';
@@ -37,8 +34,17 @@ const api = axios.create({
   // 端点路径已含 /api 前缀（与 Vite dev proxy 转发的 /api 一一对应），
   // 故 baseURL 留空，避免拼接成 /api/api/... 导致 404。
   baseURL: '',
-  timeout: 60000,
+  timeout: 60000, // 纯本地端点（overview/meta/radar/token）实测 < 1s，60s 已是宽松上限
 });
+
+/**
+ * 分析类端点的超时预算（毫秒）。
+ *
+ * 这些端点由用户显式点击触发，后端薄封装 src 的多维分析（每个维度各发一轮网络
+ * 请求，受限网络下带重试），实测：score 单币 ≈ 30s、compare 2 币 ≈ 149s。
+ * 沿用默认 60s 会让「后端已成功」的请求在客户端被判失败，故单独放宽。
+ */
+const HEAVY_TIMEOUT = 300000;
 
 api.interceptors.response.use(
   (resp) => {
@@ -57,39 +63,22 @@ function withDate(date?: string): { date?: string } {
 }
 
 // ---------------- 元信息 ----------------
-export async function getHealth(): Promise<HealthInfo> {
-  return api.get(ENDPOINTS.health);
-}
 export async function getMeta(): Promise<MetaInfo> {
   return api.get(ENDPOINTS.meta);
 }
 
-// ---------------- 市场总览 / 板块 ----------------
+// ---------------- 市场总览 ----------------
 export async function getMarketOverview(date?: string): Promise<MarketOverview> {
   return api.get(ENDPOINTS.marketOverview, { params: withDate(date) });
 }
-export async function getSectors(date?: string): Promise<SectorStat[]> {
-  return api.get(ENDPOINTS.sectors, { params: withDate(date) });
-}
 
-// ---------------- 币种列表 / 档案 / 实时抓取 ----------------
-export async function getTokens(
-  date?: string,
-  q?: string,
-  limit = 200,
-): Promise<CoinBrief[]> {
-  return api.get(ENDPOINTS.tokens, {
-    params: { ...withDate(date), q: q || undefined, limit },
-  });
-}
+// ---------------- 币种档案 / 实时抓取 ----------------
 export async function getTokenDetail(id: string, date?: string): Promise<TokenDetail> {
   return api.get(ENDPOINTS.tokenDetail(id), { params: withDate(date) });
 }
-export async function postTokenResearch(
-  id: string,
-  force = false,
-): Promise<WebResearch> {
-  return api.post(ENDPOINTS.tokenResearch(id), { force });
+
+export async function postTokenResearch(id: string): Promise<WebResearch> {
+  return api.post(ENDPOINTS.tokenResearch(id));
 }
 
 // ---------------- 百倍币雷达 ----------------
@@ -105,21 +94,17 @@ export async function getOpportunityRadar(
 
 // ---------------- 竞品对比 ----------------
 export async function postComparison(coinIds: string[]): Promise<Comparison> {
-  return api.post(ENDPOINTS.comparison, coinIds);
+  return api.post(ENDPOINTS.comparison, coinIds, { timeout: HEAVY_TIMEOUT });
 }
 
 // ---------------- 链上分析 ----------------
-export async function getOnchain(
-  chain: string,
-  query: string,
-  demo = false,
-): Promise<Onchain> {
-  return api.get(ENDPOINTS.onchain, { params: { chain, query, demo } });
+export async function getOnchain(chain: string, query: string, demo = false): Promise<Onchain> {
+  return api.get(ENDPOINTS.onchain, { params: { chain, query, demo }, timeout: HEAVY_TIMEOUT });
 }
 
 // ---------------- 评分与建议 ----------------
-export async function getScore(id: string, date?: string): Promise<Score> {
-  return api.get(ENDPOINTS.score(id), { params: withDate(date) });
+export async function getScore(id: string): Promise<Score> {
+  return api.get(ENDPOINTS.score(id), { timeout: HEAVY_TIMEOUT });
 }
 
 // ---------------- 宏观 BTC 占比 ----------------
