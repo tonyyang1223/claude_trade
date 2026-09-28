@@ -329,6 +329,15 @@ def run_incremental(
 
         fts_ok, fts_totals = verify_fts(conn, verbose=verbose)
 
+        # 完整性自检（P0-1/P0-2 回归护栏）：等值查找不得比全表扫少
+        integrity_bad = ec.date_equality_mismatches(conn)
+        integrity_ok = not integrity_bad
+        if verbose:
+            if integrity_ok:
+                print("[ingest] 完整性自检 [PASS ✓]：各表 `date = ?` 与全表扫一致")
+            else:
+                print(f"[ingest] 完整性自检 [FAIL ✗]：等值查找不一致（疑似陈旧索引）{integrity_bad}")
+
         result.update(
             {
                 "counts": counts,
@@ -338,6 +347,8 @@ def run_incremental(
                 "fts_rebuilt": fts_rebuilt,
                 "fts_ok": fts_ok,
                 "fts_totals": fts_totals,
+                "integrity_ok": integrity_ok,
+                "integrity_mismatches": integrity_bad,
                 "stats": after_counts,
             }
         )
@@ -386,10 +397,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         finally:
             conn.close()
 
-    # 退出码：FTS 复验失败 → 2（让 cron 日志显式暴露「数据进了库却搜不到」）
+    # 退出码：FTS 复验或完整性自检失败 → 2（让 cron 日志显式暴露「数据进了库却搜不到 / 查不全」）
     if result.get("dry_run"):
         return 0
-    return 0 if result.get("fts_ok", True) else 2
+    ok = result.get("fts_ok", True) and result.get("integrity_ok", True)
+    return 0 if ok else 2
 
 
 if __name__ == "__main__":

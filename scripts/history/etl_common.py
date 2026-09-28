@@ -20,7 +20,7 @@ from contextlib import contextmanager
 from datetime import date, datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
-from typing import Any, Dict, Iterator, List, Optional
+from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 try:  # 沿用 src/research/database.py 的 HAS_DUCKDB guard 模式
     import duckdb
@@ -495,3 +495,118 @@ def truncate_text(text: Optional[str], doc_type: Optional[str]) -> Optional[str]
 def md5_hex(text: str) -> str:
     """``md5`` 十六进制摘要（用于 doc_hash / content_id 等确定性代理键）。"""
     return hashlib.md5(text.encode("utf-8")).hexdigest()
+
+
+# --------------------------------------------------------------------------
+# 完整性自检：等值查找 vs 全表扫一致性（P0-1 / P0-2 回归护栏）
+# --------------------------------------------------------------------------
+def _tables_with_date_column(conn: "duckdb.DuckDBPyConnection") -> List[str]:
+    """返回 ``main`` schema 下含 ``date`` 列的**基表**（按名排序；排除视图）。"""
+    rows = conn.execute(
+        """
+        SELECT c.table_name
+          FROM information_schema.columns c
+          JOIN information_schema.tables t
+            ON c.table_name = t.table_name AND c.table_schema = t.table_schema
+         WHERE c.table_schema = 'main'
+           AND c.column_name = 'date'
+           AND t.table_type = 'BASE TABLE'
+         ORDER BY c.table_name
+        """
+    ).fetchall()
+    return [r[0] for r in rows]
+
+
+def _index_expr_columns(exprs: Any) -> List[str]:
+    """把 ``duckdb_indexes().expressions`` 归一为**列名列表**。
+
+    DuckDB 各版本该列形态不一：可能是 ``LIST(VARCHAR)``（``['date']``），
+    也可能是其字符串表示（``"[date]"`` / ``'["source"]'``）。两种都解析。
+    """
+    if exprs is None:
+        return []
+    if isinstance(exprs, (list, tuple)):
+        parts = [str(e) for e in exprs]
+    else:
+        text = str(exprs).strip()
+        if text.startswith("[") and text.endswith("]"):
+            text = text[1:-1]
+        parts = text.split(",") if text else []
+    return [p.strip().strip('"').strip("'").strip() for p in parts if p.strip()]
+
+
+def date_equality_mismatches(conn: "duckdb.DuckDBPyConnection") -> Dict[str, List[Tuple[str, int, int]]]:
+    """逐表逐日核验：``date = ?::DATE``（可能走二级索引）与 ``date::VARCHAR = ?``（强制全表扫）行数是否一致。
+
+    二者不一致 ⇔ 存在「陈旧的单列 ``date`` 二级索引遮蔽了正确的 PK 索引」——
+    即 P0-1/P0-2 的根因（等值查 0 或错值、全表扫才是真值）。
+
+    右式对列做 ``CAST``，使 ``date`` 列上的索引无法被使用 → 等价于全表扫的「真值」。
+
+    Returns:
+        ``{table: [(date, eq_cnt, scan_cnt), ...]}``；健康库返回 ``{}``。
+    """
+    mismatches: Dict[str, List[Tuple[str, int, int]]] = {}
+    for table in _tables_with_date_column(conn):
+        try:
+            dates = [
+                r[0]
+                for r in conn.execute(
+                    f"SELECT DISTINCT date::VARCHAR FROM {table} WHERE date IS NOT NULL ORDER BY 1"
+                ).fetchall()
+            ]
+        except Exception as exc:  # noqa: BLE001 - 单表异常不阻断整体自检
+            print(f"[integrity] 枚举 {table}.date 失败：{exc}")
+            continue
+        bad: List[Tuple[str, int, int]] = []
+        for value in dates:
+            try:
+                eq_cnt = int(
+                    conn.execute(f"SELECT COUNT(*) FROM {table} WHERE date = ?::DATE", [value]).fetchone()[0]
+                )
+                scan_cnt = int(
+                    conn.execute(
+                        f"SELECT COUNT(*) FROM {table} WHERE date::VARCHAR = ?", [value]
+                    ).fetchone()[0]
+                )
+            except Exception as exc:  # noqa: BLE001
+                print(f"[integrity] 核验 {table}.date={value} 失败：{exc}")
+                continue
+            if eq_cnt != scan_cnt:
+                bad.append((str(value), eq_cnt, scan_cnt))
+        if bad:
+            mismatches[table] = bad
+    return mismatches
+
+
+def redundant_date_indexes(conn: "duckdb.DuckDBPyConnection") -> List[str]:
+    """返回「单列表达式 == 该表 PK 首列」的**冗余**二级索引名（陈旧隐患嫌疑）。
+
+    这类索引对查询无增益（PK 的 ART 索引已覆盖其前缀查找），却会在 DELETE+INSERT
+    后陈旧并遮蔽 PK 索引（P0-1/P0-2）。健康库应为空（ddl.sql 已不再创建它们）。
+    """
+    redundant: List[str] = []
+    try:
+        indexes = conn.execute(
+            "SELECT index_name, table_name, expressions FROM duckdb_indexes()"
+        ).fetchall()
+    except Exception as exc:  # noqa: BLE001
+        print(f"[integrity] 读取 duckdb_indexes() 失败：{exc}")
+        return redundant
+    for name, table, exprs in indexes:
+        cols = _index_expr_columns(exprs)
+        if len(cols) != 1:
+            continue
+        col = cols[0]
+        try:
+            pk = conn.execute(
+                "SELECT constraint_column_names FROM duckdb_constraints() "
+                "WHERE table_name = ? AND constraint_type = 'PRIMARY KEY'",
+                [table],
+            ).fetchone()
+        except Exception:  # noqa: BLE001
+            continue
+        pk_cols = list(pk[0]) if pk and pk[0] is not None else []
+        if pk_cols and str(pk_cols[0]).strip().strip('"').strip("'") == col:
+            redundant.append(name)
+    return redundant

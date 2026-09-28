@@ -48,7 +48,10 @@ CREATE TABLE IF NOT EXISTS category_membership (
     chg24         DOUBLE,                -- sources.market.data.price_change_percentage_24h
     PRIMARY KEY (date, category_slug, member_key)
 );
-CREATE INDEX IF NOT EXISTS idx_catmem_date ON category_membership(date);
+-- ⚠️ 不再为 date 单独建二级索引（原 idx_catmem_date 已移除，见文末「冗余 date 索引移除」说明）：
+--    PK 首列即 date，其 ART 索引已覆盖 `date = ?` / `date BETWEEN ? AND ?` 的前缀查找，
+--    单列 date 索引属纯冗余；且它会在 DELETE+INSERT（本表按日整替）后变「陈旧」，
+--    被优化器选中做等值查找时返回错误行数（P0-1：06-27~06-30 等值查 0，全表扫却是 1241）。
 
 -- ============================================================
 -- B. 结构化时间序列
@@ -72,7 +75,8 @@ CREATE TABLE IF NOT EXISTS coin_daily_snapshot (
     PRIMARY KEY (date, coin_id)
 );
 CREATE INDEX IF NOT EXISTS idx_snap_coin ON coin_daily_snapshot(coin_id);
-CREATE INDEX IF NOT EXISTS idx_snap_date ON coin_daily_snapshot(date);
+-- ⚠️ 原 idx_snap_date 已移除：同属「PK 首列即 date」的冗余单列索引（见 file 末说明）。
+--    coin_daily_snapshot 走 UPSERT（无 DELETE），故当前未暴露陈旧问题，但冗余索引属同一隐患类别，一并移除。
 
 -- B2. 扫描日元信息（summary.json + 实测落盘计数）
 CREATE TABLE IF NOT EXISTS scan_day (
@@ -180,7 +184,7 @@ CREATE TABLE IF NOT EXISTS source_status (
     PRIMARY KEY (date, coin_id, source)
 );
 CREATE INDEX IF NOT EXISTS idx_srcstat_source ON source_status(source);
-CREATE INDEX IF NOT EXISTS idx_srcstat_date   ON source_status(date);
+-- ⚠️ 原 idx_srcstat_date 已移除：同上，PK 首列即 date ⇒ 冗余（P0-2：2026-06-30 等值查 618，全表扫 871）。
 
 -- ============================================================
 -- D. 非结构化内容归档（原文留档 + 全文检索）
@@ -294,3 +298,30 @@ LOAD fts;
 -- ❌ 禁止只索引 body_grams（会致英文关键词全部失效，见 §0 验证1 / §12）
 PRAGMA create_fts_index('content_archive', 'content_id', 'body_text', 'body_grams',
     stemmer='none', lower=1, strip_accents=0, overwrite=1);
+
+-- ============================================================================
+-- 冗余 date 索引移除（P0-1 / P0-2 根因修复）
+-- ============================================================================
+-- 已移除三处「PK 首列即 date」的**纯冗余**单列索引：
+--     idx_catmem_date (category_membership.date)
+--     idx_srcstat_date(source_status.date)
+--     idx_snap_date   (coin_daily_snapshot.date)
+--
+-- 为什么移除（实测根因）：
+--   1. **冗余**：三表 PK 均以 date 为首列，其 ART 索引天然支持 `date = ?` /
+--      `date BETWEEN ? AND ?` 的前缀查找，单列 date 索引不带来任何查询能力增益。
+--   2. **陈旧即灾难**：这些表按「自然键单元 DELETE + INSERT」重写（category_membership
+--      按日、source_status 按 (date, coin_id)），冗余二级索引会在重写后**变陈旧**；
+--      而优化器会优先挑「更窄的单列索引」做**等值查找**（ART equality lookup）→
+--      返回错误行数：category_membership 2026-06-27 等值查得 0（真值 1241）、
+--      source_status 2026-06-30 等值查得 618（真值 871）。
+--      （同时验证：PK 索引本身是**正确**的——按完整 PK 点查正常；
+--       仅冗余的 date 单列索引陈旧并「遮蔽」了 PK 索引。范围查/BETWEEN 不受影响，
+--       故 `disabled_optimizers='filter_pushdown'` 或 DROP 该索引即恢复正确。）
+--   3. **静默**：应用层 `DuckDBRepository.load_by_category_raw` 用 `WHERE date = ?::DATE`
+--      取数，命中索引返回 0 行 → 触发「请求级回退文件」，老端点表面正常、实则 7/9 日期
+--      静默走文件回退（长期未被发现），故必须从源头移除该隐患。
+--
+-- 兼容旧库：`init_db.apply_schema` 会幂等地执行 `DROP INDEX IF EXISTS`
+-- 清理上述遗留索引（见 init_db.LEGACY_REDUNDANT_INDEXES）。
+

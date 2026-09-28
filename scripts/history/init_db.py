@@ -37,6 +37,16 @@ BUSINESS_VIEWS: tuple = (
     "v_source_health_daily",
 )
 
+# 遗留冗余索引（P0-1 / P0-2 根因）：PK 首列即 date 的单列 date 索引属纯冗余，
+# 且会在 DELETE+INSERT 后陈旧、被优化器选中做等值查找而返回错误行数 → 遮蔽正确的 PK 索引。
+# 新版 ddl.sql 已不再创建它们；下面这份清单供 apply_schema 幂等清理**旧库残留**。
+# （详见 ddl.sql 文末「冗余 date 索引移除」。）
+LEGACY_REDUNDANT_INDEXES: tuple = (
+    "idx_catmem_date",
+    "idx_srcstat_date",
+    "idx_snap_date",
+)
+
 
 # --------------------------------------------------------------------------
 # SQL 文本处理：把整段 DDL 拆成「单条语句」，逐条执行
@@ -72,15 +82,42 @@ def apply_schema(conn: "Any", ddl_path: Optional[Path] = None, verbose: bool = T
     逐条 ``execute``：FTS 的 ``INSTALL/LOAD/create_fts_index`` 天然落在建表之后，
     规避 DuckDB 绑定期「表不存在」的报错。
 
+    末尾**幂等清理**历史遗留的「冗余单列 date 索引」（``LEGACY_REDUNDANT_INDEXES``）——
+    使旧库重跑本函数（或 ``backfill_history``）即自动修复 P0-1/P0-2 的陈旧索引隐患。
+
     Returns:
         实际执行的语句列表（便于单测/排查）。
     """
     statements = split_sql_statements(load_ddl(ddl_path))
     for stmt in statements:
         conn.execute(stmt)
+    dropped = drop_legacy_redundant_indexes(conn, verbose=verbose)
     if verbose:
         print(f"[init_db] 已执行 DDL 语句 {len(statements)} 条（含 FTS 建索引）")
     return statements
+
+
+def drop_legacy_redundant_indexes(conn: "Any", verbose: bool = True) -> List[str]:
+    """幂等删除历史遗留的「冗余单列 date 索引」（根因修复，详见 ddl.sql 文末）。
+
+    只删 ``LEGACY_REDUNDANT_INDEXES`` 中确实存在者；索引名取自本模块常量（非外部输入），
+    故可安全内联进 DDL 字符串。
+
+    Returns:
+        实际删除的索引名列表（已不存在的不计入；重复调用第二次返回空）。
+    """
+    dropped: List[str] = []
+    for name in LEGACY_REDUNDANT_INDEXES:
+        exists = conn.execute(
+            "SELECT 1 FROM duckdb_indexes() WHERE index_name = ?", [name]
+        ).fetchone()
+        if not exists:
+            continue
+        conn.execute(f"DROP INDEX IF EXISTS {name}")
+        dropped.append(name)
+    if dropped and verbose:
+        print(f"[init_db] 已清理遗留冗余 date 索引（陈旧隐患修复）：{dropped}")
+    return dropped
 
 
 # --------------------------------------------------------------------------

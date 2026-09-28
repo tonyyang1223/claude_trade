@@ -131,7 +131,14 @@ def run_backfill(
             flags = compute_partial_flags(conn, verbose=verbose)
             # ⑦ **最后**建双列 FTS（必须晚于所有数据写入）
             fts_ready = build_fts_index(conn, verbose=verbose)
+            # ⑦′ 完整性自检（P0-1/P0-2 护栏）：等值查找不得少于全表扫；apply_schema 已清理遗留冗余索引
+            integrity_bad = ec.date_equality_mismatches(conn)
         rows_loaded = sum(counts.values())
+
+        if integrity_bad and verbose:
+            print(f"[backfill] ⚠️ 完整性自检 [FAIL ✗]：等值查找不一致 {integrity_bad}")
+        elif verbose:
+            print("[backfill] 完整性自检 [PASS ✓]：各表 `date = ?` 与全表扫一致")
 
         result.update(
             {
@@ -139,6 +146,8 @@ def run_backfill(
                 "rows_loaded": sum(counts.values()),
                 "partial_flags": flags,
                 "fts_ready": fts_ready,
+                "integrity_ok": not integrity_bad,
+                "integrity_mismatches": integrity_bad,
             }
         )
 
@@ -163,8 +172,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--quiet", action="store_true", help="减少过程日志，仅打印最终报告")
     args = parser.parse_args(argv)
 
-    run_backfill(db_path=Path(args.db), verbose=not args.quiet)
-    return 0
+    result = run_backfill(db_path=Path(args.db), verbose=not args.quiet)
+    ok = bool(result.get("fts_ready", True)) and bool(result.get("integrity_ok", True))
+    return 0 if ok else 2
 
 
 if __name__ == "__main__":

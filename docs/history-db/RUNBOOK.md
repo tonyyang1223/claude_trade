@@ -101,6 +101,25 @@ DuckDB 单文件**同一时刻只允许一个写连接**（写连接独占文件
 > `interrupted` 行的 `finished_at` **保持 NULL** —— 进程被强杀时其真实结束时刻无自证来源，
 > **不伪造时间**；只要 `status` 不再是 `running`，假信号即消除。
 
+### 1.6 冗余索引会让等值查找返回错值（P0-1 / P0-2，静默）
+
+**现象**：`WHERE date = ?::DATE` 结果比全表扫**少**（甚至为 0），而 `WHERE date::VARCHAR = ?` 才是真值。
+实测过：`category_membership` 2026-06-27 等值查 **0**（真值 **1241**）；
+`source_status` 2026-06-30 等值查 **618**（真值 **871**）。
+
+**根因**：三张表存在「**PK 首列即 `date`**」的**冗余**单列 date 二级索引
+（`idx_catmem_date` / `idx_srcstat_date` / `idx_snap_date`）。这类表按「自然键单元 DELETE + INSERT」重写，
+冗余二级索引会**陈旧**；优化器又倾向挑「更窄的单列索引」做**等值查找** → 返回错误行数，
+**遮蔽了正确的 PK 索引**（PK 索引本身没问题：按完整 PK 点查正常）。
+范围查（`BETWEEN`）不受影响；`disabled_optimizers='filter_pushdown'` 或 `DROP` 该索引即恢复正确。
+
+**为什么危险**：应用层 `DuckDBRepository.load_by_category_raw` 用 `WHERE date = ?::DATE` 取数，
+命中陈旧索引得到 0 行 → 触发「**请求级回退文件**」，老端点表面正常、实则**多日静默走文件回退**（长期未被发现）。
+
+**修复**：`ddl.sql` 已不再创建这三个冗余索引；`init_db.apply_schema` 会幂等 `DROP INDEX IF EXISTS`
+清理旧库残留（因此**重跑 `init_db.py` / `backfill_history.py` 即自动修复**旧库）。
+
+
 ---
 
 ## 2. 全量回填
@@ -225,6 +244,24 @@ c.close()
 > 通常**无需手工执行**：下次 `ingest_history.py --incremental` 或 `backfill_history.py`
 > 启动时会**自动回收**（见 §1.5）。仅当你想立刻消除「正在跑」的假信号、且当下无人占用库时手动跑。
 
+### 5.2 索引完整性自检 / 修复（P0-1 / P0-2）
+
+一条命令自检「各表各日 `date = ?` 是否与全表扫一致」+「是否有冗余单列 date 索引」：
+
+```bash
+python scripts/history/check_integrity.py          # 只读自检；有问题 → 退出码 1
+python scripts/history/check_integrity.py --fix    # 顺带删除冗余 date 索引（需写锁）
+```
+
+- **健康库**：输出 `✅ 各表各日 ... 一致（0 处不一致）` + `✅ 无冗余单列 date 索引`，退出码 0；
+- **有问题**：逐表逐日列出 `eq=… scan=…` 偏差，退出码 1。
+
+> `--fix` 需要**写连接**（DuckDB 单写者，勿与只读/其它 ETL 并发）。
+> 亦可不加 `--fix`，直接重跑 `python scripts/history/init_db.py`（`apply_schema` 会清理遗留冗余索引）。
+
+`ingest_history.py` / `backfill_history.py` 收尾也会自动跑同一自检；不一致时 **ingest 退出码 2**。
+
+
 ---
 
 ## 6. 排障（Troubleshooting）
@@ -237,6 +274,8 @@ c.close()
 | `database is locked` / `Could not set lock` | 另一写进程在写（DuckDB 单写者） | 稍后重试；必要时**停服执行**（§1.4） |
 | `IO Error: Cannot open file ... File is already open in <path> (PID n)` | 另一进程（只读或写）占着库 | 入库与只读查询**不可并发**（§1.4）；等其释放或停服执行，**勿强杀** |
 | 健康度页**永远显示一个 `running` 批次** | 批次进程被强杀，收尾未执行 → 悬挂批次（假信号） | 见 §1.5；下次 ETL 启动自动回收，或手动 `reap_stale_batches`（§5.1） |
+| **`WHERE date = ?` 结果比全表扫少/为 0**（尤其早期日期） | 冗余/陈旧的单列 date 索引**遮蔽**了正确的 PK 索引 | 跑 `check_integrity.py --fix`（§5.2 / §1.6）；或重跑 `init_db.py` |
+| **老端点某 `date` 静默走文件回退**（DB 查询返回 0 行） | 同上（DB 等值查 0 → 触发请求级回退） | 见 §1.6；`check_integrity.py` 可复现并修复 |
 | 增量「什么也没做」 | 无新数据（水位线之后无变更文件） | **预期行为**（幂等空跑）；用 `--dry-run` 确认候选 |
 | 增量退出码 **2** | FTS 复验低于基线 | 检查索引是否被破坏，手动重建 FTS（§1.1） |
 | `scan_day` 停更多日（08-26 之后无新） | **采集端**（scan）已停更，非历史库问题 | 健康度视图已暴露（`v_collection_calendar`/`v_collection_freshness`）；修复归采集侧 |
@@ -266,6 +305,7 @@ c.close()
 | `scripts/history/etl_common.py` | 连接 / 批次 / 文件台账 / 归一 |
 | `scripts/history/load_daily_scan.py` `load_macro.py` | 分表装载逻辑 |
 | `scripts/history/export_grams.py` | `make_grams`（入库与查询的 **bigram 单一真源**） |
+| `scripts/history/check_integrity.py` | **索引完整性自检/修复**（等值查找一致性 + 冗余 date 索引，P0-1/P0-2） |
 | `scripts/history/ddl.sql` | 表/视图/FTS 定义 |
 | `console/backend/services/history_svc.py` | H1–H8 只读端点服务层 |
 | `console/backend/tests/test_repository_parity.py` | 文件 ↔ DuckDB 同构性测试 |
