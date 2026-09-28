@@ -16,6 +16,8 @@ import PageHeader from '../components/common/PageHeader';
 import Card from '../components/common/Card';
 import Loading from '../components/common/Loading';
 import EmptyState from '../components/common/EmptyState';
+import CoinTrendPanel from '../components/history/CoinTrendPanel';
+import ArchiveTimeline from '../components/history/ArchiveTimeline';
 
 function Row({ label, value, color }: { label: string; value: ReactNode; color?: string }) {
   return (
@@ -177,6 +179,21 @@ export default function TokenProfile() {
           </Card>
         </Grid>
       </Grid>
+
+      {/* 场景① 币种历史趋势（H2，缺口不插值） */}
+      <Box sx={{ mt: 2 }}>
+        <CoinTrendPanel coinId={b.id} />
+      </Box>
+
+      {/* 场景② 该币的历史归档内容（H4） */}
+      <Box sx={{ mt: 2 }}>
+        <Card
+          title="历史归档内容"
+          subtitle={`H4 content_archive · ${b.id}`}
+        >
+          <ArchiveTimeline coinId={b.id} pageSize={20} maxHeight={420} />
+        </Card>
+      </Box>
     </div>
   );
 }

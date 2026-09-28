@@ -5,8 +5,10 @@ import Comparison from './pages/Comparison';
 import Onchain from './pages/Onchain';
 import ScoresAdvice from './pages/ScoresAdvice';
 import HundredXRadar from './pages/HundredXRadar';
+import HistoryExplorer from './pages/HistoryExplorer';
+import HealthMonitor from './pages/HealthMonitor';
 
-/** 路由表：6 个投研面板。 */
+/** 路由表：8 个投研面板（含 2 个历史库面板）。 */
 export default function AppRoutes() {
   return (
     <Routes>
@@ -18,6 +20,8 @@ export default function AppRoutes() {
       <Route path="/scores" element={<ScoresAdvice />} />
       <Route path="/scores/:id" element={<ScoresAdvice />} />
       <Route path="/radar" element={<HundredXRadar />} />
+      <Route path="/history" element={<HistoryExplorer />} />
+      <Route path="/health" element={<HealthMonitor />} />
       <Route path="*" element={<Navigate to="/market" replace />} />
     </Routes>
   );
