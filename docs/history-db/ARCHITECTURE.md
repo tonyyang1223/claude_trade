@@ -58,7 +58,8 @@ con.execute("PRAGMA create_fts_index('t','id','body','body_grams');")       # �
   且查询侧还需 bigram 化；实测 **`'以太坊'` 在真实库召回 0**（见下「真实语料复验」）。
 - **解法（模式C）**：`content_archive` 同时保留 `body_text`（原文）与 `body_grams`（CJK 字符 bigram + **英文整词**）两列，
   用**一条索引覆盖两列**：`create_fts_index('content_archive','content_id','body_text','body_grams', overwrite=1)`。
-  → 英文整词由 `body_text` 命中，中文 bigram 由 `body_grams` 命中，**两种粒度全覆盖**；实测 bm25 分数正常可用于排序。
+  → 英文整词由 `body_text` 命中，中文 bigram 由 `body_grams` 命中，**中英两种粒度都被索引覆盖**；实测 bm25 分数正常可用于排序。
+  （注：**粒度覆盖 ≠ 词覆盖**——中文能否召回取决于该词的 bigram 是否在语料 `dict` 中，见 §8.1「中文召回可达性判据」。）
 - **查询侧必须对 CJK 做 bigram 化（v1.3 订正）**：`match_bm25` 用**同一 simple 分词器**解析查询串，
   故**未 bigram 化的连续 CJK 词（如 `'哔哩哔哩'`、`'以太坊'`）作为单个 token 不在索引里 → 召回 0**。
   **必须**先把查询串里的 CJK 段展开成 bigram（见 §8 H5 规格），再把结果传给 `match_bm25`。
@@ -88,7 +89,7 @@ con.execute("PRAGMA create_fts_index('t','id','body','body_grams');")       # �
 `body_text`（纯正文）含中文的行仅约 5%。故「**中文全词由 `body_text` 命中**」这条路径在真实语料上**几乎不存在**；
 `body_text` 分列只对英文有效。而 `body_grams` 里的中文是 **bigram**，所以：
 - **查询侧若不做 bigram 化** → 连续 CJK 词作单个 token → 索引无此 token → **召回 0**（实测 `'哔哩哔哩'=0`）；
-- **查询侧 bigram 化后** → `'哔哩 哩哔'` → 命中 455（实测）。
+- **查询侧 bigram 化后** → `'哔哩 哩哔'` → 命中 455（实测；**但仅对语料中存在的词成立**——`'以太坊'` 的 bigram 亦不在 `dict`，仍为 0，见 §8.1 可达性判据）。
 
 **订正结论**：
 1. 「中文全词可命中」**仅在**该词作为**独立 token 出现在 `body_text`** 时成立——真实数据中极罕见（`body_text` 中文占比 ~5%）。
@@ -1023,6 +1024,12 @@ def write(conn_ctx):              # ETL 写入口，全局串行
 > **核心订正**：查询侧**必须**对 CJK 做 bigram 化（`match_bm25` 用 simple 分词器解析查询串，
 > 未 bigram 化的连续 CJK 词不在索引里 → 召回 0，实测 `'哔哩哔哩'=0`、`'哔哩 哩哔'=455`）。理由与实测见 §0「真实语料复验」。
 
+> **中文召回可达性判据（v1.3）：判据 = 「该词的 bigram 是否在 `dict` 中」，而非「有没有做 bigram 化」**：
+> - **bigram 在 `dict` 中** → 语料存在该词，bigram 化后**可**命中（例：`'哔哩哔哩'` → `'哔哩 哩哔'` → **455**）；
+> - **bigram 不在 `dict` 中** → 语料确无该词，**任何查询处理都无法命中**（例：`'以太坊'` → `'以太 太坊'`，其 `'以太'`/`'太坊'` 均不在 `dict`，FTS 与 ILIKE **双 0**）。
+> 故「补了 bigram 化 ⇒ 中文可召回」是**错的**——只对**语料中已存在**的词成立；语料覆盖不足须从**采集侧**解决（§13 O9）。
+> 实测依据（真实库 `fts_main_content_archive.dict`）：`'哔哩'`/`'哩哔'`(df 455) **存在**；`'以太'`/`'太坊'`/`'比特'`/`'特币'`/`'治理'`/`'生态'`/`'英国'` **均不在**。
+
 **（1）查询串预处理算法** `build_fts_query(q) -> str | None`
 
 > **单一真源（single source of truth）—— 硬约定**：查询侧预处理**必须**直接调用
@@ -1203,7 +1210,7 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
   - `console/backend/data/schemas.py`（新增 history 响应模型，⟂）
   - `console/backend/main.py`（挂载 `history.router`）
 - **依赖**：T03
-- **验收**：US-1 多指标序列含显式 gap；US-3 能复现「08-26 残缺」与「scan 停更 vs macro 正常」；US-5 中文关键词命中。
+- **验收**：US-1 多指标序列含显式 gap；US-3 能复现「08-26 残缺」与「scan 停更 vs macro 正常」；US-5 中文关键词命中（**以语料中存在的词为准**，如 `'哔哩哔哩'`→455；语料无 `'以太坊'` 类词，见 §8.1 可达性判据）。
 
 ### T05 增量入库 + 测试 + 文档（P1）—— 依赖 T02、T04
 - **目标**：接入定时增量；补测试；落文档。
@@ -1254,7 +1261,7 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 - `body_grams` = 对 **`title + body_text` 拼接**生成的 **CJK 字符 bigram + 英文整词**（英文不得切碎）。
   → 因 `rss`/`bilibili` 大量记录**正文为空、仅标题有效**，`body_grams` **必须并入标题**，否则其关键词不可检索（满足 PRD Q2「标题+正文」）；
   `body_text` 仍存**纯净正文**不变。`body_grams` 仅为索引辅助列，**不返回前端**。
-- **查询侧必须对 CJK 做 bigram 化**（v1.3 订正）：`match_bm25` 用同一 simple 分词器解析查询串，未 bigram 化的连续中文词（如 `'哔哩哔哩'`）不在索引中 → **召回 0**；必须按 §8.1 规格把 CJK 段展开成 bigram 后再传。英文词照原样（索引已 lowercase）。
+- **查询侧必须对 CJK 做 bigram 化**（v1.3 订正）：`match_bm25` 用同一 simple 分词器解析查询串，未 bigram 化的连续中文词（如 `'哔哩哔哩'`）不在索引中 → **召回 0**；必须按 §8.1 规格把 CJK 段展开成 bigram 后再传。英文词照原样（索引已 lowercase）。**但可召回性以「该词 bigram 在 `dict` 中」为准**（§8.1 可达性判据）——语料中不存在的词（如 `'以太坊'`）bigram 化后仍为 0。
 - **单一真源**：查询侧预处理**必须**直接调用 `scripts/history/export_grams.make_grams`，**禁止**另写等价实现或硬编码 bigram 粒度（`2`）/CJK 区间/去重策略——入库侧 `body_grams` 与查询侧 gram 串须由**同一函数**产出，否则规则漂移会**静默召回 0**（见 §8.1(1)）。
 - **空串 → `None` → ILIKE**：`build_fts_query` 对**空串一律返回 `None`**（空查询 **或** `make_grams(q)==''` 如 `'42'`）；**不得**返回 `''`、**不得**把空串送入 `match_bm25`。调用方**先判 `q.strip()`**（→空结果 `{hits:[],total:0}`）、**再判返回值是否 `None`**（→**ILIKE 兜底，用原始 `q`**），否则走 FTS（见 §8.1(1)(4)）。
 - **`conjunctive := false`（OR）**：AND 会让任何含「语料中没有的 token」的查询归零（实测 `'以太坊 ETF'` AND=0 / OR=667），故必须 OR，相关性靠 bm25 排序。
