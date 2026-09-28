@@ -15,10 +15,9 @@ from __future__ import annotations
 
 import json
 import math
-import re
 import time
 from datetime import date, datetime
-from typing import Iterator, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 from data.repository import HistoryDBError, history_db_available, history_query
 from data.schemas import (
@@ -68,86 +67,52 @@ MACRO_METRICS = {
 }
 
 # --------------------------------------------------------------------------
-# CJK 分词区间（复用 scripts/history/export_grams.py，保证与入库侧 grams 口径一致）
-# —— 见 ARCHITECTURE.md §8.1（1）；导入失败时用等价内联常量兜底，避免整个 app 起不来。
+# 查询串预处理 —— **直接复用入库侧 make_grams**，保证「索引/查询单一真源」
+# —— 见 ARCHITECTURE.md §8.1：查询侧必须与 ``body_grams`` 完全同口径，
+# 否则连续中文会被 simple 分词器当单个 token，中文检索**静默召回 0**。
+#
+# 导入失败（部署未含 scripts/）时的兜底：``_make_grams = None`` → ``build_fts_query``
+# 返回 ``None``，调用方整条链路降级为 ILIKE 兜底；**绝不内联复制一份区间/粒度常量**，
+# 否则等于再造一份实现，粒度/区间一旦调整又会与入库侧漂移。
 # --------------------------------------------------------------------------
 try:
-    from scripts.history.export_grams import _CJK_RANGES, _WORD  # noqa: E402
-except Exception:  # pragma: no cover - 部署未含 scripts/ 时的兜底
-    _CJK_RANGES = (
-        (0x3400, 0x4DBF), (0x4E00, 0x9FFF), (0xF900, 0xFAFF),
-        (0x3040, 0x30FF), (0xAC00, 0xD7AF),
-    )
-    _WORD = re.compile(r"[A-Za-z][A-Za-z0-9_]*")
-
-# CJK 连续段匹配（与 export_grams 同一组区间）
-_CJK_CHAR = re.compile("[" + "".join(chr(lo) + "-" + chr(hi) for lo, hi in _CJK_RANGES) + "]+")
-# 非 CJK 段的英文/数字整词（以字母开头，**不切碎**，如 Solana 保持整词）
-_QUERY_WORD = _WORD
-
-
-def _is_cjk_char(ch: str) -> bool:
-    """单字符是否属于 CJK/假名/谚文区间。"""
-    code = ord(ch)
-    return any(lo <= code <= hi for lo, hi in _CJK_RANGES)
-
-
-def _iter_segments(text: str) -> Iterator[Tuple[str, bool]]:
-    """把文本切成「CJK 段 / 非 CJK 段」交替序列，产出 ``(段, 是否CJK)``。"""
-    i, n = 0, len(text)
-    while i < n:
-        cjk = _is_cjk_char(text[i])
-        j = i
-        while j < n and _is_cjk_char(text[j]) == cjk:
-            j += 1
-        yield text[i:j], cjk
-        i = j
+    from scripts.history.export_grams import make_grams as _make_grams
+except Exception:  # pragma: no cover - 部署未含 scripts/ 时的兜底（降级为 ILIKE）
+    _make_grams = None
 
 
 def build_fts_query(q: str) -> Optional[str]:
-    """查询串预处理：CJK → 字符 bigram（单字原样），英文 → 整词（小写）。
+    """查询串预处理：直接复用入库侧 :func:`make_grams`，保证索引/查询**单一真源**。
 
-    与入库侧 ``export_grams.make_grams`` 同口径，使 ``match_bm25``（simple 分词器）
-    能命中 ``body_grams``（连续中文被当作整 token，不做 bigram 则召回 0）。
+    ``make_grams`` 的口径（与入库 ``body_grams`` 逐字一致）：
+
+    - **先** 输出所有 CJK 连续段的字符 bigram（单字原样保留）；
+    - **后** 输出英文/数字整词（保留原样，大小写由索引侧 ``lower=1`` 负责）；
+    - 空格分隔、去重保序。
 
     Args:
         q: 用户原始关键词（可含中英/空格/标点）。
 
     Returns:
-        空格分隔的 token 串；``q`` 为空或切分后无 token 时返回 ``None``。
+        空格分隔的 gram 串；以下情形返回 ``None``（由调用方决定兜底路径）：
+
+        - ``q`` 为空或纯空白 → 空查询，调用方直接返回空结构（不报错）；
+        - ``make_grams`` 结果为空（如 ``'42'`` 无 CJK 且非字母开头）→ 调用方转 ILIKE 兜底；
+        - ``scripts`` 不可用（``make_grams`` 未导入）→ 调用方整条链路降级为 ILIKE 兜底。
 
     Examples:
         >>> build_fts_query("哔哩哔哩 ETF")
-        '哔哩 哩哔 etf'
+        '哔哩 哩哔 ETF'
         >>> build_fts_query("Solana 生态")
-        'solana 生态'
+        '生态 Solana'
         >>> build_fts_query("以太坊")
         '以太 太坊'
     """
     if not q or not q.strip():
         return None
-    text = q.strip()
-
-    out: List[str] = []
-    seen: set = set()
-
-    def _add(token: str) -> None:
-        if token and token not in seen:  # 同 token 去重，保留首次出现
-            seen.add(token)
-            out.append(token)
-
-    for seg, is_cjk in _iter_segments(text):
-        if is_cjk:
-            if len(seg) == 1:
-                _add(seg)  # 单字 best-effort（大概率 0 命中 → ILIKE 兜底）
-            else:
-                for i in range(len(seg) - 1):
-                    _add(seg[i : i + 2])  # 相邻字符 bigram
-        else:
-            for word in _QUERY_WORD.findall(seg):
-                _add(word.lower())  # 英文整词小写
-
-    return " ".join(out) or None
+    if _make_grams is None:  # scripts/ 不可用 → 降级（调用方转 ILIKE 兜底）
+        return None
+    return _make_grams(q.strip()) or None
 
 
 def _today() -> date:
@@ -550,9 +515,11 @@ def search(
     limit: int = DEFAULT_LIMIT,
     offset: int = 0,
 ) -> SearchResponse:
-    """全文检索（H5）：CJK bigram 化 → FTS(OR, conjunctive=false) → 0 命中回退 ILIKE。
+    """全文检索（H5）：复用 ``make_grams`` 预处理 → FTS(OR, conjunctive=false) → 0 命中回退 ILIKE。
 
-    - ``build_fts_query(q)`` 为 ``None``（空查询）→ 返回空结果（不报错）；
+    - 空查询（``q`` 纯空白）→ 返回空结果（不报错）；
+    - ``build_fts_query(q)`` 为 ``None``（gram 为空如 ``'42'``、或 ``scripts`` 不可用）
+      → **不返回空**，直接走 ILIKE 兜底（用原始 ``q``）；
     - FTS 命中 0（含「语料确无该词」如 ``'以太坊'``、单字符查询）→ 回退 ILIKE 列扫；
     - FTS 扩展不可用（查询抛错）→ 同样回退 ILIKE；
     - ``body_grams`` 仅索引辅助列，绝不返回前端。
@@ -562,9 +529,9 @@ def search(
     limit = max(1, min(int(limit or DEFAULT_LIMIT), MAX_LIMIT))
     offset = max(0, int(offset or 0))
 
-    fts_query = build_fts_query(keyword)
     lo, hi = _month_range("content_archive", from_, to)
-    if not fts_query or not lo or not hi:
+    # 空查询 / 无可用日期范围 → 空结构（合法结局，不报错）
+    if not keyword or not lo or not hi:
         return SearchResponse(query=keyword, hits=[], total=0, took_ms=_elapsed_ms(start))
 
     where = ["c.date BETWEEN ? AND ?"]
@@ -578,13 +545,16 @@ def search(
 
     hits: List[SearchHit] = []
     total = 0
-    try:
-        hits, total = _fts_search(fts_query, where, filt, limit, offset)
-    except Exception as exc:  # noqa: BLE001 - FTS 扩展不可用 → 直接 ILIKE
-        print(f"[history_svc] FTS 检索不可用，回退 ILIKE：{exc}")
-        hits, total = [], 0
+    # gram 为空（如 '42'）或 scripts 不可用时 fts_query 为 None → 直接走 ILIKE 兜底
+    fts_query = build_fts_query(keyword)
+    if fts_query:
+        try:
+            hits, total = _fts_search(fts_query, where, filt, limit, offset)
+        except Exception as exc:  # noqa: BLE001 - FTS 扩展不可用 → 直接 ILIKE
+            print(f"[history_svc] FTS 检索不可用，回退 ILIKE：{exc}")
+            hits, total = [], 0
 
-    if total == 0:  # 语料确无该词 / 单字符 → ILIKE 兜底（硬要求，不得返回空）
+    if total == 0:  # 语料确无该词 / gram 为空 / 单字符 → ILIKE 兜底（硬要求，不得静默返回空）
         try:
             hits, total = _ilike_search(keyword, where, filt, limit, offset)
         except Exception as exc:  # noqa: BLE001

@@ -1,6 +1,7 @@
 """H5 全文检索 + 历史端点（H1/H7）单元测试。
 
-- ``build_fts_query`` 是纯函数，断言其**确切输出字符串**（§8.1 映射表）；
+- ``build_fts_query`` 是纯函数（复用入库侧 ``export_grams.make_grams``），断言其
+  **确切输出字符串**（§8.1 映射表，逐字对齐）；
 - H5/H1/H7 依赖真实历史库（与 ``test_loader`` 依赖真实 daily_scan 同风格），
   库不可用时 skip；H5 断言真实 ``total``（含 FTS 0 命中走 ILIKE 兜底的路径）。
 """
@@ -23,15 +24,16 @@ def db() -> bool:
 
 
 # --------------------------------------------------------------------------
-# build_fts_query —— 纯函数，§8.1 映射表逐条断言
+# build_fts_query —— 纯函数（= make_grams），§8.1 映射表逐条断言
+# 口径：先 CJK 连续段 bigram、后英文整词；英文保留原样（大小写由索引侧 lower=1 处理）。
 # --------------------------------------------------------------------------
 @pytest.mark.parametrize(
     "raw, expected",
     [
-        ("哔哩哔哩 ETF", "哔哩 哩哔 etf"),
+        ("哔哩哔哩 ETF", "哔哩 哩哔 ETF"),   # CJK 先、英文原样（不 lower）
         ("哔哩哔哩", "哔哩 哩哔"),
-        ("Solana 生态", "solana 生态"),
-        ("Solana", "solana"),
+        ("Solana 生态", "生态 Solana"),      # CJK 段优先输出
+        ("Solana", "Solana"),
         ("以太坊", "以太 太坊"),
         ("治理", "治理"),
         ("a", "a"),
@@ -46,6 +48,11 @@ def test_build_fts_query_empty_returns_none(raw: str) -> None:
     assert history_svc.build_fts_query(raw) is None
 
 
+def test_build_fts_query_empty_gram_returns_none() -> None:
+    """make_grams('42') == '' → 必须映射为 None（触发 ILIKE 兜底，而非返回空结果）。"""
+    assert history_svc.build_fts_query("42") is None
+
+
 def test_build_fts_query_dedup_preserves_order() -> None:
     # '哔哩哔哩' → ['哔哩','哩哔','哔哩'] → 去重后 ['哔哩','哩哔']（保留首次出现）
     assert history_svc.build_fts_query("哔哩哔哩") == "哔哩 哩哔"
@@ -55,7 +62,7 @@ def test_build_fts_query_dedup_preserves_order() -> None:
 
 def test_build_fts_query_single_cjk_char_kept() -> None:
     assert history_svc.build_fts_query("坊") == "坊"
-    assert history_svc.build_fts_query("ETF") == "etf"
+    assert history_svc.build_fts_query("ETF") == "ETF"
 
 
 # --------------------------------------------------------------------------
