@@ -37,10 +37,13 @@ BUSINESS_VIEWS: tuple = (
     "v_source_health_daily",
 )
 
-# 遗留冗余索引（P0-1 / P0-2 根因）：PK 首列即 date 的单列 date 索引属纯冗余，
-# 且会在 DELETE+INSERT 后陈旧、被优化器选中做等值查找而返回错误行数 → 遮蔽正确的 PK 索引。
+# 遗留冗余索引（**设计清理**，不是 P0 根因）：PK 首列即 date 的单列 date 索引属纯冗余。
+# ⚠️ 早期版本曾把「删除它们」当作 P0 根因修复，该结论**已作废**（见 ARCHITECTURE §12）：
+#    P0 真实根因是**单列 ART 二级索引条目损坏**（部分索引、部分取值少算行），与是否冗余无关；
+#    受损 5 个索引里既有冗余的（idx_catmem_date / idx_srcstat_date），也有非冗余非 PK 列的
+#    （idx_content_source / idx_content_coin / idx_srcstat_source）；且移除这 3 个冗余索引后，
+#    剩余的非冗余索引**仍然算错**。受损索引请用 check_integrity.py [--fix] 检测/重建。
 # 新版 ddl.sql 已不再创建它们；下面这份清单供 apply_schema 幂等清理**旧库残留**。
-# （详见 ddl.sql 文末「冗余 date 索引移除」。）
 LEGACY_REDUNDANT_INDEXES: tuple = (
     "idx_catmem_date",
     "idx_srcstat_date",

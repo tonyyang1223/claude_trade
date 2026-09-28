@@ -48,10 +48,10 @@ CREATE TABLE IF NOT EXISTS category_membership (
     chg24         DOUBLE,                -- sources.market.data.price_change_percentage_24h
     PRIMARY KEY (date, category_slug, member_key)
 );
--- ⚠️ 不再为 date 单独建二级索引（原 idx_catmem_date 已移除，见文末「冗余 date 索引移除」说明）：
+-- ⚠️ 不再为 date 单独建二级索引（原 idx_catmem_date 已移除，见文末「冗余 date 索引移除」）：
 --    PK 首列即 date，其 ART 索引已覆盖 `date = ?` / `date BETWEEN ? AND ?` 的前缀查找，
---    单列 date 索引属纯冗余；且它会在 DELETE+INSERT（本表按日整替）后变「陈旧」，
---    被优化器选中做等值查找时返回错误行数（P0-1：06-27~06-30 等值查 0，全表扫却是 1241）。
+--    单列 date 索引属**纯冗余**（仅因冗余而移除；P0 真实根因是索引损坏，与冗余无关）。
+--    历史观测：该索引损坏期曾使 06-27~06-30 等值查 0，而全表扫为 1241。
 
 -- ============================================================
 -- B. 结构化时间序列
@@ -75,8 +75,8 @@ CREATE TABLE IF NOT EXISTS coin_daily_snapshot (
     PRIMARY KEY (date, coin_id)
 );
 CREATE INDEX IF NOT EXISTS idx_snap_coin ON coin_daily_snapshot(coin_id);
--- ⚠️ 原 idx_snap_date 已移除：同属「PK 首列即 date」的冗余单列索引（见 file 末说明）。
---    coin_daily_snapshot 走 UPSERT（无 DELETE），故当前未暴露陈旧问题，但冗余索引属同一隐患类别，一并移除。
+-- ⚠️ 原 idx_snap_date 已移除：同属「PK 首列即 date」的**纯冗余**单列索引，仅因冗余移除。
+--    它本身**从未受损**（等值计数与全表扫真值一致），故不构成 P0 证据；保留此注以备追溯。
 
 -- B2. 扫描日元信息（summary.json + 实测落盘计数）
 CREATE TABLE IF NOT EXISTS scan_day (
@@ -184,7 +184,8 @@ CREATE TABLE IF NOT EXISTS source_status (
     PRIMARY KEY (date, coin_id, source)
 );
 CREATE INDEX IF NOT EXISTS idx_srcstat_source ON source_status(source);
--- ⚠️ 原 idx_srcstat_date 已移除：同上，PK 首列即 date ⇒ 冗余（P0-2：2026-06-30 等值查 618，全表扫 871）。
+-- ⚠️ 原 idx_srcstat_date 已移除：同上，PK 首列即 date ⇒ **纯冗余**（仅因冗余移除）。
+--    历史观测：它曾受损，致 2026-06-30 等值查 618 / 全表扫 871。
 
 -- ============================================================
 -- D. 非结构化内容归档（原文留档 + 全文检索）
@@ -300,28 +301,44 @@ PRAGMA create_fts_index('content_archive', 'content_id', 'body_text', 'body_gram
     stemmer='none', lower=1, strip_accents=0, overwrite=1);
 
 -- ============================================================================
--- 冗余 date 索引移除（P0-1 / P0-2 根因修复）
+-- 冗余 date 索引移除（**设计清理**，非 P0 根因修复）
 -- ============================================================================
 -- 已移除三处「PK 首列即 date」的**纯冗余**单列索引：
 --     idx_catmem_date (category_membership.date)
 --     idx_srcstat_date(source_status.date)
 --     idx_snap_date   (coin_daily_snapshot.date)
 --
--- 为什么移除（实测根因）：
---   1. **冗余**：三表 PK 均以 date 为首列，其 ART 索引天然支持 `date = ?` /
---      `date BETWEEN ? AND ?` 的前缀查找，单列 date 索引不带来任何查询能力增益。
---   2. **陈旧即灾难**：这些表按「自然键单元 DELETE + INSERT」重写（category_membership
---      按日、source_status 按 (date, coin_id)），冗余二级索引会在重写后**变陈旧**；
---      而优化器会优先挑「更窄的单列索引」做**等值查找**（ART equality lookup）→
---      返回错误行数：category_membership 2026-06-27 等值查得 0（真值 1241）、
---      source_status 2026-06-30 等值查得 618（真值 871）。
---      （同时验证：PK 索引本身是**正确**的——按完整 PK 点查正常；
---       仅冗余的 date 单列索引陈旧并「遮蔽」了 PK 索引。范围查/BETWEEN 不受影响，
---       故 `disabled_optimizers='filter_pushdown'` 或 DROP 该索引即恢复正确。）
---   3. **静默**：应用层 `DuckDBRepository.load_by_category_raw` 用 `WHERE date = ?::DATE`
---      取数，命中索引返回 0 行 → 触发「请求级回退文件」，老端点表面正常、实则 7/9 日期
---      静默走文件回退（长期未被发现），故必须从源头移除该隐患。
+-- 为什么移除（**仅因冗余**）：
+--   三表 PK 均以 date 为首列，其 ART 索引天然支持 `date = ?` /
+--   `date BETWEEN ? AND ?` 的前缀查找，单列 date 索引不带来任何查询能力增益。
+--
+-- ⚠️ **不要把这次移除当成 P0 的根因修复**（这是早期版本写错的结论，已作废）：
+--   1. P0 根因是**单列 ART 二级索引条目损坏/缺失**（部分索引、部分取值少算行），
+--      **与「是否冗余」无关**：受损的 5 个索引里既有冗余的
+--      （idx_catmem_date / idx_srcstat_date），也有**非冗余、非 PK 列**的
+--      （idx_content_source 在 content_archive.source 上，等值查 286 / 真值 455；
+--        idx_content_coin 322 / 670；idx_srcstat_source 14/14 全错）——
+--      非 PK 列上的索引不可能「遮蔽 PK 索引」，故「冗余索引遮蔽 PK」的旧结论不成立。
+--   2. 反证：idx_snap_date 属冗余但**从未受损**（等值计数与全表扫一致）；
+--      而移除这 3 个冗余索引后，剩余 3 个非冗余索引**仍然算错** → 冗余不是致因。
+--   3. 决定性实验：**只 DROP INDEX 那 5 个受损索引、数据一行不动** → 不一致处
+--      78 → 0；重建后仍为 0 ⇒ 坏的是**旧索引内容本身**，与行组/zone-map 无关。
+--      （`disabled_optimizers='filter_pushdown'` 之类的开关法只能证明「存在返回错数的
+--        非扫描快路径」，**区分不了索引损坏与 zone-map 损坏**，不可作根因证据。）
+--   4. 修法：`DROP INDEX` + `CREATE INDEX` **重建**受损索引（见
+--      scripts/history/check_integrity.py --fix；幂等、不动数据、不碰 FTS）；
+--      **严禁物理重写整表**（破坏性：`DROP TABLE` 会连带删掉全部索引，含健康的
+--      idx_content_date，且不解决根因）。
+--   5. 触发条件至今未复现，故**不能断言复发风险为零** → 每次入库后跑健康校验是必须项。
+--
+-- 历史影响（保留原始观测，便于追溯）：
+--   category_membership 2026-06-27 等值查得 0（真值 1241）、
+--   source_status 2026-06-30 等值查得 618（真值 871）——均为上述索引损坏所致。
+--   应用层 `DuckDBRepository.load_by_category_raw` 用 `WHERE date = ?::DATE` 取数，
+--   命中坏索引返回 0 行 → 触发「请求级回退文件」，老端点表面正常、实则 7/9 日期
+--   静默走文件回退（长期未被发现）。
 --
 -- 兼容旧库：`init_db.apply_schema` 会幂等地执行 `DROP INDEX IF EXISTS`
 -- 清理上述遗留索引（见 init_db.LEGACY_REDUNDANT_INDEXES）。
+-- 受损索引用 `python scripts/history/check_integrity.py [--fix]` 检测/重建。
 
