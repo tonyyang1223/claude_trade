@@ -10,15 +10,18 @@
 1. **覆盖全部单列索引列**，不限于 ``date``——只查 ``date`` 会漏
    ``content_archive.source`` / ``content_archive.coin_id`` / ``source_status.source``；
 2. **真值必须「物化 + 纯全表扫」**（temp 表无索引）：普通 ``GROUP BY`` / 把等值下推进子查询
-   都可能被坏索引一并答复而**一起算错**（见 ``etl_common.materialized_truth_counts``）。
+   都可能被坏索引一并答复而**一起算错**（见 ``etl_common.materialized_truth_counts``）；
+3. **预期索引集合存在性断言**：除「重建期不丢索引」（``index_lost``）外，另把
+   ``ddl.sql`` 声明的 **6 个具名索引**逐个查存在性（``etl_common.audit_expected_indexes``）——
+   任何**非重建路径**的丢索引（误 ``DROP`` / 物理重写 / 半损坏）都会被抓住（ARCHITECTURE §12）。
 
 用法（项目根目录）::
 
-    python scripts/history/check_integrity.py          # 只读自检；有坏索引 → 退出码 1
+    python scripts/history/check_integrity.py          # 只读自检；有坏索引/缺索引 → 退出码 1
     python scripts/history/check_integrity.py --fix    # 检测并**重建**损坏索引（需写锁）
     python scripts/history/check_integrity.py --db <path>
 
-修复后自检应「0 处不一致」，退出码 0。
+修复后自检应「0 处不一致」且「预期 6 个索引齐备」，退出码 0。
 """
 from __future__ import annotations
 
@@ -45,8 +48,9 @@ def check_integrity(
         fix: 为 True 时**重建**所有损坏的单列二级索引（需要写连接 / 写锁）。
 
     Returns:
-        ``{"db_path", "indexed_columns", "redundant_indexes", "mismatches_before",
-            "rebuilt", "mismatches_after", "index_lost", "ok"}``。
+        ``{"db_path", "expected_indexes", "missing_indexes", "indexed_columns",
+            "redundant_indexes", "mismatches_before", "rebuilt", "mismatches_after",
+            "index_lost", "ok"}``。
     """
     ec.require_duckdb()
     target = Path(db_path) if db_path else ec.DB_PATH
@@ -57,6 +61,8 @@ def check_integrity(
     conn = ec.connect(target) if fix else _connect_read_only(target)
     try:
         indexed_columns = ec.single_column_indexes(conn)
+        expected = ec.expected_indexes()
+        audit = ec.audit_expected_indexes(conn, expected)
         redundant = ec.redundant_date_indexes(conn)
         mismatches_before = ec.index_equality_mismatches(conn)
 
@@ -75,18 +81,30 @@ def check_integrity(
                           f" before={report['indexes_before']} after={report['indexes_after']}")
         elif fix:
             mismatches_after = mismatches_before  # 无损坏，无需重建
+        # 重建（若有）后**复检预期索引集合**：任何非重建路径的丢索引都在此暴露
+        audit_after = ec.audit_expected_indexes(conn, expected)
     finally:
         conn.close()
 
-    ok = (not mismatches_after) and (not index_lost)
+    missing = audit_after["missing"]
+    ok = (not mismatches_after) and (not index_lost) and (not missing)
     if verbose:
         print("=" * 68)
         print(f"[check_integrity] 库文件：{target}")
-        print(f"[check_integrity] 单列索引 {len(indexed_columns)} 个："
+        print(f"[check_integrity] 预期索引 {len(audit['expected'])} 个："
+              + ", ".join(audit["expected"]))
+        print(f"[check_integrity] 现存单列索引 {len(indexed_columns)} 个："
               + ", ".join(f"{n}({t}.{c})" for n, t, c in indexed_columns))
         print("-" * 68)
+        if missing:
+            print(f"🔴 缺失预期索引（库中不存在，疑似意外 DROP / 物理重写）：{missing}")
+        else:
+            print("✅ 预期索引集合完整（6 个具名索引全部存在）")
+        if audit_after["unexpected"]:
+            print(f"ℹ️ 库中多出预期外的索引（信息）：{audit_after['unexpected']}")
         if mismatches_before:
-            print("❌ 等值计数 ≠ 物化全表扫真值（索引损坏）：")
+            label = "【修复前】" if fix else ""
+            print(f"❌ {label}等值计数 ≠ 物化全表扫真值（索引损坏）：")
             for index_name, rows in mismatches_before.items():
                 detail = "  ".join(f"{v}: indexed={e} truth={s}" for v, e, s in rows[:4])
                 more = f" …(+{len(rows) - 4})" if len(rows) > 4 else ""
@@ -106,6 +124,8 @@ def check_integrity(
 
     return {
         "db_path": str(target),
+        "expected_indexes": audit["expected"],
+        "missing_indexes": missing,
         "indexed_columns": indexed_columns,
         "redundant_indexes": redundant,
         "mismatches_before": mismatches_before,

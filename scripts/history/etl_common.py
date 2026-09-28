@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from contextlib import contextmanager
 from datetime import date, datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
@@ -503,7 +504,7 @@ def md5_hex(text: str) -> str:
 def single_column_indexes(conn: "duckdb.DuckDBPyConnection") -> List[Tuple[str, str, str]]:
     """列出全部**单列表达式**的二级索引：``[(index_name, table_name, column), ...]``。
 
-    只取「单列」索引（本库 9 个均为单列）。多列表达式索引不在此列。
+    只取「单列」索引（当前 schema 为 6 个，均为单列）。多列表达式索引不在此列。
     """
     out: List[Tuple[str, str, str]] = []
     try:
@@ -545,6 +546,87 @@ def _strip_identifier(raw: str) -> str:
     while len(text) >= 2 and text[0] == text[-1] and text[0] in ("'", '"'):
         text = text[1:-1].strip()
     return text
+
+
+# --------------------------------------------------------------------------
+# 预期二级索引集合：存在性断言（防「意外丢索引」，独立于重建流程）
+# --------------------------------------------------------------------------
+# 从 ``ddl.sql`` 的 ``CREATE INDEX`` 语句**动态解析**「预期应有的单列二级索引」，
+# 使断言口径**以 DDL 为准**，避免与 §12 的清单各自漂移（ARCHITECTURE §12）。
+# 正则锚定**行首**（可选前导空白），故 ``--`` 注释里的 ``CREATE INDEX`` 不会被误当预期；
+# 索引名/表名/列名统一走 :func:`_strip_identifier`，兼容被引号包裹的标识符。
+_CREATE_INDEX_RE = re.compile(
+    r"^[ \t]*CREATE\s+INDEX\s+(?:IF\s+NOT\s+EXISTS\s+)?"
+    r"(?P<name>[A-Za-z_]\w*)\s+ON\s+(?P<table>[A-Za-z_]\w*)"
+    r"\s*\(\s*(?P<cols>[^)]+?)\s*\)",
+    re.IGNORECASE | re.MULTILINE,
+)
+
+
+def expected_indexes(ddl_text: Optional[str] = None) -> Dict[str, Tuple[str, str]]:
+    """解析 ``ddl.sql`` 的 ``CREATE INDEX`` 语句，返回**预期单列二级索引**集合。
+
+    Args:
+        ddl_text: DDL 文本；缺省读取 :data:`DDL_PATH`（``scripts/history/ddl.sql``）。
+
+    Returns:
+        ``{index_name: (table, column)}``——仅「单列」二级索引（多列表达式索引不参与
+        等值点查核验，故不计入）。当前 schema 恰为 6 个具名索引。
+
+    Note:
+        口径**取自 DDL 而非硬编码清单**：只要 DDL 声明了某索引，库里缺它就会被
+        :func:`audit_expected_indexes` 报出；DDL 自身的意外删改则由
+        ``test_index_integrity.test_single_column_indexes_cover_non_date_columns``
+        钉住（恰好 6 个 (table, column) 对）。
+    """
+    if ddl_text is None:
+        ddl_text = DDL_PATH.read_text(encoding="utf-8")
+    out: Dict[str, Tuple[str, str]] = {}
+    for match in _CREATE_INDEX_RE.finditer(ddl_text):
+        name = _strip_identifier(match.group("name"))
+        table = _strip_identifier(match.group("table"))
+        cols = [_strip_identifier(c) for c in match.group("cols").split(",")]
+        if len(cols) == 1:  # 只关心单列二级索引
+            out[name] = (table, cols[0])
+    return out
+
+
+def audit_expected_indexes(
+    conn: "duckdb.DuckDBPyConnection",
+    expected: Optional[Dict[str, Tuple[str, str]]] = None,
+) -> Dict[str, Any]:
+    """断言「预期索引集合」是否**全部存在**于库中（防**意外丢索引**）。
+
+    与 :func:`rebuild_damaged_indexes` 的 ``index_lost`` 互补：后者只管「**重建前后**不丢」，
+    本函数把 `ddl.sql` 声明的 6 个具名索引逐个在 ``duckdb_indexes()`` 里查存在性——
+    任何**非重建路径**的丢索引（误 ``DROP INDEX``、物理重写整表、索引半损坏被清）都能被抓住。
+
+    Args:
+        conn: 库连接。
+        expected: 预期集合；缺省 :func:`expected_indexes`（从 ``ddl.sql`` 解析）。
+
+    Returns:
+        ``{"expected", "present", "missing", "unexpected"}``：
+        - ``missing`` **非空 ⇒ 库缺预期索引**（应告警/失败）；
+        - ``unexpected`` 为库中多出的索引（信息用，不判失败——如 FTS 相关对象）。
+    """
+    expected = expected if expected is not None else expected_indexes()
+    expected_names = set(expected)
+    present = {name for name, _, _ in single_column_indexes(conn)}
+    try:
+        all_names = {
+            _strip_identifier(r[0])
+            for r in conn.execute("SELECT index_name FROM duckdb_indexes()").fetchall()
+        }
+    except Exception as exc:  # noqa: BLE001 - 元数据读取失败时不阻断整体自检
+        print(f"[integrity] 读取 duckdb_indexes() 失败：{exc}")
+        all_names = set(present)
+    return {
+        "expected": sorted(expected_names),
+        "present": sorted(expected_names & all_names),
+        "missing": sorted(expected_names - all_names),
+        "unexpected": sorted(all_names - expected_names),
+    }
 
 
 def materialized_truth_counts(
@@ -647,10 +729,17 @@ def rebuild_damaged_indexes(conn: "duckdb.DuckDBPyConnection") -> Dict[str, Any]
 
 
 def redundant_date_indexes(conn: "duckdb.DuckDBPyConnection") -> List[str]:
-    """返回「单列表达式 == 该表 PK 首列」的**冗余**二级索引名（陈旧隐患嫌疑）。
+    """返回「单列表达式 == 该表 PK 首列」的**冗余**二级索引名。
 
-    这类索引对查询无增益（PK 的 ART 索引已覆盖其前缀查找），却会在 DELETE+INSERT
-    后陈旧并遮蔽 PK 索引（P0-1/P0-2）。健康库应为空（ddl.sql 已不再创建它们）。
+    这类索引对查询无增益（PK 的 ART 索引已覆盖其前缀查找），属**设计清理**对象。
+
+    ⚠️ **它们与 P0 索引损坏无因果关系**（早期「冗余索引陈旧、遮蔽 PK 索引」的归因**已作废**）：
+    受损的索引既有冗余的（``idx_catmem_date`` / ``idx_srcstat_date``），也有非冗余非 PK 列的
+    （``idx_content_source`` / ``idx_content_coin`` / ``idx_srcstat_source``）；冗余的
+    ``idx_snap_date`` 反而**从未受损**；且移除冗索引后剩余索引**仍然算错**。
+    真值核验请用 :func:`index_equality_mismatches`（受损索引一律在此报出）。
+
+    健康库应为空（``ddl.sql`` 已不再创建它们）。
     """
     redundant: List[str] = []
     try:

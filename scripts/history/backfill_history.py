@@ -134,23 +134,29 @@ def run_backfill(
             # ⑦′ 完整性自检（§12/§13-O11）：单列二级索引损坏 → **自动重建**（DROP+CREATE，不动数据）
             integrity_before = ec.index_equality_mismatches(conn)
             integrity_rebuilt = []
+            integrity_lost = False
             if integrity_before:
                 repair = ec.rebuild_damaged_indexes(conn)
                 integrity_rebuilt = repair["rebuilt"]
                 integrity_bad = repair["mismatches_after"]
-                integrity_ok = (not integrity_bad) and (not repair["index_lost"])
+                integrity_lost = bool(repair["index_lost"])
             else:
                 integrity_bad = {}
-                integrity_ok = True
+            # 预期索引集合存在性断言（独立于重建流程；防「意外丢索引」，ARCHITECTURE §12）
+            missing_indexes = ec.audit_expected_indexes(conn)["missing"]
+            integrity_ok = (not integrity_bad) and (not integrity_lost) and (not missing_indexes)
         rows_loaded = sum(counts.values())
 
         if verbose:
             if integrity_ok and not integrity_rebuilt:
-                print("[backfill] 完整性自检 [PASS ✓]：全部单列索引与物化全表扫真值一致")
+                print("[backfill] 完整性自检 [PASS ✓]：全部单列索引与物化全表扫真值一致，"
+                      "且预期 6 个索引齐备")
             elif integrity_ok:
                 print(f"[backfill] 完整性自检 [修复 ✓]：重建损坏索引 {integrity_rebuilt}，复检通过")
             else:
-                print(f"[backfill] 完整性自检 [FAIL ✗]：索引损坏且重建后仍不一致 {integrity_bad}")
+                reason = "索引损坏且重建后仍不一致" if integrity_bad else (
+                    "重建期丢索引" if integrity_lost else f"缺失预期索引 {missing_indexes}")
+                print(f"[backfill] 完整性自检 [FAIL ✗]：{reason}")
 
         result.update(
             {
@@ -161,6 +167,7 @@ def run_backfill(
                 "integrity_ok": integrity_ok,
                 "integrity_rebuilt": integrity_rebuilt,
                 "integrity_mismatches": integrity_bad,
+                "missing_indexes": missing_indexes,
             }
         )
 

@@ -99,15 +99,22 @@ def test_drop_legacy_redundant_indexes_removes_and_idempotent(conn):
 # --------------------------------------------------------------------------
 def test_single_column_indexes_cover_non_date_columns(conn):
     cols = {(t, c) for _, t, c in ec.single_column_indexes(conn)}
-    for expected in (
+    expected = {
         ("content_archive", "date"),
         ("content_archive", "coin_id"),
         ("content_archive", "source"),
         ("source_status", "source"),
         ("deep_research", "coin_id"),
         ("coin_daily_snapshot", "coin_id"),
-    ):
-        assert expected in cols, f"检测必须覆盖非 date 索引列 {expected}（否则假绿）"
+    }
+    for pair in expected:
+        assert pair in cols, f"检测必须覆盖非 date 索引列 {pair}（否则假绿）"
+    # 「不多不少」：健康 schema 恰好这 6 个；多出即说明冗余 date 索引回归
+    # （idx_catmem_date / idx_srcstat_date / idx_snap_date 属设计清理对象，不应复活）。
+    assert cols == expected, (
+        f"单列索引集合应为恰好 6 个，实际 {len(cols)} 个；"
+        f"多出={sorted(cols - expected)}，缺失={sorted(expected - cols)}"
+    )
 
 
 def test_index_equality_mismatches_clean_on_healthy_db(conn):
@@ -187,3 +194,59 @@ def test_check_integrity_pass_on_healthy(tmp_path: Path):
     assert result["rebuilt"] == []
     assert result["index_lost"] is False
     assert result["mismatches_after"] == {}
+    assert result["missing_indexes"] == []
+    assert len(result["expected_indexes"]) == 6
+
+
+# --------------------------------------------------------------------------
+# 6) 预期索引集合存在性断言（防「意外丢索引」，独立于重建流程）
+# --------------------------------------------------------------------------
+def test_expected_indexes_parsed_from_ddl_matches_schema(conn):
+    """``expected_indexes()`` 从 ddl.sql 解析出的口径必须与库里实际建出的索引一致。"""
+    expected = ec.expected_indexes()
+    assert len(expected) == 6, f"ddl.sql 应声明 6 个单列索引，实际 {len(expected)}：{expected}"
+    schema = {(t, c) for _, t, c in ec.single_column_indexes(conn)}
+    assert set(expected.values()) == schema, (
+        f"DDL 预期 {sorted(expected.values())} 与库内 {sorted(schema)} 不一致"
+    )
+
+
+def test_expected_indexes_ignores_commented_out_statements():
+    """``--`` 注释里的 ``CREATE INDEX`` 不得被当成预期索引（锚定行首 → 天然跳过）。"""
+    ddl = (
+        "CREATE INDEX IF NOT EXISTS idx_content_date ON content_archive(date);\n"
+        "-- 原 idx_catmem_date 已移除：\n"
+        "-- CREATE INDEX idx_catmem_date ON category_membership(date);\n"
+        "  CREATE INDEX idx_srcstat_source ON source_status(source);\n"
+    )
+    got = ec.expected_indexes(ddl)
+    assert set(got) == {"idx_content_date", "idx_srcstat_source"}, got
+    assert "idx_catmem_date" not in got, "注释里的 CREATE INDEX 不应被解析为预期索引"
+
+
+def test_audit_expected_indexes_clean_on_healthy(conn):
+    audit = ec.audit_expected_indexes(conn)
+    assert audit["missing"] == [], f"健康库不应缺预期索引：{audit}"
+    assert audit["expected"] == audit["present"]
+
+
+def test_audit_expected_indexes_detects_missing(conn):
+    """DROP 掉一个预期索引（非重建路径）→ 必须被存在性断言抓住。"""
+    conn.execute("DROP INDEX IF EXISTS idx_content_source")
+    audit = ec.audit_expected_indexes(conn)
+    assert audit["missing"] == ["idx_content_source"], audit
+
+
+def test_check_integrity_fails_when_expected_index_missing(tmp_path: Path):
+    from scripts.history import check_integrity as ci
+
+    db_path = tmp_path / "ci_missing.duckdb"
+    c = ec.connect(db_path)
+    apply_schema(c, verbose=False)
+    _seed_content(c)
+    c.execute("DROP INDEX IF EXISTS idx_content_source")  # 模拟意外丢索引
+    c.close()
+
+    result = ci.check_integrity(db_path=db_path, fix=False, verbose=False)
+    assert result["ok"] is False, "缺预期索引时自检必须 FAIL（否则是假绿）"
+    assert result["missing_indexes"] == ["idx_content_source"]

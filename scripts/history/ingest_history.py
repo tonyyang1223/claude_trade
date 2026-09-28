@@ -235,7 +235,9 @@ def run_incremental(
 
     Returns:
         ``{"batch_id", "dry_run", "scan_dates", "macro_snapshots",
-            "counts", "row_delta", "fts_rebuilt", "fts_ok", "fts_totals", "stats"}``。
+            "counts", "row_delta", "fts_rebuilt", "fts_ok", "fts_totals",
+            "integrity_ok", "integrity_rebuilt", "integrity_mismatches",
+            "missing_indexes", "stats"}``。
     """
     ec.require_duckdb()
     target = Path(db_path) if db_path else ec.DB_PATH
@@ -333,20 +335,25 @@ def run_incremental(
         integrity_before = ec.index_equality_mismatches(conn)
         integrity_rebuilt: List[str] = []
         integrity_bad: Dict[str, Any] = {}
+        integrity_lost = False
         if integrity_before:
             repair = ec.rebuild_damaged_indexes(conn)
             integrity_rebuilt = repair["rebuilt"]
             integrity_bad = repair["mismatches_after"]
-            integrity_ok = (not integrity_bad) and (not repair["index_lost"])
-        else:
-            integrity_ok = True
+            integrity_lost = bool(repair["index_lost"])
+        # 预期索引集合存在性断言（独立于重建流程；防「意外丢索引」，ARCHITECTURE §12）
+        missing_indexes = ec.audit_expected_indexes(conn)["missing"]
+        integrity_ok = (not integrity_bad) and (not integrity_lost) and (not missing_indexes)
         if verbose:
             if integrity_ok and not integrity_rebuilt:
-                print("[ingest] 完整性自检 [PASS ✓]：全部单列索引与物化全表扫真值一致")
+                print("[ingest] 完整性自检 [PASS ✓]：全部单列索引与物化全表扫真值一致，"
+                      "且预期 6 个索引齐备")
             elif integrity_ok:
                 print(f"[ingest] 完整性自检 [修复 ✓]：重建损坏索引 {integrity_rebuilt}，复检通过")
             else:
-                print(f"[ingest] 完整性自检 [FAIL ✗]：索引损坏且重建后仍不一致 {integrity_bad}")
+                reason = "索引损坏且重建后仍不一致" if integrity_bad else (
+                    "重建期丢索引" if integrity_lost else f"缺失预期索引 {missing_indexes}")
+                print(f"[ingest] 完整性自检 [FAIL ✗]：{reason}")
 
         result.update(
             {
@@ -360,6 +367,7 @@ def run_incremental(
                 "integrity_ok": integrity_ok,
                 "integrity_rebuilt": integrity_rebuilt,
                 "integrity_mismatches": integrity_bad,
+                "missing_indexes": missing_indexes,
                 "stats": after_counts,
             }
         )
