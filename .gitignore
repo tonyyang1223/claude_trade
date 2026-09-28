@@ -17,6 +17,11 @@ env/
 # Jupyter Notebook
 .ipynb_checkpoints/
 
+# pytest：测试临时产物（含 DuckDB 临时库，可能上到十几 MB）
+.pytest_tmp/
+.pytest_cache/
+
+
 # Data files (keep structure, ignore contents)
 data/raw/*
 data/processed/*
