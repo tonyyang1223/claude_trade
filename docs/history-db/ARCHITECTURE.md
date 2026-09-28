@@ -1339,7 +1339,14 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 - **修复 = 重建功能索引（`DROP INDEX` + `CREATE INDEX`），冗余索引直接移除，严禁物理重写**：功能索引（如 `content_archive` 的 `coin_id`/`source`）**必须重建**；**冗余**（PK 首列即该列，如 `*_date`）索引可**直接删除**——删后等值走 PK / 全表扫、同样恢复真值。重建幂等、确定、**不动数据**、**不碰 FTS**。⚠️ **物理重写（`CTAS → DROP → RENAME`）是破坏性的**：`DROP TABLE` **连带删除该表全部索引**（实测重写 `content_archive` / `category_membership` / `source_status` 三表 → `duckdb_indexes()` **9 → 3**，连**没坏的 `idx_content_date` 也被误删**），需事后全部重建，反而放大风险。
 - **复发风险（如实声明，勿断言「不会再发生」）**：**为何会损坏尚无定论**——「索引维护被中断 / 锁竞争打断」只是**未经验证的假设**，**无法证明**未来 ETL 不再触发。故**必须**常态化检测（下条），不得假设「一次性」。
 - **防御（必须落地）**：每次入库后运行「**物化全表扫真值 vs 等值计数**」逐列校验，**覆盖全部单列索引列**（本库 5 处坏值中 **3 处非 `date` 列**：`content_archive.coin_id` / `content_archive.source` / `source_status.source`，只查 `date` 会漏）；发现不一致 → **`DROP INDEX` + `CREATE INDEX` 重建该索引**（若为冗余索引则**直接移除**，不重建），并**断言 `duckdb_indexes()` 的索引集合 == 预期集合**（新版 schema 为 **6 个**：`idx_content_coin` / `idx_content_date` / `idx_content_source` / `idx_deep_coin` / `idx_snap_coin` / `idx_srcstat_source`；防止重建遗漏或误删）。**预期集合以 `ddl.sql` 的 `CREATE INDEX` 为单一真源**（解析得出、**勿硬编码清单**，避免与 DDL 漂移）；**缺失索引的恢复走 DDL 权威路径**（执行 `ddl.sql` 的 `CREATE INDEX IF NOT EXISTS` **原语句**）——`check_integrity --fix` 与 ETL 收尾**共用同一自愈**：既重建「存在但算错」者，也**按 DDL 补齐「缺失」者**（不另写索引定义）。
-  - 🔒 **硬约束（预期外索引分两类处置）**：① **冗余** date 索引（PK 首列 = `date`，如误建的 `*_date`）→ **清理**；② 无法归类的**未知**多余索引 → **仅告警，严禁自动删除**（避免误删他用途索引）。实现见 `scripts/history/check_integrity.py`、回归 `console/backend/tests/test_index_integrity.py`。
+  - 🔒 **硬约束（预期外索引分两类处置）**：① **冗余** date 索引（PK 首列 = `date`，如误建的 `*_date`）→ **清理**；② 无法归类的**未知**多余索引 → **仅告警，严禁自动删除**（避免误删他用途索引）。
+  - **实现入口（分层；`etl_common.heal_indexes` 为唯一自愈入口，勿各自复制）**：
+    - `etl_common.heal_indexes` —— **唯一自愈入口**（`check_integrity --fix` 与 `ingest`/`backfill` 收尾**共用**，勿各自复制一份）；
+    - `etl_common.expected_index_statements` —— 补建时执行的 **DDL 原文语句**（`ddl.sql` 单一真源，**不得**由 name/table/column 反拼）；
+    - `etl_common.audit_expected_indexes` —— 预期索引存在性**门禁**；
+    - `etl_common.cleanup_redundant_indexes` —— **冗余清理**（本次由 `--fix` / ETL 调用，使冗余清理也**自动化**）；
+    - `etl_common.materialized_truth_counts` —— 真值**唯一**手段（temp 表物化，**全程无 `CAST`**）。
+    - **分层后果**：自愈后**仍缺预期索引或仍算错** → **退出码 1**（`check_integrity` CLI）/ **2**（ETL 收尾）。实现见 `scripts/history/check_integrity.py`、回归 `console/backend/tests/test_index_integrity.py`。
   - 🔴 **假绿警告**：只遍历「有 `date` 列的表」的检测（只查 `date`）**必漏报** `content_archive.coin_id` / `content_archive.source` / `source_status.source`——**跑完删除冗余索引后 `--check` 会输出 `PASS ✓`，而库里仍有等值过滤返回错值（实测：删完 3 个冗余 date 索引后，5 处坏值仍有 3 处未修）**。校验**必须覆盖全部单列索引列**（新版 schema 为 6 个），且**真值侧先物化**（见上），方能避免假绿。
   说明：`fts_main_content_archive` 为**独立 schema**，`DROP INDEX` 主表与物理重写主表**都不影响**它（实测重建索引前后 `match_bm25('solana')` 恒为 **869**）；但普通 `INSERT`/`DELETE` 后仍**必须**按上文「写后必重建」`overwrite=1` 重建 FTS，两者不冲突。
   - **FTS 冒烟/交叉校验的正确对照口径是 `body_grams`（非 `body_text` / `title`）**：`match_bm25(q_grams)` 应对齐 `ILIKE body_grams('%'||q_grams||'%')`（实测 `solana`：**869 = 869**；`哔哩 哩哔`：**455 = 455**）。`ILIKE body_text`（461）/`ILIKE title`（709）是**不同粒度**、**不可作对照**；原始串 `'哔哩哔哩'` 在 `body_grams` 里 ILIKE 为 **0**（grams 存的是 `'哔哩 哩哔'`）。⚠️ 与 §8.1「**召回兜底**用原始 `q` 走 `title/body_text` ILIKE」区分：那是**检索兜底**，此处是**冒烟对照**，两者口径不同、**不得混用**。
@@ -1379,7 +1386,7 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 | O8 | `load_by_category_raw` 的「7 日窗口取最大」跨日解析看似 bug（7 个请求日返回同一份 06-27 分类） | 双读一致性 | **本次不动**（R8 要求保留既有行为）；已在仓储层复刻。若产品决定修正，应作为**独立变更**同时改文件与 DuckDB 两条路径，并更新 `golden-sectors.json` |
 | O9 | H5 **语料覆盖不足**：`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 等中文词 **FTS 与 ILIKE 双 0**（`title`/`body_text` 各 0 行，语料确无此串，非检索缺陷）；旁证 `'哔哩'` ILIKE=**455 且全在 `title`**、`body_text`=0，印证中文主要在 `title`（见 §8.1 硬性声明） | 中文 crypto 关键词召回 | 默认**不改检索实现**（兜底已尽力）；需**补充中文 crypto 数据源**（中文资讯/公告/社媒）方可召回，属**后续采集演进项** |
 | O10 | H4 `total = COUNT(*)` 是**按币展开的行数**（归档粒度 39,352 行 / 去重文档 3,049 ≈ **12.9×**），**非**「新闻条数」 | 前端若当「新闻条数」展示会放大 ~12.9× | **已裁决：不改实现、不加 `dedupe=document`**（H4 已验收，改语义/加孪生字段破契约）。前端 `ArchiveTimeline` 用「按文档去重开关 + 本页 N 行→M 篇」解决。未来若需文档级总数 → **独立参数 + 新字段 `documents_total`**，**另立项** |
-| O11 | 入库后「**物化全表扫真值 vs 等值计数**」校验**发现不一致 / 缺预期索引**时（见 §12 二级索引损坏条），**自动重建/补齐索引** 还是 **告警人工介入**? | 索引损坏修复的自动化程度 | 倾向**自动**（幂等、确定；**存在但算错** → `DROP INDEX` + `CREATE INDEX` 重建；**缺失** → 按 `ddl.sql` 权威路径 `CREATE INDEX IF NOT EXISTS` 补齐；**不重写表、不影响数据与 FTS**，见 §12）；最终**留给用户裁** |
+| O11 | 入库后「**物化全表扫真值 vs 等值计数**」校验**发现不一致 / 缺预期索引**时（见 §12 二级索引损坏条），**自动重建/补齐索引** 还是 **告警人工介入**? | 索引损坏修复的自动化程度 | 倾向**自动**（幂等、确定；统一入口 `etl_common.heal_indexes`，`--fix`/ETL 收尾共用；**存在但算错** → `DROP INDEX` + `CREATE INDEX` 重建；**缺失** → 按 `ddl.sql` 权威路径 `CREATE INDEX IF NOT EXISTS` 补齐；**不重写表、不影响数据与 FTS**，见 §12）；最终**留给用户裁** |
 
 ---
 
