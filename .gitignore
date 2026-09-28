@@ -25,6 +25,9 @@ data/cache/*
 !data/processed/.gitkeep
 !data/cache/.gitkeep
 
+# 历史数据库（DuckDB 单文件，可回填重建，不入库）
+data/history/
+
 # Config with sensitive data
 config/settings.yaml
 config/api_keys.yaml

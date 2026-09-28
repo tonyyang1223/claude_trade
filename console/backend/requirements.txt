@@ -11,3 +11,4 @@ pydantic>=2.5
 requests>=2.31
 beautifulsoup4>=4.12   # web_research 静态抓取
 lxml>=5.0
+duckdb>=1.1,<2.0       # 历史数据库（单文件，含 FTS 索引）；缺失时 HAS_DUCKDB guard 退化
