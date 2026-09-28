@@ -238,6 +238,12 @@ data/history/ct_history.duckdb.wal    # 运行时 WAL（可忽略）
 - 老 `services/` **一行不改**（R8）；`loader.py` 的函数体改为「委托 + 兜底」，签名/返回结构不变。
 - 新端点走 `services/history_svc.py` + `routers/history.py`，与老链路并列。
 
+### 1.3 范围声明（本系统契约的库/表边界）
+
+- **本系统的库 = 单文件 `data/history/ct_history.duckdb`**；其表/视图**仅以本文档 §2 DDL 所列者为准**。
+- **凡未在本文档列出的库/表，均不属于本系统契约**——不保证其存在、结构或语义，不作为任何端点/仓储的依赖。
+- **明确排除**：`data/history/documents.db`（及其 `code_archive_l3` 等相关表）是**另一个独立库，不在本次历史库范围内**，与本系统 `ct_history.duckdb` 互不相干、互不引用。**「查不到即视为未纳入」**，不得据其推断本系统缺失（R11：`raw_server/*.parquet` 同理不入库）。
+
 ---
 
 ## 2. 完整 DDL（可直接执行）
@@ -1009,7 +1015,7 @@ def write(conn_ctx):              # ETL 写入口，全局串行
 
 | # | 方法 + 路径 | 查询参数 | `data` 结构（要点） | 支撑 |
 |---|---|---|---|---|
-| H1 | `GET /api/history/dates` | — | `{dates:[{date,is_partial,deep_count,light_count,macro_count}], latest, latest_complete}` | US-4 / R6 / R7 |
+| H1 | `GET /api/history/dates` | — | `{dates:[{date,is_partial,deep_count,light_count,macro_count}], latest, latest_complete, latest_macro}` | US-4 / R6 / R7 |
 | H2 | `GET /api/history/coin/{coin_id}/series` | `from,to,metrics=price_usd,market_cap,rank,score,social_heat` | `{coin_id, metrics:[...], series:[{date, present:true|false, <metric>...}], gaps:[date...]}` 升序、缺失日 `present:false`（**不插值**） | US-1 / R3 |
 | H3 | `GET /api/history/categories/timeline` | `from,to,category` | `{series:[{date, category, coin_count, total_mcap, avg_chg}]}` | US-2 |
 | H4 | `GET /api/history/news/timeline` | `from,to,coin_id,category,source,limit,offset` | `{items:[{date,coin_id,source,title,url,ts,origin_path}], total}` | US-2 / R5 |
@@ -1019,10 +1025,19 @@ def write(conn_ctx):              # ETL 写入口，全局串行
 | H8 | `GET /api/history/macro/series` | `from,to,metric=btc_dominance,fear_greed` | `{metric, series:[{snapshot_at, value}]}` | US-4（历史宏观回溯） |
 | H9 | `POST /api/history/ingest`（admin，可选） | body `{mode}` | `{batch_id,status,rows_loaded}` | R9（懒触发兜底） |
 
+**H1 三个 `latest` 字段口径（实测核对，均已成立）**：
+- `latest` = **最新 scan 日**（含残缺）= `scan_day` 的 `MAX(date)`；实测 **2026-08-26**（当日 `is_partial=TRUE`）。
+- `latest_complete` = **最新完整 scan 日** = `v_latest_complete_date` = `MAX(date) FROM scan_day WHERE COALESCE(is_partial,FALSE)=FALSE`（ddl.sql:281–282）；实测 **2026-08-25**。
+- `latest_macro` = **最新宏观日** = 有 `macro_snapshot` 的最大日期；实测 **2026-09-27**（macro 与 scan 不同步，故单列）。
+
+**H3 `avg_chg` 口径注（与 golden 对齐中）**：
+- `avg_chg` 的正确口径**以 `docs/history-db/golden-sectors.json` 为准**；判据 = **9 个请求日逐值零差异**（`coin_count`/`avg_chg` 精确、`total_mcap` 容差 1e-9）。
+- **最终聚合公式待 software-engineer-repo 反向对齐 golden 后补齐**（先固化判据，公式回填前不得另立口径）。
+
 **H4 `total` 口径注（实测，务必对齐前端文案）**：
-- `content_archive` 是**「文档 × 币」的行级归档**（采集侧「全局 feed 逐币挂载」的既有行为，**非 ETL 重复入库**）：回填态快照 **39,352 行**，而按**文档**去重 `DISTINCT(date,source,doc_hash)` 仅 **3,049** → 平均每篇挂到 **~12.9** 个币（非空 distinct `url` 仅 **477**）。
+- `content_archive` 是**「文档 × 币」的行级归档**：采集端**为每个相关币各存一行**（「全局 feed 逐币挂载」，**非 ETL 重复入库**）。回填态快照 **39,352 行**，而按**文档**去重 `DISTINCT(date,source,doc_hash)` 仅 **3,049** → 平均每篇挂到 **~12.9** 个币（非空 distinct `url` 仅 **477**）。
 - 故 H4 `total = COUNT(*)`（`history_svc.py` 的 `SELECT COUNT(*) … WHERE <filter>`）语义是 **「匹配过滤条件的归档**行**数（= 按币展开的条目数）」**，**等于该查询的分页总数**，但 **≠「去重新闻文档条数」**（两者相差 ~12.9 倍）。**不是 bug**，是归档粒度使然。
-- 口径处理：① **前端文案须标注** `total` 为「（按币展开）条目数」，**不可**当「新闻条数」展示；② 若使用方确需「文档级条数」，另加 `dedupe=document`（`COUNT(DISTINCT(date,source,doc_hash))`）作为 **P2 opt-in 增量、缺省行为不变**（待产品确认，见 §13 O10）。
+- 口径处理（**已裁决**）：① **前端文案标注** `total` 为「（按币展开）条目数」，**不可**当「新闻条数」展示；② **不新增 `dedupe=document`**（H4 为已验收端点，改 `total` 语义或加孪生字段会破坏契约）—— 前端 `ArchiveTimeline` 已用「**按文档去重**开关（默认开）+ 同显『本页 N 行 → 去重后 M 篇』+ 标注『去重仅作用于当前页』」轻量解决；③ 未来若确需**文档级总数**，作为**独立参数**（如 `dedupe=document` 且返回**新字段** `documents_total`，**不改 `total` 语义**）**另立项**（见 §13 O10）。
 
 ### 8.1 H5 全文检索 —— 精确实现规格（v1.3，可直接照此编码）
 
@@ -1320,7 +1335,7 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 | O7 | `raw_server` 未来若真需要 | 范围 | 默认**保持「暂不入库」**（R11 已确认） |
 | O8 | `load_by_category_raw` 的「7 日窗口取最大」跨日解析看似 bug（7 个请求日返回同一份 06-27 分类） | 双读一致性 | **本次不动**（R8 要求保留既有行为）；已在仓储层复刻。若产品决定修正，应作为**独立变更**同时改文件与 DuckDB 两条路径，并更新 `golden-sectors.json` |
 | O9 | H5 **语料覆盖不足**：`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 等中文词 **FTS 与 ILIKE 双 0**（`title`/`body_text` 各 0 行，语料确无此串，非检索缺陷）；旁证 `'哔哩'` ILIKE=**455 且全在 `title`**、`body_text`=0，印证中文主要在 `title`（见 §8.1 硬性声明） | 中文 crypto 关键词召回 | 默认**不改检索实现**（兜底已尽力）；需**补充中文 crypto 数据源**（中文资讯/公告/社媒）方可召回，属**后续采集演进项** |
-| O10 | H4 `total = COUNT(*)` 是**按币展开的行数**（归档粒度 39,352 行 / 去重文档 3,049 ≈ **12.9×**），**非**「新闻条数」 | 前端若当「新闻条数」展示会放大 ~12.9× | 默认**不改实现**；前端文案标注「（按币展开）」；如确需文档级口径，另加 `dedupe=document`（`COUNT(DISTINCT(date,source,doc_hash))`）**P2 opt-in、缺省不变**（待产品确认） |
+| O10 | H4 `total = COUNT(*)` 是**按币展开的行数**（归档粒度 39,352 行 / 去重文档 3,049 ≈ **12.9×**），**非**「新闻条数」 | 前端若当「新闻条数」展示会放大 ~12.9× | **已裁决：不改实现、不加 `dedupe=document`**（H4 已验收，改语义/加孪生字段破契约）。前端 `ArchiveTimeline` 用「按文档去重开关 + 本页 N 行→M 篇」解决。未来若需文档级总数 → **独立参数 + 新字段 `documents_total`**，**另立项** |
 
 ---
 
