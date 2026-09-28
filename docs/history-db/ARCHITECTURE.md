@@ -1301,31 +1301,32 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 - **写后必重建**：FTS 索引为静态，任何 INSERT/DELETE 后必须 `overwrite=1` 重建，否则新数据检索不到。
 - FTS 不可用时降级 `body_text ILIKE '%kw%'`。
 
-**本库曾发生的「一次性文件级损坏」与防护（实测踩坑点，v1.4）**
+**本库曾发生的「二级索引损坏」与防护（实测踩坑点，v1.5，根因已订正）**
 - **现象**：某些 **`col = <字面量>` 等值谓词的计数偏小甚至为 0**（如 `content_archive.source='bilibili'` 得 **286**，真值 **455**；`category_membership.date='2026-06-27'` 得 **0**，真值 **1241**）。**与并发无关**（在单进程串行的库副本上同样复现）——是**文件驻留的确定性损坏**，非「并发写中间态」。
-- **根因**：**库文件的行组 zone-map（min/max 统计）损坏**；`filter_pushdown` 用**错误的行组统计**做剪枝，跳过了本该扫描的行组，导致等值结果偏小。
-- **判据（开关法，一测即知）**：`SET disabled_optimizers='filter_pushdown';` → 等值计数**恢复真值**（286→455、0→1241）；取消该设置 → 重新出错。旁证：损坏的 `content_archive` 有 **2 个行组**，**物理重写后变 1 个**。
-- **轻量修复全部无效（实测）**：`CHECKPOINT` / `FORCE CHECKPOINT` / `ANALYZE` / `ANALYZE <table>` / `VACUUM` → 不一致数**不变**。**唯一有效 = 物理重写**：
-  ```sql
-  CREATE TABLE t__new AS SELECT * FROM t;  DROP TABLE t;  ALTER TABLE t__new RENAME TO t;
-  ```
-  → 不一致数 **78 → 0**（重写后 `content_archive` 行组 2 → 1）。
-- **不复发（实测）**：重写后的干净表 `INSERT 5000 行 + CHECKPOINT` → **仍 0 处不一致**（行组重新变 2 个也正常）→ **一次性文件级损坏，ETL 不会持续再生产**。
-- **影响面（逐值全量扫描，5 个 (表,列) 共 78 处不一致）**：
+- **根因（实测）**：**5 个单列 ART 二级索引损坏**（索引项缺失 / 陈旧），优化器经这些索引做**等值点查**时少算行；**不是**数据损坏（数据侧全表扫始终正确）、也**不是**查询写法问题。逐索引全量比对（「等值计数 vs **物化全表扫真值**」）确认**恰好 5 个**索引损坏：
 
-| 表 | 列 | 错值数 | 例（错 → 真值） |
+| 损坏索引 | 列 | 错值数 | 例（indexed → 真值） |
 |---|---|---|---|
-| `content_archive` | `source` | 1/5 | `bilibili` 286 → 455 |
-| `content_archive` | `coin_id` | 55/68 | `bitcoin` 322 → 670；`ethereum` 405 → 682 |
-| `category_membership` | `date` | 4/9 | 06-27/28/29/30 → 0/0/0/0（真值 1241/1225/828/71） |
-| `source_status` | `date` | 4/9 | 06-27~06-29 → 0（真值 661）；06-30 → 618（真值 871） |
-| `source_status` | `source` | 14/14 | 全错 |
+| `idx_content_source` | `content_archive.source` | 1/5 | `bilibili` 286 → 455 |
+| `idx_content_coin` | `content_archive.coin_id` | 55/68 | `bitcoin` 322 → 670；`ethereum` 405 → 682 |
+| `idx_catmem_date` | `category_membership.date` | 4/9 | 06-27/28/29/30 → 0（真值 1241/1225/828/71） |
+| `idx_srcstat_date` | `source_status.date` | 4/9 | 06-27~06-29 → 0（真值 661）；06-30 → 618（真值 871） |
+| `idx_srcstat_source` | `source_status.source` | 14/14 | 全错（如 `github` 58 → 97） |
 
-  **未污染**：`category_membership.has_market`（482/3136 正确）、`content_archive.date`、`coin_daily_snapshot` / `deep_research` / `scan_day` / `macro_snapshot`。
-- **现有端点零影响（实测，勿写成「H4 会返回 286」）**：H3 板块数（06-27/28/29/30 = 9/7/9/9）、H6 逐日源数（含 4 个坏日期均 14）、H4 五来源（23760/8242/4620/2275/**455**）、H4 三币种（670/682/662）**均正确**。原因：这些查询的 WHERE 都带 `date BETWEEN ? AND ?`，**日期谓词主导行组选择**，`source`/`coin_id` 等值只作**残余过滤**、不触发错误剪枝。
-- **⚠️ 潜伏风险（本条真正价值）**：当前正确**只是谓词顺序碰巧对了**——一旦把 `date BETWEEN` 挪后 / 删掉 / 写一条**以等值为首谓词**的查询，立刻返回错数。**不要**用「改用 `BETWEEN x AND x` 规避」：修复后**裸等值本就正确**，而用 `BETWEEN` 规避会**掩盖损坏**、使「等值 vs `GROUP BY` 真值」这一**唯一有效检测手段失效**，损坏将重新变静默。
-- **防御（必须落地）**：入库后运行「**等值 vs `GROUP BY` 真值**」逐列校验；发现不一致 → **物理重写该表**（`CTAS → DROP → RENAME`）。**不需要重建 FTS 索引**——`fts_main_content_archive` 是**独立 schema**，`DROP TABLE` 主表**不级联**删除它；且索引以 `content_id` 为连接键，物理重写是**纯数据拷贝**、行与 `content_id` 全保留，索引依然有效（实测重写前后 `match_bm25('solana')` 均为 **869**，与 `ILIKE '%solana%'` 真值一致）。**但**修复后须做 **FTS 冒烟回归**（`match_bm25` 与 `ILIKE` 交叉一致），以防修复过程意外破坏检索。
-  ⚠️ 注意：本条说的是**物理重写**不破坏索引；普通的 `INSERT`/`DELETE` 后仍**必须**按上文「写后必重建」`overwrite=1` 重建 FTS，两者**不冲突**。
+  **未污染**：其余 4 个索引 `idx_content_date` / `idx_snap_coin` / `idx_snap_date` / `idx_deep_coin` **正确**；`category_membership.has_market`、`content_archive.date`，以及 `coin_daily_snapshot` / `deep_research` / `scan_day` / `macro_snapshot` 的数据**均正确**。
+- **决定性判据（三步实验，已在库副本实测）**：
+  1. 原样：全库不一致 = **78**；
+  2. **仅 `DROP INDEX` 这 5 个索引**（数据一行未动）→ 不一致 = **0**（证明坏的是索引、非数据）；
+  3. `CREATE INDEX` 重建这 5 个 → 不一致 = **0**，且 `duckdb_indexes()` 恢复 **9**。
+- **`filter_pushdown` 开关法只是「快速定位器」，不能定性根因**：`SET disabled_optimizers='filter_pushdown';` 也能让错数恢复真值（286→455、0→1241），但它**同时改变索引访问路径与其它快速路径**，故**无法区分**「索引损坏」还是别的快速路径问题——**定性必须靠上面的 DROP/CREATE 三步实验**。
+- **「真值」必须用「物化全表扫副本」计数**：依赖优化器的普通 `GROUP BY`、或把等值 `WHERE` 下推进 `GROUP BY` 子查询，都可能**被坏索引一并答复而一起算错**（实测 `bitcoin` 真值 670 可被压成 322）。→ 检测真值用 `CREATE TEMP TABLE _m AS SELECT <col> FROM <tbl>`（纯全表扫、无索引可用）再 `GROUP BY`。
+- **轻量修复无效（实测）**：`CHECKPOINT` / `FORCE CHECKPOINT` / `ANALYZE` / `VACUUM` → 错数**不变**（仍 286）。
+- **现有端点零影响（实测，勿写成「H4 会返回 286」）**：端点 WHERE **一律以 `date BETWEEN ? AND ?` 打头**，等值谓词（`source=?` / `coin_id=?`）**排在其后**；此时规划器**不以损坏的单列索引作为驱动访问路径**，等值退化为**残余过滤**，故结果正确。**顺序敏感已实测**：`WHERE source='bilibili' AND date BETWEEN …` → **286**（错）；`WHERE date BETWEEN … AND source='bilibili'` → **455**（对）。H4 五来源（23760/8242/4620/2275/**455**）、H4 三币种（670/682/662）、H3 板块数（06-27/28/29/30 = 9/7/9/9）、H6 逐日源数（含 4 个坏日期均 14）**均正确**。
+- **⚠️ 潜伏风险（本条真正价值）**：当前正确**只是谓词顺序碰巧对了**——一旦把 `date BETWEEN` 挪后 / 删掉 / 写一条**以损坏索引列为首谓词**的查询，**立刻返回错数**。**不要**用「改用 `BETWEEN x AND x` 规避」：修复后**裸等值本就正确**，用 `BETWEEN` 规避只会**掩盖损坏**、使「物化真值 vs 等值」这一检测失效，损坏重新变静默。
+- **修复 = 重建索引（`DROP INDEX` + `CREATE INDEX`），严禁物理重写**：重建幂等、确定、**不动数据**、**不碰 FTS**。⚠️ **物理重写（`CTAS → DROP → RENAME`）是破坏性的**：`DROP TABLE` **连带删除该表全部索引**（实测重写 `content_archive` / `category_membership` / `source_status` 三表 → `duckdb_indexes()` **9 → 3**，连**没坏的 `idx_content_date` 也被误删**），需事后全部重建，反而放大风险。
+- **复发风险（如实声明，勿断言「不会再发生」）**：**为何会损坏尚无定论**——「索引维护被中断 / 锁竞争打断」只是**未经验证的假设**，**无法证明**未来 ETL 不再触发。故**必须**常态化检测（下条），不得假设「一次性」。
+- **防御（必须落地）**：每次入库后运行「**物化全表扫真值 vs 等值计数**」逐列校验，**覆盖全部单列索引列**（本库 2 处坏值恰在非 `date` 列：`content_archive.coin_id` / `source`，只查 `date` 会漏）；发现不一致 → **`DROP INDEX` + `CREATE INDEX` 重建该索引**，并**断言 `duckdb_indexes()` 数量回到 9**（防重建遗漏）。实现见 `scripts/history/check_integrity.py`、回归 `console/backend/tests/test_index_integrity.py`。
+  说明：`fts_main_content_archive` 为**独立 schema**，`DROP INDEX` 主表与物理重写主表**都不影响**它（实测重建索引前后 `match_bm25('solana')` 恒为 **869**）；但普通 `INSERT`/`DELETE` 后仍**必须**按上文「写后必重建」`overwrite=1` 重建 FTS，两者不冲突。
 
 **分类成员硬约定（实测踩坑点，见 §0 验证5）**
 - `category_membership` 是 **(date × slug × member) 稀疏多分类长表**：一币可属**多个 slug**，且**大量成员无 `coin_id`**（06-27 1241 文件中仅 99 有币；全库 9 日合计 569）。
@@ -1362,7 +1363,7 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 | O8 | `load_by_category_raw` 的「7 日窗口取最大」跨日解析看似 bug（7 个请求日返回同一份 06-27 分类） | 双读一致性 | **本次不动**（R8 要求保留既有行为）；已在仓储层复刻。若产品决定修正，应作为**独立变更**同时改文件与 DuckDB 两条路径，并更新 `golden-sectors.json` |
 | O9 | H5 **语料覆盖不足**：`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 等中文词 **FTS 与 ILIKE 双 0**（`title`/`body_text` 各 0 行，语料确无此串，非检索缺陷）；旁证 `'哔哩'` ILIKE=**455 且全在 `title`**、`body_text`=0，印证中文主要在 `title`（见 §8.1 硬性声明） | 中文 crypto 关键词召回 | 默认**不改检索实现**（兜底已尽力）；需**补充中文 crypto 数据源**（中文资讯/公告/社媒）方可召回，属**后续采集演进项** |
 | O10 | H4 `total = COUNT(*)` 是**按币展开的行数**（归档粒度 39,352 行 / 去重文档 3,049 ≈ **12.9×**），**非**「新闻条数」 | 前端若当「新闻条数」展示会放大 ~12.9× | **已裁决：不改实现、不加 `dedupe=document`**（H4 已验收，改语义/加孪生字段破契约）。前端 `ArchiveTimeline` 用「按文档去重开关 + 本页 N 行→M 篇」解决。未来若需文档级总数 → **独立参数 + 新字段 `documents_total`**，**另立项** |
-| O11 | 入库后「**等值 vs `GROUP BY` 真值**」校验**发现不一致**时（见 §12 文件级损坏条），**自动物理重写** 还是 **告警人工介入**? | 损坏修复的自动化程度 | 倾向**自动**（幂等、确定性；重写为**纯数据拷贝、不影响 FTS 索引**，见 §12）；最终**留给用户裁** |
+| O11 | 入库后「**物化全表扫真值 vs 等值计数**」校验**发现不一致**时（见 §12 二级索引损坏条），**自动重建索引** 还是 **告警人工介入**? | 索引损坏修复的自动化程度 | 倾向**自动**（幂等、确定；修复为 `DROP INDEX` + `CREATE INDEX`，**不重写表、不影响数据与 FTS**，见 §12）；最终**留给用户裁** |
 
 ---
 
