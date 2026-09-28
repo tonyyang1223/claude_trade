@@ -56,12 +56,45 @@ con.execute("PRAGMA create_fts_index('t','id','body','body_grams');")       # �
   （初版称「`'以太坊'` 返回空」是该样本恰好为**一整段无空格 CJK** 的特例，表述不精确，此处更正。）
 - **解法（模式C）**：`content_archive` 同时保留 `body_text`（原文）与 `body_grams`（CJK 字符 bigram + **英文整词**）两列，
   用**一条索引覆盖两列**：`create_fts_index('content_archive','content_id','body_text','body_grams', overwrite=1)`。
-  → 英文整词由 `body_text` 命中，中文子串由 `body_grams` 命中，**两种粒度全覆盖**；实测 bm25 分数正常（`'以太坊'→0.385`）可用于排序。
-- **查询侧无需 bigram 化**：因两种粒度同在一索引，直接把用户原始关键词传给 `match_bm25` 即可（比初版「查询侧转 gram」更简单）。
+  → 英文整词由 `body_text` 命中，中文 bigram 由 `body_grams` 命中，**两种粒度全覆盖**；实测 bm25 分数正常可用于排序。
+- **查询侧必须对 CJK 做 bigram 化（v1.3 订正）**：`match_bm25` 用**同一 simple 分词器**解析查询串，
+  故**未 bigram 化的连续 CJK 词（如 `'哔哩哔哩'`、`'以太坊'`）作为单个 token 不在索引里 → 召回 0**。
+  **必须**先把查询串里的 CJK 段展开成 bigram（见 §8 H5 规格），再把结果传给 `match_bm25`。
+  → 初版「查询侧无需 bigram 化」的结论**错误**（仅基于 3 行合成样表得出），详见下方「真实语料复验」。
 - **⚠️ FTS 索引是静态的（顺序敏感）**：`create_fts_index` 只索引**建索引那一刻已存在的行**；之后的 INSERT **不会**自动入索引，
   必须 `overwrite=1` **重建**才可见（实测：先建索引后插入 → 查不到；重建后 → 命中）。
   → ETL 顺序固定为：**先写全部数据，最后建/重建 FTS**（§5.1 步骤⑦、§6 增量末步）。
 - **兜底**：FTS 扩展不可用时降级 `body_text ILIKE '%kw%'`（全表列扫），保证 US-5 不彻底失效。
+
+#### 真实语料复验（v1.3，**推翻了上方合成样表的乐观结论**）
+
+上方模式A/B/C 对照表基于 **3 行合成数据**（`body='以太坊 ETF 审批通过 利好'`）得出。团队主理人在真实库
+`data/history/ct_history.duckdb`（`content_archive` **39,352 行**）复验后，发现关键结论**在真实语料上不成立**。
+以下为**我的独立复验**（`read_only` 连接，未改库）：
+
+| 实测项（真实库） | 值 |
+|---|---|
+| `match_bm25(content_id,'Solana')` / `'Ethereum'` / `'ETF'` / `'Uniswap'` | 869 / 2,339 / 667 / 22（**英文正常**） |
+| `match_bm25(content_id,'哔哩哔哩')` / `'以太坊'` / `'比特币'`（**原始 CJK，未 bigram 化**） | **0 / 0 / 0** |
+| `match_bm25(content_id,'哔哩 哩哔')`（bigram 化后） | **455** |
+| `match_bm25(content_id,'以太 太坊')`（bigram 化后） | **0**（语料中无此 bigram，见下） |
+| `fts_main_content_archive.dict` 实查 | `'哔哩'`(1603, df 455)、`'哩哔'`(1604, 455) **存在**；`'哔哩哔哩'`/`'以太'`/`'太坊'`/`'比特'`/`'特币'`/`'治理'` **均不存在** |
+| `body_text LIKE '%哔哩%'` | **0** |
+| `body_text` 含 CJK 的行 | **2,117 / 39,352 ≈ 5.4%**（`title` 含 CJK 为 2,730 行） |
+
+**根因**：中文内容**主要在 `title`**（如 bilibili 标题 `'aster-2-哔哩哔哩_bilibili'`），而索引是对 `body_grams = grams(title + 正文)` 建的；
+`body_text`（纯正文）含中文的行仅约 5%。故「**中文全词由 `body_text` 命中**」这条路径在真实语料上**几乎不存在**；
+`body_text` 分列只对英文有效。而 `body_grams` 里的中文是 **bigram**，所以：
+- **查询侧若不做 bigram 化** → 连续 CJK 词作单个 token → 索引无此 token → **召回 0**（实测 `'哔哩哔哩'=0`）；
+- **查询侧 bigram 化后** → `'哔哩 哩哔'` → 命中 455（实测）。
+
+**订正结论**：
+1. 「中文全词可命中」**仅在**该词作为**独立 token 出现在 `body_text`** 时成立——真实数据中极罕见（`body_text` 中文占比 ~5%）。
+2. **H5 端点查询侧必须对 CJK 做 bigram 化**（规格见 §8）。英文词照原样传（已 lowercase 建索引）。
+3. **已知召回上限（如实声明）**：受语料限制，`'以太坊'`/`'比特币'` 等词**bigram 化后仍为 0**——因为
+   语料正文/标题里根本没有这些字符串（英文标题 + bilibili 站名），**不是**检索 bug。故对 `'以太坊'` 这类关键词，
+   FTS 无召回时**必须**回退 `ILIKE` 兜底（见 §8），以覆盖「用户期望搜到但语料确无」的情形。
+4. 官方查询范式本身正确（§0 避坑1 保留）：`WHERE fts_main_content_archive.match_bm25(content_id, ?) IS NOT NULL`。
 
 ### 验证 2：UPSERT / 幂等能力（决定 R2 落地方式）
 
@@ -982,23 +1015,104 @@ def write(conn_ctx):              # ETL 写入口，全局串行
 | H8 | `GET /api/history/macro/series` | `from,to,metric=btc_dominance,fear_greed` | `{metric, series:[{snapshot_at, value}]}` | US-4（历史宏观回溯） |
 | H9 | `POST /api/history/ingest`（admin，可选） | body `{mode}` | `{batch_id,status,rows_loaded}` | R9（懒触发兜底） |
 
-**全文检索查询（H5 落地）**：
-```sql
--- 统一入口：直接把用户**原始关键词**传给 match_bm25（查询侧【不做】bigram 转换）
--- 命中可能来自 body_text（英文整词 / 中文全词）或 body_grams（中文子串）两列之一。
--- body_grams 仅为索引辅助列，不返回前端。
-SELECT c.*, s.score FROM content_archive c,
-  LATERAL (SELECT fts_main_content_archive.match_bm25(c.content_id, ?) AS score) s
-WHERE s.score IS NOT NULL AND c.date BETWEEN ? AND ?
-ORDER BY s.score DESC LIMIT ? OFFSET ?;
+### 8.1 H5 全文检索 —— 精确实现规格（v1.3，可直接照此编码）
 
--- 兜底（FTS 扩展不可用时）：对 body_text 做列扫
-SELECT * FROM content_archive
-WHERE body_text ILIKE '%' || ? || '%'
-  AND date BETWEEN ? AND ? LIMIT ? OFFSET ?;
+> **核心订正**：查询侧**必须**对 CJK 做 bigram 化（`match_bm25` 用 simple 分词器解析查询串，
+> 未 bigram 化的连续 CJK 词不在索引里 → 召回 0，实测 `'哔哩哔哩'=0`、`'哔哩 哩哔'=455`）。理由与实测见 §0「真实语料复验」。
+
+**（1）查询串预处理算法** `build_fts_query(q) -> str | None`
+
+> **单一真源（single source of truth）—— 硬约定**：查询侧预处理**必须**直接调用
+> `scripts/history/export_grams.make_grams`，**禁止**另写一份等价实现，或硬编码 bigram 粒度（`2`）、CJK 区间、去重策略。
+> 入库侧 `body_grams` 与查询侧 gram 串由**同一函数**产出；任一方规则调整必须经该函数生效（单一真源）。
+> **判定**：两侧对同一输入应**逐字相同**（如 `'Solana 生态'`→`'生态 Solana'`、`'哔哩哔哩 ETF'`→`'哔哩 哩哔 ETF'`）。
+> **反例（已发生）**：服务侧自写等价实现并把 bigram 粒度 `2` 硬编码（`history_svc.py:141/145`）；一旦 `_BIGRAM_MIN` 调整，
+> 入库侧变而查询侧不变 → **静默召回 0**。改回「直接调用 `make_grams`」后输出与入库侧逐字一致。
+
 ```
-> 实现要点：查询侧 **无需** 把关键词 bigram 化（初版曾要求，已废弃）；`'Solana'`/`'Uniswap'` 等英文整词由 `body_text` 命中，
-> `'以太'`/`'治理'` 等中文子串由 `body_grams` 命中，`'以太坊'` 两者皆可。单字（如 `'坊'`）不命中，属 bigram 最小粒度 2 字的可接受限制。
+输入 q（用户原始关键词，可含中英/空格/标点），输出空格分隔的 token 串；**空串一律返回 None**（调用方据 (4) 决定「空结果」或「ILIKE 兜底」）。
+
+1. 归一：t = q.strip()；若 t 为空 → 返回 None（→ 调用方返回空结果）。
+2. 从左到右扫描，切成「CJK 段」与「非 CJK 段」交替：
+   - CJK = 匹配码点区间 [U+3400-U+4DBF, U+4E00-U+9FFF, U+F900-U+FAFF,
+                         U+3040-U+30FF(日文假名), U+AC00-U+D7AF(谚文)] 的连续字符（与 export_grams.py 的 _CJK_RANGES 一致）；
+   - 非 CJK 段按非字母数字分隔，取其中的 ASCII/字母数字整词（不切碎！如 'Solana' 保持整词）。
+3. 对每个 CJK 段 s（长度 L）：
+   - L >= 2：产出**相邻字符 bigram**，按出现顺序；**同一 token 去重（保留首次出现）**。
+             例：'哔哩哔哩' → ['哔哩','哩哔','哔哩'] → 去重 → ['哔哩','哩哔']
+                 '以太坊'  → ['以太','太坊']
+   - L == 1：产出该单字符本身（best-effort；索引里 CJK 皆为 bigram 或整块长 token，单字大概率 0 命中 → 见 (4) 兜底）。
+4. **输出 token 顺序由 `make_grams` 决定：CJK 段 bigram 优先、英文整词随后**（**不保证与原查询同序**；
+   例：`'Solana 生态'→'生态 Solana'`、`'中英 mix 组合'→'中英 组合 mix'`、`'哔哩哔哩 ETF'→'哔哩 哩哔 ETF'`）。
+   因 `conjunctive := false`（OR）且 bm25 不依赖 token 顺序，**不同序不影响命中与排序**——实现照 `make_grams` 输出即可，勿判为 bug。
+   - 英文保留整词（大小写原样，索引侧 `lower=1` 负责归一）；CJK 只出 bigram；统一空格分隔。
+5. 输出 = `make_grams(q)` 的结果；**若为空串则返回 None**（调用方据 (4)：非空 `q` + 返回 `None` → **ILIKE 兜底**）。
+   **「空串」≠「空查询」**：非空但无 CJK、且无以**字母开头**英文词的查询（如 `'42'`/`'!!!'`/`'$'`）会得到空串 → 返回 `None`；
+   此时**必须交 (4) 的 ILIKE 兜底**，**不得**直接返回空结果、**不得**把空串送入 `match_bm25`。
+   （对照：`'a'→'a'`、`'$SOL'→'SOL'` 非空 → 返回**非 None**。）
+6. **调用方顺序固定**：先判 `q.strip()` 是否为空（→ 空结果），再判 `build_fts_query(q)` 是否为 `None`（→ ILIKE 兜底），否则走 FTS（详见 (4)）。
+```
+
+**（2）`conjunctive` 取值：`false`（OR）**
+
+- `match_bm25(id, query, conjunctive := false)`。
+- **影响实测**：`'以太坊 ETF'` → OR=**667**、AND=**0**；`'哔哩哔哩 ETF'` bigram 化后 `'哔哩 哩哔 ETF'` → OR=**1122**、AND=**0**；
+  `'Solana 生态'` → OR=**869**、AND=**0**。
+- **结论**：**必须用 OR**。因为中文 token（或其 bigram）往往不在语料 dict 中，AND 要求「全部 token 命中」→ 任何含 CJK 的查询直接归零。
+  OR 下「英文命中即召回」、CJK 命中则加分，**优雅降级**；相关性由 **bm25 分数排序**保证（命中越多/越稀有的文档分越高）。
+- 代价与缓解：OR 会降低精度（含常见词的查询可能召回泛化）。缓解：按 `score DESC` 排序；可选后置过滤（当所有 token 都在 dict 中时再要求全含）。
+
+**（3）主查询 SQL（含过滤与排序）**
+
+```sql
+SELECT c.content_id, c.date, c.coin_id, c.source, c.doc_type, c.title, c.url, c.origin_path,
+       fts_main_content_archive.match_bm25(c.content_id, ?, conjunctive := false) AS score
+FROM content_archive c
+WHERE fts_main_content_archive.match_bm25(c.content_id, ?, conjunctive := false) IS NOT NULL
+  AND c.date BETWEEN ? AND ?                       -- from/to
+  AND (CAST(? AS VARCHAR) IS NULL OR c.coin_id = ?)
+  AND (CAST(? AS VARCHAR) IS NULL OR c.source  = ?)
+ORDER BY score DESC
+LIMIT ? OFFSET ?;
+-- 注：match_bm25 在 WHERE 与 SELECT 各调一次（不能引用别名）；参数 = build_fts_query(q) 的结果。
+-- body_grams 仅为索引辅助列，绝不 SELECT 返回给前端。
+```
+
+**（4）兜底路径（三分支，按顺序判定）**
+
+> ⚠️ **实现陷阱（实测）：ILIKE 兜底必须用「用户原始查询串 `q`」，不得用 `make_grams(q)` 的产物。**
+> `title`/`body_text` 存的是**原文**「哔哩哔哩」，不是拆开的 bigram。实测对照：
+> `ILIKE '%哔哩哔哩%'`（**原始 q**）= **455** 命中；`ILIKE '%哔哩 哩哔%'`（**gram 串**）= **0** 漏光。
+> 混用会让兜底**静默返回 0**（不报错），极难排查——**务必传原始 `q`**。
+
+ILIKE 路径（供下方 2/3 复用）：`WHERE (title ILIKE '%'||:q||'%' OR body_text ILIKE '%'||:q||'%')` 列扫，复用同一 date/coin/source 过滤（`from/to` 有界，全表 39k 行可接受）。**参数 `:q` = 用户原始查询串**。
+
+1. `q.strip()` **为空** → 返回空结果 `{hits:[], total:0}`（不报错）。
+2. **不走 FTS 的情形** —— 满足任一即**直接走上方 ILIKE 路径**（**不得返回空结果**）：
+   - `HAS_FTS == False`（FTS 扩展不可用）；或
+   - `q` **非空但 `make_grams(q)` 返回空串**（无 CJK 且无以**字母开头**英文词，如 `'42'`/`'!!!'`/`'$'`；对照 `'a'→'a'`、`'$SOL'→'SOL'` 非空）。
+   说明：`'42'` 这类查询 bigram 化为空串后**不能**再送 `match_bm25`（空查询串无意义）→ 直接 ILIKE **原始 `q`**；实测 `ILIKE '%42%'` = **400**（title 186 + body 333）。
+3. **走 FTS 主查询**；若 **FTS 命中 0**（含「语料确无该词」如 `'以太坊'`、单字符查询）→ 同样**回退 ILIKE 路径**（**用原始 `q`**）。
+
+**（5）映射表（查询串 → 预处理 → FTS → 最终路径与 total，均为真实库实测）**
+
+| 用户查询 `q` | `make_grams(q)` | FTS 命中 | 最终路径 | 最终 total | 说明 |
+|---|---|---|---|---|---|
+| `哔哩哔哩` | `哔哩 哩哔` | 455 | **FTS** | **455** | CJK 必须 bigram 化才命中；旁证 ILIKE(原始 q)=455 且**全在 title** |
+| `哔哩哔哩 ETF` | `哔哩 哩哔 ETF` | 1122 | **FTS** | **1122** | 455(bilibili)+667(ETF)，两集不相交；CJK bigram 在前、英文整词在后、大小写原样 |
+| `Solana 生态` | `生态 Solana` | 869 | **FTS** | **869** | 仅 `Solana` 命中；`'生态'` bigram 不在 dict（英文整词保留大小写，索引侧 `lower=1` 归一） |
+| `Solana` | `Solana` | 869 | **FTS** | **869** | 英文整词直接命中 |
+| `42` | `''`（空串） | —（**不送 FTS**） | **ILIKE 兜底** | **400** | title 186 + body 333（union 400）；空 gram 不可送 `match_bm25`；**用原始 q** |
+| `a` | `a` | 0 | **ILIKE 兜底** | **37794** | 单字符：FTS 无此 token → ILIKE 原始 q 命中含子串 `a` 的大量行 |
+| `以太坊` | `以太 太坊` | 0 | **ILIKE 兜底** | **0** | FTS 与 ILIKE **双 0** → 语料确无此串（数据源限制，见下硬性声明） |
+| `治理` | `治理` | 0 | **ILIKE 兜底** | **0** | 同上（`'治理'` 不在 dict 且 ILIKE 亦 0） |
+| `英国` | `英国` | 0 | **ILIKE 兜底** | **0** | 同上（语料中无「英国」） |
+
+> **硬性声明（如实划定兜底能力边界）**：
+> 1. **兜底能承接「语料中存在、但分词切不到」的词**——如 `'哔哩哔哩'`（FTS bigram 命中 455；即便 FTS 漏，ILIKE **原始 q** 亦 455）、`'42'`（空 gram → ILIKE 400）。这类词**原始串在 `title`/`body_text` 里真实存在**，故 ILIKE 可救。**前提：ILIKE 必须传原始 `q`，非 gram 产物**（见 (4) 陷阱）。
+> 2. **兜底无法承接「语料中根本不存在的词」**——`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 的 **FTS 与 ILIKE 双双为 0**（实测 `title`/`body_text` 各 0 行）；即**语料里就没有这些字符串**，任何检索方式都不可能命中。这是**数据源构成**问题（当前语料以英文 RSS + 中文视频站为主），**非检索缺陷**；需补充中文 crypto 数据源方可解决，属**后续采集演进项**（§13）。
+> 3. **旁证**：`'哔哩'` 的 ILIKE 命中 **455 且全在 `title`、`body_text` 为 0**，印证「中文主要在 `title`」这一根因（§0 真实语料复验）。
+> **不得**把第 2 类写成检索 bug；**也不得**因 FTS 0 命中就直接返回空——必须先经 (4) 的 ILIKE 兜底判定。
 
 **老 10 端点的「可接历史日」增强（可选、非破坏）**：`market/overview`、`opportunity/radar`、`score/{id}`、`comparison` 增加**可选** `?date=`（缺省行为不变）。**这属于 P2 增量**，不改老语义。
 
@@ -1015,7 +1129,7 @@ WHERE body_text ILIKE '%' || ? || '%'
 | **Q5** 单文件放置 | **`data/history/ct_history.duckdb`，加入 `.gitignore`（`data/history/`）** | §1.1；可回填重建，入 git 无意义且体积大 |
 | **Q6** parquet 不入库 | **确认不入库** | **实测每文件 1 行**（§0 验证4），github 84 列无用；信息已由 A/B/C 覆盖 |
 | **Q7** 实时抓取边界 | **实时结果不回写入库**，仅留档到文件 | 一致性优先；历史库只承载「定时采集的落盘快照」，实时/历史不混流（避免污染幂等） |
-| **Q8** FTS 持久化 | **持久化 + 双列单索引 `(body_text, body_grams)` + 查询侧无需改写 + 不可用时 ILIKE 兜底** | **实测见 §0 验证1**：FTS 可用；`body_text` 覆盖英文整词/中文全词、`body_grams` 覆盖中文子串，双列索引两种粒度全覆盖；**禁止只索引 body_grams**（英文会全失效）；索引静态→写完数据后重建；持久化换启动零构建 |
+| **Q8** FTS 持久化 | **持久化 + 双列单索引 `(body_text, body_grams)` + 查询侧对 CJK bigram 化 + 召回 0/不可用时 ILIKE 兜底** | **实测见 §0 验证1（含 v1.3 真实语料复验）**：FTS 可用；`body_text` 覆盖英文，`body_grams` 覆盖中文 bigram；**禁止只索引 body_grams**（英文会全失效）；**查询侧必须对 CJK 做 bigram 化**（否则连续中文词召回 0）；受语料限制 `'以太坊'` 等仍为 0 → 必须有 ILIKE 兜底；索引静态→写完数据后重建 |
 
 ---
 
@@ -1137,7 +1251,10 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 - `body_grams` = 对 **`title + body_text` 拼接**生成的 **CJK 字符 bigram + 英文整词**（英文不得切碎）。
   → 因 `rss`/`bilibili` 大量记录**正文为空、仅标题有效**，`body_grams` **必须并入标题**，否则其关键词不可检索（满足 PRD Q2「标题+正文」）；
   `body_text` 仍存**纯净正文**不变。`body_grams` 仅为索引辅助列，**不返回前端**。
-- **查询侧不做任何 bigram 转换**：直接把用户原始关键词传给 `match_bm25`，英文整词与中文子串两种粒度由双列索引共同覆盖。
+- **查询侧必须对 CJK 做 bigram 化**（v1.3 订正）：`match_bm25` 用同一 simple 分词器解析查询串，未 bigram 化的连续中文词（如 `'哔哩哔哩'`）不在索引中 → **召回 0**；必须按 §8.1 规格把 CJK 段展开成 bigram 后再传。英文词照原样（索引已 lowercase）。
+- **单一真源**：查询侧预处理**必须**直接调用 `scripts/history/export_grams.make_grams`，**禁止**另写等价实现或硬编码 bigram 粒度（`2`）/CJK 区间/去重策略——入库侧 `body_grams` 与查询侧 gram 串须由**同一函数**产出，否则规则漂移会**静默召回 0**（见 §8.1(1)）。
+- **`conjunctive := false`（OR）**：AND 会让任何含「语料中没有的 token」的查询归零（实测 `'以太坊 ETF'` AND=0 / OR=667），故必须 OR，相关性靠 bm25 排序。
+- **语料召回上限（如实声明）**：`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 等词 bigram 化后**仍为 0**（语料中无该串，非实现缺陷）→ **FTS 0 命中或单字符/扩展不可用时，必须回退 `title/body_text ILIKE` 兜底**；且 **ILIKE 必须传原始查询串 `q`，非 `make_grams(q)` 产物**（实测 `ILIKE '%哔哩哔哩%'=455` 而 `ILIKE '%哔哩 哩哔%'=0`——混用会静默返回 0）。
 - **写后必重建**：FTS 索引为静态，任何 INSERT/DELETE 后必须 `overwrite=1` 重建，否则新数据检索不到。
 - FTS 不可用时降级 `body_text ILIKE '%kw%'`。
 
@@ -1174,6 +1291,7 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 | O6 | FTS 静态索引：增量后**必须重建**，大表时重建耗时 | 增量性能 | 默认：每次增量末步 `create_fts_index(..., overwrite=1)` 重建（当前 ~2万行，秒级）。若日后膨胀，改「按日期分区的多张正文表 + 各自 FTS」或仅对增量子集建影子索引 |
 | O7 | `raw_server` 未来若真需要 | 范围 | 默认**保持「暂不入库」**（R11 已确认） |
 | O8 | `load_by_category_raw` 的「7 日窗口取最大」跨日解析看似 bug（7 个请求日返回同一份 06-27 分类） | 双读一致性 | **本次不动**（R8 要求保留既有行为）；已在仓储层复刻。若产品决定修正，应作为**独立变更**同时改文件与 DuckDB 两条路径，并更新 `golden-sectors.json` |
+| O9 | H5 **语料覆盖不足**：`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 等中文词 **FTS 与 ILIKE 双 0**（语料中无此串，非检索缺陷，见 §8.1 硬性声明） | 中文 crypto 关键词召回 | 默认**不改检索实现**（兜底已尽力）；需**补充中文 crypto 数据源**（中文资讯/公告/社媒）方可召回，属**后续采集演进项** |
 
 ---
 

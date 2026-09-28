@@ -11,7 +11,9 @@
 - **英文必须保留整词**：若把 `Solana` 也切成 `Sola/olan/lana`，则 `'Solana'` 搜不到，
   而 crypto 领域币名/协议名多为英文 → US-5 会大面积失效。
 - ``body_grams`` 仅为 FTS 索引辅助列（与 ``body_text`` 组成**双列单索引**），
-  **不返回前端**、查询侧也**不做任何 bigram 转换**。
+  **不返回前端**；**查询侧必须对 CJK 查询串做同样的 bigram 化**（把连续中文段展开为字符 bigram
+  后再喂 ``match_bm25``，否则如 ``'哔哩哔哩'`` 这类连续中文词会被当作单个 token 而召回 0）。
+  规格见 `docs/history-db/ARCHITECTURE.md` §8.1。
 """
 from __future__ import annotations
 
