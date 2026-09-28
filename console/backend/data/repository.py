@@ -20,7 +20,7 @@ import json
 import os
 import threading
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Dict, List, Optional, Protocol, Sequence
 
 from core import paths
 from core.config import HISTORY_DB_PATH, HISTORY_SOURCE
@@ -510,3 +510,38 @@ def reset_repository() -> None:
     global _repo
     with _repo_lock:
         _repo = None
+
+
+# --------------------------------------------------------------------------
+# 历史库通用只读查询（供 T04 的 H1–H8 端点使用）
+# --------------------------------------------------------------------------
+class HistoryDBError(RuntimeError):
+    """历史库不可用或查询失败。调用方应转成空结构 + 非 0 code（绝不 500）。"""
+
+
+def history_db_available() -> bool:
+    """历史库（DuckDB）是否可读。
+
+    注意：与 ``CT_HISTORY_SOURCE`` 无关——H1–H8 是**新增只读端点**，数据只存在于历史库，
+    故无论老端点走 files 还是 duckdb，历史查询都直连历史库（保证两模式行为一致）。
+    """
+    return duck.db_available()
+
+
+def history_query(sql: str, params: Optional[Sequence[Any]] = None) -> List[dict]:
+    """执行只读 SQL，返回 ``[{列名: 值}, ...]``。
+
+    Args:
+        sql: 参数化 SQL（用 ``?`` 占位，严禁拼接外部输入）。
+        params: 位置参数序列。
+
+    Raises:
+        HistoryDBError: DB 不可用或查询失败（含 SQL 错误、类型错误）。
+    """
+    try:
+        conn = duck.read_conn()
+        cur = conn.execute(sql, list(params)) if params else conn.execute(sql)
+        cols = [desc[0] for desc in cur.description]
+        return [dict(zip(cols, row)) for row in cur.fetchall()]
+    except Exception as exc:  # noqa: BLE001 - 统一转成领域异常，避免冒泡
+        raise HistoryDBError(str(exc)) from exc

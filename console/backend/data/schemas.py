@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # --------------------------------------------------------------------------
@@ -192,3 +192,161 @@ class HealthResponse(BaseModel):
     status: str = "ok"
     version: str = "0.1.0"
     dataDate: Optional[str] = None
+
+
+# --------------------------------------------------------------------------
+# 历史数据库查询端点 H1–H8（只读，见 ARCHITECTURE.md §8）
+# --------------------------------------------------------------------------
+class HistoryDateRow(BaseModel):
+    """H1 单日采集概要。``is_partial`` 为 None 表示该日只有 macro、无 scan。"""
+
+    date: str
+    is_partial: Optional[bool] = None
+    deep_count: int = 0          # scan_day.deep_files_actual（残缺日以落盘为准）
+    light_count: int = 0         # scan_day.light_files_actual
+    macro_count: int = 0         # 该日 macro_snapshot 数
+
+
+class HistoryDatesResponse(BaseModel):
+    """H1 GET /api/history/dates。"""
+
+    dates: List[HistoryDateRow] = Field(default_factory=list)
+    latest: Optional[str] = None            # 最新扫描日（含残缺日）
+    latest_complete: Optional[str] = None   # 最新完整扫描日（跳过残缺日）
+    latest_macro: Optional[str] = None      # 最新宏观快照日
+
+
+class SeriesPoint(BaseModel):
+    """H2 单日数据点；``present=False`` 表示该日缺该币（**不插值**）。
+
+    具体指标键（如 price_usd / market_cap / rank）通过 extra 动态附加。
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    date: str
+    present: bool = False
+
+
+class CoinSeriesResponse(BaseModel):
+    """H2 GET /api/history/coin/{coin_id}/series。"""
+
+    coin_id: str = ""
+    metrics: List[str] = Field(default_factory=list)      # 实际返回的指标（已支持）
+    unavailable: List[str] = Field(default_factory=list)  # 请求但历史库无此指标
+    series: List[SeriesPoint] = Field(default_factory=list)
+    gaps: List[str] = Field(default_factory=list)         # 缺失日（显式，不插值）
+
+
+class CategoryTimelinePoint(BaseModel):
+    """H3 单日单板块统计点。"""
+
+    date: str
+    category: str
+    coin_count: int = 0
+    total_mcap: Optional[float] = None
+    avg_chg: Optional[float] = None
+
+
+class CategoriesTimelineResponse(BaseModel):
+    """H3 GET /api/history/categories/timeline。"""
+
+    series: List[CategoryTimelinePoint] = Field(default_factory=list)
+
+
+class NewsTimelineItem(BaseModel):
+    """H4 单条新闻/内容归档项。"""
+
+    date: str
+    coin_id: str
+    source: str
+    title: Optional[str] = None
+    url: Optional[str] = None
+    ts: Optional[str] = None
+    origin_path: Optional[str] = None
+
+
+class NewsTimelineResponse(BaseModel):
+    """H4 GET /api/history/news/timeline。"""
+
+    items: List[NewsTimelineItem] = Field(default_factory=list)
+    total: int = 0
+
+
+class SearchHit(BaseModel):
+    """H5 单条检索命中（本轮未实现，见 history_svc.search）。"""
+
+    content_id: str = ""
+    date: Optional[str] = None
+    coin_id: Optional[str] = None
+    source: Optional[str] = None
+    title: Optional[str] = None
+    snippet: Optional[str] = None
+    url: Optional[str] = None
+    origin_path: Optional[str] = None
+    score: Optional[float] = None
+
+
+class SearchResponse(BaseModel):
+    """H5 GET /api/history/search（占位）。"""
+
+    query: str = ""
+    hits: List[SearchHit] = Field(default_factory=list)
+    total: int = 0
+    took_ms: float = 0.0
+
+
+class SourceHealthDay(BaseModel):
+    """H6 单日单源健康度。"""
+
+    date: str
+    source: str
+    ok: int = 0
+    error: int = 0
+    success_rate: Optional[float] = None
+    avg_confidence: Optional[float] = None
+
+
+class SourceDriftRow(BaseModel):
+    """H6 单日源集合规模（漂移探针：13 vs 14）。"""
+
+    date: str
+    n_sources: int = 0
+
+
+class HealthSourcesResponse(BaseModel):
+    """H6 GET /api/history/health/sources。"""
+
+    by_date: List[SourceHealthDay] = Field(default_factory=list)
+    drift: List[SourceDriftRow] = Field(default_factory=list)
+    gaps: List[str] = Field(default_factory=list)
+
+
+class CollectionStatus(BaseModel):
+    """H7 单个采集链路的新鲜度。"""
+
+    last_date: Optional[str] = None
+    gap_days: Optional[int] = None
+    status: str = "unknown"   # ok | stale | empty
+
+
+class HealthOverviewResponse(BaseModel):
+    """H7 GET /api/history/health/overview。"""
+
+    collections: Dict[str, CollectionStatus] = Field(default_factory=dict)
+    anomalies: List[dict] = Field(default_factory=list)
+    batches: List[dict] = Field(default_factory=list)
+
+
+class MacroSeriesPoint(BaseModel):
+    """H8 单个宏观快照数据点。"""
+
+    snapshot_at: Optional[str] = None
+    value: Optional[float] = None
+
+
+class MacroHistorySeriesResponse(BaseModel):
+    """H8 GET /api/history/macro/series。"""
+
+    metric: str = ""
+    series: List[MacroSeriesPoint] = Field(default_factory=list)

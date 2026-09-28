@@ -26,7 +26,7 @@ from core import paths  # noqa: F401
 from core.config import APP_NAME, APP_VERSION, CORS_ORIGINS
 from core.envelope import EnvelopeResponse, success
 
-from routers import meta, market, tokens, opportunity, compare, chain, scores, macro, research
+from routers import meta, market, tokens, opportunity, compare, chain, scores, macro, research, history
 
 app = FastAPI(
     title=APP_NAME,
@@ -71,6 +71,7 @@ app.include_router(chain.router)
 app.include_router(scores.router)
 app.include_router(macro.router)
 app.include_router(research.router)
+app.include_router(history.router)
 
 
 if __name__ == "__main__":
