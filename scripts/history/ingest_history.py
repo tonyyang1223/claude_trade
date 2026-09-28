@@ -32,7 +32,7 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 try:  # 作为包导入（scripts.history.ingest_history）
     from . import etl_common as ec
