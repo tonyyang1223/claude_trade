@@ -500,28 +500,32 @@ def md5_hex(text: str) -> str:
 # --------------------------------------------------------------------------
 # 完整性自检：等值查找 vs 全表扫一致性（P0-1 / P0-2 回归护栏）
 # --------------------------------------------------------------------------
-def _tables_with_date_column(conn: "duckdb.DuckDBPyConnection") -> List[str]:
-    """返回 ``main`` schema 下含 ``date`` 列的**基表**（按名排序；排除视图）。"""
-    rows = conn.execute(
-        """
-        SELECT c.table_name
-          FROM information_schema.columns c
-          JOIN information_schema.tables t
-            ON c.table_name = t.table_name AND c.table_schema = t.table_schema
-         WHERE c.table_schema = 'main'
-           AND c.column_name = 'date'
-           AND t.table_type = 'BASE TABLE'
-         ORDER BY c.table_name
-        """
-    ).fetchall()
-    return [r[0] for r in rows]
+def single_column_indexes(conn: "duckdb.DuckDBPyConnection") -> List[Tuple[str, str, str]]:
+    """列出全部**单列表达式**的二级索引：``[(index_name, table_name, column), ...]``。
+
+    只取「单列」索引（本库 9 个均为单列）。多列表达式索引不在此列。
+    """
+    out: List[Tuple[str, str, str]] = []
+    try:
+        rows = conn.execute(
+            "SELECT index_name, table_name, expressions FROM duckdb_indexes()"
+        ).fetchall()
+    except Exception as exc:  # noqa: BLE001
+        print(f"[integrity] 读取 duckdb_indexes() 失败：{exc}")
+        return out
+    for name, table, exprs in rows:
+        cols = _index_expr_columns(exprs)
+        if len(cols) == 1:
+            out.append((name, table, cols[0]))
+    return out
 
 
 def _index_expr_columns(exprs: Any) -> List[str]:
     """把 ``duckdb_indexes().expressions`` 归一为**列名列表**。
 
-    DuckDB 各版本该列形态不一：可能是 ``LIST(VARCHAR)``（``['date']``），
-    也可能是其字符串表示（``"[date]"`` / ``'["source"]'``）。两种都解析。
+    DuckDB 该列的形态不稳定：可能是 ``LIST(VARCHAR)``（``['date']``），
+    也可能是其字符串表示——且**带引号的标识符会被再包一层单引号**，
+    如 ``['"source"']``（外层单引号 + 内层双引号）。故需**反复**剥壳。
     """
     if exprs is None:
         return []
@@ -532,51 +536,114 @@ def _index_expr_columns(exprs: Any) -> List[str]:
         if text.startswith("[") and text.endswith("]"):
             text = text[1:-1]
         parts = text.split(",") if text else []
-    return [p.strip().strip('"').strip("'").strip() for p in parts if p.strip()]
+    return [_strip_identifier(p) for p in parts if p.strip()]
 
 
-def date_equality_mismatches(conn: "duckdb.DuckDBPyConnection") -> Dict[str, List[Tuple[str, int, int]]]:
-    """逐表逐日核验：``date = ?::DATE``（可能走二级索引）与 ``date::VARCHAR = ?``（强制全表扫）行数是否一致。
+def _strip_identifier(raw: str) -> str:
+    """去掉标识符外层的成对引号（可多层层叠：``'"source"'`` → ``source``）。"""
+    text = raw.strip()
+    while len(text) >= 2 and text[0] == text[-1] and text[0] in ("'", '"'):
+        text = text[1:-1].strip()
+    return text
 
-    二者不一致 ⇔ 存在「陈旧的单列 ``date`` 二级索引遮蔽了正确的 PK 索引」——
-    即 P0-1/P0-2 的根因（等值查 0 或错值、全表扫才是真值）。
 
-    右式对列做 ``CAST``，使 ``date`` 列上的索引无法被使用 → 等价于全表扫的「真值」。
+def materialized_truth_counts(
+    conn: "duckdb.DuckDBPyConnection", table: str, column: str
+) -> Dict[Any, int]:
+    """``{value: count}``：某列各取值的**物化 + 纯全表扫**真值。
+
+    先把整列灌进 **temp 表**（temp 表无索引 ⇒ 后续聚合不受任何坏索引影响），再分组计数——
+    契合 ARCHITECTURE §12「真值必须物化 + 纯全表扫，真值查询内不得出现裸等值谓词」。
+    普通 ``GROUP BY`` 或把等值下推进子查询都可能被坏索引一并答复而**一起算错**，故不用。
+    """
+    conn.execute(
+        f"CREATE OR REPLACE TEMP TABLE _ct_truth AS SELECT {column} AS v FROM {table}"
+    )
+    try:
+        rows = conn.execute("SELECT v, COUNT(*) FROM _ct_truth GROUP BY 1").fetchall()
+    finally:
+        conn.execute("DROP TABLE IF EXISTS _ct_truth")
+    return {r[0]: int(r[1]) for r in rows}
+
+
+def index_equality_mismatches(
+    conn: "duckdb.DuckDBPyConnection",
+) -> Dict[str, List[Tuple[str, int, int]]]:
+    """逐**单列索引**逐值核验：``col = ?`` 等值计数（可能走坏索引）vs **物化全表扫真值**。
+
+    ⚠️ **覆盖全部单列索引列，不限于 ``date``**：只查 ``date`` 会漏掉
+    ``content_archive.source`` / ``content_archive.coin_id`` / ``source_status.source``
+    （ARCHITECTURE §12 🔴 假绿警告）。任何 ``indexed != truth`` 即该索引损坏/陈旧。
 
     Returns:
-        ``{table: [(date, eq_cnt, scan_cnt), ...]}``；健康库返回 ``{}``。
+        ``{index_name: [(value, indexed_cnt, truth_cnt), ...]}``；健康库返回 ``{}``。
     """
     mismatches: Dict[str, List[Tuple[str, int, int]]] = {}
-    for table in _tables_with_date_column(conn):
+    for name, table, column in single_column_indexes(conn):
         try:
-            dates = [
-                r[0]
-                for r in conn.execute(
-                    f"SELECT DISTINCT date::VARCHAR FROM {table} WHERE date IS NOT NULL ORDER BY 1"
-                ).fetchall()
-            ]
-        except Exception as exc:  # noqa: BLE001 - 单表异常不阻断整体自检
-            print(f"[integrity] 枚举 {table}.date 失败：{exc}")
+            truth = materialized_truth_counts(conn, table, column)
+        except Exception as exc:  # noqa: BLE001 - 单索引异常不阻断整体自检
+            print(f"[integrity] 物化真值 {table}.{column} 失败：{exc}")
             continue
         bad: List[Tuple[str, int, int]] = []
-        for value in dates:
+        for value, truth_cnt in truth.items():
+            if value is None:
+                continue
             try:
-                eq_cnt = int(
-                    conn.execute(f"SELECT COUNT(*) FROM {table} WHERE date = ?::DATE", [value]).fetchone()[0]
-                )
-                scan_cnt = int(
+                indexed_cnt = int(
                     conn.execute(
-                        f"SELECT COUNT(*) FROM {table} WHERE date::VARCHAR = ?", [value]
+                        f"SELECT COUNT(*) FROM {table} WHERE {column} = ?", [value]
                     ).fetchone()[0]
                 )
             except Exception as exc:  # noqa: BLE001
-                print(f"[integrity] 核验 {table}.date={value} 失败：{exc}")
+                print(f"[integrity] 核验 {table}.{column}={value!r} 失败：{exc}")
                 continue
-            if eq_cnt != scan_cnt:
-                bad.append((str(value), eq_cnt, scan_cnt))
+            if indexed_cnt != truth_cnt:
+                bad.append((str(value), indexed_cnt, truth_cnt))
         if bad:
-            mismatches[table] = bad
+            mismatches[name] = bad
     return mismatches
+
+
+def rebuild_index(
+    conn: "duckdb.DuckDBPyConnection", index_name: str, table: str, column: str
+) -> None:
+    """``DROP INDEX`` + ``CREATE INDEX`` 重建单个二级索引。
+
+    幂等、**不动数据、不碰 FTS**（ARCHITECTURE §12：严禁物理重写整表）。
+    索引名/表名/列名均取自库内元数据（非外部输入）。
+    """
+    conn.execute(f"DROP INDEX IF EXISTS {index_name}")
+    conn.execute(f"CREATE INDEX {index_name} ON {table}({column})")
+
+
+def rebuild_damaged_indexes(conn: "duckdb.DuckDBPyConnection") -> Dict[str, Any]:
+    """检测 → **重建**全部损坏的单列二级索引 → 复检；并**断言索引集合不丢**（§12）。
+
+    Returns:
+        ``{"mismatches_before", "rebuilt", "indexes_before", "indexes_after",
+            "mismatches_after", "index_lost"}``；
+        ``index_lost`` 为 True 表示重建过程中索引集合发生变化（应触发告警）。
+    """
+    before = index_equality_mismatches(conn)
+    catalog = {name: (table, column) for name, table, column in single_column_indexes(conn)}
+    indexes_before = sorted(catalog)
+    rebuilt: List[str] = []
+    for name in sorted(before):
+        if name not in catalog:
+            continue
+        table, column = catalog[name]
+        rebuild_index(conn, name, table, column)
+        rebuilt.append(name)
+    indexes_after = sorted(n for n, _, _ in single_column_indexes(conn))
+    return {
+        "mismatches_before": before,
+        "rebuilt": rebuilt,
+        "indexes_before": indexes_before,
+        "indexes_after": indexes_after,
+        "mismatches_after": index_equality_mismatches(conn),
+        "index_lost": indexes_before != indexes_after,
+    }
 
 
 def redundant_date_indexes(conn: "duckdb.DuckDBPyConnection") -> List[str]:

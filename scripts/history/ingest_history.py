@@ -329,14 +329,24 @@ def run_incremental(
 
         fts_ok, fts_totals = verify_fts(conn, verbose=verbose)
 
-        # 完整性自检（P0-1/P0-2 回归护栏）：等值查找不得比全表扫少
-        integrity_bad = ec.date_equality_mismatches(conn)
-        integrity_ok = not integrity_bad
+        # 完整性自检（§12 / §13-O11）：单列二级索引损坏 → **自动重建**（DROP+CREATE，不动数据）
+        integrity_before = ec.index_equality_mismatches(conn)
+        integrity_rebuilt: List[str] = []
+        integrity_bad: Dict[str, Any] = {}
+        if integrity_before:
+            repair = ec.rebuild_damaged_indexes(conn)
+            integrity_rebuilt = repair["rebuilt"]
+            integrity_bad = repair["mismatches_after"]
+            integrity_ok = (not integrity_bad) and (not repair["index_lost"])
+        else:
+            integrity_ok = True
         if verbose:
-            if integrity_ok:
-                print("[ingest] 完整性自检 [PASS ✓]：各表 `date = ?` 与全表扫一致")
+            if integrity_ok and not integrity_rebuilt:
+                print("[ingest] 完整性自检 [PASS ✓]：全部单列索引与物化全表扫真值一致")
+            elif integrity_ok:
+                print(f"[ingest] 完整性自检 [修复 ✓]：重建损坏索引 {integrity_rebuilt}，复检通过")
             else:
-                print(f"[ingest] 完整性自检 [FAIL ✗]：等值查找不一致（疑似陈旧索引）{integrity_bad}")
+                print(f"[ingest] 完整性自检 [FAIL ✗]：索引损坏且重建后仍不一致 {integrity_bad}")
 
         result.update(
             {
@@ -348,6 +358,7 @@ def run_incremental(
                 "fts_ok": fts_ok,
                 "fts_totals": fts_totals,
                 "integrity_ok": integrity_ok,
+                "integrity_rebuilt": integrity_rebuilt,
                 "integrity_mismatches": integrity_bad,
                 "stats": after_counts,
             }
