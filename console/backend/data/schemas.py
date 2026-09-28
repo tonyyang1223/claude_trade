@@ -274,7 +274,11 @@ class NewsTimelineResponse(BaseModel):
 
 
 class SearchHit(BaseModel):
-    """H5 单条检索命中（本轮未实现，见 history_svc.search）。"""
+    """H5 单条检索命中（见 services.history_svc.search）。
+
+    ``score`` 为 FTS ``match_bm25`` 打分；ILIKE 兜底路径无打分 → ``None``。
+    ``body_grams`` 仅为索引辅助列，**绝不**出现在响应中。
+    """
 
     content_id: str = ""
     date: Optional[str] = None
@@ -288,7 +292,7 @@ class SearchHit(BaseModel):
 
 
 class SearchResponse(BaseModel):
-    """H5 GET /api/history/search（占位）。"""
+    """H5 GET /api/history/search：CJK bigram → FTS(OR) → ILIKE 兜底。"""
 
     query: str = ""
     hits: List[SearchHit] = Field(default_factory=list)

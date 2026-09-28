@@ -15,8 +15,10 @@ from __future__ import annotations
 
 import json
 import math
+import re
+import time
 from datetime import date, datetime
-from typing import List, Optional, Tuple
+from typing import Iterator, List, Optional, Tuple
 
 from data.repository import HistoryDBError, history_db_available, history_query
 from data.schemas import (
@@ -32,6 +34,7 @@ from data.schemas import (
     MacroSeriesPoint,
     NewsTimelineItem,
     NewsTimelineResponse,
+    SearchHit,
     SearchResponse,
     SeriesPoint,
     SourceDriftRow,
@@ -63,6 +66,98 @@ MACRO_METRICS = {
     "btc_dominance": ("global_json", "btc_dominance"),
     "fear_greed": ("fear_greed_json", "value"),
 }
+
+# --------------------------------------------------------------------------
+# CJK 分词区间（复用 scripts/history/export_grams.py，保证与入库侧 grams 口径一致）
+# —— 见 ARCHITECTURE.md §8.1（1）；导入失败时用等价内联常量兜底，避免整个 app 起不来。
+# --------------------------------------------------------------------------
+try:
+    from scripts.history.export_grams import _CJK_RANGES, _WORD  # noqa: E402
+except Exception:  # pragma: no cover - 部署未含 scripts/ 时的兜底
+    _CJK_RANGES = (
+        (0x3400, 0x4DBF), (0x4E00, 0x9FFF), (0xF900, 0xFAFF),
+        (0x3040, 0x30FF), (0xAC00, 0xD7AF),
+    )
+    _WORD = re.compile(r"[A-Za-z][A-Za-z0-9_]*")
+
+# CJK 连续段匹配（与 export_grams 同一组区间）
+_CJK_CHAR = re.compile("[" + "".join(chr(lo) + "-" + chr(hi) for lo, hi in _CJK_RANGES) + "]+")
+# 非 CJK 段的英文/数字整词（以字母开头，**不切碎**，如 Solana 保持整词）
+_QUERY_WORD = _WORD
+
+
+def _is_cjk_char(ch: str) -> bool:
+    """单字符是否属于 CJK/假名/谚文区间。"""
+    code = ord(ch)
+    return any(lo <= code <= hi for lo, hi in _CJK_RANGES)
+
+
+def _iter_segments(text: str) -> Iterator[Tuple[str, bool]]:
+    """把文本切成「CJK 段 / 非 CJK 段」交替序列，产出 ``(段, 是否CJK)``。"""
+    i, n = 0, len(text)
+    while i < n:
+        cjk = _is_cjk_char(text[i])
+        j = i
+        while j < n and _is_cjk_char(text[j]) == cjk:
+            j += 1
+        yield text[i:j], cjk
+        i = j
+
+
+def build_fts_query(q: str) -> Optional[str]:
+    """查询串预处理：CJK → 字符 bigram（单字原样），英文 → 整词（小写）。
+
+    与入库侧 ``export_grams.make_grams`` 同口径，使 ``match_bm25``（simple 分词器）
+    能命中 ``body_grams``（连续中文被当作整 token，不做 bigram 则召回 0）。
+
+    Args:
+        q: 用户原始关键词（可含中英/空格/标点）。
+
+    Returns:
+        空格分隔的 token 串；``q`` 为空或切分后无 token 时返回 ``None``。
+
+    Examples:
+        >>> build_fts_query("哔哩哔哩 ETF")
+        '哔哩 哩哔 etf'
+        >>> build_fts_query("Solana 生态")
+        'solana 生态'
+        >>> build_fts_query("以太坊")
+        '以太 太坊'
+    """
+    if not q or not q.strip():
+        return None
+    text = q.strip()
+
+    out: List[str] = []
+    seen: set = set()
+
+    def _add(token: str) -> None:
+        if token and token not in seen:  # 同 token 去重，保留首次出现
+            seen.add(token)
+            out.append(token)
+
+    for seg, is_cjk in _iter_segments(text):
+        if is_cjk:
+            if len(seg) == 1:
+                _add(seg)  # 单字 best-effort（大概率 0 命中 → ILIKE 兜底）
+            else:
+                for i in range(len(seg) - 1):
+                    _add(seg[i : i + 2])  # 相邻字符 bigram
+        else:
+            for word in _QUERY_WORD.findall(seg):
+                _add(word.lower())  # 英文整词小写
+
+    return " ".join(out) or None
+
+
+def _today() -> date:
+    """参照「今日」的**唯一**入口（H7 新鲜度判断用；单测可注入固定日期）。
+
+    注入方式（两种，任选其一）：
+    1. 单测 monkeypatch：``monkeypatch.setattr(history_svc, "_today", lambda: date(2026, 8, 28))``；
+    2. 直接传参：``history_svc.health_overview(today=date(2026, 8, 28))``。
+    """
+    return date.today()
 
 
 # --------------------------------------------------------------------------
@@ -361,8 +456,91 @@ def news_timeline(
 
 
 # --------------------------------------------------------------------------
-# H5 GET /api/history/search —— 本轮占位（未实现）
+# H5 GET /api/history/search —— 全文检索（§8.1 精确规格）
 # --------------------------------------------------------------------------
+def _elapsed_ms(start: float) -> float:
+    return round((time.perf_counter() - start) * 1000.0, 3)
+
+
+def _make_snippet(text: Optional[str], tokens: List[str], width: int = 180) -> str:
+    """取 ``body_text`` 中命中关键词附近的片段（无命中则取开头）。"""
+    if not text:
+        return ""
+    lowered = text.lower()
+    best = -1
+    best_len = 0
+    for tok in tokens:
+        if not tok:
+            continue
+        idx = lowered.find(tok.lower())
+        if idx != -1 and (best == -1 or idx < best):
+            best, best_len = idx, len(tok)
+    if best == -1:
+        return text[:width]
+    start = max(0, best - 40)
+    end = min(len(text), best + best_len + 120)
+    prefix = "…" if start > 0 else ""
+    suffix = "…" if end < len(text) else ""
+    return f"{prefix}{text[start:end]}{suffix}"
+
+
+def _row_to_hit(row: dict, tokens: List[str]) -> SearchHit:
+    return SearchHit(
+        content_id=row.get("content_id") or "",
+        date=_d(row.get("date")),
+        coin_id=row.get("coin_id"),
+        source=row.get("source"),
+        title=row.get("title"),
+        snippet=_make_snippet(row.get("body_text"), tokens),
+        url=row.get("url"),
+        origin_path=row.get("origin_path"),
+        score=_as_float(row.get("score")),
+    )
+
+
+def _fts_search(fts_query: str, where: List[str], filt: List, limit: int, offset: int) -> Tuple[List[SearchHit], int]:
+    """FTS（OR 语义）主查询：``match_bm25`` 在 SELECT 与 WHERE 各调一次（不能引用别名）。"""
+    base = " AND ".join(where)
+    count = history_query(
+        "SELECT COUNT(*) AS n FROM content_archive c "
+        "WHERE fts_main_content_archive.match_bm25(c.content_id, ?, conjunctive := false) IS NOT NULL "
+        f"AND {base}",
+        [fts_query] + filt,
+    )
+    total = int(count[0]["n"] or 0)
+    rows = history_query(
+        "SELECT c.content_id, c.date, c.coin_id, c.source, c.doc_type, c.title, c.url, "
+        "c.origin_path, c.body_text, "
+        "fts_main_content_archive.match_bm25(c.content_id, ?, conjunctive := false) AS score "
+        "FROM content_archive c "
+        "WHERE fts_main_content_archive.match_bm25(c.content_id, ?, conjunctive := false) IS NOT NULL "
+        f"AND {base} ORDER BY score DESC LIMIT ? OFFSET ?",
+        [fts_query, fts_query] + filt + [limit, offset],
+    )
+    tokens = fts_query.split(" ")
+    return [_row_to_hit(r, tokens) for r in rows], total
+
+
+def _ilike_search(keyword: str, where: List[str], filt: List, limit: int, offset: int) -> Tuple[List[SearchHit], int]:
+    """ILIKE 兜底列扫（FTS 0 命中 / 扩展不可用时）；复用同一 date/coin/source 过滤。"""
+    base = " AND ".join(where)
+    like = "(c.title ILIKE '%' || ? || '%' OR c.body_text ILIKE '%' || ? || '%')"
+    count = history_query(
+        f"SELECT COUNT(*) AS n FROM content_archive c WHERE {like} AND {base}",
+        [keyword, keyword] + filt,
+    )
+    total = int(count[0]["n"] or 0)
+    rows = history_query(
+        "SELECT c.content_id, c.date, c.coin_id, c.source, c.doc_type, c.title, c.url, "
+        "c.origin_path, c.body_text, NULL AS score "
+        f"FROM content_archive c WHERE {like} AND {base} "
+        "ORDER BY c.date DESC, c.content_id LIMIT ? OFFSET ?",
+        [keyword, keyword] + filt + [limit, offset],
+    )
+    tokens = [keyword]
+    return [_row_to_hit(r, tokens) for r in rows], total
+
+
 def search(
     q: str = "",
     from_: Optional[str] = None,
@@ -372,13 +550,48 @@ def search(
     limit: int = DEFAULT_LIMIT,
     offset: int = 0,
 ) -> SearchResponse:
-    """全文检索（**本轮未实现**）。
+    """全文检索（H5）：CJK bigram 化 → FTS(OR, conjunctive=false) → 0 命中回退 ILIKE。
 
-    TODO: 等架构师的中文查询预处理规格（H5 的 body_text/body_grams 双列 FTS 查询范式）
-    到位后再补全。当前返回空 ``hits``，不抛异常。
+    - ``build_fts_query(q)`` 为 ``None``（空查询）→ 返回空结果（不报错）；
+    - FTS 命中 0（含「语料确无该词」如 ``'以太坊'``、单字符查询）→ 回退 ILIKE 列扫；
+    - FTS 扩展不可用（查询抛错）→ 同样回退 ILIKE；
+    - ``body_grams`` 仅索引辅助列，绝不返回前端。
     """
-    # TODO: 按架构师规格实现 FTS（fts_main_content_archive.match_bm25）双列检索。
-    return SearchResponse(query=q or "", hits=[], total=0, took_ms=0.0)
+    start = time.perf_counter()
+    keyword = (q or "").strip()
+    limit = max(1, min(int(limit or DEFAULT_LIMIT), MAX_LIMIT))
+    offset = max(0, int(offset or 0))
+
+    fts_query = build_fts_query(keyword)
+    lo, hi = _month_range("content_archive", from_, to)
+    if not fts_query or not lo or not hi:
+        return SearchResponse(query=keyword, hits=[], total=0, took_ms=_elapsed_ms(start))
+
+    where = ["c.date BETWEEN ? AND ?"]
+    filt: List = [lo, hi]
+    if coin_id:
+        where.append("c.coin_id = ?")
+        filt.append(coin_id)
+    if source:
+        where.append("c.source = ?")
+        filt.append(source)
+
+    hits: List[SearchHit] = []
+    total = 0
+    try:
+        hits, total = _fts_search(fts_query, where, filt, limit, offset)
+    except Exception as exc:  # noqa: BLE001 - FTS 扩展不可用 → 直接 ILIKE
+        print(f"[history_svc] FTS 检索不可用，回退 ILIKE：{exc}")
+        hits, total = [], 0
+
+    if total == 0:  # 语料确无该词 / 单字符 → ILIKE 兜底（硬要求，不得返回空）
+        try:
+            hits, total = _ilike_search(keyword, where, filt, limit, offset)
+        except Exception as exc:  # noqa: BLE001
+            print(f"[history_svc] ILIKE 兜底失败：{exc}")
+            hits, total = [], 0
+
+    return SearchResponse(query=keyword, hits=hits, total=total, took_ms=_elapsed_ms(start))
 
 
 # --------------------------------------------------------------------------
@@ -438,9 +651,14 @@ def health_sources(
 # --------------------------------------------------------------------------
 # H7 GET /api/history/health/overview
 # --------------------------------------------------------------------------
-def health_overview() -> HealthOverviewResponse:
-    """采集健康度总览：各链路新鲜度 + 异常 + 批次。"""
-    today = date.today()
+def health_overview(today: Optional[date] = None) -> HealthOverviewResponse:
+    """采集健康度总览：各链路新鲜度 + 异常 + 批次。
+
+    Args:
+        today: 参照日（缺省取 :func:`_today`，即系统今日）。
+            显式注入以便单测固定日期、避免测试随时间漂移。
+    """
+    ref = today or _today()
     try:
         scan_last = history_query("SELECT MAX(date) AS d FROM scan_day")
         macro_last = history_query("SELECT MAX(date) AS d FROM macro_snapshot")
@@ -461,7 +679,7 @@ def health_overview() -> HealthOverviewResponse:
     def _status(last) -> CollectionStatus:
         if last is None:
             return CollectionStatus(last_date=None, gap_days=None, status="empty")
-        gap = (today - last).days
+        gap = (ref - last).days
         return CollectionStatus(
             last_date=_d(last), gap_days=gap, status="ok" if gap <= STALE_DAYS else "stale"
         )

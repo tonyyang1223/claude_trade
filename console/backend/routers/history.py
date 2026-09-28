@@ -81,11 +81,11 @@ def history_news_timeline(
 
 
 # --------------------------------------------------------------------------
-# H5 全文检索（本轮占位，未实现）
+# H5 全文检索（§8.1 规格：CJK bigram 化 → FTS(OR) → 0 命中回退 ILIKE）
 # --------------------------------------------------------------------------
 @router.get("/api/history/search")
 def history_search(
-    q: str = Query("", description="检索关键词"),
+    q: str = Query("", description="检索关键词（中英混合）"),
     from_: Optional[str] = Query(None, alias="from"),
     to: Optional[str] = Query(None),
     coin_id: Optional[str] = Query(None),
@@ -94,8 +94,10 @@ def history_search(
     offset: int = Query(0, ge=0),
 ) -> dict:
     data = history_svc.search(q, from_, to, coin_id, source, limit, offset)
-    # H5 尚未实现：返回空 hits（占位），不抛 500。
-    return success(data.model_dump(), message="H5 全文检索尚未实现（占位路由，返回空 hits）")
+    # 「无结果」是合法搜索结局（§8.1 明确「不报错」）→ code=0 + 空 hits。
+    if not data.hits:
+        return success(data.model_dump(), message="无匹配结果")
+    return success(data.model_dump())
 
 
 # --------------------------------------------------------------------------
