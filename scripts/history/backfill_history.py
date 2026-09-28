@@ -131,32 +131,30 @@ def run_backfill(
             flags = compute_partial_flags(conn, verbose=verbose)
             # ⑦ **最后**建双列 FTS（必须晚于所有数据写入）
             fts_ready = build_fts_index(conn, verbose=verbose)
-            # ⑦′ 完整性自检（§12/§13-O11）：单列二级索引损坏 → **自动重建**（DROP+CREATE，不动数据）
-            integrity_before = ec.index_equality_mismatches(conn)
-            integrity_rebuilt = []
-            integrity_lost = False
-            if integrity_before:
-                repair = ec.rebuild_damaged_indexes(conn)
-                integrity_rebuilt = repair["rebuilt"]
-                integrity_bad = repair["mismatches_after"]
-                integrity_lost = bool(repair["index_lost"])
-            else:
-                integrity_bad = {}
-            # 预期索引集合存在性断言（独立于重建流程；防「意外丢索引」，ARCHITECTURE §12）
-            missing_indexes = ec.audit_expected_indexes(conn)["missing"]
-            integrity_ok = (not integrity_bad) and (not integrity_lost) and (not missing_indexes)
+            # ⑦′ 完整性自愈（§12/§13-O11）：**按 ddl.sql 补齐缺失索引** + **重建「存在但算错」索引**
+            heal = ec.heal_indexes(conn)
+            integrity_created = heal["created"]
+            integrity_rebuilt = heal["rebuilt"]
+            integrity_dropped = heal["dropped_redundant"]
+            integrity_bad = heal["mismatches_after"]
+            missing_indexes = heal["missing_after"]
+            integrity_ok = bool(heal["ok"])
         rows_loaded = sum(counts.values())
 
         if verbose:
-            if integrity_ok and not integrity_rebuilt:
-                print("[backfill] 完整性自检 [PASS ✓]：全部单列索引与物化全表扫真值一致，"
-                      "且预期 6 个索引齐备")
+            if integrity_ok and not (integrity_created or integrity_rebuilt):
+                print("[backfill] 完整性自检 [PASS ✓]：预期 6 个索引齐备，且等值计数 == 物化全表扫真值")
             elif integrity_ok:
-                print(f"[backfill] 完整性自检 [修复 ✓]：重建损坏索引 {integrity_rebuilt}，复检通过")
+                print(f"[backfill] 完整性自检 [自愈 ✓]：补齐 {integrity_created}、"
+                      f"重建 {integrity_rebuilt}，复检通过")
             else:
                 reason = "索引损坏且重建后仍不一致" if integrity_bad else (
-                    "重建期丢索引" if integrity_lost else f"缺失预期索引 {missing_indexes}")
+                    "重建期丢索引" if heal["index_lost"] else f"缺失预期索引 {missing_indexes}")
                 print(f"[backfill] 完整性自检 [FAIL ✗]：{reason}")
+            if integrity_dropped:
+                print(f"[backfill] 已清理冗余 date 索引：{integrity_dropped}")
+            if heal["unknown_unexpected"]:
+                print(f"[backfill] ⚠️ 未知多余索引（不自动删除，请人工确认）：{heal['unknown_unexpected']}")
 
         result.update(
             {
@@ -165,7 +163,9 @@ def run_backfill(
                 "partial_flags": flags,
                 "fts_ready": fts_ready,
                 "integrity_ok": integrity_ok,
+                "integrity_created": integrity_created,
                 "integrity_rebuilt": integrity_rebuilt,
+                "integrity_dropped_redundant": integrity_dropped,
                 "integrity_mismatches": integrity_bad,
                 "missing_indexes": missing_indexes,
             }

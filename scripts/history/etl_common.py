@@ -555,10 +555,11 @@ def _strip_identifier(raw: str) -> str:
 # 使断言口径**以 DDL 为准**，避免与 §12 的清单各自漂移（ARCHITECTURE §12）。
 # 正则锚定**行首**（可选前导空白），故 ``--`` 注释里的 ``CREATE INDEX`` 不会被误当预期；
 # 索引名/表名/列名统一走 :func:`_strip_identifier`，兼容被引号包裹的标识符。
+# ``stmt`` 组捕获**整条 DDL 语句文本**——「补齐缺失」时直接执行它，即**同一份定义**（不另写）。
 _CREATE_INDEX_RE = re.compile(
-    r"^[ \t]*CREATE\s+INDEX\s+(?:IF\s+NOT\s+EXISTS\s+)?"
+    r"^[ \t]*(?P<stmt>CREATE\s+INDEX\s+(?:IF\s+NOT\s+EXISTS\s+)?"
     r"(?P<name>[A-Za-z_]\w*)\s+ON\s+(?P<table>[A-Za-z_]\w*)"
-    r"\s*\(\s*(?P<cols>[^)]+?)\s*\)",
+    r"\s*\(\s*(?P<cols>[^)]+?)\s*\))",
     re.IGNORECASE | re.MULTILINE,
 )
 
@@ -588,6 +589,23 @@ def expected_indexes(ddl_text: Optional[str] = None) -> Dict[str, Tuple[str, str
         cols = [_strip_identifier(c) for c in match.group("cols").split(",")]
         if len(cols) == 1:  # 只关心单列二级索引
             out[name] = (table, cols[0])
+    return out
+
+
+def expected_index_statements(ddl_text: Optional[str] = None) -> Dict[str, str]:
+    """``{index_name: "CREATE INDEX ..."}``——取自 ``ddl.sql``（仅单列索引）。
+
+    与 :func:`expected_indexes` **同源同解析**：补齐缺失索引时**执行这里的原语句**，
+    即「同一份索引定义」，而非另写一份（无漂移风险，ARCHITECTURE §12）。
+    """
+    if ddl_text is None:
+        ddl_text = DDL_PATH.read_text(encoding="utf-8")
+    out: Dict[str, str] = {}
+    for match in _CREATE_INDEX_RE.finditer(ddl_text):
+        name = _strip_identifier(match.group("name"))
+        cols = [_strip_identifier(c) for c in match.group("cols").split(",")]
+        if len(cols) == 1:
+            out[name] = match.group("stmt").strip()
     return out
 
 
@@ -627,6 +645,40 @@ def audit_expected_indexes(
         "missing": sorted(expected_names - all_names),
         "unexpected": sorted(all_names - expected_names),
     }
+
+
+def ensure_expected_indexes(
+    conn: "duckdb.DuckDBPyConnection",
+    names: Optional[List[str]] = None,
+    expected: Optional[Dict[str, Tuple[str, str]]] = None,
+) -> List[str]:
+    """按 ``ddl.sql`` 的 ``CREATE INDEX IF NOT EXISTS`` **补齐缺失**的预期索引（幂等）。
+
+    ⚠️ 只执行 ``ddl.sql`` 里对该索引的**原语句**（:func:`expected_index_statements`）——
+    即「同一份索引定义」，不另写一份（无漂移风险，见 ARCHITECTURE §12）。
+
+    Args:
+        names: 需要补建的索引名；缺省取 :func:`audit_expected_indexes` 的 ``missing``。
+        expected: 预期集合（仅在 ``names`` 缺省时用于计算缺失）。
+
+    Returns:
+        实际执行了补建语句的索引名列表（无需补建时为空）。
+    """
+    expected = expected if expected is not None else expected_indexes()
+    if names is None:
+        names = audit_expected_indexes(conn, expected)["missing"]
+    if not names:
+        return []
+    statements = expected_index_statements()
+    created: List[str] = []
+    for name in names:
+        stmt = statements.get(name)
+        if not stmt:
+            print(f"[integrity] ⚠️ ddl.sql 未找到索引 {name} 的定义，跳过补建")
+            continue
+        conn.execute(stmt)  # CREATE INDEX IF NOT EXISTS ...（DDL 单一真源）
+        created.append(name)
+    return created
 
 
 def materialized_truth_counts(
@@ -699,15 +751,21 @@ def rebuild_index(
     conn.execute(f"CREATE INDEX {index_name} ON {table}({column})")
 
 
-def rebuild_damaged_indexes(conn: "duckdb.DuckDBPyConnection") -> Dict[str, Any]:
+def rebuild_damaged_indexes(
+    conn: "duckdb.DuckDBPyConnection",
+    mismatches_before: Optional[Dict[str, List[Tuple[str, int, int]]]] = None,
+) -> Dict[str, Any]:
     """检测 → **重建**全部损坏的单列二级索引 → 复检；并**断言索引集合不丢**（§12）。
+
+    Args:
+        mismatches_before: 已算好的「等值 vs 真值」不一致（省一次全表扫）；缺省自算。
 
     Returns:
         ``{"mismatches_before", "rebuilt", "indexes_before", "indexes_after",
             "mismatches_after", "index_lost"}``；
         ``index_lost`` 为 True 表示重建过程中索引集合发生变化（应触发告警）。
     """
-    before = index_equality_mismatches(conn)
+    before = index_equality_mismatches(conn) if mismatches_before is None else mismatches_before
     catalog = {name: (table, column) for name, table, column in single_column_indexes(conn)}
     indexes_before = sorted(catalog)
     rebuilt: List[str] = []
@@ -725,6 +783,76 @@ def rebuild_damaged_indexes(conn: "duckdb.DuckDBPyConnection") -> Dict[str, Any]
         "indexes_after": indexes_after,
         "mismatches_after": index_equality_mismatches(conn),
         "index_lost": indexes_before != indexes_after,
+    }
+
+
+def cleanup_redundant_indexes(conn: "duckdb.DuckDBPyConnection") -> List[str]:
+    """DROP 掉全部「单列 且 该列 == 表 PK 首列」的**冗余**二级索引（幂等）。
+
+    比 ``init_db.drop_legacy_redundant_indexes`` **更通用**（后者只认 3 个固定名）：
+    本函数按 :func:`redundant_date_indexes` 的**探测结果**清理，故能处理任意误建的
+    「PK 首列即 date」冗余索引；对无冗余的健康库返回空列表（无副作用）。
+    """
+    dropped: List[str] = []
+    for name in redundant_date_indexes(conn):
+        conn.execute(f"DROP INDEX IF EXISTS {name}")
+        dropped.append(name)
+    return dropped
+
+
+def heal_indexes(
+    conn: "duckdb.DuckDBPyConnection",
+    expected: Optional[Dict[str, Tuple[str, str]]] = None,
+) -> Dict[str, Any]:
+    """索引**自愈**（§13-O11）：一套例程同时覆盖两种故障，供 ``check_integrity --fix``
+    与 ETL 收尾**共用**：
+
+    1. **缺失**（预期索引不在库）→ 按 ``ddl.sql`` 的原语句 ``CREATE INDEX IF NOT EXISTS``
+       **补齐**（DDL 单一真源，不另写定义）；
+    2. **存在但算错**（等值计数 ≠ 物化全表扫真值）→ ``DROP INDEX`` + ``CREATE INDEX`` **重建**；
+    3. ``unexpected``（预期外多出的索引）中的**冗余 date 索引** → 清理；
+       **未知**多余索引 → **不动作**（仅返回，供上层告警，避免误删他人索引）。
+
+    Returns:
+        ``{"created", "rebuilt", "dropped_redundant", "unknown_unexpected",
+            "missing_before", "missing_after", "mismatches_before", "mismatches_after",
+            "index_lost", "ok"}``；``ok`` 为 False 表示自愈后仍有「缺索引 / 算错 / 重建期丢索引」。
+    """
+    expected = expected if expected is not None else expected_indexes()
+    audit_before = audit_expected_indexes(conn, expected)
+    missing_before = list(audit_before["missing"])
+    redundant = set(redundant_date_indexes(conn))
+    unknown_unexpected = sorted(set(audit_before["unexpected"]) - redundant)
+
+    # ① 按 DDL 补齐缺失索引
+    created = ensure_expected_indexes(conn, missing_before, expected=expected)
+    # ② 清理冗余 date 索引（预期外、PK 首列即 date 者）
+    dropped_redundant = cleanup_redundant_indexes(conn)
+    # ③ 重建「存在但算错」的索引（复用已算好的不一致，省一次全表扫）
+    mismatches_before = index_equality_mismatches(conn)
+    if mismatches_before:
+        report = rebuild_damaged_indexes(conn, mismatches_before=mismatches_before)
+        rebuilt = report["rebuilt"]
+        index_lost = bool(report["index_lost"])
+        mismatches_after = report["mismatches_after"]
+    else:
+        rebuilt = []
+        index_lost = False
+        mismatches_after = {}
+
+    audit_after = audit_expected_indexes(conn, expected)
+    ok = (not audit_after["missing"]) and (not mismatches_after) and (not index_lost)
+    return {
+        "created": created,
+        "rebuilt": rebuilt,
+        "dropped_redundant": dropped_redundant,
+        "unknown_unexpected": unknown_unexpected,
+        "missing_before": missing_before,
+        "missing_after": audit_after["missing"],
+        "mismatches_before": mismatches_before,
+        "mismatches_after": mismatches_after,
+        "index_lost": index_lost,
+        "ok": ok,
     }
 
 

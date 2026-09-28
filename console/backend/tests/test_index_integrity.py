@@ -191,6 +191,7 @@ def test_check_integrity_pass_on_healthy(tmp_path: Path):
 
     result = ci.check_integrity(db_path=db_path, fix=True, verbose=False)
     assert result["ok"] is True
+    assert result["created"] == []
     assert result["rebuilt"] == []
     assert result["index_lost"] is False
     assert result["mismatches_after"] == {}
@@ -250,3 +251,56 @@ def test_check_integrity_fails_when_expected_index_missing(tmp_path: Path):
     result = ci.check_integrity(db_path=db_path, fix=False, verbose=False)
     assert result["ok"] is False, "缺预期索引时自检必须 FAIL（否则是假绿）"
     assert result["missing_indexes"] == ["idx_content_source"]
+
+
+# --------------------------------------------------------------------------
+# 7) 自愈：--fix / ETL 收尾**按 ddl.sql 补齐缺失** + 重建「存在但算错」
+# --------------------------------------------------------------------------
+def test_ensure_expected_indexes_recreates_missing(conn):
+    conn.execute("DROP INDEX IF EXISTS idx_content_source")
+    created = ec.ensure_expected_indexes(conn)
+    assert created == ["idx_content_source"], created
+    assert ("content_archive", "source") in {(t, c) for _, t, c in ec.single_column_indexes(conn)}
+    assert ec.audit_expected_indexes(conn)["missing"] == []
+    assert ec.ensure_expected_indexes(conn) == []  # 幂等：已存在则不动作
+
+
+def test_heal_indexes_creates_missing_and_reports_ok(conn):
+    conn.execute("DROP INDEX IF EXISTS idx_srcstat_source")
+    heal = ec.heal_indexes(conn)
+    assert heal["created"] == ["idx_srcstat_source"], heal
+    assert heal["missing_after"] == []
+    assert heal["missing_before"] == ["idx_srcstat_source"]
+    assert heal["ok"] is True
+
+
+def test_check_integrity_fix_recreates_missing(tmp_path: Path):
+    from scripts.history import check_integrity as ci
+
+    db_path = tmp_path / "ci_fix.duckdb"
+    c = ec.connect(db_path)
+    apply_schema(c, verbose=False)
+    _seed_content(c)
+    c.execute("DROP INDEX IF EXISTS idx_content_source")
+    c.close()
+
+    result = ci.check_integrity(db_path=db_path, fix=True, verbose=False)
+    assert result["ok"] is True, result
+    assert result["created"] == ["idx_content_source"]
+    assert result["missing_indexes"] == []
+
+
+def test_heal_indexes_drops_redundant_but_keeps_unknown(conn):
+    """unexpected 拆分：冗余 date 索引 → 清理；未知多余索引 → 仅告警、不自动删。"""
+    conn.execute("CREATE INDEX idx_catmem_date ON category_membership(date)")  # 冗余（PK 首列=date）
+    conn.execute("CREATE INDEX idx_unknown_coin ON macro_watchlist(coin_id)")  # 非冗余 → 未知
+
+    heal = ec.heal_indexes(conn)
+    assert "idx_catmem_date" in heal["dropped_redundant"], heal
+    assert not conn.execute(
+        "SELECT 1 FROM duckdb_indexes() WHERE index_name = 'idx_catmem_date'"
+    ).fetchone(), "冗余 date 索引应被清理"
+    assert conn.execute(
+        "SELECT 1 FROM duckdb_indexes() WHERE index_name = 'idx_unknown_coin'"
+    ).fetchone(), "未知多余索引**不得**被自动删除"
+    assert "idx_unknown_coin" in heal["unknown_unexpected"], heal

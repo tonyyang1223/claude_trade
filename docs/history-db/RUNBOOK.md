@@ -127,7 +127,8 @@ DuckDB 单文件**同一时刻只允许一个写连接**（写连接独占文件
 
 > 除「等值计数一致性」外，自检还会**断言 `ddl.sql` 声明的 6 个具名索引全部存在**
 > （`etl_common.audit_expected_indexes`）——这样**任何一次意外丢索引**（误 `DROP`、物理重写）
-> 都会被抓住，而不只是「重建过程中不丢」（§5.2）。
+> 都会被抓住，而不只是「重建过程中不丢」（§5.2）。**缺失即自愈**：`--fix` 与 ETL 收尾
+> 会按 `ddl.sql` 的原语句**自动补建**缺失索引（DDL 单一真源，§5.2）。
 
 > 另有**冗余单列 date 索引**（`idx_catmem_date` / `idx_srcstat_date` / `idx_snap_date`，PK 首列即该列）
 > 已从 `ddl.sql` 移除并由 `init_db.apply_schema` 幂等清理——它们对查询无增益（PK 已覆盖其前缀查找）。
@@ -257,33 +258,37 @@ c.close()
 > 通常**无需手工执行**：下次 `ingest_history.py --incremental` 或 `backfill_history.py`
 > 启动时会**自动回收**（见 §1.5）。仅当你想立刻消除「正在跑」的假信号、且当下无人占用库时手动跑。
 
-### 5.2 索引完整性自检 / 修复（单列 ART 二级索引，见 §1.6）
+### 5.2 索引完整性自检 / 自愈（单列 ART 二级索引，见 §1.6）
 
 一条命令做**两件事**：(A) 自检「**每个单列索引列**的 `col = ?` 等值计数 是否等于 **物化全表扫真值**」；
 (B) **断言 `ddl.sql` 声明的 6 个具名索引全部存在**（防「意外丢索引」，独立于重建流程）：
 
 ```bash
 python scripts/history/check_integrity.py          # 只读自检；有损坏/缺索引 → 退出码 1
-python scripts/history/check_integrity.py --fix    # 检测并**重建**损坏索引（需写锁）
+python scripts/history/check_integrity.py --fix    # 索引**自愈**（需写锁）
 ```
+
+`--fix` 执行**同一个自愈例程**（`etl_common.heal_indexes`，与 ETL 收尾**共用**），覆盖两种故障：
+
+1. **缺失**（预期索引不在库）→ **按 `ddl.sql` 的原语句 `CREATE INDEX IF NOT EXISTS` 补齐**
+   （DDL 单一真源，不另写定义）；
+2. **存在但算错**（等值计数 ≠ 物化全表扫真值）→ `DROP INDEX` + `CREATE INDEX` **重建**；
+3. `unexpected`（预期外多出的索引）里**冗余 date 索引**（PK 首列 = date）→ **清理**；
+   **未知**多余索引 → **只告警、不自动删**（避免误删他人索引）。
 
 - **健康库**：`✅ 预期索引集合完整（6 个具名索引全部存在）` +
   `✅ 全部单列索引：等值计数 == 物化全表扫真值（0 处不一致）`，退出码 0；
-- **有损坏**：逐索引逐值列出 `indexed=… truth=…` 偏差，`--fix` 会 `DROP INDEX` + `CREATE INDEX`
-  **重建**（不动数据、不碰 FTS）并复检；
-- **缺预期索引**（被误 `DROP` / 物理重写整表导致丢索引）：打印
-  `🔴 缺失预期索引（库中不存在，疑似意外 DROP / 物理重写）：[...]` → 退出码 1。
-  **恢复**：重跑 `python scripts/history/init_db.py`（或 `backfill_history.py`）即会按 DDL
-  的 `CREATE INDEX IF NOT EXISTS` **重建缺的索引**（`--fix` 只重建「存在但算错」的索引，不补缺）。
+- **有损坏/缺索引**：`--fix` 补齐缺失 + 重建损坏 + 清理冗余后**复检**；退出码 1（若无可自愈项）或 0（自愈后通过）。
 
 > ⚠️ 检测**覆盖全部单列索引列**（含非 `date` 的 `content_archive.source` / `coin_id`、
 > `source_status.source`），且真值**先物化**（temp 表）——否则会「假绿」（见 §1.6 / ARCHITECTURE §12）。
-> 预期索引口径**取自 `ddl.sql`**（`etl_common.expected_indexes`），不硬编码，避免与 DDL 漂移。
+> 预期索引口径与补建语句**均取自 `ddl.sql`**（`etl_common.expected_indexes` /
+> `expected_index_statements`），不硬编码，避免与 DDL 漂移。
 > `--fix` 需要**写连接**（DuckDB 单写者，勿与只读/其它 ETL 并发）。
 
-`ingest_history.py` / `backfill_history.py` 收尾也会自动跑同一自检，
-发现损坏则**自动重建**（ARCHITECTURE §13-O11）；若重建后仍不一致、**或缺失预期索引**，
-则 **ingest/backfill 退出码 2**（结果字段 `missing_indexes`）。
+`ingest_history.py` / `backfill_history.py` 收尾也会自动跑**同一自愈**（ARCHITECTURE §13-O11）；
+自愈后仍有「缺索引 / 算错 / 重建期丢索引」时 **ingest/backfill 退出码 2**
+（结果字段 `integrity_created` / `integrity_rebuilt` / `missing_indexes`）。
 
 
 ---
@@ -299,7 +304,8 @@ python scripts/history/check_integrity.py --fix    # 检测并**重建**损坏�
 | `IO Error: Cannot open file ... File is already open in <path> (PID n)` | 另一进程（只读或写）占着库 | 入库与只读查询**不可并发**（§1.4）；等其释放或停服执行，**勿强杀** |
 | 健康度页**永远显示一个 `running` 批次** | 批次进程被强杀，收尾未执行 → 悬挂批次（假信号） | 见 §1.5；下次 ETL 启动自动回收，或手动 `reap_stale_batches`（§5.1） |
 | **某 `col = ?` 等值计数比全表扫少/为 0**（含 `source`/`coin_id` 等非 `date` 列） | **单列 ART 二级索引损坏**（索引项缺失），非数据问题 | 跑 `check_integrity.py --fix`（§5.2 / §1.6）；**重建**该索引，勿物理重写整表 |
-| **自检报 `🔴 缺失预期索引`**（`ddl.sql` 声明的 6 个里少了某几个） | 某索引被误 `DROP` / 物理重写整表导致丢索引 | 重跑 `python scripts/history/init_db.py`（按 DDL 的 `CREATE INDEX IF NOT EXISTS` 补建）；勿物理重写整表（§5.2 / §1.6） |
+| **自检报 `🔴 缺失预期索引`**（`ddl.sql` 声明的 6 个里少了某几个） | 某索引被误 `DROP` / 物理重写整表导致丢索引 | `check_integrity.py --fix`（或下次 ingest/backfill）会**按 `ddl.sql` 自动补建**（§5.2）；勿物理重写整表（§1.6） |
+| **自检报 `⚠️ 未知多余索引`** | 库中多出预期外的索引（非「PK 首列=date」的冗余） | **不会自动删**；请人工确认归属后再处置（§5.2） |
 | **老端点某 `date` 静默走文件回退**（DB 查询返回 0 行） | 同上（`date = ?` 命中损坏索引返回 0 → 触发请求级回退） | 见 §1.6；`check_integrity.py` 可复现并修复 |
 | 增量「什么也没做」 | 无新数据（水位线之后无变更文件） | **预期行为**（幂等空跑）；用 `--dry-run` 确认候选 |
 | 增量退出码 **2** | FTS 复验低于基线 | 检查索引是否被破坏，手动重建 FTS（§1.1） |
@@ -330,7 +336,7 @@ python scripts/history/check_integrity.py --fix    # 检测并**重建**损坏�
 | `scripts/history/etl_common.py` | 连接 / 批次 / 文件台账 / 归一 |
 | `scripts/history/load_daily_scan.py` `load_macro.py` | 分表装载逻辑 |
 | `scripts/history/export_grams.py` | `make_grams`（入库与查询的 **bigram 单一真源**） |
-| `scripts/history/check_integrity.py` | **索引完整性自检/修复**（等值查找一致性 + 预期索引存在性断言 + 冗余 date 索引，P0-1/P0-2） |
+| `scripts/history/check_integrity.py` | **索引完整性自检/自愈**（等值查找一致性 + 预期索引存在性断言 + 补齐缺失/重建/冗余清理，P0-1/P0-2） |
 | `scripts/history/ddl.sql` | 表/视图/FTS 定义 |
 | `console/backend/services/history_svc.py` | H1–H8 只读端点服务层 |
 | `console/backend/tests/test_repository_parity.py` | 文件 ↔ DuckDB 同构性测试 |

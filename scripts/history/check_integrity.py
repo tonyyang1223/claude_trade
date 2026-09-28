@@ -15,13 +15,18 @@
    ``ddl.sql`` 声明的 **6 个具名索引**逐个查存在性（``etl_common.audit_expected_indexes``）——
    任何**非重建路径**的丢索引（误 ``DROP`` / 物理重写 / 半损坏）都会被抓住（ARCHITECTURE §12）。
 
+``--fix`` 执行**索引自愈**（``etl_common.heal_indexes``，与 ETL 收尾共用同一例程）：
+① **按 ``ddl.sql`` 原语句补齐「缺失」索引**（DDL 单一真源）；
+② ``DROP`` + ``CREATE`` **重建「存在但算错」**的索引；
+③ ``unexpected`` 里的**冗余 date 索引**清理，**未知**多余索引**只告警不自动删**。
+
 用法（项目根目录）::
 
     python scripts/history/check_integrity.py          # 只读自检；有坏索引/缺索引 → 退出码 1
-    python scripts/history/check_integrity.py --fix    # 检测并**重建**损坏索引（需写锁）
+    python scripts/history/check_integrity.py --fix    # 自愈：补齐缺失 + 重建损坏（需写锁）
     python scripts/history/check_integrity.py --db <path>
 
-修复后自检应「0 处不一致」且「预期 6 个索引齐备」，退出码 0。
+自愈后应「0 处不一致」且「预期 6 个索引齐备」，退出码 0。
 """
 from __future__ import annotations
 
@@ -41,16 +46,17 @@ def check_integrity(
     fix: bool = False,
     verbose: bool = True,
 ) -> Dict[str, Any]:
-    """执行完整性自检（可选重建损坏索引）。
+    """执行完整性自检（可选自愈：补齐缺失 + 重建损坏索引）。
 
     Args:
         db_path: 库文件路径；默认 ``ec.DB_PATH``。
-        fix: 为 True 时**重建**所有损坏的单列二级索引（需要写连接 / 写锁）。
+        fix: 为 True 时执行**索引自愈**（``ec.heal_indexes``）——按 ``ddl.sql`` 补齐**缺失**索引
+            + ``DROP/CREATE`` **重建**「存在但算错」的索引（需要写连接 / 写锁）。
 
     Returns:
         ``{"db_path", "expected_indexes", "missing_indexes", "indexed_columns",
-            "redundant_indexes", "mismatches_before", "rebuilt", "mismatches_after",
-            "index_lost", "ok"}``。
+            "redundant_indexes", "dropped_redundant_indexes", "unknown_unexpected_indexes",
+            "mismatches_before", "created", "rebuilt", "mismatches_after", "index_lost", "ok"}``。
     """
     ec.require_duckdb()
     target = Path(db_path) if db_path else ec.DB_PATH
@@ -62,26 +68,38 @@ def check_integrity(
     try:
         indexed_columns = ec.single_column_indexes(conn)
         expected = ec.expected_indexes()
-        audit = ec.audit_expected_indexes(conn, expected)
         redundant = ec.redundant_date_indexes(conn)
-        mismatches_before = ec.index_equality_mismatches(conn)
 
+        created: List[str] = []
         rebuilt: List[str] = []
+        dropped_redundant: List[str] = []
         index_lost = False
-        mismatches_after = mismatches_before
-        if fix and mismatches_before:
-            report = ec.rebuild_damaged_indexes(conn)
-            rebuilt = report["rebuilt"]
-            index_lost = report["index_lost"]
-            mismatches_after = report["mismatches_after"]
+        if fix:
+            # 一套自愈例程（补齐缺失 + 重建损坏 + 清理冗余），与 ETL 收尾共用
+            heal = ec.heal_indexes(conn, expected)
+            mismatches_before = heal["mismatches_before"]
+            mismatches_after = heal["mismatches_after"]
+            created = heal["created"]
+            rebuilt = heal["rebuilt"]
+            dropped_redundant = heal["dropped_redundant"]
+            index_lost = bool(heal["index_lost"])
+            unknown_unexpected = heal["unknown_unexpected"]
             if verbose:
-                print(f"[check_integrity] 已重建损坏索引：{rebuilt}")
+                if created:
+                    print(f"[check_integrity] 已按 ddl.sql 补齐缺失索引：{created}")
+                if heal["dropped_redundant"]:
+                    print(f"[check_integrity] 已清理冗余 date 索引：{heal['dropped_redundant']}")
+                if rebuilt:
+                    print(f"[check_integrity] 已重建损坏索引：{rebuilt}")
                 if index_lost:
-                    print(f"[check_integrity] ⚠️ 索引集合发生变化！"
-                          f" before={report['indexes_before']} after={report['indexes_after']}")
-        elif fix:
-            mismatches_after = mismatches_before  # 无损坏，无需重建
-        # 重建（若有）后**复检预期索引集合**：任何非重建路径的丢索引都在此暴露
+                    print("[check_integrity] ⚠️ 重建期索引集合发生变化（有索引丢失）！")
+        else:
+            audit = ec.audit_expected_indexes(conn, expected)
+            mismatches_before = ec.index_equality_mismatches(conn)
+            mismatches_after = mismatches_before
+            unexpected = audit["unexpected"]
+            unknown_unexpected = sorted(set(unexpected) - set(redundant))
+        # 复检预期索引集合（fix 与 non-fix 都算）：任何非重建路径的丢索引都在此暴露
         audit_after = ec.audit_expected_indexes(conn, expected)
     finally:
         conn.close()
@@ -91,8 +109,7 @@ def check_integrity(
     if verbose:
         print("=" * 68)
         print(f"[check_integrity] 库文件：{target}")
-        print(f"[check_integrity] 预期索引 {len(audit['expected'])} 个："
-              + ", ".join(audit["expected"]))
+        print(f"[check_integrity] 预期索引 {len(expected)} 个：" + ", ".join(sorted(expected)))
         print(f"[check_integrity] 现存单列索引 {len(indexed_columns)} 个："
               + ", ".join(f"{n}({t}.{c})" for n, t, c in indexed_columns))
         print("-" * 68)
@@ -102,6 +119,8 @@ def check_integrity(
             print("✅ 预期索引集合完整（6 个具名索引全部存在）")
         if audit_after["unexpected"]:
             print(f"ℹ️ 库中多出预期外的索引（信息）：{audit_after['unexpected']}")
+        if unknown_unexpected:
+            print(f"⚠️ 未知多余索引（**不自动删除**，请人工确认归属）：{unknown_unexpected}")
         if mismatches_before:
             label = "【修复前】" if fix else ""
             print(f"❌ {label}等值计数 ≠ 物化全表扫真值（索引损坏）：")
@@ -111,10 +130,12 @@ def check_integrity(
                 print(f"   {index_name:22s} {detail}{more}")
         else:
             print("✅ 全部单列索引：等值计数 == 物化全表扫真值（0 处不一致）")
+        if created:
+            print(f"🔧 已补齐缺失索引：{created}")
         if rebuilt:
             print(f"🔧 已重建：{rebuilt}"
                   + ("（复检仍不一致！）" if mismatches_after else "（复检通过）"))
-        if redundant:
+        if redundant and not fix:
             print(f"ℹ️ 冗余单列 date 索引（PK 首列即该列，建议不建）：{redundant}")
         if index_lost:
             print("🔴 索引集合在重建过程中发生变化（有索引丢失）——请人工检查！")
@@ -124,11 +145,14 @@ def check_integrity(
 
     return {
         "db_path": str(target),
-        "expected_indexes": audit["expected"],
+        "expected_indexes": sorted(expected),
         "missing_indexes": missing,
         "indexed_columns": indexed_columns,
         "redundant_indexes": redundant,
+        "dropped_redundant_indexes": dropped_redundant,
+        "unknown_unexpected_indexes": unknown_unexpected,
         "mismatches_before": mismatches_before,
+        "created": created,
         "rebuilt": rebuilt,
         "mismatches_after": mismatches_after,
         "index_lost": index_lost,
