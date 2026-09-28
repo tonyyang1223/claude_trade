@@ -107,31 +107,31 @@ def run_backfill(
         apply_schema(conn, verbose=verbose)
 
         # ③ 开批次（**确定性** batch_id → ingest_batch/ingest_file_log 主键天然幂等，无需清理）
+        #    先回收上次被中断遗留的悬挂批次（此刻已持写锁 ⇒ 无活跃写者，running 行必为残留）
+        reaped = ec.reap_stale_batches(conn)
+        if reaped and verbose:
+            print(f"[backfill] 已回收悬挂批次（status→interrupted）：{reaped}")
         batch_id = ec.stable_batch_id("backfill", "all")
-        ec.start_batch(conn, batch_id, "backfill", "all")
         result["batch_id"] = batch_id
         if verbose:
             print(f"[backfill] 批次 {batch_id} 开始（mode=backfill, scope=all）")
 
         counts: Dict[str, int] = {}
-        try:
+        # 生命周期由 running_batch 兜底：异常/中断也会落终态，不留 running（见 etl_common）
+        with ec.running_batch(conn, batch_id, "backfill", "all") as box:
             # ④ 扫描日
             for key, value in load_daily_scan(conn, batch_id, verbose=verbose).items():
                 counts[key] = counts.get(key, 0) + value
+            box["rows"] = sum(counts.values())
             # ⑤ 宏观
             for key, value in load_macro(conn, batch_id, verbose=verbose).items():
                 counts[key] = counts.get(key, 0) + value
+            box["rows"] = sum(counts.values())
             # ⑥ 派生：残缺日
             flags = compute_partial_flags(conn, verbose=verbose)
             # ⑦ **最后**建双列 FTS（必须晚于所有数据写入）
             fts_ready = build_fts_index(conn, verbose=verbose)
-            rows_loaded = sum(counts.values())
-            ec.finish_batch(conn, batch_id, "success", rows_loaded)
-        except Exception as exc:  # noqa: BLE001 - 失败也要留痕（status=failed）
-            ec.finish_batch(
-                conn, batch_id, "failed", sum(counts.values()), error_msg=str(exc)[:500]
-            )
-            raise
+        rows_loaded = sum(counts.values())
 
         result.update(
             {

@@ -70,13 +70,36 @@ DuckDB `simple` 分词器**不切分中文**，把连续中文当**单个 token*
 
 > 数据层幂等另由「主表 UPSERT + 可缩小子表按自然键单元事务内 DELETE+INSERT」保证。
 
-### 1.4 单写者（并发）
+### 1.4 单写者（并发）+ 短事务
 
-DuckDB 单文件**同一时刻只允许一个写连接**。`ingest_history.py` 是**独立进程、独占写**：
+DuckDB 单文件**同一时刻只允许一个写连接**（写连接独占文件锁；即便只读连接也会与之互斥）。
+`ingest_history.py` / `backfill_history.py` 都是**独立进程、独占写**：
 
-- **不要**在 Web 服务读写高峰跑增量（Web 侧为只读连接，一般无碍，但写期间避免其它写进程）；
-- 若报 `Could not set lock on file` / `database is locked` → 说明有别的进程在写（或上次异常未释放），
-  稍后重试；**必要时停服执行**。
+- **入库与只读查询不可并发**：ETL 持写锁期间，后端只读查询会拿到
+  `Could not set lock on file`（表现为接口 503）；反之若有人正只读，ETL 也开不了写连接。
+  → **请让入库成为短事务**：本项目的回填/增量在**秒级~分钟内**完成并立即 `close()`；
+  切勿在服务读写高峰跑全量回填；
+- 若报 `IO Error: Cannot open file ... File is already open in ... (PID n)` →
+  说明另一进程占着库（如 Web 服务、QA 校验、上一次未退出的 ETL）。**不要强杀**，
+  等其释放或请其关闭连接后重试；**必要时停服执行**；
+- 因此定时增量设计为「每 15 分钟一次、无新数据秒级空跑」，以最小化持锁窗口。
+
+### 1.5 批次生命周期与「悬挂批次」
+
+`ingest_batch` 是**入库任务的生命周期台账**；H7 `/api/history/health/overview` 的 `batches`
+直接暴露它最近 10 行。**若一行永远停在 `running`，工作台就会显示「有任务正在跑」的假信号。**
+
+生命周期由代码两层保证（`etl_common`）：
+
+1. **写入侧 `running_batch`**：`try/finally` 兜底 —— 正常→`success`；普通异常→`failed`
+   （并原样上抛）；`KeyboardInterrupt`/`SystemExit`→`interrupted`。连接若已断，
+   `finally` 会放弃并交由第 2 层处理。
+2. **启动侧 `reap_stale_batches`**：进程被**强杀**（SIGKILL / SIGTERM 默认行为）时不执行任何
+   Python 收尾 → 下次 ETL 启动、**在已持有写锁的前提下**，把残留的 `running` 行回收为
+   `interrupted`（此时任何 `running` 行都不可能是活跃进程，因为活跃写者会占住文件锁）。
+
+> `interrupted` 行的 `finished_at` **保持 NULL** —— 进程被强杀时其真实结束时刻无自证来源，
+> **不伪造时间**；只要 `status` 不再是 `running`，假信号即消除。
 
 ---
 
@@ -179,6 +202,29 @@ for q in ('Solana', make_grams('哔哩哔哩')):   # -> 869 / 455
     print(q, n)
 ```
 
+### 5.1 悬挂批次（`running` 残留）自查与回收（需持写锁）
+
+识别——列出所有悬挂批次（应为空）：
+
+```sql
+SELECT batch_id, mode, scope, started_at, finished_at, status
+FROM ingest_batch
+WHERE status = 'running' AND finished_at IS NULL;
+```
+
+回收——把上面的行置为 `interrupted`（**不伪造 `finished_at`**）：
+
+```python
+import sys; sys.path.insert(0, 'scripts')
+from history import etl_common as ec
+c = ec.connect()                        # 独占写；若被占用会报 "File is already open ..."
+print("回收:", ec.reap_stale_batches(c))  # 返回被回收的 batch_id 列表
+c.close()
+```
+
+> 通常**无需手工执行**：下次 `ingest_history.py --incremental` 或 `backfill_history.py`
+> 启动时会**自动回收**（见 §1.5）。仅当你想立刻消除「正在跑」的假信号、且当下无人占用库时手动跑。
+
 ---
 
 ## 6. 排障（Troubleshooting）
@@ -189,6 +235,8 @@ for q in ('Solana', make_grams('哔哩哔哩')):   # -> 869 / 455
 | **中文关键词召回 0，英文正常** | 查询侧未 bigram 化 | 走 `build_fts_query`（复用 `make_grams`）；手工 SQL 时自行拆 bigram（§1.2） |
 | **`'以太坊'` 查到 0 条** | **正常**：语料里没有该词 | 用 `'哔哩哔哩'` 验证中文命中（应 455） |
 | `database is locked` / `Could not set lock` | 另一写进程在写（DuckDB 单写者） | 稍后重试；必要时**停服执行**（§1.4） |
+| `IO Error: Cannot open file ... File is already open in <path> (PID n)` | 另一进程（只读或写）占着库 | 入库与只读查询**不可并发**（§1.4）；等其释放或停服执行，**勿强杀** |
+| 健康度页**永远显示一个 `running` 批次** | 批次进程被强杀，收尾未执行 → 悬挂批次（假信号） | 见 §1.5；下次 ETL 启动自动回收，或手动 `reap_stale_batches`（§5.1） |
 | 增量「什么也没做」 | 无新数据（水位线之后无变更文件） | **预期行为**（幂等空跑）；用 `--dry-run` 确认候选 |
 | 增量退出码 **2** | FTS 复验低于基线 | 检查索引是否被破坏，手动重建 FTS（§1.1） |
 | `scan_day` 停更多日（08-26 之后无新） | **采集端**（scan）已停更，非历史库问题 | 健康度视图已暴露（`v_collection_calendar`/`v_collection_freshness`）；修复归采集侧 |

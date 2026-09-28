@@ -280,13 +280,16 @@ def run_incremental(
                 print("[ingest] --dry-run：仅报告，未写库")
             return result
 
-        # ---- 开批次（确定性 batch_id + 批次级时间戳）----
+        # ---- 回收历史悬挂批次（此时已持有写锁 ⇒ 无活跃写者，任何 running 行都是残留）----
+        reaped = ec.reap_stale_batches(conn)
+        if reaped and verbose:
+            print(f"[ingest] 已回收悬挂批次（status→interrupted）：{reaped}")
+
+        # ---- 开批次（确定性 batch_id + 批次级时间戳）；生命周期由 running_batch 兜底 ----
         batch_id = INCREMENTAL_BATCH_ID
         batch_ts = ec.local_now()
-        ec.start_batch(conn, batch_id, "incremental", "history")
-
         counts: Dict[str, int] = {}
-        try:
+        with ec.running_batch(conn, batch_id, "incremental", "history") as box:
             # ④ 写 scan（先写数据）
             if scan_days:
                 for key, value in load_daily_scan(
@@ -294,6 +297,7 @@ def run_incremental(
                     dates=scan_days, batch_processed_at=batch_ts,
                 ).items():
                     counts[key] = counts.get(key, 0) + value
+                box["rows"] = sum(counts.values())
             # ⑤ 写 macro
             if macro_proc:
                 for key, value in load_macro(
@@ -301,6 +305,7 @@ def run_incremental(
                     snapshots=macro_proc, batch_processed_at=batch_ts,
                 ).items():
                     counts[key] = counts.get(key, 0) + value
+                box["rows"] = sum(counts.values())
 
             rows_loaded = sum(counts.values())
 
@@ -312,11 +317,7 @@ def run_incremental(
                 fts_rebuilt = False
                 if verbose:
                     print("[ingest] 无新数据：跳过 FTS 重建（索引已在）")
-
-            ec.finish_batch(conn, batch_id, "success", rows_loaded)
-        except Exception as exc:  # noqa: BLE001 - 失败也要留痕（status=failed）
-            ec.finish_batch(conn, batch_id, "failed", sum(counts.values()), error_msg=str(exc)[:500])
-            raise
+        # running_batch 正常退出即落 success；异常/中断 → failed/interrupted 并向上抛
 
         after_counts = get_stats(conn, target)["table_counts"]
         all_keys = set(after_counts) | set(base_counts)
@@ -333,6 +334,7 @@ def run_incremental(
                 "counts": counts,
                 "rows_loaded": rows_loaded,
                 "row_delta": row_delta,
+                "reaped_batches": reaped,
                 "fts_rebuilt": fts_rebuilt,
                 "fts_ok": fts_ok,
                 "fts_totals": fts_totals,

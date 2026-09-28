@@ -16,10 +16,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+from contextlib import contextmanager
 from datetime import date, datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Iterator, List, Optional
 
 try:  # 沿用 src/research/database.py 的 HAS_DUCKDB guard 模式
     import duckdb
@@ -157,6 +158,111 @@ def finish_batch(
         """,
         [local_now(), status, int(rows_loaded), int(rows_rejected), error_msg, batch_id],
     )
+
+
+@contextmanager
+def running_batch(
+    conn: "duckdb.DuckDBPyConnection",
+    batch_id: str,
+    mode: str,
+    scope: str,
+) -> Iterator[Dict[str, int]]:
+    """批次生命周期上下文：**开批次 → 业务 → 落终态**，异常/中断也不残留 ``running``。
+
+    用法::
+
+        with running_batch(conn, bid, "incremental", "history") as box:
+            box["rows"] += load_something()
+        # 正常退出 → 该批次 status=success
+
+    ``box`` 为可变计数盒 ``{"rows": int, "rows_rejected": int}``，调用方按需累加；
+    退出时自动写终态：
+
+    - 正常返回 → ``success``；
+    - ``KeyboardInterrupt`` / ``SystemExit`` → ``interrupted``；
+    - 其它异常 → ``failed``（并**原样向上抛**，保持调用方的错误处理语义）；
+    - ``finally`` 兜底：若异常路径里连 ``finish_batch`` 也失败了，再补一次
+      落 ``interrupted``；若**连接已断**则放弃（届时由下次启动的
+      :func:`reap_stale_batches` 回收）。
+
+    Note:
+        本上下文兜住的是**可捕获**的终止（异常 / Ctrl-C）。**进程被强杀**
+        （SIGKILL；SIGTERM 默认行为）不会执行任何 Python 收尾，属另一层，
+        由 :func:`reap_stale_batches` 兜底。
+    """
+    box: Dict[str, int] = {"rows": 0, "rows_rejected": 0}
+    start_batch(conn, batch_id, mode, scope)
+    terminal = False
+    try:
+        yield box
+        finish_batch(conn, batch_id, "success", box["rows"], box["rows_rejected"])
+        terminal = True
+    except BaseException as exc:  # noqa: BLE001 - 含 KeyboardInterrupt / SystemExit
+        status = "interrupted" if isinstance(exc, (KeyboardInterrupt, SystemExit)) else "failed"
+        try:
+            finish_batch(
+                conn, batch_id, status, box["rows"], box["rows_rejected"], error_msg=str(exc)[:500]
+            )
+            terminal = True
+        except Exception as inner:  # noqa: BLE001 - 收尾本身失败，交由 finally / reaper 兜底
+            print(f"[etl_common] ⚠️ 批次 {batch_id} 落终态({status})失败：{inner}")
+        raise
+    finally:
+        if not terminal:
+            try:
+                finish_batch(
+                    conn, batch_id, "interrupted", box["rows"], box["rows_rejected"],
+                    error_msg="进程中断/被 kill，finally 兜底落终态",
+                )
+            except Exception as inner:  # noqa: BLE001 - 连接可能已断，放弃并留给 reaper
+                print(
+                    f"[etl_common] ⚠️ 批次 {batch_id} finally 兜底失败（连接可能已断，"
+                    f"交由下次 reap_stale_batches 回收）：{inner}"
+                )
+
+
+def reap_stale_batches(
+    conn: "duckdb.DuckDBPyConnection",
+    stale_seconds: int = 0,
+    now: Optional[datetime] = None,
+) -> List[str]:
+    """把**悬挂批次**（``status='running' AND finished_at IS NULL``）回收为 ``interrupted``。
+
+    成因：批次开始后进程被 **kill / SIGTERM / 断电**，收尾 ``finish_batch`` 未执行，
+    ``status`` 永久停在 ``running`` —— 会让 H7 健康度总览把一行**早已结束**的批次
+    显示成「正在跑」，误导运维（假信号）。
+
+    Args:
+        stale_seconds: 只回收 ``started_at`` 早于 ``now - stale_seconds`` 的行；
+            ``0``（默认）= 回收**全部** ``running`` 行。默认值适用于「调用方已持有写锁」
+            的 ETL 场景——此时任何 ``running`` 行都不可能属于活跃进程（活跃写进程会占住
+            文件锁，别的进程连写连接都开不了）；若在**不持锁**的巡检场景调用，
+            请传入合理阈值（如 ``3600``）。
+        now: 参照时刻（缺省 :func:`local_now`）。
+
+    Returns:
+        被回收的 ``batch_id`` 列表（空表示无悬挂批次）。
+
+    Note:
+        ``finished_at`` 保持 ``NULL`` —— 进程被强杀时其真实结束时刻**无自证来源**，
+        不伪造时间；仅把 ``status`` 落为 ``interrupted`` 即可消除「正在跑」的假信号。
+    """
+    cutoff = now or local_now()
+    where = "status = 'running' AND finished_at IS NULL"
+    params: List[Any] = []
+    if stale_seconds and stale_seconds > 0:
+        where += " AND started_at < ?"
+        params.append(cutoff - timedelta(seconds=stale_seconds))
+    rows = conn.execute(f"SELECT batch_id FROM ingest_batch WHERE {where}", params).fetchall()
+    reaped: List[str] = [r[0] for r in rows]
+    if reaped:
+        conn.execute(
+            "UPDATE ingest_batch SET status = 'interrupted', "
+            "error_msg = COALESCE(error_msg, '进程中断/被 kill，收尾未执行（自动回收）') "
+            f"WHERE {where}",
+            params,
+        )
+    return reaped
 
 
 def local_now() -> datetime:
