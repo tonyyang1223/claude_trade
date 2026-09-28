@@ -304,3 +304,28 @@ def test_heal_indexes_drops_redundant_but_keeps_unknown(conn):
         "SELECT 1 FROM duckdb_indexes() WHERE index_name = 'idx_unknown_coin'"
     ).fetchone(), "未知多余索引**不得**被自动删除"
     assert "idx_unknown_coin" in heal["unknown_unexpected"], heal
+
+
+def test_check_integrity_fix_snapshot_reflects_post_heal(tmp_path: Path):
+    """`--fix` 的「现存/多出/未知」快照必须是**自愈后**的：不得残留刚删的冗余、
+    也不得漏掉刚补齐的缺失索引（回归 team-lead 报的报告缺陷）。"""
+    from scripts.history import check_integrity as ci
+
+    db_path = tmp_path / "ci_snap.duckdb"
+    c = ec.connect(db_path)
+    apply_schema(c, verbose=False)
+    _seed_content(c)
+    c.execute("DROP INDEX IF EXISTS idx_content_source")                       # 缺失
+    c.execute("CREATE INDEX idx_catmem_date ON category_membership(date)")      # 冗余（应被清）
+    c.execute("CREATE INDEX idx_unknown_coin ON macro_watchlist(coin_id)")      # 未知（应保留）
+    c.close()
+
+    result = ci.check_integrity(db_path=db_path, fix=True, verbose=False)
+    cols = {n for n, _, _ in result["indexed_columns"]}
+    assert result["ok"] is True, result
+    assert "idx_content_source" in cols, "补齐的索引必须出现在「现存」快照里"
+    assert "idx_catmem_date" not in cols, "已清理的冗余索引不得残留在「现存」快照里"
+    assert result["redundant_indexes"] == [], "自愈后不应再有冗余索引"
+    assert result["unknown_unexpected_indexes"] == ["idx_unknown_coin"]
+    assert "idx_catmem_date" not in result["unknown_unexpected_indexes"]
+    assert result["missing_indexes"] == []

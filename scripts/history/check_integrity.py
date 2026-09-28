@@ -57,6 +57,12 @@ def check_integrity(
         ``{"db_path", "expected_indexes", "missing_indexes", "indexed_columns",
             "redundant_indexes", "dropped_redundant_indexes", "unknown_unexpected_indexes",
             "mismatches_before", "created", "rebuilt", "mismatches_after", "index_lost", "ok"}``。
+
+    Note:
+        ``indexed_columns`` / ``redundant_indexes`` / ``unknown_unexpected_indexes`` /
+        ``missing_indexes`` 均为**自愈后**的权威快照（非 fix 时即当前状态）；
+        ``mismatches_before`` / ``created`` / ``rebuilt`` / ``dropped_redundant_indexes``
+        反映**修复前**与**修复动作**，便于对照排障。
     """
     ec.require_duckdb()
     target = Path(db_path) if db_path else ec.DB_PATH
@@ -66,9 +72,7 @@ def check_integrity(
     # --fix 需要写连接（DuckDB 单写者，勿与只读/其它 ETL 并发）；否则只读打开即可
     conn = ec.connect(target) if fix else _connect_read_only(target)
     try:
-        indexed_columns = ec.single_column_indexes(conn)
         expected = ec.expected_indexes()
-        redundant = ec.redundant_date_indexes(conn)
 
         created: List[str] = []
         rebuilt: List[str] = []
@@ -83,24 +87,25 @@ def check_integrity(
             rebuilt = heal["rebuilt"]
             dropped_redundant = heal["dropped_redundant"]
             index_lost = bool(heal["index_lost"])
-            unknown_unexpected = heal["unknown_unexpected"]
             if verbose:
                 if created:
                     print(f"[check_integrity] 已按 ddl.sql 补齐缺失索引：{created}")
-                if heal["dropped_redundant"]:
-                    print(f"[check_integrity] 已清理冗余 date 索引：{heal['dropped_redundant']}")
+                if dropped_redundant:
+                    print(f"[check_integrity] 已清理冗余 date 索引：{dropped_redundant}")
                 if rebuilt:
                     print(f"[check_integrity] 已重建损坏索引：{rebuilt}")
                 if index_lost:
                     print("[check_integrity] ⚠️ 重建期索引集合发生变化（有索引丢失）！")
         else:
-            audit = ec.audit_expected_indexes(conn, expected)
             mismatches_before = ec.index_equality_mismatches(conn)
             mismatches_after = mismatches_before
-            unexpected = audit["unexpected"]
-            unknown_unexpected = sorted(set(unexpected) - set(redundant))
-        # 复检预期索引集合（fix 与 non-fix 都算）：任何非重建路径的丢索引都在此暴露
+
+        # ⚠️ 以下三份快照一律取「**自愈后**」的**权威**状态（非 fix 时 = 当前状态）——
+        #    否则「现存」会名不副实：既残留刚删的冗余索引、又漏掉刚补齐的缺失索引。
+        indexed_columns = ec.single_column_indexes(conn)
+        redundant = ec.redundant_date_indexes(conn)
         audit_after = ec.audit_expected_indexes(conn, expected)
+        unknown_unexpected = sorted(set(audit_after["unexpected"]) - set(redundant))
     finally:
         conn.close()
 
@@ -110,7 +115,8 @@ def check_integrity(
         print("=" * 68)
         print(f"[check_integrity] 库文件：{target}")
         print(f"[check_integrity] 预期索引 {len(expected)} 个：" + ", ".join(sorted(expected)))
-        print(f"[check_integrity] 现存单列索引 {len(indexed_columns)} 个："
+        snapshot = "现存单列索引" + ("（自愈后）" if fix else "")
+        print(f"[check_integrity] {snapshot} {len(indexed_columns)} 个："
               + ", ".join(f"{n}({t}.{c})" for n, t, c in indexed_columns))
         print("-" * 68)
         if missing:
@@ -135,7 +141,7 @@ def check_integrity(
         if rebuilt:
             print(f"🔧 已重建：{rebuilt}"
                   + ("（复检仍不一致！）" if mismatches_after else "（复检通过）"))
-        if redundant and not fix:
+        if redundant:
             print(f"ℹ️ 冗余单列 date 索引（PK 首列即该列，建议不建）：{redundant}")
         if index_lost:
             print("🔴 索引集合在重建过程中发生变化（有索引丢失）——请人工检查！")
