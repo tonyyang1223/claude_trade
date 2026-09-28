@@ -1,0 +1,301 @@
+classDiagram
+    %% =========================================================
+    %% claude_trading 历史数据库层 —— 类图
+    %% 上层：现有 services（零改动）→ loader facade → Repository（双实现）
+    %% 下层：DuckDB 连接管理 + 数据模型
+    %% =========================================================
+
+    %% ---------- 仓储层（R8 核心） ----------
+    class HistoryRepository {
+        <<Protocol>>
+        +resolve_scan_date(date) str|None
+        +list_scan_dates() list
+        +load_summary(date) dict|None
+        +load_all_coins(date) list
+        +load_by_category_raw(date) dict
+        +load_deep_raw(date) dict
+        +find_coin_raw(date, coin_id) dict|None
+    }
+    class FileRepository {
+        -daily_scan_dir: Path
+        -macro_dir: Path
+        +load_all_coins(date) list
+        +load_deep_raw(date) dict
+        +find_coin_raw(date, coin_id) dict|None
+        +load_by_category_raw(date) dict
+        +_scan_days() list
+        +_is_valid_date(date) bool
+    }
+    class DuckDBRepository {
+        -db_path: Path
+        +load_all_coins(date) list
+        +load_deep_raw(date) dict
+        +find_coin_raw(date, coin_id) dict|None
+        +load_by_category_raw(date) dict
+        +_resolve_by_category_day(date) date  %% 复刻 7 日窗口取最大
+        +_fallback: FileRepository
+    }
+    class RepositoryFactory {
+        <<module functions>>
+        +get_repository() HistoryRepository
+        +_db_usable() bool
+    }
+
+    %% ---------- 连接管理（线程安全） ----------
+    class DuckConnectionManager {
+        <<module data/duck.py>>
+        -_lock: Lock
+        -_local: threading.local
+        -_base: connection
+        +get_base() connection
+        +read_conn() connection
+        +write(ctx) void
+    }
+
+    %% ---------- 数据模型（表） ----------
+    class DimCoin {
+        +str coin_id PK
+        +str symbol
+        +str name
+        +date first_seen_date
+        +date last_seen_date
+    }
+    class DimCategory {
+        +str category_slug PK
+        +str label
+    }
+    class CategoryMembership {
+        +date date PK
+        +str category_slug PK
+        +str member_key PK
+        +str coin_id
+        +bool has_market
+        +float market_cap
+        +float chg24
+    }
+    class CoinDailySnapshot {
+        +date date PK
+        +str coin_id PK
+        +str symbol
+        +str name
+        +int rank
+        +float price_usd
+        +float market_cap
+        +float volume_24h
+        +float change_24h_pct
+        +float change_7d_pct
+        +float circulating_supply
+        +float total_supply
+        +float max_supply
+        +timestamp snapshot_ts
+    }
+    class ScanDay {
+        +date date PK
+        +timestamp scan_time
+        +int total_coins
+        +int deep_researched_decl
+        +int light_researched_decl
+        +int deep_files_actual
+        +int light_files_actual
+        +json categories_json
+        +json market_stats_json
+        +json state_stats_json
+        +str source_path
+        +bool is_partial
+        +str ingested_batch_id
+    }
+    class DeepResearch {
+        +date date PK
+        +str coin_id PK
+        +str symbol
+        +str name
+        +int rank
+        +timestamp research_time
+        +str category_slug FK
+        +json categories_json
+        +int n_sources
+        +bool has_github
+        +json payload_json
+        +str source_file
+    }
+    class SourceStatus {
+        +date date PK
+        +str coin_id PK
+        +str source PK
+        +str status
+        +str error
+        +float confidence
+        +timestamp source_timestamp
+    }
+    class ContentArchive {
+        +str content_id PK
+        +date date
+        +str coin_id FK
+        +str source
+        +str doc_type
+        +str title
+        +str url
+        +str author
+        +str body_text
+        +timestamp published_ts
+        +float score
+        +json extra_json
+        +str origin_path
+        +str doc_hash
+        +str body_grams
+        +str ingested_batch_id
+    }
+    class MacroSnapshot {
+        +date date PK
+        +str snapshot_time PK
+        +timestamp fetched_at
+        +float duration_s
+        +json sources_used_json
+        +json global_json
+        +json breadth_json
+        +json regime_json
+        +json fear_greed_json
+        +json diff_prev_json
+        +json thresholds_json
+        +json errors_json
+        +str snapshot_file
+    }
+    class MacroWatchlist {
+        +date date PK
+        +str snapshot_time PK
+        +str coin_id PK
+        +str symbol
+        +str name
+        +int rank
+        +float price
+        +float p1h
+        +float p24h
+        +float p7d
+        +float market_cap
+        +float total_volume
+    }
+    class MacroAnomaly {
+        +date date PK
+        +str snapshot_time PK
+        +int row_idx PK
+        +str symbol
+        +str name
+        +int rank
+        +float price
+        +float p1h
+        +float p24h
+        +float p7d
+        +float turnover_pct
+        +json reasons_json
+        +float strength
+    }
+    class MacroChainTvl {
+        +date date PK
+        +str snapshot_time PK
+        +str chain PK
+        +float tvl
+        +float tvl_change_24h
+        +float tvl_change_7d
+        +int protocols_count
+        +float confidence
+        +timestamp ts
+    }
+    class IngestBatch {
+        +str batch_id PK
+        +timestamp started_at
+        +timestamp finished_at
+        +str mode
+        +str scope
+        +str status
+        +bigint rows_loaded
+        +bigint rows_rejected
+        +str error_msg
+    }
+    class IngestFileLog {
+        +str batch_id PK
+        +str file_path PK
+        +str file_md5
+        +timestamp file_mtime
+        +int rows
+        +str status
+        +timestamp processed_at
+    }
+
+    %% ---------- ETL 脚本 ----------
+    class BackfillETL {
+        +run() void
+        +load_daily_scan(date) int
+        +load_macro(date) int
+        +compute_is_partial(date) bool
+        +build_fts() void
+    }
+    class IncrementalETL {
+        +run() void
+        +watermark() date
+        +skip_unchanged(file) bool
+    }
+    class GramExtractor {
+        +to_grams(text) str  %% CJK char bigram + English whole words
+        +doc_hash(record) str
+        +content_id(date, coin, source, hash) str
+    }
+
+    %% ---------- 新端点服务 ----------
+    class HistoryService {
+        +coin_series(coin_id, metrics, rng) dict
+        +category_timeline(rng, category) dict
+        +news_timeline(rng, filters) dict
+        +search(q, filters) dict
+        +health_sources(rng) dict
+        +health_overview() dict
+        +available_dates() dict
+    }
+
+    %% ---------- 关系 ----------
+    HistoryRepository <|.. FileRepository
+    HistoryRepository <|.. DuckDBRepository
+    DuckDBRepository --> DuckConnectionManager : 使用
+    DuckDBRepository --> FileRepository : 无数据时回退
+    RepositoryFactory ..> HistoryRepository : 产出
+    RepositoryFactory ..> DuckConnectionManager : 探测可用性
+
+    FileRepository ..> CoinDailySnapshot : 文件直读等价
+    FileRepository ..> DeepResearch : 文件直读等价
+
+    DuckConnectionManager --> CoinDailySnapshot
+    DuckConnectionManager --> ScanDay
+    DuckConnectionManager --> DeepResearch
+    DuckConnectionManager --> SourceStatus
+    DuckConnectionManager --> ContentArchive
+    DuckConnectionManager --> MacroSnapshot
+    DuckConnectionManager --> MacroWatchlist
+    DuckConnectionManager --> MacroAnomaly
+    DuckConnectionManager --> MacroChainTvl
+    DuckConnectionManager --> IngestBatch
+    DuckConnectionManager --> IngestFileLog
+    DuckConnectionManager --> DimCoin
+    DuckConnectionManager --> DimCategory
+    DuckConnectionManager --> CategoryMembership
+
+    ScanDay "1" --> "*" CoinDailySnapshot : date
+    ScanDay "1" --> "*" DeepResearch : date
+    ScanDay "1" --> "*" SourceStatus : date
+    ScanDay "1" --> "*" ContentArchive : date
+    ScanDay "1" --> "*" CategoryMembership : date
+    DimCoin "1" --> "*" CoinDailySnapshot : coin_id
+    DimCoin "1" --> "*" DeepResearch : coin_id
+    DimCoin "1" --> "*" SourceStatus : coin_id
+    DimCoin "1" --> "*" ContentArchive : coin_id
+    DimCoin "1" --> "*" CategoryMembership : coin_id
+    DimCategory "1" --> "*" CategoryMembership : category_slug
+    DeepResearch "1" --> "*" SourceStatus : date+coin_id
+    MacroSnapshot "1" --> "*" MacroWatchlist : date+time
+    MacroSnapshot "1" --> "*" MacroAnomaly : date+time
+    MacroSnapshot "1" --> "*" MacroChainTvl : date+time
+    IngestBatch "1" --> "*" IngestFileLog : batch_id
+
+    BackfillETL ..> DuckConnectionManager : 写
+    IncrementalETL ..> DuckConnectionManager : 写
+    BackfillETL ..> GramExtractor : 生成 body_grams
+    IncrementalETL ..> GramExtractor : 生成 body_grams
+    HistoryService ..> DuckDBRepository : 读

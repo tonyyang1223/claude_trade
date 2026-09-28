@@ -1,0 +1,547 @@
+{
+  "note": "Golden target: build_sectors() output (files mode); DuckDBRepository MUST reproduce identically",
+  "sectors_by_requested_date": {
+    "2026-06-27": [
+      {
+        "cat": "unclassified",
+        "count": 33,
+        "mcap": 1772360248944.0,
+        "avgChg": -0.9269
+      },
+      {
+        "cat": "layer-1",
+        "count": 12,
+        "mcap": 1471146916568.0,
+        "avgChg": -0.7459
+      },
+      {
+        "cat": "defi",
+        "count": 7,
+        "mcap": 38915872730.0,
+        "avgChg": -2.7238
+      },
+      {
+        "cat": "stablecoin",
+        "count": 6,
+        "mcap": 206086188383.0,
+        "avgChg": -0.0576
+      },
+      {
+        "cat": "rwa",
+        "count": 4,
+        "mcap": 27328794272.0,
+        "avgChg": 0.5994
+      },
+      {
+        "cat": "ai",
+        "count": 2,
+        "mcap": 3144627483.0,
+        "avgChg": 1.9641
+      },
+      {
+        "cat": "layer-2",
+        "count": 2,
+        "mcap": 9132526909.0,
+        "avgChg": -0.0054
+      },
+      {
+        "cat": "exchange",
+        "count": 1,
+        "mcap": 8660383750.0,
+        "avgChg": 2.1583
+      },
+      {
+        "cat": "meme",
+        "count": 1,
+        "mcap": 2498079876.0,
+        "avgChg": 0.1798
+      }
+    ],
+    "2026-06-28": [
+      {
+        "cat": "unclassified",
+        "count": 33,
+        "mcap": 1772360248944.0,
+        "avgChg": -0.9269
+      },
+      {
+        "cat": "layer-1",
+        "count": 12,
+        "mcap": 1471146916568.0,
+        "avgChg": -0.7459
+      },
+      {
+        "cat": "defi",
+        "count": 7,
+        "mcap": 38915872730.0,
+        "avgChg": -2.7238
+      },
+      {
+        "cat": "stablecoin",
+        "count": 6,
+        "mcap": 206086188383.0,
+        "avgChg": -0.0576
+      },
+      {
+        "cat": "rwa",
+        "count": 4,
+        "mcap": 27328794272.0,
+        "avgChg": 0.5994
+      },
+      {
+        "cat": "ai",
+        "count": 2,
+        "mcap": 3144627483.0,
+        "avgChg": 1.9641
+      },
+      {
+        "cat": "layer-2",
+        "count": 2,
+        "mcap": 9132526909.0,
+        "avgChg": -0.0054
+      },
+      {
+        "cat": "exchange",
+        "count": 1,
+        "mcap": 8660383750.0,
+        "avgChg": 2.1583
+      },
+      {
+        "cat": "meme",
+        "count": 1,
+        "mcap": 2498079876.0,
+        "avgChg": 0.1798
+      }
+    ],
+    "2026-06-29": [
+      {
+        "cat": "unclassified",
+        "count": 33,
+        "mcap": 1772360248944.0,
+        "avgChg": -0.9269
+      },
+      {
+        "cat": "layer-1",
+        "count": 12,
+        "mcap": 1471146916568.0,
+        "avgChg": -0.7459
+      },
+      {
+        "cat": "defi",
+        "count": 7,
+        "mcap": 38915872730.0,
+        "avgChg": -2.7238
+      },
+      {
+        "cat": "stablecoin",
+        "count": 6,
+        "mcap": 206086188383.0,
+        "avgChg": -0.0576
+      },
+      {
+        "cat": "rwa",
+        "count": 4,
+        "mcap": 27328794272.0,
+        "avgChg": 0.5994
+      },
+      {
+        "cat": "ai",
+        "count": 2,
+        "mcap": 3144627483.0,
+        "avgChg": 1.9641
+      },
+      {
+        "cat": "layer-2",
+        "count": 2,
+        "mcap": 9132526909.0,
+        "avgChg": -0.0054
+      },
+      {
+        "cat": "exchange",
+        "count": 1,
+        "mcap": 8660383750.0,
+        "avgChg": 2.1583
+      },
+      {
+        "cat": "meme",
+        "count": 1,
+        "mcap": 2498079876.0,
+        "avgChg": 0.1798
+      }
+    ],
+    "2026-06-30": [
+      {
+        "cat": "unclassified",
+        "count": 33,
+        "mcap": 1772360248944.0,
+        "avgChg": -0.9269
+      },
+      {
+        "cat": "layer-1",
+        "count": 12,
+        "mcap": 1471146916568.0,
+        "avgChg": -0.7459
+      },
+      {
+        "cat": "defi",
+        "count": 7,
+        "mcap": 38915872730.0,
+        "avgChg": -2.7238
+      },
+      {
+        "cat": "stablecoin",
+        "count": 6,
+        "mcap": 206086188383.0,
+        "avgChg": -0.0576
+      },
+      {
+        "cat": "rwa",
+        "count": 4,
+        "mcap": 27328794272.0,
+        "avgChg": 0.5994
+      },
+      {
+        "cat": "ai",
+        "count": 2,
+        "mcap": 3144627483.0,
+        "avgChg": 1.9641
+      },
+      {
+        "cat": "layer-2",
+        "count": 2,
+        "mcap": 9132526909.0,
+        "avgChg": -0.0054
+      },
+      {
+        "cat": "exchange",
+        "count": 1,
+        "mcap": 8660383750.0,
+        "avgChg": 2.1583
+      },
+      {
+        "cat": "meme",
+        "count": 1,
+        "mcap": 2498079876.0,
+        "avgChg": 0.1798
+      }
+    ],
+    "2026-07-01": [
+      {
+        "cat": "unclassified",
+        "count": 33,
+        "mcap": 1772360248944.0,
+        "avgChg": -0.9269
+      },
+      {
+        "cat": "layer-1",
+        "count": 12,
+        "mcap": 1471146916568.0,
+        "avgChg": -0.7459
+      },
+      {
+        "cat": "defi",
+        "count": 7,
+        "mcap": 38915872730.0,
+        "avgChg": -2.7238
+      },
+      {
+        "cat": "stablecoin",
+        "count": 6,
+        "mcap": 206086188383.0,
+        "avgChg": -0.0576
+      },
+      {
+        "cat": "rwa",
+        "count": 4,
+        "mcap": 27328794272.0,
+        "avgChg": 0.5994
+      },
+      {
+        "cat": "ai",
+        "count": 2,
+        "mcap": 3144627483.0,
+        "avgChg": 1.9641
+      },
+      {
+        "cat": "layer-2",
+        "count": 2,
+        "mcap": 9132526909.0,
+        "avgChg": -0.0054
+      },
+      {
+        "cat": "exchange",
+        "count": 1,
+        "mcap": 8660383750.0,
+        "avgChg": 2.1583
+      },
+      {
+        "cat": "meme",
+        "count": 1,
+        "mcap": 2498079876.0,
+        "avgChg": 0.1798
+      }
+    ],
+    "2026-07-02": [
+      {
+        "cat": "unclassified",
+        "count": 33,
+        "mcap": 1772360248944.0,
+        "avgChg": -0.9269
+      },
+      {
+        "cat": "layer-1",
+        "count": 12,
+        "mcap": 1471146916568.0,
+        "avgChg": -0.7459
+      },
+      {
+        "cat": "defi",
+        "count": 7,
+        "mcap": 38915872730.0,
+        "avgChg": -2.7238
+      },
+      {
+        "cat": "stablecoin",
+        "count": 6,
+        "mcap": 206086188383.0,
+        "avgChg": -0.0576
+      },
+      {
+        "cat": "rwa",
+        "count": 4,
+        "mcap": 27328794272.0,
+        "avgChg": 0.5994
+      },
+      {
+        "cat": "ai",
+        "count": 2,
+        "mcap": 3144627483.0,
+        "avgChg": 1.9641
+      },
+      {
+        "cat": "layer-2",
+        "count": 2,
+        "mcap": 9132526909.0,
+        "avgChg": -0.0054
+      },
+      {
+        "cat": "exchange",
+        "count": 1,
+        "mcap": 8660383750.0,
+        "avgChg": 2.1583
+      },
+      {
+        "cat": "meme",
+        "count": 1,
+        "mcap": 2498079876.0,
+        "avgChg": 0.1798
+      }
+    ],
+    "2026-07-03": [
+      {
+        "cat": "unclassified",
+        "count": 33,
+        "mcap": 1772360248944.0,
+        "avgChg": -0.9269
+      },
+      {
+        "cat": "layer-1",
+        "count": 12,
+        "mcap": 1471146916568.0,
+        "avgChg": -0.7459
+      },
+      {
+        "cat": "defi",
+        "count": 7,
+        "mcap": 38915872730.0,
+        "avgChg": -2.7238
+      },
+      {
+        "cat": "stablecoin",
+        "count": 6,
+        "mcap": 206086188383.0,
+        "avgChg": -0.0576
+      },
+      {
+        "cat": "rwa",
+        "count": 4,
+        "mcap": 27328794272.0,
+        "avgChg": 0.5994
+      },
+      {
+        "cat": "ai",
+        "count": 2,
+        "mcap": 3144627483.0,
+        "avgChg": 1.9641
+      },
+      {
+        "cat": "layer-2",
+        "count": 2,
+        "mcap": 9132526909.0,
+        "avgChg": -0.0054
+      },
+      {
+        "cat": "exchange",
+        "count": 1,
+        "mcap": 8660383750.0,
+        "avgChg": 2.1583
+      },
+      {
+        "cat": "meme",
+        "count": 1,
+        "mcap": 2498079876.0,
+        "avgChg": 0.1798
+      }
+    ],
+    "2026-08-25": [
+      {
+        "cat": "layer-1",
+        "count": 23,
+        "mcap": 2249005676472.0,
+        "avgChg": -1.4169
+      },
+      {
+        "cat": "defi",
+        "count": 11,
+        "mcap": 55925409121.0,
+        "avgChg": -1.3321
+      },
+      {
+        "cat": "stablecoin",
+        "count": 7,
+        "mcap": 205200665864.0,
+        "avgChg": 0.1876
+      },
+      {
+        "cat": "unclassified",
+        "count": 5,
+        "mcap": 1863536988324.0,
+        "avgChg": -0.5459
+      },
+      {
+        "cat": "rwa",
+        "count": 4,
+        "mcap": 30109114955.0,
+        "avgChg": 0.0252
+      },
+      {
+        "cat": "layer-2",
+        "count": 3,
+        "mcap": 81622943821.0,
+        "avgChg": -0.0078
+      },
+      {
+        "cat": "exchange",
+        "count": 2,
+        "mcap": 17187098010.0,
+        "avgChg": -0.8432
+      },
+      {
+        "cat": "meme",
+        "count": 2,
+        "mcap": 4819087885.0,
+        "avgChg": -1.3057
+      },
+      {
+        "cat": "ai",
+        "count": 1,
+        "mcap": 1534919348.0,
+        "avgChg": -2.7389
+      }
+    ],
+    "2026-08-26": [
+      {
+        "cat": "layer-1",
+        "count": 23,
+        "mcap": 2249005676472.0,
+        "avgChg": -1.4169
+      },
+      {
+        "cat": "defi",
+        "count": 11,
+        "mcap": 55925409121.0,
+        "avgChg": -1.3321
+      },
+      {
+        "cat": "stablecoin",
+        "count": 7,
+        "mcap": 205200665864.0,
+        "avgChg": 0.1876
+      },
+      {
+        "cat": "unclassified",
+        "count": 5,
+        "mcap": 1863536988324.0,
+        "avgChg": -0.5459
+      },
+      {
+        "cat": "rwa",
+        "count": 4,
+        "mcap": 30109114955.0,
+        "avgChg": 0.0252
+      },
+      {
+        "cat": "layer-2",
+        "count": 3,
+        "mcap": 81622943821.0,
+        "avgChg": -0.0078
+      },
+      {
+        "cat": "exchange",
+        "count": 2,
+        "mcap": 17187098010.0,
+        "avgChg": -0.8432
+      },
+      {
+        "cat": "meme",
+        "count": 2,
+        "mcap": 4819087885.0,
+        "avgChg": -1.3057
+      },
+      {
+        "cat": "ai",
+        "count": 1,
+        "mcap": 1534919348.0,
+        "avgChg": -2.7389
+      }
+    ]
+  },
+  "resolved_by_category": {
+    "2026-06-27": {
+      "slugs": 17,
+      "members": 1241
+    },
+    "2026-06-28": {
+      "slugs": 17,
+      "members": 1241
+    },
+    "2026-06-29": {
+      "slugs": 17,
+      "members": 1241
+    },
+    "2026-06-30": {
+      "slugs": 17,
+      "members": 1241
+    },
+    "2026-07-01": {
+      "slugs": 17,
+      "members": 1241
+    },
+    "2026-07-02": {
+      "slugs": 17,
+      "members": 1241
+    },
+    "2026-07-03": {
+      "slugs": 17,
+      "members": 1241
+    },
+    "2026-08-25": {
+      "slugs": 9,
+      "members": 58
+    },
+    "2026-08-26": {
+      "slugs": 9,
+      "members": 58
+    }
+  }
+}

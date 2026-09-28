@@ -286,10 +286,18 @@ def parse_ts(value: Any) -> Optional[datetime]:
 
 
 def _to_local_naive(dt: datetime) -> datetime:
-    """带时区的 datetime → 本地（Asia/Shanghai）朴素 datetime；朴素输入按本地原样返回。"""
+    """带时区的 datetime → 本地（Asia/Shanghai）朴素 datetime；朴素输入按本地原样返回。
+
+    精度口径（§12）：**保留源时间的微秒，不做秒级截断**。DuckDB 1.5.5 的 TIMESTAMP
+    本身为微秒精度（实测参数绑定与字面量均精确保留），若在此清零会导致 ``scan_day.scan_time``
+    等源时间戳与文件态（FileRepository）不一致，破坏 R8 双模式等价（scaleTime 亚秒位差异）。
+
+    注意：批次/台账时间戳（``local_now()``）仍走秒级截断，那是**操作时间**不是源时间，
+    不参与 R8 比对，且秒级可避免台账粒度被放大。
+    """
     if dt.tzinfo is None:
-        return dt.replace(microsecond=0)
-    return dt.astimezone(LOCAL_TZ).replace(tzinfo=None, microsecond=0)
+        return dt
+    return dt.astimezone(LOCAL_TZ).replace(tzinfo=None)
 
 
 def parse_date(value: Any) -> Optional[date]:

@@ -46,7 +46,9 @@ def build_overview(date: Optional[str] = None) -> MarketOverviewResponse:
             distribution={"labels": [], "values": []},
         )
 
-    total_mcap = sum((c.get("market_cap") or 0) for c in coins)
+    # 显式 float：文件态 market_cap 为 int（源 JSON 整数），DuckDB 态为 DOUBLE。
+    # 不归一会使 R8 双模式在 JSON 上层出现 `2744419240228` vs `2744419240228.0` 的字节差异。
+    total_mcap = float(sum((c.get("market_cap") or 0) for c in coins))
     avg_chg = sum((c.get("change_24h_pct") or 0) for c in coins) / len(coins)
     up_cnt = sum(1 for c in coins if (c.get("change_24h_pct") or 0) > 0)
     down_cnt = sum(1 for c in coins if (c.get("change_24h_pct") or 0) < 0)

@@ -1,0 +1,73 @@
+sequenceDiagram
+    autonumber
+    participant OP as 运维/调度(cron)
+    participant ETL as backfill_history.py / ingest_history.py
+    participant DB as DuckDB (ct_history.duckdb)
+    participant FS as data/reports + data/macro
+
+    Note over ETL,FS: 阶段一 一次性回填（幂等）
+    OP->>ETL: run backfill_history.py
+    ETL->>DB: CREATE TABLE IF NOT EXISTS ...(§2 DDL)
+    ETL->>DB: INSERT ingest_batch(batch_id,status='running')
+    loop 9 扫描日
+        ETL->>FS: 读 summary.json / top_800_light / top_50_detailed / by_category
+        ETL->>DB: BEGIN
+        ETL->>DB: UPSERT coin_daily_snapshot ON CONFLICT(date,coin_id)
+        ETL->>DB: DELETE source_status WHERE date,coin_id; INSERT 该单元
+        ETL->>DB: DELETE content_archive WHERE date,coin_id; INSERT 该单元(含 body_grams)
+        ETL->>DB: UPSERT deep_research(canonical=top_50_detailed) + coin_category_daily
+        ETL->>DB: COMMIT
+        ETL->>DB: INSERT ingest_file_log(batch_id,file_md5,status='ok')
+    end
+    loop 19 宏观日 / 45 快照
+        ETL->>FS: 读 data/macro/<date>/<HHMM>.json
+        ETL->>DB: DELETE+INSERT macro_snapshot + watchlist/anomaly/chain_tvl
+    end
+    ETL->>DB: 计算 scan_day.is_partial（残缺日口径，以落盘计数为准）
+    ETL->>DB: PRAGMA create_fts_index('content_archive','content_id','body_text','body_grams',overwrite=1) 双列单索引
+    ETL->>DB: UPDATE ingest_batch SET status='success', rows_loaded=...
+    ETL-->>OP: get_stats() 打印行数/日期范围/体积
+
+    Note over ETL,FS: 阶段二 定时增量（复用现有调度，不新增常驻进程）
+    OP->>ETL: 每 15 分钟 ingest_history.py --incremental
+    ETL->>DB: 读 watermark：MAX(date) FROM scan_day / MAX(date) FROM macro_snapshot
+    ETL->>FS: 扫描水位线之后的目录
+    alt 无新文件或文件 md5 未变
+        ETL->>DB: ingest_file_log.status='skipped'
+        ETL-->>OP: 秒级退出
+    else 有新数据
+        ETL->>DB: 同阶段一的 UPSERT / DELETE+INSERT（单元级事务）
+        ETL->>DB: create_fts_index(...,overwrite=1) 重建 FTS
+    end
+
+    Note over OP,DB: 阶段三 服务端读取（读路径可切换）
+    participant R as routers/history.py 或 routers/market.py
+    participant S as services/*.py
+    participant L as data/loader.py (facade)
+    participant REPO as data/repository.py
+    participant DC as data/duck.py (thread-local cursor)
+
+    R->>S: build_overview(date) / coin_series(coin_id,...)
+    S->>L: load_all_coins(date) / load_deep_raw(date)
+    L->>REPO: get_repository().load_all_coins(date)
+    alt HISTORY_SOURCE=duckdb 且 DB 可用
+        REPO->>DC: read_conn()
+        DC->>DB: SELECT ... FROM coin_daily_snapshot WHERE date=?
+        DB-->>REPO: rows
+        REPO-->>L: List[dict]（同构于文件版）
+    else 回退（未装 duckdb / DB 缺失 / 该日无行）
+        REPO->>FS: 读 data/reports/daily_scan/<date>/...
+        FS-->>REPO: JSON
+        REPO-->>L: List[dict]
+    end
+    L-->>S: 统一结构
+    S-->>R: Pydantic 模型
+    R-->>R: success(data) / failure(code,msg,empty) 绝不 500
+
+    Note over R,DB: 全文检索（US-5）
+    R->>S: search(q, filters)
+    S->>REPO: search(q)   %% 查询侧不做 bigram 转换，直接传原始关键词
+    REPO->>DB: fts_main_content_archive.match_bm25(content_id, q)
+    Note right of REPO: 双列索引(body_text+body_grams)同时覆盖<br/>英文整词/中文全词(body_text) 与 中文子串(body_grams)；<br/>无需查询侧改写；FTS 不可用时降级 body_text ILIKE '%kw%'
+    DB-->>REPO: hits + score
+    REPO-->>S: 命中条目（含 origin_path 原文回溯）
