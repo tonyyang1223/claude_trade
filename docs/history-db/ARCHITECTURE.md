@@ -1030,6 +1030,18 @@ def write(conn_ctx):              # ETL 写入口，全局串行
 > 故「补了 bigram 化 ⇒ 中文可召回」是**错的**——只对**语料中已存在**的词成立；语料覆盖不足须从**采集侧**解决（§13 O9）。
 > 实测依据（真实库 `fts_main_content_archive.dict`）：`'哔哩'`/`'哩哔'`(df 455) **存在**；`'以太'`/`'太坊'`/`'比特'`/`'特币'`/`'治理'`/`'生态'`/`'英国'` **均不在**。
 
+**可达性自查 SQL**（把上式判据落到可执行；`dict` 侧已 `lower=1`，故须 `lower()` 归一）：
+
+```sql
+-- 参数 ? = make_grams(q) 的结果（Python 侧算好传入；若为空串不必查，直接走 §8.1(4) 第 2 条 ILIKE 兜底）
+SELECT t.token AS gram, d.df,
+       CASE WHEN d.termid IS NULL THEN 'NOT IN DICT(语料无→任何处理都 0)'
+            ELSE 'IN DICT(类A→可召回)' END AS verdict
+FROM (SELECT unnest(string_split(?, ' ')) AS token) t
+LEFT JOIN fts_main_content_archive.dict d ON d.term = lower(t.token);
+```
+（实测：`'哔哩 哩哔'`→两条均 IN DICT(df 455)；`'以太 太坊'`→两条均 NOT IN DICT；`'生态 Solana'`→`Solana`(df 869) IN、`'生态'` NOT；`'a'`→NOT。）
+
 **（1）查询串预处理算法** `build_fts_query(q) -> str | None`
 
 > **单一真源（single source of truth）—— 硬约定**：查询侧预处理**必须**直接调用
