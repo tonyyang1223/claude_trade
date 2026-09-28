@@ -32,13 +32,23 @@ CREATE TABLE IF NOT EXISTS dim_category (
     label         VARCHAR
 );
 
--- 币种 × 日 × 分类（来自 by_category 目录，权威分类；同时作为 R12 去重维度）
-CREATE TABLE IF NOT EXISTS coin_category_daily (
-    date            DATE    NOT NULL,
-    coin_id         VARCHAR NOT NULL,
-    category_slug   VARCHAR NOT NULL,
-    PRIMARY KEY (date, coin_id)          -- 一币一日只归一个主分类（与 loader 口径一致）
+-- 分类成员事实表：忠实复现 by_category 的 (date × slug × member) 稀疏多分类结构
+-- 语义要点（见 §0 验证5）：
+--   · 一币可属多个 slug（多分类），故 PK 不能是 (date,coin_id)
+--   · 大量成员无 coin_id（1241 文件中仅 116 含 coin_id），以 member_key（文件名）保唯一
+--   · 仅 has_market=TRUE 的成员参与 build_sectors
+--   · 本表同时充当 R12「只入一份」的权威分类来源，代替旧的 coin_category_daily
+CREATE TABLE IF NOT EXISTS category_membership (
+    date          DATE    NOT NULL,
+    category_slug VARCHAR NOT NULL,      -- 目录名即权威 slug
+    member_key    VARCHAR NOT NULL,      -- by_category/<slug>/<member_key>.json 的文件名
+    coin_id       VARCHAR,               -- 可空
+    has_market    BOOLEAN NOT NULL,      -- sources.market.data 是否非空（决定是否进 sectors）
+    market_cap    DOUBLE,
+    chg24         DOUBLE,                -- sources.market.data.price_change_percentage_24h
+    PRIMARY KEY (date, category_slug, member_key)
 );
+CREATE INDEX IF NOT EXISTS idx_catmem_date ON category_membership(date);
 
 -- ============================================================
 -- B. 结构化时间序列

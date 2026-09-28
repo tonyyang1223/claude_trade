@@ -101,9 +101,23 @@ def ensure_fts_extension(conn: "duckdb.DuckDBPyConnection") -> bool:
 # 批次（ingest_batch）
 # --------------------------------------------------------------------------
 def new_batch_id(mode: str, now: Optional[datetime] = None) -> str:
-    """生成批次号，形如 ``20260928T101500Z-backfill``（UTC 紧凑时间戳 + 模式）。"""
+    """生成**带时间戳**的批次号，形如 ``20260928T101500Z-backfill``（UTC 紧凑时间戳 + 模式）。
+
+    用于**增量**入库（§6 / T05）：每次增量都应有独立、可追溯的批次行。
+    """
     stamp = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     return f"{stamp.strftime('%Y%m%dT%H%M%SZ')}-{mode}"
+
+
+def stable_batch_id(mode: str, scope: str) -> str:
+    """生成**确定性**批次号：``<mode>-<scope>``，如 ``backfill-all``。
+
+    用于**全量回填**：同一操作重跑时复用同一 ``batch_id``，使 ``ingest_batch``（PK=batch_id）
+    与 ``ingest_file_log``（PK=batch_id,file_path）**主键天然幂等**——无需任何清理逻辑，
+    就能满足「连续执行两次、各表行数不增」的硬约定（§12）。
+    增量批次仍用 ``new_batch_id``（时间戳），保留每次增量的历史。
+    """
+    return f"{mode}-{scope}"
 
 
 def start_batch(conn: "duckdb.DuckDBPyConnection", batch_id: str, mode: str, scope: str) -> None:

@@ -8,7 +8,9 @@
 - ``top_50_detailed/<coin_id>.json``→ ``deep_research``（**canonical 载荷**，整条存 ``payload_json``）
                                      + ``source_status``（``sources`` → 稀疏长表，容纳 13/14 源漂移）
                                      + ``content_archive``（逐源抽取正文）
-- ``by_category/<slug>/<coin_id>.json`` → ``coin_category_daily``（**只取目录名做权威分类，不落载荷**）
+- ``by_category/<slug>/*.json`` → ``category_membership``（**每文件一行**的长表，忠实复现
+  「一币多分类 + 大量无 ``coin_id`` 空壳」，仅抽 ``has_market/market_cap/chg24``；**不落载荷**）
+  —— 同时作为 ``deep_research.category_slug`` 的**权威来源**（目录名即分类）
 - ``dim_coin`` / ``dim_category``    → 维度表
 
 硬约定（ARCHITECTURE §12，逐条落实）：
@@ -150,10 +152,12 @@ ON CONFLICT (date) DO UPDATE SET
     ingested_batch_id=EXCLUDED.ingested_batch_id
 """
 
-CATEGORY_DAILY_SQL = """
-INSERT INTO coin_category_daily (date, coin_id, category_slug)
-VALUES (?, ?, ?)
-ON CONFLICT (date, coin_id) DO UPDATE SET category_slug=EXCLUDED.category_slug
+CATMEM_COLS = (
+    "date", "category_slug", "member_key", "coin_id", "has_market", "market_cap", "chg24",
+)
+CATMEM_SQL = f"""
+INSERT INTO category_membership ({", ".join(CATMEM_COLS)})
+VALUES ({", ".join(["?"] * len(CATMEM_COLS))})
 """
 
 DIM_COIN_SQL = """
@@ -217,27 +221,63 @@ def _clean_light_rows(payload: Any) -> List[dict]:
     return rows
 
 
-def _build_category_map(cat_dir: Path) -> Tuple[Dict[str, str], set]:
-    """从 ``by_category/<slug>/<coin_id>.json`` 目录结构构建 ``{coin_id: slug}``。
+def load_category_membership(
+    cat_dir: Path, date: str
+) -> Tuple[List[List[Any]], Dict[str, str], set]:
+    """遍历 ``by_category/<slug>/*.json`` → ``category_membership`` 行 + 权威分类映射。
 
-    - **权威分类 = 目录名**（不读载荷文件），与 ARCHITECTURE §4「目录名即分类」一致；
-    - 同一币若同时出现在 ``unclassified`` 与真实分类下（实测 06-27 有 481 例），
-      优先取**非 unclassified** 的目录名；
-    - 返回 ``(coin→slug, 观测到的全部 slug 集合)``。
+    忠实复现 ``by_category`` 的真实结构（见 `ARCHITECTURE.md §0 验证5`）：
+
+    - **每文件一行**（``member_key`` = 文件名），保住 1,241 这类**文件级**计数；
+    - 大量成员**无 ``coin_id``**（06-27 的 1,241 个文件中仅 99 个含该字段）→ 写 ``coin_id=NULL``；
+      **空壳成员也必须入库**——`load_by_category_raw` 的「7 日窗口取文件数最多的一天」依赖文件总数；
+    - 一币可属**多个 slug**（实测恒为 ``{真实分类, unclassified}`` 两态）→ 故不可用 ``(date, coin_id)`` 作键；
+    - ``has_market`` = ``sources.market.data`` 非空（仅这些成员参与 `build_sectors` 的 `sectors` 计数）；
+      ``market_cap`` / ``chg24`` 仅在 market 源成功时取值，否则 ``NULL``（不填 0）。
+
+    Args:
+        cat_dir: ``daily_scan/<date>/by_category`` 目录。
+        date: 该扫描日（``YYYY-MM-DD``）。
+
+    Returns:
+        ``(rows, coin_slug_map, slugs)``
+
+        - ``rows``：``category_membership`` 参数行（列序同 ``CATMEM_COLS``）；
+        - ``coin_slug_map``：``{coin_id: 权威 slug}``（同币多 slug 时**优先非 unclassified**），
+          供 ``deep_research.category_slug`` 覆盖 payload 内的值；
+        - ``slugs``：观测到的全部目录名（登记 ``dim_category``）。
     """
-    mapping: Dict[str, str] = {}
+    rows: List[List[Any]] = []
+    coin_slug: Dict[str, str] = {}
     slugs: set = set()
     if not cat_dir.is_dir():
-        return mapping, slugs
+        return rows, coin_slug, slugs
+
     for slug_dir in sorted(p for p in cat_dir.iterdir() if p.is_dir()):
         slug = slug_dir.name
-        slugs.add(slug)  # 所有出现的目录名都登记进 dim_category（允许扩展）
+        slugs.add(slug)  # 目录名即权威 slug；所有出现过的 slug 都登记进 dim_category
         for member in sorted(slug_dir.glob("*.json")):
-            coin_id = member.stem
-            existing = mapping.get(coin_id)
-            if existing is None or (existing == _UNCLASSIFIED and slug != _UNCLASSIFIED):
-                mapping[coin_id] = slug
-    return mapping, slugs
+            payload = read_json(member)
+            coin_id: Optional[str] = None
+            has_market = False
+            market_cap: Optional[float] = None
+            chg24: Optional[float] = None
+            if isinstance(payload, dict):
+                raw_coin_id = payload.get("coin_id")
+                coin_id = raw_coin_id if isinstance(raw_coin_id, str) and raw_coin_id else None
+                sources = payload.get("sources")
+                market = sources.get("market") if isinstance(sources, dict) else None
+                data = market.get("data") if isinstance(market, dict) else None
+                if isinstance(data, dict) and data:
+                    has_market = True
+                    market_cap = _as_float(data.get("market_cap"))
+                    chg24 = _as_float(data.get("price_change_percentage_24h"))
+            rows.append([date, slug, member.stem, coin_id, has_market, market_cap, chg24])
+            if coin_id:
+                existing = coin_slug.get(coin_id)
+                if existing is None or (existing == _UNCLASSIFIED and slug != _UNCLASSIFIED):
+                    coin_slug[coin_id] = slug
+    return rows, coin_slug, slugs
 
 
 def _unwrap_content_list(value: Any) -> List[Any]:
@@ -492,6 +532,23 @@ def _content_fields(item: dict, source: str) -> Tuple[str, Optional[str], Option
 # --------------------------------------------------------------------------
 # 单元写入（幂等：DELETE + INSERT）
 # --------------------------------------------------------------------------
+def _replace_category_unit(conn: Any, date: str, rows: List[List[Any]]) -> None:
+    """以「日」为单元替换 ``category_membership``（事务内 DELETE + INSERT）。
+
+    自然键单元是 ``(date, category_slug, member_key)``；**按日整体替换**是其超集且更简单可靠：
+    重跑时若某 slug / 成员消失也不会留下陈旧行（`§5.2 策略 B`）。单日失败仅回滚该日。
+    """
+    conn.execute("BEGIN TRANSACTION")
+    try:
+        conn.execute("DELETE FROM category_membership WHERE date = ?", [date])
+        if rows:
+            conn.executemany(CATMEM_SQL, rows)
+        conn.execute("COMMIT")
+    except Exception:
+        conn.execute("ROLLBACK")
+        raise
+
+
 def _replace_content_unit(
     conn: Any,
     date: str,
@@ -531,7 +588,7 @@ def load_daily_scan(
 
     Returns:
         各表写入行数统计（``scan_day`` / ``coin_daily_snapshot`` / ``deep_research`` /
-        ``source_status`` / ``coin_category_daily`` / ``content_archive`` / ``dim_coin`` /
+        ``source_status`` / ``category_membership`` / ``content_archive`` / ``dim_coin`` /
         ``dim_category``），供编排层累计 ``ingest_batch.rows_loaded``。
     """
     root = daily_dir or ec.DAILY_SCAN_DIR
@@ -541,7 +598,7 @@ def load_daily_scan(
         "coin_daily_snapshot": 0,
         "deep_research": 0,
         "source_status": 0,
-        "coin_category_daily": 0,
+        "category_membership": 0,
         "content_archive": 0,
         "dim_coin": 0,
         "dim_category": 0,
@@ -588,16 +645,21 @@ def load_daily_scan(
             conn.executemany(SNAPSHOT_SQL, snapshot_params)
         counts["coin_daily_snapshot"] += len(snapshot_params)
 
-        # ---- C1. deep 研究（canonical）+ C2 源状态 + D 正文 + 分类维度 ----
+        # ---- C1. deep 研究（canonical）+ C2 源状态 + D 正文 + 分类成员 ----
         deep_dir = day_dir / DEEP_DIRNAME
         cat_dir = day_dir / CATEGORY_DIRNAME
-        category_map, slugs = _build_category_map(cat_dir)
-        observed_slugs |= slugs
+        # B′. by_category 成员（忠实长表；同时产出 deep_research 的权威 category_slug 映射）
+        catmem_rows, coin_slug_map, cat_slugs = load_category_membership(cat_dir, date)
+        observed_slugs |= cat_slugs
+        if catmem_rows:
+            _replace_category_unit(conn, date, catmem_rows)
+            for member_file in sorted(cat_dir.glob("*/*.json")):
+                ec.record_file(conn, batch_id, member_file, 1, status="ok")
+        counts["category_membership"] += len(catmem_rows)
 
         deep_rows: List[List[Any]] = []
         day_sources = 0
         day_content = 0
-        day_category = 0
         deep_files = sorted(deep_dir.glob("*.json")) if deep_dir.is_dir() else []
         for deep_file in deep_files:
             payload = read_json(deep_file)
@@ -609,7 +671,7 @@ def load_daily_scan(
             payload["__coin_id"] = coin_id
             origin_path = ec.to_rel(deep_file)
 
-            slug = category_map.get(coin_id) or payload.get("category_slug") or _UNCLASSIFIED
+            slug = coin_slug_map.get(coin_id) or payload.get("category_slug") or _UNCLASSIFIED
             observed_slugs.add(slug)
             sources = payload.get("sources") or {}
             deep_rows.append(
@@ -638,9 +700,6 @@ def load_daily_scan(
             day_sources += len(source_rows)
             day_content += len(content_rows)
 
-            conn.execute(CATEGORY_DAILY_SQL, [date, coin_id, slug])
-            day_category += 1
-
             ec.record_file(conn, batch_id, deep_file, 1, status="ok")
 
         if deep_rows:
@@ -648,7 +707,6 @@ def load_daily_scan(
         counts["deep_research"] += len(deep_rows)
         counts["source_status"] += day_sources
         counts["content_archive"] += day_content
-        counts["coin_category_daily"] += day_category
 
         # ---- scan_day（light_files_actual 取「去重后有效币数」实测值） ----
         conn.execute(
