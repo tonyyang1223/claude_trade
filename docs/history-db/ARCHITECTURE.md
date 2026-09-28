@@ -1319,13 +1319,23 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
   2. **仅 `DROP INDEX` 这 5 个索引**（数据一行未动）→ 不一致 = **0**（证明坏的是索引、非数据）；
   3. `CREATE INDEX` 重建这 5 个 → 不一致 = **0**，且 `duckdb_indexes()` 恢复 **9**。
 - **`filter_pushdown` 开关法只是「快速定位器」，不能定性根因**：`SET disabled_optimizers='filter_pushdown';` 也能让错数恢复真值（286→455、0→1241），但它**同时改变索引访问路径与其它快速路径**，故**无法区分**「索引损坏」还是别的快速路径问题——**定性必须靠上面的 DROP/CREATE 三步实验**。
-- **「真值」必须用「物化全表扫副本」计数**：依赖优化器的普通 `GROUP BY`、或把等值 `WHERE` 下推进 `GROUP BY` 子查询，都可能**被坏索引一并答复而一起算错**（实测 `bitcoin` 真值 670 可被压成 322）。→ 检测真值用 `CREATE TEMP TABLE _m AS SELECT <col> FROM <tbl>`（纯全表扫、无索引可用）再 `GROUP BY`。
+- **「真值」必须「物化 + 纯全表扫」，真值查询里不得出现裸等值谓词**：依赖优化器的普通 `GROUP BY`、或把等值 `WHERE` 下推进 `GROUP BY` 子查询，都可能**被坏索引一并答复而一起算错**。实测反例（`content_archive.coin_id='bitcoin'`，真值 **670**）：
+
+  | 「真值」写法 | 结果 |
+  |---|---|
+  | `SELECT SUM(n) FROM (SELECT coin_id,COUNT(*) n FROM content_archive GROUP BY coin_id) WHERE coin_id='bitcoin'` | **322** ❌（外层等值被下推进子查询，命中坏 `idx_content_coin`） |
+  | `SELECT coin_id,COUNT(*) FROM content_archive GROUP BY 1` → 取 `bitcoin` | **670** ✅ |
+  | 物化 `CREATE TEMP TABLE _m AS SELECT coin_id FROM content_archive` 后过滤 | **670** ✅ |
+
+  → 真值统一取「**先物化（纯全表扫、无索引可用）**」或「对列做 `CAST` 强制扫」，且**真值查询内不得出现裸等值谓词**。
 - **轻量修复无效（实测）**：`CHECKPOINT` / `FORCE CHECKPOINT` / `ANALYZE` / `VACUUM` → 错数**不变**（仍 286）。
-- **现有端点零影响（实测，勿写成「H4 会返回 286」）**：端点 WHERE **一律以 `date BETWEEN ? AND ?` 打头**，等值谓词（`source=?` / `coin_id=?`）**排在其后**；此时规划器**不以损坏的单列索引作为驱动访问路径**，等值退化为**残余过滤**，故结果正确。**顺序敏感已实测**：`WHERE source='bilibili' AND date BETWEEN …` → **286**（错）；`WHERE date BETWEEN … AND source='bilibili'` → **455**（对）。H4 五来源（23760/8242/4620/2275/**455**）、H4 三币种（670/682/662）、H3 板块数（06-27/28/29/30 = 9/7/9/9）、H6 逐日源数（含 4 个坏日期均 14）**均正确**。
+- **现有端点零影响（实测，勿写成「H4 会返回 286」）**：端点 WHERE **一律以 `date BETWEEN ? AND ?` 打头**（见 `history_svc.py:377`），等值谓词（`source=?` / `coin_id=?`）**排在其后**；此时规划器**不以损坏的单列索引作为驱动访问路径**，等值退化为**残余过滤**，故结果正确。**顺序敏感已实测**：`WHERE source='bilibili' AND date BETWEEN …` → **286**（错）；`WHERE date BETWEEN … AND source='bilibili'` → **455**（对）。（`date BETWEEN` **救不了一个单独领头的等值**；它在此只起「**不让规划器选坏索引做驱动**」的作用，并非真的过滤掉了坏数据。）H4 五来源（23760/8242/4620/2275/**455**）、H4 三币种（670/682/662）、H3 板块数（06-27/28/29/30 = 9/7/9/9）、H6 逐日源数（含 4 个坏日期均 14）**均正确**。
+  - ⚠️ **复验陷阱（务必写明）**：端点恰恰因为「`date` 打头」而正确，**直接拿端点现状复验会误判「没问题」**。复验**必须构造成「等值领头」**（如 `WHERE source='bilibili' AND date BETWEEN …`，或裸 `WHERE source='bilibili'`）才能暴露缺陷。
 - **⚠️ 潜伏风险（本条真正价值）**：当前正确**只是谓词顺序碰巧对了**——一旦把 `date BETWEEN` 挪后 / 删掉 / 写一条**以损坏索引列为首谓词**的查询，**立刻返回错数**。**不要**用「改用 `BETWEEN x AND x` 规避」：修复后**裸等值本就正确**，用 `BETWEEN` 规避只会**掩盖损坏**、使「物化真值 vs 等值」这一检测失效，损坏重新变静默。
 - **修复 = 重建索引（`DROP INDEX` + `CREATE INDEX`），严禁物理重写**：重建幂等、确定、**不动数据**、**不碰 FTS**。⚠️ **物理重写（`CTAS → DROP → RENAME`）是破坏性的**：`DROP TABLE` **连带删除该表全部索引**（实测重写 `content_archive` / `category_membership` / `source_status` 三表 → `duckdb_indexes()` **9 → 3**，连**没坏的 `idx_content_date` 也被误删**），需事后全部重建，反而放大风险。
 - **复发风险（如实声明，勿断言「不会再发生」）**：**为何会损坏尚无定论**——「索引维护被中断 / 锁竞争打断」只是**未经验证的假设**，**无法证明**未来 ETL 不再触发。故**必须**常态化检测（下条），不得假设「一次性」。
-- **防御（必须落地）**：每次入库后运行「**物化全表扫真值 vs 等值计数**」逐列校验，**覆盖全部单列索引列**（本库 2 处坏值恰在非 `date` 列：`content_archive.coin_id` / `source`，只查 `date` 会漏）；发现不一致 → **`DROP INDEX` + `CREATE INDEX` 重建该索引**，并**断言 `duckdb_indexes()` 数量回到 9**（防重建遗漏）。实现见 `scripts/history/check_integrity.py`、回归 `console/backend/tests/test_index_integrity.py`。
+- **防御（必须落地）**：每次入库后运行「**物化全表扫真值 vs 等值计数**」逐列校验，**覆盖全部单列索引列**（本库 5 处坏值中 **3 处非 `date` 列**：`content_archive.coin_id` / `content_archive.source` / `source_status.source`，只查 `date` 会漏）；发现不一致 → **`DROP INDEX` + `CREATE INDEX` 重建该索引**，并**断言 `duckdb_indexes()` 数量回到 9**（防重建遗漏）。实现见 `scripts/history/check_integrity.py`、回归 `console/backend/tests/test_index_integrity.py`。
+  - 🔴 **假绿警告**：只遍历「有 `date` 列的表」的检测（只查 `date`）**必漏报** `content_archive.coin_id` / `content_archive.source` / `source_status.source`——**跑完删除冗余索引后 `--check` 会输出 `PASS ✓`，而库里仍有等值过滤返回错值（实测：删完 3 个冗余 date 索引后，5 处坏值仍有 3 处未修）**。校验**必须覆盖全部 9 个单列索引列**，且**真值侧先物化**（见上），方能避免假绿。
   说明：`fts_main_content_archive` 为**独立 schema**，`DROP INDEX` 主表与物理重写主表**都不影响**它（实测重建索引前后 `match_bm25('solana')` 恒为 **869**）；但普通 `INSERT`/`DELETE` 后仍**必须**按上文「写后必重建」`overwrite=1` 重建 FTS，两者不冲突。
 
 **分类成员硬约定（实测踩坑点，见 §0 验证5）**
