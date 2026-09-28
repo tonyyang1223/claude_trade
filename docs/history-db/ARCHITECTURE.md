@@ -1019,6 +1019,11 @@ def write(conn_ctx):              # ETL 写入口，全局串行
 | H8 | `GET /api/history/macro/series` | `from,to,metric=btc_dominance,fear_greed` | `{metric, series:[{snapshot_at, value}]}` | US-4（历史宏观回溯） |
 | H9 | `POST /api/history/ingest`（admin，可选） | body `{mode}` | `{batch_id,status,rows_loaded}` | R9（懒触发兜底） |
 
+**H4 `total` 口径注（实测，务必对齐前端文案）**：
+- `content_archive` 是**「文档 × 币」的行级归档**（采集侧「全局 feed 逐币挂载」的既有行为，**非 ETL 重复入库**）：回填态快照 **39,352 行**，而按**文档**去重 `DISTINCT(date,source,doc_hash)` 仅 **3,049** → 平均每篇挂到 **~12.9** 个币（非空 distinct `url` 仅 **477**）。
+- 故 H4 `total = COUNT(*)`（`history_svc.py` 的 `SELECT COUNT(*) … WHERE <filter>`）语义是 **「匹配过滤条件的归档**行**数（= 按币展开的条目数）」**，**等于该查询的分页总数**，但 **≠「去重新闻文档条数」**（两者相差 ~12.9 倍）。**不是 bug**，是归档粒度使然。
+- 口径处理：① **前端文案须标注** `total` 为「（按币展开）条目数」，**不可**当「新闻条数」展示；② 若使用方确需「文档级条数」，另加 `dedupe=document`（`COUNT(DISTINCT(date,source,doc_hash))`）作为 **P2 opt-in 增量、缺省行为不变**（待产品确认，见 §13 O10）。
+
 ### 8.1 H5 全文检索 —— 精确实现规格（v1.3，可直接照此编码）
 
 > **核心订正**：查询侧**必须**对 CJK 做 bigram 化（`match_bm25` 用 simple 分词器解析查询串，
@@ -1315,6 +1320,7 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 | O7 | `raw_server` 未来若真需要 | 范围 | 默认**保持「暂不入库」**（R11 已确认） |
 | O8 | `load_by_category_raw` 的「7 日窗口取最大」跨日解析看似 bug（7 个请求日返回同一份 06-27 分类） | 双读一致性 | **本次不动**（R8 要求保留既有行为）；已在仓储层复刻。若产品决定修正，应作为**独立变更**同时改文件与 DuckDB 两条路径，并更新 `golden-sectors.json` |
 | O9 | H5 **语料覆盖不足**：`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 等中文词 **FTS 与 ILIKE 双 0**（`title`/`body_text` 各 0 行，语料确无此串，非检索缺陷）；旁证 `'哔哩'` ILIKE=**455 且全在 `title`**、`body_text`=0，印证中文主要在 `title`（见 §8.1 硬性声明） | 中文 crypto 关键词召回 | 默认**不改检索实现**（兜底已尽力）；需**补充中文 crypto 数据源**（中文资讯/公告/社媒）方可召回，属**后续采集演进项** |
+| O10 | H4 `total = COUNT(*)` 是**按币展开的行数**（归档粒度 39,352 行 / 去重文档 3,049 ≈ **12.9×**），**非**「新闻条数」 | 前端若当「新闻条数」展示会放大 ~12.9× | 默认**不改实现**；前端文案标注「（按币展开）」；如确需文档级口径，另加 `dedupe=document`（`COUNT(DISTINCT(date,source,doc_hash))`）**P2 opt-in、缺省不变**（待产品确认） |
 
 ---
 
