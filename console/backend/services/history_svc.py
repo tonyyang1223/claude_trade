@@ -319,7 +319,18 @@ def categories_timeline(
 ) -> CategoriesTimelineResponse:
     """板块时间线：每 (date, category) 的币数 / 总市值 / 平均 24h 涨跌。
 
-    口径与 ``build_sectors`` 一致：仅统计 ``has_market=TRUE`` 的成员（带市场数据的成员）。
+    口径与 ``build_sectors`` 一致：仅统计 ``has_market=TRUE`` 的成员（带市场数据的成员）；
+    且 **缺失 ``chg24`` 的成员按 0 计入分母**（``AVG(COALESCE(chg24, 0))``），
+    **不是** ``AVG(chg24)``（后者会跳过 NULL、把分母变少）。
+
+    判据：与 ``docs/history-db/golden-sectors.json`` 逐值一致（见
+    ``console/backend/tests/test_history_golden.py::test_h3_golden_sectors_parity``，
+    81 项 = 9 个请求日 × 9 个板块）。
+
+    注意 **跨日解析**：golden 是 ``build_sectors`` 在 ``[请求日-7, 请求日]`` 内取
+    成员数最多的那一天（并列取较晚）得到的快照；本函数则是**按请求日直查、不做
+    跨日解析**（设计要求）。所以 golden 测试必须先独立复刻这套解析、再按**解析后
+    的数据日**比对，不能拿请求日直接比。
     """
     lo, hi = _month_range("category_membership", from_, to)
     if not lo or not hi:
@@ -328,7 +339,7 @@ def categories_timeline(
     params: List = [lo, hi]
     sql = (
         "SELECT date, category_slug, COUNT(*) AS coin_count, "
-        "SUM(market_cap) AS total_mcap, AVG(chg24) AS avg_chg "
+        "SUM(market_cap) AS total_mcap, AVG(COALESCE(chg24, 0)) AS avg_chg "
         "FROM category_membership WHERE has_market = TRUE AND date BETWEEN ? AND ?"
     )
     if category:
