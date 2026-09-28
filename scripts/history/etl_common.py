@@ -203,12 +203,17 @@ def record_file(
     rows: int,
     status: str = "ok",
     compute_md5: bool = True,
+    processed_at: Optional[datetime] = None,
 ) -> None:
     """登记单个文件的处理结果（``ingest_file_log`` 幂等 upsert）。
 
     Args:
         status: ``ok`` | ``skipped`` | ``error``。
         compute_md5: 大文件（如 deep 单币 JSON）可按需关闭以省 IO。
+        processed_at: 该文件的处理时间。**同一批次应传入同一个时间戳**
+            （在批次开始时取一次 :func:`local_now`，批次内所有 ``record_file`` 复用），
+            使 ``ingest_file_log`` 的「批次时间」语义可靠、可作次级排序键；
+            缺省取当前时刻（每次调用各自取，仅适用于「单次单文件」的临时登记）。
     """
     conn.execute(
         """
@@ -221,23 +226,75 @@ def record_file(
             status=EXCLUDED.status,
             processed_at=EXCLUDED.processed_at
         """,
-        [batch_id, to_rel(path), file_md5(path) if compute_md5 else "", file_mtime(path), int(rows), status, local_now()],
+        [batch_id, to_rel(path), file_md5(path) if compute_md5 else "", file_mtime(path), int(rows), status, processed_at or local_now()],
     )
 
 
-def read_file_log(conn: "duckdb.DuckDBPyConnection") -> Dict[str, Dict[str, Any]]:
-    """读取最近一次处理的逐文件台账：``{file_path: {md5, status}}``。
+def _file_state_row(row: tuple) -> Dict[str, Any]:
+    """``(file_path, md5, mtime, status, processed_at)`` → 状态 dict（去掉冗余 file_path）。"""
+    return {"md5": row[1], "mtime": row[2], "status": row[3], "processed_at": row[4]}
 
-    供增量入库（T05）判断「文件是否未变更 → 跳过」；T02 全量回填仍会写入台账，
-    以便后续增量复用同一份 ``ingest_file_log``。
+
+def read_file_log(
+    conn: "duckdb.DuckDBPyConnection",
+    batch_id: Optional[str] = None,
+) -> Dict[str, Dict[str, Any]]:
+    """读取**指定批次**的逐文件台账：``{file_path: {"md5","mtime","status","processed_at"}}``。
+
+    ⚠️ 与旧实现的关键区别（可靠性修复）：
+    旧实现用 ``WHERE processed_at = (SELECT MAX(processed_at) FROM ingest_file_log)``——
+    把「全表最大 ``processed_at``」当作隐式批次键。但 ``processed_at`` 由 ``local_now()``
+    **秒级截断**，其值取决于「该死循环里各文件分别调用的时刻」：同批次多文件恰好落在同一秒时
+    「碰巧」能整批命中，一旦有**两个批次落在同一秒**（增量每 15 分钟一次，长跑/并发补跑时
+    完全可能）就会**串批**取到错误行。现改为以稳定键 ``batch_id``（``ingest_file_log``
+    复合主键首列）作键，**不再依赖任何时间戳**，彻底消除该隐患。
+
+    Args:
+        batch_id: 目标批次；``None`` 时取 ``ingest_batch`` 中 ``started_at`` 最新者
+            （以 ``batch_id`` 兜底并列），而非 ``MAX(processed_at)``。
+
+    Returns:
+        ``{file_path: {"md5":..,"mtime":..,"status":..,"processed_at":..}}``；无数据返回 ``{}``。
+    """
+    if batch_id is None:
+        picked = conn.execute(
+            "SELECT batch_id FROM ingest_batch "
+            "ORDER BY started_at DESC NULLS LAST, batch_id DESC LIMIT 1"
+        ).fetchone()
+        if not picked:
+            return {}
+        batch_id = picked[0]
+    rows = conn.execute(
+        "SELECT file_path, file_md5, file_mtime, status, processed_at "
+        "FROM ingest_file_log WHERE batch_id = ?",
+        [batch_id],
+    ).fetchall()
+    return {r[0]: _file_state_row(r) for r in rows}
+
+
+def latest_file_states(conn: "duckdb.DuckDBPyConnection") -> Dict[str, Dict[str, Any]]:
+    """**跨批次**取每个文件的最新状态：``{file_path: {"md5","mtime","status","processed_at"}}``。
+
+    供增量入库（T05）判断「文件未变更 → 跳过」：同一文件可能先后被 ``backfill-all`` 与
+    若干增量批次处理，故按 ``file_path`` 分区取 ``processed_at`` 最大的一行
+    （并列时以 ``batch_id`` 大者为准），而非仅看「最近一个批次」。
+
+    Note:
+        采用窗口函数而非「全表 MAX 时间戳」自连接，保证在「多批次同秒」时结果仍确定。
     """
     rows = conn.execute(
         """
-        SELECT file_path, file_md5, status FROM ingest_file_log
-         WHERE processed_at = (SELECT MAX(processed_at) FROM ingest_file_log)
+        SELECT file_path, file_md5, file_mtime, status, processed_at
+        FROM (
+            SELECT file_path, file_md5, file_mtime, status, processed_at,
+                   ROW_NUMBER() OVER (
+                       PARTITION BY file_path ORDER BY processed_at DESC, batch_id DESC
+                   ) AS rn
+            FROM ingest_file_log
+        ) WHERE rn = 1
         """
     ).fetchall()
-    return {r[0]: {"md5": r[1], "status": r[2]} for r in rows}
+    return {r[0]: _file_state_row(r) for r in rows}
 
 
 # --------------------------------------------------------------------------

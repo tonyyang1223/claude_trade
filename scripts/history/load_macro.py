@@ -139,14 +139,29 @@ def load_macro(
     batch_id: str,
     macro_dir: Optional[Path] = None,
     verbose: bool = True,
+    snapshots: Optional[List[Tuple[str, str, Path]]] = None,
+    batch_processed_at: Optional[Any] = None,
 ) -> Dict[str, int]:
-    """载入全部宏观快照（幂等）。
+    """载入宏观快照（幂等）。
+
+    Args:
+        snapshots: 只处理这些 ``(date, snapshot_time, path)``（增量候选集）；``None`` = 全部。
+        batch_processed_at: 批次级时间戳，本批次内所有 ``record_file`` 复用
+            （见 ``etl_common.record_file``）。
 
     Returns:
         各表写入行数统计（``macro_snapshot`` / ``macro_watchlist`` / ``macro_anomaly`` /
         ``macro_chain_tvl``）。
     """
-    snapshots = list_macro_snapshots(macro_dir)
+    candidates = list_macro_snapshots(macro_dir)
+    if snapshots is not None:
+        wanted = {(d, t) for d, t, _ in snapshots}
+        candidates = [c for c in candidates if (c[0], c[1]) in wanted]
+
+    def _rec(path: Path, rows: int, status: str = "ok") -> None:
+        """登记台账（批次内共用同一 ``processed_at``）。"""
+        ec.record_file(conn, batch_id, path, rows, status=status, processed_at=batch_processed_at)
+
     counts: Dict[str, int] = {
         "macro_snapshot": 0,
         "macro_watchlist": 0,
@@ -154,12 +169,12 @@ def load_macro(
         "macro_chain_tvl": 0,
     }
     if verbose:
-        print(f"[load_macro] 待处理宏观快照 {len(snapshots)} 个")
+        print(f"[load_macro] 待处理宏观快照 {len(candidates)} 个")
 
-    for date, snapshot_time, path in snapshots:
+    for date, snapshot_time, path in candidates:
         payload = _read_json(path)
         if not isinstance(payload, dict):
-            ec.record_file(conn, batch_id, path, 0, status="error")
+            _rec(path, 0, status="error")
             continue
 
         conn.execute(
@@ -191,7 +206,7 @@ def load_macro(
         counts["macro_anomaly"] += len(anomaly_rows)
         counts["macro_chain_tvl"] += len(chain_rows)
 
-        ec.record_file(conn, batch_id, path, 1, status="ok")
+        _rec(path, 1, status="ok")
 
     if verbose:
         print("[load_macro] 完成：" + ", ".join(f"{k}={v}" for k, v in counts.items()))

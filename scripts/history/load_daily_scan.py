@@ -583,8 +583,16 @@ def load_daily_scan(
     batch_id: str,
     daily_dir: Optional[Path] = None,
     verbose: bool = True,
+    dates: Optional[List[str]] = None,
+    batch_processed_at: Optional[Any] = None,
 ) -> Dict[str, int]:
-    """载入全部扫描日（幂等）。
+    """载入扫描日（幂等）。
+
+    Args:
+        dates: 只处理这些扫描日（``YYYY-MM-DD``）；``None`` = 处理目录下全部
+            （增量入库传「水位线之后」的候选日，避免全量重跑）。
+        batch_processed_at: 批次级时间戳，作为本批次内所有 ``record_file`` 的
+            ``processed_at``（同批次共用一个时间戳，见 ``etl_common.record_file``）。
 
     Returns:
         各表写入行数统计（``scan_day`` / ``coin_daily_snapshot`` / ``deep_research`` /
@@ -592,7 +600,16 @@ def load_daily_scan(
         ``dim_category``），供编排层累计 ``ingest_batch.rows_loaded``。
     """
     root = daily_dir or ec.DAILY_SCAN_DIR
-    dates = list_scan_dates(root)
+    all_dates = list_scan_dates(root)
+    if dates is not None:
+        wanted = set(dates)
+        all_dates = [d for d in all_dates if d in wanted]
+    dates = all_dates
+
+    def _rec(path: Path, rows: int, status: str = "ok") -> None:
+        """登记台账（批次内共用同一 ``processed_at``）。"""
+        ec.record_file(conn, batch_id, path, rows, status=status, processed_at=batch_processed_at)
+
     counts: Dict[str, int] = {
         "scan_day": 0,
         "coin_daily_snapshot": 0,
@@ -654,7 +671,7 @@ def load_daily_scan(
         if catmem_rows:
             _replace_category_unit(conn, date, catmem_rows)
             for member_file in sorted(cat_dir.glob("*/*.json")):
-                ec.record_file(conn, batch_id, member_file, 1, status="ok")
+                _rec(member_file, 1, status="ok")
         counts["category_membership"] += len(catmem_rows)
 
         deep_rows: List[List[Any]] = []
@@ -664,7 +681,7 @@ def load_daily_scan(
         for deep_file in deep_files:
             payload = read_json(deep_file)
             if not isinstance(payload, dict):
-                ec.record_file(conn, batch_id, deep_file, 0, status="error")
+                _rec(deep_file, 0, status="error")
                 continue
             coin_id = payload.get("coin_id") or deep_file.stem
             payload["__date"] = date
@@ -700,7 +717,7 @@ def load_daily_scan(
             day_sources += len(source_rows)
             day_content += len(content_rows)
 
-            ec.record_file(conn, batch_id, deep_file, 1, status="ok")
+            _rec(deep_file, 1, status="ok")
 
         if deep_rows:
             conn.executemany(DEEP_SQL, deep_rows)
@@ -729,9 +746,9 @@ def load_daily_scan(
         counts["scan_day"] += 1
 
         if summary_path.exists():
-            ec.record_file(conn, batch_id, summary_path, 1, status="ok")
+            _rec(summary_path, 1, status="ok")
         if light_path.exists():
-            ec.record_file(conn, batch_id, light_path, len(snapshot_params), status="ok")
+            _rec(light_path, len(snapshot_params), status="ok")
 
     # ---- A. dim_coin / dim_category ----
     counts["dim_coin"] = _upsert_dim_coin(conn, coin_facts)
