@@ -54,6 +54,8 @@ con.execute("PRAGMA create_fts_index('t','id','body','body_grams');")       # �
 - **避坑2（中文机制，精确表述）**：DuckDB simple 分词器**不切分 CJK**，把**连续中文当作单个 token**。因此：
   **整块连续中文可命中**（如 `'以太坊'` 对 `body='以太坊 ETF…'` 命中），但**任意子串不可命中**（`'以太'`/`'坊'` 对整块 `'以太坊'` 不命中）。
   （初版称「`'以太坊'` 返回空」是该样本恰好为**一整段无空格 CJK** 的特例，表述不精确，此处更正。）
+  ⚠️ **此「中文可命中」仅对上方 3 行合成样表成立，不可外推到真实语料**——真实库 `body_text` 中文占比仅 ~5%，
+  且查询侧还需 bigram 化；实测 **`'以太坊'` 在真实库召回 0**（见下「真实语料复验」）。
 - **解法（模式C）**：`content_archive` 同时保留 `body_text`（原文）与 `body_grams`（CJK 字符 bigram + **英文整词**）两列，
   用**一条索引覆盖两列**：`create_fts_index('content_archive','content_id','body_text','body_grams', overwrite=1)`。
   → 英文整词由 `body_text` 命中，中文 bigram 由 `body_grams` 命中，**两种粒度全覆盖**；实测 bm25 分数正常可用于排序。
@@ -518,7 +520,8 @@ SELECT MAX(date) AS date FROM scan_day WHERE COALESCE(is_partial, FALSE) = FALSE
 
 ```sql
 INSTALL fts; LOAD fts;   -- 扩展已本地缓存，无需联网
--- ✅ 双列单索引：body_text（英文整词/中文全词）+ body_grams（中文子串）→ 两种粒度全覆盖
+-- ✅ 双列单索引：body_text（英文整词）+ body_grams（中文 bigram）→ 中英两种粒度覆盖
+--    （真实语料 body_text 中文占比 ~5%，中文命中主要靠 body_grams bigram；查询侧必须对 CJK bigram 化，见 §8.1）
 -- ❌ 禁止只索引 body_grams（会致英文关键词全部失效，见 §0 验证1 / §12）
 PRAGMA create_fts_index('content_archive', 'content_id', 'body_text', 'body_grams',
     stemmer='none', lower=1, strip_accents=0, overwrite=1);
@@ -1208,10 +1211,10 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
   - `scripts/history/ingest_history.py`（`--incremental`，水位线 + 跳文件 + **写完后重建双列 FTS**，⟂）
   - `scripts/history/register_cron.sh` 或文档说明（复用现有调度，⟂）
   - `console/backend/tests/test_repository_parity.py`（文件 vs DuckDB 同构，⟂）
-  - `console/backend/tests/test_history_endpoints.py`（新端点契约；**须含中文子串 + 英文整词两条检索命中用例**，⟂）
+  - `console/backend/tests/test_history_endpoints.py`（新端点契约；**须含中文 + 英文两条检索命中用例**：中文用 `'哔哩哔哩'`→应命中 **455**，英文用 `'Solana'`→**869**；**禁止**用 `'以太坊'`/`'治理'`/`'比特币'` 等语料中不存在的词作正向用例，见 §8.1 硬性声明，⟂）
   - `docs/history-db/RUNBOOK.md`（回填/重建/增量/排障）
 - **依赖**：T02、T04
-- **验收**：新数据落盘后 15 分钟内自动入库；重复跑幂等；`'Solana'`（英）与 `'以太'`（中）均可命中；pytest 全绿。
+- **验收**：新数据落盘后 15 分钟内自动入库；重复跑幂等；`'Solana'`（英，应为 **869**）与 `'哔哩哔哩'`（中，应为 **455**）均可命中；pytest 全绿。
 
 **并行分组**：
 - 第 1 波：**T01**
@@ -1253,6 +1256,7 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
   `body_text` 仍存**纯净正文**不变。`body_grams` 仅为索引辅助列，**不返回前端**。
 - **查询侧必须对 CJK 做 bigram 化**（v1.3 订正）：`match_bm25` 用同一 simple 分词器解析查询串，未 bigram 化的连续中文词（如 `'哔哩哔哩'`）不在索引中 → **召回 0**；必须按 §8.1 规格把 CJK 段展开成 bigram 后再传。英文词照原样（索引已 lowercase）。
 - **单一真源**：查询侧预处理**必须**直接调用 `scripts/history/export_grams.make_grams`，**禁止**另写等价实现或硬编码 bigram 粒度（`2`）/CJK 区间/去重策略——入库侧 `body_grams` 与查询侧 gram 串须由**同一函数**产出，否则规则漂移会**静默召回 0**（见 §8.1(1)）。
+- **空串 → `None` → ILIKE**：`build_fts_query` 对**空串一律返回 `None`**（空查询 **或** `make_grams(q)==''` 如 `'42'`）；**不得**返回 `''`、**不得**把空串送入 `match_bm25`。调用方**先判 `q.strip()`**（→空结果 `{hits:[],total:0}`）、**再判返回值是否 `None`**（→**ILIKE 兜底，用原始 `q`**），否则走 FTS（见 §8.1(1)(4)）。
 - **`conjunctive := false`（OR）**：AND 会让任何含「语料中没有的 token」的查询归零（实测 `'以太坊 ETF'` AND=0 / OR=667），故必须 OR，相关性靠 bm25 排序。
 - **语料召回上限（如实声明）**：`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 等词 bigram 化后**仍为 0**（语料中无该串，非实现缺陷）→ **FTS 0 命中或单字符/扩展不可用时，必须回退 `title/body_text ILIKE` 兜底**；且 **ILIKE 必须传原始查询串 `q`，非 `make_grams(q)` 产物**（实测 `ILIKE '%哔哩哔哩%'=455` 而 `ILIKE '%哔哩 哩哔%'=0`——混用会静默返回 0）。
 - **写后必重建**：FTS 索引为静态，任何 INSERT/DELETE 后必须 `overwrite=1` 重建，否则新数据检索不到。
@@ -1291,7 +1295,7 @@ duckdb>=1.1,<2.0        # 历史数据库（单文件）；缺失时 HAS_DUCKDB 
 | O6 | FTS 静态索引：增量后**必须重建**，大表时重建耗时 | 增量性能 | 默认：每次增量末步 `create_fts_index(..., overwrite=1)` 重建（当前 ~2万行，秒级）。若日后膨胀，改「按日期分区的多张正文表 + 各自 FTS」或仅对增量子集建影子索引 |
 | O7 | `raw_server` 未来若真需要 | 范围 | 默认**保持「暂不入库」**（R11 已确认） |
 | O8 | `load_by_category_raw` 的「7 日窗口取最大」跨日解析看似 bug（7 个请求日返回同一份 06-27 分类） | 双读一致性 | **本次不动**（R8 要求保留既有行为）；已在仓储层复刻。若产品决定修正，应作为**独立变更**同时改文件与 DuckDB 两条路径，并更新 `golden-sectors.json` |
-| O9 | H5 **语料覆盖不足**：`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 等中文词 **FTS 与 ILIKE 双 0**（语料中无此串，非检索缺陷，见 §8.1 硬性声明） | 中文 crypto 关键词召回 | 默认**不改检索实现**（兜底已尽力）；需**补充中文 crypto 数据源**（中文资讯/公告/社媒）方可召回，属**后续采集演进项** |
+| O9 | H5 **语料覆盖不足**：`'以太坊'`/`'比特币'`/`'治理'`/`'生态'`/`'英国'` 等中文词 **FTS 与 ILIKE 双 0**（`title`/`body_text` 各 0 行，语料确无此串，非检索缺陷）；旁证 `'哔哩'` ILIKE=**455 且全在 `title`**、`body_text`=0，印证中文主要在 `title`（见 §8.1 硬性声明） | 中文 crypto 关键词召回 | 默认**不改检索实现**（兜底已尽力）；需**补充中文 crypto 数据源**（中文资讯/公告/社媒）方可召回，属**后续采集演进项** |
 
 ---
 
