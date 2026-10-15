@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NXM (Nexus Mutual) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #9C27B0; --accent2: #CE93D8;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(156,39,176,0.05); }
+  tr:hover { background: rgba(156,39,176,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(156,39,176,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(156,39,176,0.1), rgba(206,147,216,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>NXM (Nexus Mutual) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：DeFi / 去中心化保险</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$65</div><div class="snap-sub" style="color:var(--red);">2025 跌 37%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$107M</div><div class="snap-sub">全流通 FDV=MC</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">2025 覆盖费</div><div class="snap-value" style="color:var(--green);font-size:1.1em;">$5.7M+</div><div class="snap-sub">净现金流 $14.3M</div></div>
+  <div class="snap-item"><div class="snap-label">类型</div><div class="snap-value" style="font-size:1.05em;">DeFi 保险</div><div class="snap-sub">排名 #248</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>Nexus Mutual (NXM) 是 <strong>DeFi 去中心化保险龙头</strong>，价格 ~$65，市值 ~$107M，全流通（FDV=MC），2025 年产生 $5.7M+ 覆盖费，净现金流 $14.3M，不到 2% DeFi TVL 被保险。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">DeFi 保险龙头</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">全流通</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">2025 跌 37%</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2017</td><td>Nexus Mutual 创立</td><td>去中心化保险先驱</td></tr>
+    <tr><td>2020</td><td>以太坊上线</td><td>正式运营</td></tr>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>2025</strong></td><td><strong>2025 年跌 37%</strong></td><td><strong>全年回调</strong></td></tr>
+    <tr style="background:rgba(156,39,176,0.1);"><td><strong>2025</strong></td><td><strong>覆盖费 $5.7M+，净现金流 $14.3M</strong></td><td><strong>财务健康</strong></td></tr>
+    <tr style="background:rgba(156,39,176,0.1);"><td><strong>2026-10-13</strong></td><td><strong>价格 $65</strong></td><td><strong>当前</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-13：NowPrice 价格 $64.84，市值 $107.01M，流通 1.65M，FDV $107.01M。</li>
+    <li>2026-10-12：BeInCrypto 价格 $65.25，市值 $107.86M，流通 1.65M，24h 量 $0。</li>
+    <li>2026-08-25：returnsview 排名 #248，2025 年跌 37%。</li>
+    <li>2026-04：KR1 年报披露：2025 年覆盖费 $5.7M+，净现金流 $14.3M，不到 2% DeFi TVL 被保险。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前流通</td><td>~1.65M NXM（全流通）</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>FDV</strong></td><td><strong>~$107M = MC</strong></td></tr>
+    <tr><td>类型</td><td>DeFi 去中心化保险</td></tr>
+    <tr><td>价值捕获</td><td>覆盖费 + 投资收益</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>2025 覆盖费</strong></td><td><strong>$5.7M+</strong></td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>2025 净现金流</strong></td><td><strong>$14.3M</strong></td></tr>
+    <tr style="background:rgba(156,39,176,0.08);"><td><strong>关键</strong></td><td><strong>全流通，无解锁压力</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$30 – $45</div><div style="color:var(--muted);font-size:0.9em;">FDV $50 – $75M · 较当前 −54% ~ −31%</div><p style="margin-top:12px;font-size:0.9em;">DeFi 退潮。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$60 – $90</div><div style="color:var(--muted);font-size:0.9em;">FDV $100 – $150M · 较当前 −8% ~ +38%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$150 – $250</div><div style="color:var(--muted);font-size:0.9em;">FDV $250 – $400M · 较当前 +131% ~ +285%</div><p style="margin-top:12px;font-size:0.9em;">DeFi 保险牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（DeFi 保险）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 NXM 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(156,39,176,0.08);"><td><strong>NXM</strong></td><td><strong>~$107M</strong></td><td><strong>去中心化保险</strong></td><td><strong>Nexus Mutual</strong></td></tr>
+    <tr><td>COVER</td><td>~$10M</td><td>保险</td><td>Cover Protocol</td></tr>
+    <tr><td>INSUR</td><td>~$5M</td><td>保险</td><td>InsurAce</td></tr>
+    <tr><td>ARN</td><td>~$2M</td><td>保险</td><td>ARN</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">NXM 的差异化：DeFi 保险龙头，全流通，财务健康。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>DeFi 保险龙头</strong>——赛道先驱</li>
+    <li><strong>全流通</strong>——无解锁压力</li>
+    <li><strong>2025 覆盖费 $5.7M+</strong>——财务健康</li>
+    <li><strong>净现金流 $14.3M</strong>——正向</li>
+    <li><strong>不到 2% DeFi TVL 被保险</strong>——增长空间大</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>2025 跌 37%</strong>——全年回调</li>
+    <li><strong>24h 量 $0</strong>——流动性极低</li>
+    <li><strong>DeFi TVL 低迷</strong>——整体低迷</li>
+    <li><strong>排名 #248</strong>——排名低</li>
+    <li><strong>小市值 $107M</strong>——波动大</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>DeFi 低迷</strong></td><td><strong>TVL 持续低迷</strong></td></tr>
+    <tr><td><strong>流动性极低</strong></td><td>24h 量 $0</td></tr>
+    <tr><td><strong>黑客索赔</strong></td><td>大额索赔风险</td></tr>
+    <tr><td><strong>监管风险</strong></td><td>保险牌照</td></tr>
+    <tr><td><strong>小市值</strong></td><td>$107M 波动大</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>NXM (Nexus Mutual) 是 DeFi 去中心化保险龙头，价格 ~$65，市值 ~$107M，全流通（FDV=MC），2025 年覆盖费 $5.7M+，净现金流 $14.3M。DeFi 保险龙头 + 全流通 + 财务健康 + 增长空间大（不到 2% TVL 被保险）是多头逻辑，<strong>2025 跌 37% + 24h 量 $0 流动性极低 + DeFi TVL 低迷</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：Nexus Mutual (NXM) 是 DeFi 去中心化保险龙头，价格 ~$65，市值 ~$107M，全流通（FDV=MC），2025 年覆盖费 $5.7M+，净现金流 $14.3M，不到 2% DeFi TVL 被保险。全流通无解锁压力、财务健康、增长空间大是亮点。但 2025 年跌 37%，24h 量 $0 流动性极低，DeFi TVL 整体低迷，排名 #248。适合 DeFi 保险赛道价值投资者，需谨慎流动性和黑客索赔风险。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

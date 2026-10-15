@@ -80,6 +80,30 @@ export interface WebResearch {
   fetchedAt?: string;
 }
 
+/** Twitter 舆情条目（来自豆包爬取的 Twitter 数据，已入库历史库 content_archive）。 */
+export interface TwitterPost {
+  coinId: string;
+  docType: 'tweet' | 'event';
+  title?: string;
+  url?: string;
+  author?: string;
+  text?: string;
+  publishedTs?: string;
+  score?: number;
+  likes?: number;
+  retweets?: number;
+  replies?: number;
+  sentiment?: string;
+  tweetId?: string;
+  eventType?: string;
+}
+
+export interface TwitterFeed {
+  coinId: string;
+  count: number;
+  posts: TwitterPost[];
+}
+
 export interface ComparisonProject {
   coin_id: string;
   coin_name?: string;

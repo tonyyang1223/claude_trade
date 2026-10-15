@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FUN (FUNToken / FunFair) 深度研究报告 · 2026-10-14</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #00E676; --accent2: #69F0AE;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(0,230,118,0.05); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(0,230,118,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(0,230,118,0.1), rgba(105,240,174,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>FUN (FUNToken / FunFair)</h1>
+<div class="subtitle">整理时间：2026-10-14 · 赛道：链游 / 在线博彩（iGaming）</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.0087</div><div class="snap-sub" style="color:var(--green);">2026 Q2+Q3 涨 ~300%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$95M</div><div class="snap-sub">FDV = MC（全流通）</div></div>
+  <div class="snap-item"><div class="snap-label">流通 / 总供应</div><div class="snap-value" style="font-size:1.1em;">10.81B / 10.81B</div><div class="snap-sub">流通率 100%</div></div>
+  <div class="snap-item"><div class="snap-label">24h 量</div><div class="snap-value" style="font-size:1.1em;">~$1.5M</div><div class="snap-sub" style="color:var(--red);">流动性极小</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>FunFair (FUN) 是 <strong>以太坊上最早的去中心化在线赌场/iGaming 平台</strong>（2013 年母公司创立，2017 年 ICO 募 $26M，创始人 Jez San）。价格 ~$0.0087，全部 10.81B 流通。<strong>2026 年 Q2+Q3 合计涨 ~300%</strong>，是老牌 iGaming 代币的近期异动。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">老牌 iGaming</span><span class="risk-tag">100% 全流通</span><span class="risk-tag">Q2/Q3 强势反弹</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2013</td><td>FunFair Technologies 创立</td><td>iGaming 技术公司</td></tr>
+    <tr style="background:rgba(0,230,118,0.1);"><td><strong>2017-06</strong></td><td><strong>ICO 募资 $26M</strong></td><td><strong>以太坊早期 ICO</strong></td></tr>
+    <tr><td>2018</td><td>首个去中心化赌场上线</td><td>产品落地</td></tr>
+    <tr><td>2021</td><td>牛市高点</td><td>iGaming 板块炒作</td></tr>
+    <tr><td>2022-2025</td><td>长期低迷</td><td>链上博彩被监管/竞争挤压</td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td>2026-Q1</td><td>−31.5%</td><td>继续探底</td></tr>
+    <tr style="background:rgba(46,204,113,0.15);"><td><strong>2026-Q2</strong></td><td><strong>+142.76%</strong></td><td><strong>强势反弹</strong></td></tr>
+    <tr style="background:rgba(46,204,113,0.15);"><td><strong>2026-Q3</strong></td><td><strong>+148.62%</strong></td><td><strong>连续两季度翻倍</strong></td></tr>
+    <tr><td>2026-10</td><td>当前 ~$0.0087</td><td>近期异动</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-13：CoinCodex 价格 $0.008643；CryptoSlate $0.008777，市值 $94.85M。</li>
+    <li>2026-10-09：MarketBeat 市值 $94.60M（自报）。</li>
+    <li>2026-Q2/Q3：连续两个季度翻倍（+142.76% / +148.62%），2026 年累计涨幅显著。</li>
+    <li>2026 年 iGaming/链游板块整体回暖（与 Solana 链游、RWA 博彩合规化叙事相关）。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(0,230,118,0.08);"><td><strong>当前价格</strong></td><td><strong>~$0.0087</strong></td></tr>
+    <tr><td>流通量</td><td>10.81B</td></tr>
+    <tr><td>总供应</td><td>10.81B</td></tr>
+    <tr><td>FDV</td><td>~$95M</td></tr>
+    <tr><td>类型</td><td>iGaming 平台原生代币</td></tr>
+    <tr><td>价值捕获</td><td>平台游戏筹码 + 手续费 + 开发者奖励</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>流通率</strong></td><td><strong>100%（无解锁抛压）</strong></td></tr>
+    <tr style="background:rgba(0,230,118,0.08);"><td><strong>关键</strong></td><td><strong>100% 全流通 + 2026 年 Q2/Q3 连续翻倍 + 老牌 iGaming 叙事</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.004 – $0.006</div><div style="color:var(--muted);font-size:0.9em;">市值 $43 – $65M · 较当前 −55% ~ −30%</div><p style="margin-top:12px;font-size:0.9em;">iGaming 监管打压。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.008 – $0.015</div><div style="color:var(--muted);font-size:0.9em;">市值 $86 – $162M · 较当前 −10% ~ +70%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$0.03 – $0.08</div><div style="color:var(--muted);font-size:0.9em;">市值 $324 – $865M · 较当前 +250% ~ +800%</div><p style="margin-top:12px;font-size:0.9em;">链游/iGaming 大牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（iGaming / 链游）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 FUN 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(0,230,118,0.08);"><td><strong>FUN</strong></td><td><strong>~$95M</strong></td><td><strong>以太坊赌场</strong></td><td><strong>老牌</strong></td></tr>
+    <tr><td>AXS</td><td>~$200M</td><td>链游龙头（Axie）</td><td>同类</td></tr>
+    <tr><td>SAND</td><td>~$500M</td><td>元宇宙游戏</td><td>同类</td></tr>
+    <tr><td>YGG</td><td>~$30M</td><td>链游公会</td><td>同类</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">FUN 的差异化：以太坊上最早的去中心化赌场（2017 ICO），纯 iGaming 博彩，非链游。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>100% 全流通</strong>——无解锁抛压</li>
+    <li><strong>2026-Q2/Q3 连续翻倍</strong>——强势动能</li>
+    <li><strong>老牌 iGaming</strong>——2017 年 ICO，有历史</li>
+    <li><strong>iGaming 板块回暖</strong>——合规化叙事</li>
+    <li><strong>10.8B 小市值</strong>——弹性大</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>24h 量仅 $1.5M</strong>——流动性极小</li>
+    <li><strong>以太坊赌场长期被边缘化</strong>——Solana/MATIC 链游崛起</li>
+    <li><strong>iGaming 监管风险</strong>——中美欧严格监管</li>
+    <li><strong>无近期重大产品发布</strong>——靠板块 beta</li>
+    <li><strong>市值小、排名 #294</strong>——边缘化</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>监管</strong></td><td>在线博彩在多数司法辖区受严格监管</td></tr>
+    <tr><td><strong>流动性</strong></td><td>24h 量 $1.5M，滑点大</td></tr>
+    <tr><td><strong>竞争</strong></td><td>Solana/MATIC 链游崛起，以太坊赌场边缘化</td></tr>
+    <tr><td><strong>技术</strong></td><td>以太坊 gas 成本不适合高频博彩</td></tr>
+    <tr><td><strong>市值小</strong></td><td>$95M，容易被操控</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>FUN 是以太坊上最早的去中心化赌场代币（2017 ICO 募 $26M），全部 10.81B 流通。<strong>2026 年 Q2+Q3 连续翻倍（+142%/+148%）</strong>，是 iGaming 板块回暖的 Beta 标的。但 24h 量仅 $1.5M，流动性极差。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：这是典型「老牌小市值代币板块行情」——100% 全流通、无抛压、iGaming 叙事回暖，弹性大但流动性风险极高。适合作为 iGaming/链游板块的高 Beta 投机仓位，不适合重仓。以太坊赌场长期被 Solana/MATIC 挤压，基本面无重大改善，本轮上涨更多是板块 beta 而非 alpha。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；FUN 流动性极小（24h 量 $1.5M），加密货币波动剧烈，据此操作风险自担。
+</div>
+</body>
+</html>

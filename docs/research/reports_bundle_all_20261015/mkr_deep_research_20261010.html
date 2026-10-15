@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MKR (MakerDAO / Sky Protocol) 深度研究报告 · 2026-10-10</title>
+<style>
+  :root {
+    --bg: #0a0e17;
+    --card: #131a2a;
+    --border: #1e2a42;
+    --text: #e0e6f0;
+    --muted: #8a96ad;
+    --accent: #1aab9b;
+    --accent2: #4ecdc4;
+    --green: #2ecc71;
+    --red: #e74c3c;
+    --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.7;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 2.2em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 {
+    font-size: 1.5em;
+    color: var(--accent);
+    border-left: 4px solid var(--accent);
+    padding-left: 14px;
+    margin: 40px 0 20px;
+  }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.92em;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--accent2); font-weight: 600; background: rgba(26,171,155,0.05); }
+  tr:hover { background: rgba(26,171,155,0.03); }
+  .snapshot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .snap-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .scenario {
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px solid;
+  }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 2em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag {
+    display: inline-block;
+    background: rgba(26,171,155,0.15);
+    color: var(--accent);
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    margin-right: 6px;
+  }
+  .conclusion {
+    background: linear-gradient(135deg, rgba(26,171,155,0.1), rgba(78,205,196,0.05));
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 30px;
+  }
+  .disclaimer {
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .warning {
+    background: rgba(241,196,15,0.1);
+    border: 1px solid var(--yellow);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px 0;
+    color: var(--yellow);
+    font-size: 0.95em;
+  }
+</style>
+</head>
+<body>
+
+<h1>MKR (MakerDAO / Sky Protocol) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-10 · 赛道：去中心化稳定币 / DeFi 借贷</div>
+
+<div class="warning">
+  ⚠️ <strong>重要说明</strong>：MKR 已于 2024-09 迁移到 SKY（1 MKR = 24,000 SKY），MakerDAO 已更名为 Sky Protocol。本报告同时涵盖 MKR 和 SKY 的基本面。
+</div>
+
+<!-- 第一章：核心指标快照 -->
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item">
+    <div class="snap-label">MKR 价格</div>
+    <div class="snap-value">~$1,800</div>
+    <div class="snap-sub">区间 $1,541 – $2,162</div>
+  </div>
+  <div class="snap-item">
+    <div class="snap-label">MKR 市值</div>
+    <div class="snap-value">~$1.7B</div>
+    <div class="snap-sub">基于 ~978K MKR 流通</div>
+  </div>
+  <div class="snap-item">
+    <div class="snap-label">MKR 最大供应量</div>
+    <div class="snap-value">1M MKR</div>
+    <div class="snap-sub">已基本完成分发</div>
+  </div>
+  <div class="snap-item">
+    <div class="snap-label">ATH</div>
+    <div class="snap-value">~$6,292</div>
+    <div class="snap-sub">历史最高点 · 当前 −71%</div>
+  </div>
+  <div class="snap-item">
+    <div class="snap-label">MKR → SKY 迁移</div>
+    <div class="snap-value">1:24,000</div>
+    <div class="snap-sub">固定汇率</div>
+  </div>
+  <div class="snap-item">
+    <div class="snap-label">稳定币供应</div>
+    <div class="snap-value">$10B+</div>
+    <div class="snap-sub">DAI + USDS</div>
+  </div>
+  <div class="snap-item">
+    <div class="snap-label">核心收入</div>
+    <div class="snap-value">RWA 国债</div>
+    <div class="snap-sub">美国国债利息</div>
+  </div>
+  <div class="snap-item">
+    <div class="snap-label">产品</div>
+    <div class="snap-value">USDS + stUSDS</div>
+    <div class="snap-sub">稳定币 + 收益型</div>
+  </div>
+</div>
+
+<!-- 第二章：项目定位 -->
+<h2>二、项目一句话定位</h2>
+<div class="card">
+  <p>MakerDAO 是<strong>最早的去中心化稳定币协议</strong>，由 Rune Christensen 于 2015 年创立，发行超额抵押稳定币 DAI。2024-09 完成 "Endgame" 转型，更名为 <strong>Sky Protocol</strong>，MKR 迁移到 SKY（1 MKR = 24,000 SKY），DAI 升级为 USDS。Sky Protocol 是 DeFi 生态中最大的稳定币协议，拥有超过 $10B 的稳定币供应和大量 RWA（美国国债）资产。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">去中心化稳定币</span>
+    <span class="risk-tag">DAI/USDS</span>
+    <span class="risk-tag">RWA 美国国债</span>
+    <span class="risk-tag">Sky Protocol</span>
+    <span class="risk-tag">Endgame 转型</span>
+  </p>
+</div>
+
+<!-- 第三章：历史时间线 -->
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead>
+    <tr><th>日期</th><th>事件</th><th>意义</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2015</td><td>MakerDAO 创立（Rune Christensen）</td><td>最早的 DeFi 项目之一</td></tr>
+    <tr><td>2017-12</td><td>MKR 代币发行</td><td>治理代币</td></tr>
+    <tr><td>2018-12</td><td>DAI 稳定币上线</td><td>超额抵押稳定币开创</td></tr>
+    <tr><td>2020-03</td><td>312 黑天鹅：DAI 脱锚</td><td>压力测试</td></tr>
+    <tr><td>2022-2023</td><td>RWA 转型：大量配置美国国债</td><td>收入模式转变</td></tr>
+    <tr><td>2024-09</td><td><strong>Endgame 转型：MKR → SKY</strong></td><td>1 MKR = 24,000 SKY</td></tr>
+    <tr><td>2025-05</td><td>Endgame 完成，SKY 成为唯一治理代币</td><td>去中心化治理</td></tr>
+    <tr><td>2025-09-18</td><td><strong>延迟升级惩罚</strong>开始</td><td>推动 MKR 迁移到 SKY</td></tr>
+    <tr><td>2026-06</td><td>DAI + USDS 供应 > $10B</td><td>稳定币龙头地位</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 第四章：最近情况 -->
+<h2>四、最近情况（2026 Q3 – 2026-10）</h2>
+<div class="card">
+  <ul>
+    <li><strong>SKY 治理活跃</strong>（10-08）：stUSDS Keeper 启动、9 月月度结算周期、SKY 销毁等治理提案。</li>
+    <li><strong>延迟升级惩罚</strong>（2025-09-18 起）：未迁移的 MKR 被征收渐进式惩罚，推动持有人迁移到 SKY。</li>
+    <li><strong>RWA 资产</strong>：Sky Protocol 持有大量美国国债 RWA 资产，每月产生数千万美元收入。</li>
+    <li><strong>USDS / stUSDS</strong>：USDS 是新的稳定币，stUSDS 是收益型版本——用户可以赚取美国国债收益率。</li>
+  </ul>
+</div>
+
+<!-- 第五章：代币经济 -->
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead>
+    <tr><th>维度</th><th>数值 / 说明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>MKR 最大供应量</strong></td><td><strong>1M MKR</strong>（已基本完成分发）</td></tr>
+    <tr><td>MKR → SKY 迁移</td><td><strong>1 MKR = 24,000 SKY</strong>（固定汇率）</td></tr>
+    <tr><td>SKY 机制</td><td>① 治理权；② 质押奖励；③ 协议费用分成</td></tr>
+    <tr><td>价值捕获</td><td>① RWA 收入（美国国债利息）；② 稳定币费用；③ 清算费</td></tr>
+    <tr><td><strong>关键特点</strong></td><td><strong>MKR 已被 SKY 取代</strong>——SKY 是唯一治理代币</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 第六章：三档估值 -->
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear">
+    <div class="scenario-title">🔻 悲观情景</div>
+    <div class="scenario-price">$800 – $1,200</div>
+    <div style="color:var(--muted);font-size:0.9em;">较当前 −56% ~ −33%</div>
+    <p style="margin-top:12px;font-size:0.9em;">稳定币竞争 + RWA 收益下降。MKR 跌回边缘水平。</p>
+  </div>
+  <div class="scenario scenario-neutral">
+    <div class="scenario-title">🟡 中性情景</div>
+    <div class="scenario-price">$1,800 – $2,500</div>
+    <div style="color:var(--muted);font-size:0.9em;">较当前 0% ~ +39%</div>
+    <p style="margin-top:12px;font-size:0.9em;">稳定币稳定增长 + RWA 收入。MKR 维持 DeFi 龙头定位。</p>
+  </div>
+  <div class="scenario scenario-bull">
+    <div class="scenario-title">🟢 乐观情景</div>
+    <div class="scenario-price">$4,000 – $6,000</div>
+    <div style="color:var(--muted);font-size:0.9em;">较当前 +122% ~ +233%</div>
+    <p style="margin-top:12px;font-size:0.9em;">RWA 爆发 + 稳定币份额增长。MKR 重新挑战历史高点。</p>
+  </div>
+</div>
+<div class="card" style="margin-top:16px;">
+  <p><strong>关键观察</strong>：MKR 当前 ~$1,800 距 ATH $6,292 回撤 −71%。Sky Protocol 是 DeFi 稳定币赛道的绝对龙头（$10B+ 供应），但面临 USDT/USDC 等中心化稳定币的竞争。RWA（美国国债）是 Sky Protocol 的核心收入来源。</p>
+</div>
+
+<!-- 第七章：竞品对比 -->
+<h2>七、竞品对比分析</h2>
+<div class="card">
+<table>
+  <thead>
+    <tr><th>资产</th><th>市值</th><th>与 MKR 的关系</th></tr>
+  </thead>
+  <tbody>
+    <tr style="background:rgba(26,171,155,0.08);"><td><strong>MKR/SKY</strong></td><td><strong>~$1.7B</strong></td><td><strong>去中心化稳定币龙头</strong></td></tr>
+    <tr><td>CRV</td><td>~$2B</td><td>DeFi 竞品（Curve）</td></tr>
+    <tr><td>AAVE</td><td>~$3B</td><td>DeFi 竞品（借贷）</td></tr>
+    <tr><td>UNI</td><td>$4.6B</td><td>DeFi 竞品（DEX）</td></tr>
+    <tr><td>CC</td><td>$4.9B</td><td>RWA 竞品（Canton Network）</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+  <strong>MKR 的竞争格局</strong>：Sky Protocol 是去中心化稳定币赛道的绝对龙头，但面临 USDT/USDC 等中心化稳定币的碾压式竞争。去中心化稳定币的市场份额极小。Sky Protocol 的差异化在于 RWA 收益和去中心化治理。
+</p>
+</div>
+
+<!-- 第八章：多空论据 -->
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col">
+    <h3>🟢 多头（Bull Case）</h3>
+    <ul>
+      <li><strong>DeFi 稳定币龙头</strong>：DAI/USDS 供应 > $10B，绝对龙头</li>
+      <li><strong>RWA 收入</strong>：大量美国国债配置，每月数千万美元收入</li>
+      <li><strong>Endgame 完成</strong>：SKY 治理代币，质押奖励 + 费用分成</li>
+      <li><strong>距 ATH −71%</strong>：估值已大幅回落</li>
+      <li><strong>去中心化治理</strong>：真正的 DAO 模式</li>
+    </ul>
+  </div>
+  <div class="bear-col">
+    <h3>🔴 空头（Bear Case）</h3>
+    <ul>
+      <li><strong>中心化稳定币竞争</strong>：USDT/USDC 在稳定币市场碾压</li>
+      <li><strong>去中心化稳定币份额极小</strong>：市场份额 < 1%</li>
+      <li><strong>MKR 已被 SKY 取代</strong>：代币经济学重大变化</li>
+      <li><strong>RWA 收益下降</strong>：美国国债利率下降影响收入</li>
+      <li><strong>312 黑天鹅历史</strong>：超额抵押稳定币的系统性风险</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 第九章：风险提示 -->
+<h2>九、关键风险提示</h2>
+<div class="card">
+<table>
+  <thead>
+    <tr><th>风险类型</th><th>具体内容</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>中心化稳定币竞争</strong></td><td>USDT/USDC 在稳定币市场碾压</td></tr>
+    <tr><td><strong>RWA 收益风险</strong></td><td>美国国债利率下降，收入减少</td></tr>
+    <tr><td><strong>抵押品风险</strong></td><td>加密抵押品暴跌导致清算</td></tr>
+    <tr><td><strong>监管风险</strong></td><td>稳定币面临严格监管</td></tr>
+    <tr><td><strong>黑天鹅</strong></td><td>智能合约漏洞；大规模脱锚</td></tr>
+    <tr><td><strong>代币迁移风险</strong></td><td>MKR → SKY 迁移不顺利</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 核心结论 -->
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>Sky Protocol（原 MakerDAO）是<strong>去中心化稳定币赛道的绝对龙头</strong>，DAI/USDS 供应超过 $10B。2024-09 完成 Endgame 转型，MKR 迁移到 SKY（1:24,000）。RWA（美国国债）是核心收入来源。但去中心化稳定币面临 USDT/USDC 的碾压式竞争，市场份额极小。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：当前价格 ~$1,800 距 ATH −71%，处于低位。上行催化剂：RWA 增长、稳定币份额提升、美国国债利率高企。</p>
+  <p style="margin-top:10px;"><strong>核心风险</strong>：中心化稳定币竞争、RWA 收益下降、抵押品风险。MKR 更适合"看好 DeFi 稳定币 + RWA"的长期投资者。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。<br>
+  数据来源：CryptoSlate、MetaMask、Weiss Ratings、SEC 文件、Sky Governance 等公开渠道。
+</div>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JPYC (JPY Coin) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #E63946; --accent2: #FF6B7A;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(230,57,70,0.05); }
+  tr:hover { background: rgba(230,57,70,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(230,57,70,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(230,57,70,0.1), rgba(255,107,122,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>JPYC (JPY Coin) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：日元稳定币</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.0084</div><div class="snap-sub">≈1 日元</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$134M</div><div class="snap-sub">24h 量 $1.9M</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">累计发行</div><div class="snap-value" style="color:var(--green);">100亿日元</div><div class="snap-sub">2026-09 突破</div></div>
+  <div class="snap-item"><div class="snap-label">类型</div><div class="snap-value" style="font-size:1.1em;">日元稳定币</div><div class="snap-sub">预付支付工具</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>JPYC 是 <strong>日本首个资金移动业型日元稳定币</strong>，1 JPYC = 1 日元，基于 ERC20 发行，用于支付和结算。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">日元稳定币</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">日本首个资金移动业型</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">三菱UFJ合作</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2021-01</td><td>JPYC 首次发行</td><td>日本早期稳定币</td></tr>
+    <tr><td>2023-11</td><td>与三菱UFJ信托银行合作</td><td>推出信托型 JPYC</td></tr>
+    <tr style="background:rgba(46,204,113,0.1);"><td><strong>2025-10</strong></td><td><strong>日本首个资金移动业型稳定币</strong></td><td><strong>合规化</strong></td></tr>
+    <tr><td>2026-04</td><td>Series B 2nd クローズ 28 亿日元</td><td>融资</td></tr>
+    <tr style="background:rgba(46,204,113,0.1);"><td><strong>2026-09</strong></td><td><strong>累计发行额突破 100 亿日元</strong></td><td><strong>里程碑</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-09-18：JPYC 累计发行额突破 100 亿日元。</li>
+    <li>2026-04-20：Series B 2nd クローズ 28 亿日元追加融资，累计发行额 21 亿日元（2026-04-15）。</li>
+    <li>2026-10-03：Weiss Ratings 市值 $134M，流通 21.3B，24h 量 $1.9M。</li>
+    <li>与三菱UFJ信托银行合作推出信托型 JPYC。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前流通</td><td>~21.3B JPYC</td></tr>
+    <tr><td>发行上限</td><td>JPYC 3: 100 亿 / JPYC 4: 1000 亿 / JPYC 5: 1 兆</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>价格锚定</strong></td><td><strong>1 JPYC = 1 日元</strong></td></tr>
+    <tr><td>发行机制</td><td>预付支付工具，银行 1:1 储备</td></tr>
+    <tr><td>价值捕获</td><td>支付结算，非投机</td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>关键</strong></td><td><strong>日元稳定币，价格锚定，非投资标的</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.006 – $0.008</div><div style="color:var(--muted);font-size:0.9em;">MC $100 – $130M · 较当前 −29% ~ −5%</div><p style="margin-top:12px;font-size:0.9em;">日元贬值。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.008 – $0.010</div><div style="color:var(--muted);font-size:0.9em;">MC $130 – $160M · 较当前 −5% ~ +19%</div><p style="margin-top:12px;font-size:0.9em;">维持锚定。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$0.010 – $0.015</div><div style="color:var(--muted);font-size:0.9em;">MC $160 – $240M · 较当前 +19% ~ +79%</div><p style="margin-top:12px;font-size:0.9em;">日元升值 + 采用增长。</p></div>
+</div>
+
+<h2>七、竞品对比（日元稳定币）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 JPYC 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(230,57,70,0.08);"><td><strong>JPYC</strong></td><td><strong>~$134M</strong></td><td><strong>日元稳定币</strong></td><td><strong>JPY Coin</strong></td></tr>
+    <tr><td>USDC</td><td>~$50B</td><td>美元稳定币</td><td>Circle</td></tr>
+    <tr><td>USDT</td><td>~$150B</td><td>美元稳定币</td><td>Tether</td></tr>
+    <tr><td>DAI</td><td>~$5B</td><td>美元去中心化稳定币</td><td>MakerDAO</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">JPYC 的差异化：日本首个资金移动业型日元稳定币。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>日本首个资金移动业型</strong>——先发优势</li>
+    <li><strong>100 亿日元发行</strong>——增长快速</li>
+    <li><strong>三菱UFJ合作</strong>——合规背书</li>
+    <li><strong>日元结算需求</strong>——日本市场</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>稳定币非投资标的</strong>——价格锚定</li>
+    <li><strong>美元稳定币碾压</strong>——USDC/USDT 主导</li>
+    <li><strong>24h 量仅 $1.9M</strong>——流动性低</li>
+    <li><strong>日元长期贬值</strong>——汇率风险</li>
+    <li><strong>合规风险</strong>——日本监管</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>汇率风险</strong></td><td><strong>日元长期贬值</strong></td></tr>
+    <tr><td><strong>合规风险</strong></td><td>日本监管收紧</td></tr>
+    <tr><td><strong>竞争风险</strong></td><td>美元稳定币碾压</td></tr>
+    <tr><td><strong>流动性风险</strong></td><td>24h 量仅 $1.9M</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>JPYC 是日本首个资金移动业型日元稳定币，市值 ~$134M。日本先发优势 + 100 亿日元发行是多头逻辑，<strong>稳定币非投资标的 + 美元稳定币碾压 + 日元长期贬值</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：JPYC 是日本首个资金移动业型日元稳定币，1 JPYC = 1 日元。2026-09 累计发行额突破 100 亿日元，增长快速。与三菱UFJ信托银行合作，合规背书。但核心问题是：稳定币非投资标的，价格锚定日元。美元稳定币 USDC（$50B）和 USDT（$150B）绝对主导，JPYC 市值仅 $134M。日元长期贬值趋势。24h 量仅 $1.9M，流动性低。适合日元结算需求，不适合投机。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；JPYC 为稳定币，非投机标的。
+</div>
+</body>
+</html>

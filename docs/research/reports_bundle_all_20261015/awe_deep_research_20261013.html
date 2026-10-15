@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWE (AWE Network) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #9B59B6; --accent2: #BB8FCE;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(155,89,182,0.05); }
+  tr:hover { background: rgba(155,89,182,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(155,89,182,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(155,89,182,0.1), rgba(187,143,206,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>AWE (AWE Network) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：DeFi / 支付</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.067</div><div class="snap-sub" style="color:var(--red);">ATH 跌 80%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$120-131M</div><div class="snap-sub">排名 #248</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">流通率</div><div class="snap-value" style="color:var(--green);font-size:1.1em;">~100%</div><div class="snap-sub">1.94B / 1.94B</div></div>
+  <div class="snap-item"><div class="snap-label">类型</div><div class="snap-value" style="font-size:1.1em;">DeFi 支付</div><div class="snap-sub">原 STP Network</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>AWE Network（原 STP Network / STPT）是 <strong>DeFi / 支付类项目</strong>，代币 AWE 价格 ~$0.067，市值 ~$120-131M，全流通，ATH 跌 80%。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">原 STP Network</span><span class="risk-tag">DeFi 支付</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">全流通</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">ATH 跌 80%</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2019-06-05</td><td>STP Network 创立</td><td>DeFi 项目</td></tr>
+    <tr><td>2021-09-30</td><td>ATL ~$0.004（MYR 换算）</td><td>历史低点</td></tr>
+    <tr style="background:rgba(155,89,182,0.1);"><td><strong>2026</strong></td><td><strong>更名 AWE Network</strong></td><td><strong>品牌升级</strong></td></tr>
+    <tr><td>2026-10</td><td>价格 ~$0.067</td><td>当前</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-13：CoinCheckup 价格 $0.06672，30 日涨 +11.83%，最高 $0.0758，最低 $0.0595。</li>
+    <li>2026-10-13：pretcurs.ro 市值 $0.13B（即 $130M），24h 量 $3.01M。</li>
+    <li>2026-10-12：MarketBeat 市值 $131.81M，流通 1,942,420,283 STPT。</li>
+    <li>2026-10-09：CoinGlass 市值 $119.86M，流通 1.94B，总供应 1.94B，24h 量现货 $1.65M。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前流通</td><td>~1.94B AWE</td></tr>
+    <tr><td>总供应</td><td>~1.94B AWE</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>流通率</strong></td><td><strong>~100%（全流通）</strong></td></tr>
+    <tr><td>FDV</td><td>~$125M</td></tr>
+    <tr><td>价值捕获</td><td>DeFi 支付 + 治理</td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>关键</strong></td><td><strong>全流通 + ATH 跌 80%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.03 – $0.05</div><div style="color:var(--muted);font-size:0.9em;">MC $58 – $97M · 较当前 −55% ~ −25%</div><p style="margin-top:12px;font-size:0.9em;">熊市。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.06 – $0.12</div><div style="color:var(--muted);font-size:0.9em;">MC $117 – $233M · 较当前 −11% ~ +78%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$0.25 – $0.50</div><div style="color:var(--muted);font-size:0.9em;">MC $485 – $970M · 较当前 +273% ~ +643%</div><p style="margin-top:12px;font-size:0.9em;">DeFi 牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（DeFi / 支付）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 AWE 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(155,89,182,0.08);"><td><strong>AWE</strong></td><td><strong>~$120-131M</strong></td><td><strong>DeFi 支付</strong></td><td><strong>原 STP Network</strong></td></tr>
+    <tr><td>LRC</td><td>~$300M</td><td>DeFi 支付</td><td>Loopring</td></tr>
+    <tr><td>CRO</td><td>~$2B</td><td>支付平台</td><td>Cronos</td></tr>
+    <tr><td>ALGO</td><td>~$5B</td><td>支付公链</td><td>Algorand</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">AWE 的差异化：原 STP Network，全流通。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>全流通</strong>——无通胀抛压</li>
+    <li><strong>ATH 跌 80%</strong>——回调充分</li>
+    <li><strong>24h 量 $1.65-5.4M</strong>——流动性尚可</li>
+    <li><strong>原 STP Network</strong>——品牌历史</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>市值仅 $120M</strong>——小市值</li>
+    <li><strong>DeFi 赛道拥挤</strong>——竞争者众多</li>
+    <li><strong>排名 #248</strong>——非主流</li>
+    <li><strong>CRO/ALGO 碾压</strong>——头部支付项目主导</li>
+    <li><strong>ATH 跌 80%</strong>——长期低迷</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>竞争风险</strong></td><td><strong>CRO/ALGO 碾压</strong></td></tr>
+    <tr><td><strong>DeFi 拥挤</strong></td><td>竞争者众多</td></tr>
+    <tr><td><strong>市值小</strong></td><td>流动性风险</td></tr>
+    <tr><td><strong>长期低迷</strong></td><td>ATH 跌 80%</td></tr>
+    <tr><td><strong>排名低</strong></td><td>非主流</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>AWE (AWE Network) 是 DeFi / 支付类项目，价格 ~$0.067，市值 ~$120-131M，全流通，ATH 跌 80%。全流通 + ATH 回调充分是多头逻辑，<strong>市值小 + DeFi 拥挤 + CRO/ALGO 碾压</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：AWE Network（原 STP Network / STPT）是 DeFi / 支付类项目，代币 AWE 价格 ~$0.067，市值 ~$120-131M，全流通（1.94B / 1.94B），排名 #248。ATH 跌 80%，回调充分。24h 量 $1.65-5.4M，流动性尚可。但市值仅 $120M，DeFi 赛道极度拥挤，面临 CRO（$2B）、ALGO（$5B）等头部支付项目碾压。长期低迷，非主流。适合 DeFi 赛道高风险偏好投资者，但需谨慎头部竞争压力。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

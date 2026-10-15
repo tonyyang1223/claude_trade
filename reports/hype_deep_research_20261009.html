@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Hyperliquid (HYPE) 深度投研报告 · 2026-10-09</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #121a30;
+    --panel2: #0e1626;
+    --line: #1e2a4a;
+    --text: #e6ecf7;
+    --muted: #8ea0c0;
+    --blue: #4d7cff;
+    --cyan: #35e0e6;
+    --purple: #a978ff;
+    --green: #3ad29f;
+    --red: #ff6b81;
+    --amber: #ffcb6b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: radial-gradient(1200px 600px at 20% -10%, #16224a 0%, var(--bg) 55%);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.65;
+    padding: 32px 20px 60px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  header.hero {
+    background: linear-gradient(135deg, rgba(77,124,255,.18), rgba(169,120,255,.12));
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 28px;
+    margin-bottom: 22px;
+  }
+  .hero h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: .5px; }
+  .hero .sub { color: var(--muted); font-size: 13.5px; }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .metric {
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric .k { color: var(--muted); font-size: 12px; }
+  .metric .v { font-size: 20px; font-weight: 600; margin-top: 3px; }
+  .metric .d { font-size: 12px; margin-top: 2px; }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+  .flat { color: var(--amber); }
+  section {
+    background: linear-gradient(135deg, rgba(58,210,159,.05), rgba(53,224,230,.03));
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+  }
+  h2 {
+    margin: 0 0 14px;
+    font-size: 18px;
+    color: var(--cyan);
+    border-left: 3px solid var(--cyan);
+    padding-left: 10px;
+  }
+  h3 { color: var(--purple); font-size: 15px; margin: 16px 0 8px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13.5px;
+  }
+  th, td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+  th { color: var(--muted); font-weight: 600; background: rgba(0,0,0,.18); }
+  tr:hover td { background: rgba(77,124,255,.05); }
+  .scenarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .scenario {
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: var(--panel2);
+  }
+  .scenario.bear { border-top: 3px solid var(--red); }
+  .scenario.base { border-top: 3px solid var(--amber); }
+  .scenario.bull { border-top: 3px solid var(--green); }
+  .scenario .name { font-size: 14px; color: var(--muted); }
+  .scenario .price { font-size: 26px; font-weight: 700; margin: 4px 0; }
+  .scenario .chg { font-size: 13px; margin-bottom: 10px; }
+  .scenario ul { margin: 8px 0 0; padding-left: 18px; font-size: 13px; color: var(--muted); }
+  .scenario ul li { margin-bottom: 4px; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 780px) { .twocol { grid-template-columns: 1fr; } }
+  .box {
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+  }
+  .box.bull { border-left: 3px solid var(--green); }
+  .box.bear { border-left: 3px solid var(--red); }
+  .box h4 { margin: 0 0 8px; font-size: 14px; }
+  .src { font-size: 11.5px; color: #6b7da0; word-break: break-all; }
+  .disc {
+    font-size: 12.5px;
+    color: var(--muted);
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+    margin-top: 10px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    background: rgba(77,124,255,.15);
+    color: var(--blue);
+    margin-right: 4px;
+  }
+  .risk { color: var(--red); }
+  .ok { color: var(--green); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>🟣 Hyperliquid (HYPE) 深度投研报告</h1>
+  <div class="sub">整理时间：2026-10-09 · 数据窗口：2026-10-01 ~ 2026-10-09 · 赛道：去中心化永续合约 DEX / 自研 L1 第一梯队</div>
+  <div class="metrics">
+    <div class="metric"><div class="k">当前价格</div><div class="v">$85.30</div><div class="d flat">距 ATH −12.9%</div></div>
+    <div class="metric"><div class="k">市值 MC</div><div class="v">$18.98B</div><div class="d up">DEX 赛道第一</div></div>
+    <div class="metric"><div class="k">FDV</div><div class="v">$81.52B</div><div class="d up">P/S (FDV) ~90x</div></div>
+    <div class="metric"><div class="k">流通率</div><div class="v">23.3%</div><div class="d">222.45M / 1,000M</div></div>
+    <div class="metric"><div class="k">距 ATH</div><div class="v down">−13%</div><div class="d">ATH $97.96 (2026-09-23)</div></div>
+    <div class="metric"><div class="k">TVL</div><div class="v">$7.04B</div><div class="d up">链上永续 60–70% 份额</div></div>
+  </div>
+</header>
+
+<section>
+  <h2>一、项目一句话定位</h2>
+  <p>
+    Hyperliquid 是一条<b>为高吞吐交易而生的自研 L1 区块链</b>（HyperBFT 共识，~1 秒出块），原生承载 <b>HyperCore 订单簿永续合约交易所</b>（CLOB 模型，非 AMM），
+    并通过 2025-02 上线的 <b>HyperEVM</b> 兼容 Solidity 智能合约。它不是"在 Ethereum 上搭 DEX"，而是自己做一条链 + 自己做撮合引擎，
+    以 ~11 人零 VC 团队吃下了链上永续 60–70% 的市场份额。
+  </p>
+  <p>
+    <span class="tag">零 VC / 无 ICO</span><span class="tag">1B 硬顶</span><span class="tag">99% 手续费 buyback</span><span class="tag">CLOB 订单簿</span><span class="tag">ex-HRT 团队</span><span class="tag">Bitwise/21Shares ETF S-1 待批</span>
+  </p>
+</section>
+
+<section>
+  <h2>二、项目历史时间线</h2>
+  <table>
+    <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+    <tbody>
+      <tr><td>2022</td><td>Jeff Yan（Harvard Math+CS，ex-HRT quant，Chameleon Trading 创始人）自筹创立 Hyperliquid Labs</td><td>用做市利润 self-fund，零 VC；联合创始人 iliensinc（匿名 CTO）</td></tr>
+      <tr><td>2023</td><td><b>HyperCore 主网上线</b>（HyperBFT L1 + 永续订单簿）</td><td>早期邀请制，积累交易数据</td></tr>
+      <tr><td>2024-11-29</td><td><b>Genesis Airdrop</b>：310M HYPE（31%）空投给 ~94,000 早期用户，无需申领自动到账</td><td>开盘价 ~$3.57，史上最大空投之一</td></tr>
+      <tr><td>2024-12-03</td><td>历史最大单日振幅 47.92%</td><td>空投后早期投机剧烈波动</td></tr>
+      <tr><td>2024-12-23</td><td><span class="risk">MetaMask 安全研究员 Taylor Monahan 曝光 DPRK/Lazarus 关联钱包自 10 月起在平台交易</span></td><td>30 小时净撤资 $256M+，单日流出 $502.7M；团队否认被黑</td></tr>
+      <tr><td>2025-02-18</td><td><b>HyperEVM 主网上线</b></td><td>从单币 DEX 升级为可编程金融生态（借贷/稳定币/LST）</td></tr>
+      <tr><td>2025-03-26</td><td><span class="risk">JELLY 事件：攻击者用 ~$3M 在小盘 meme 上拉盘 400%+，制造 ~$13.5M HLP 亏损</span></td><td>团队手动冻结、delist JELLY 永续并强制按标记价结算——"去中心化"叙事受重创</td></tr>
+      <tr><td>2025-04-21</td><td>Validator set 转为 permissionless</td><td>任何足够质押的方可运行节点</td></tr>
+      <tr><td>2025-08-26</td><td>手续费 → Assistance Fund 比例从 97% <b>提升至 99%</b></td><td>协议收入几乎全部回流买币</td></tr>
+      <tr><td>2025-10</td><td><b>HIP-3</b> permissionless perps 上线</td><td>任何人可部署商品/股指永续市场</td></tr>
+      <tr><td>2025-11-29</td><td><b>核心贡献者 238M HYPE 开始 vesting</b>（1 年 cliff 后 24 个月线性解锁，每月 9.92M）</td><td>抛压闸门正式打开</td></tr>
+      <tr><td>2025-12</td><td>Hyperliquid Strategies Inc（HSTI）登陆 NASDAQ；验证者投票永久烧毁 Assistance Fund 持有的 ~37M HYPE</td><td>上市公司敞口 + 通缩机制硬化</td></tr>
+      <tr><td>2026-02</td><td>HIP-4 prediction markets 引入</td><td>预测市场赛道扩展</td></tr>
+      <tr><td>2026-03</td><td>HIP-3 OI 达 $1.2B 纪录；合规 S&amp;P 500 永续上线；<b>Bitwise / 21Shares 递交 HYPE ETF S-1</b></td><td>机构化管线启动</td></tr>
+      <tr><td>2026-05</td><td>MC 短暂突破 $14B，进入 CMC Top 10，一度超越 Dogecoin</td><td>代币市值进入主流视野</td></tr>
+      <tr><td>2026-08-26</td><td>单日涨 ~4%，周涨 43%，逼近前高</td><td>机构资金流入预期升温</td></tr>
+      <tr><td>2026-09-23</td><td><b>ATH $97.96–97.98</b>（FDV ~$98B）</td><td>距当前仅 16 天</td></tr>
+      <tr><td>2026-09-28</td><td>Gemini 上线 HYPE staking（2.1% APY）</td><td>中心化托管质押渠道开放</td></tr>
+      <tr><td>2026-10</td><td>Coinbase Derivatives 向 CFTC 递交 HYPE 永续期货认证</td><td>合规期货管道</td></tr>
+    </tbody>
+  </table>
+  <div class="src">来源：hyperliquid.xyz docs、GitBook、SEC S-3 (tm2531328d1_s3.htm)、CFTC Regulation 40.2(a) Coinbase 提交、CoinGlass、CoinCodex、ODAILY、PANews、FinTelegram</div>
+</section>
+
+<section>
+  <h2>三、最近情况（2025 – 2026-10）</h2>
+  <div class="twocol">
+    <div class="box">
+      <h4 class="ok">收入飞轮与生态</h4>
+      <ul>
+        <li>2025 年协议手续费 <b>~$843M–$1.0B</b>，run-rate $3–3.5M/天。</li>
+        <li>99% 手续费流入 Assistance Fund，累计 buyback ~46M HYPE（占初始供应 4.6%），已永久烧毁。</li>
+        <li>HyperEVM（2025-02）+ HIP-3（2025-10）+ HIP-4（2026-02）+ 合规 S&amp;P 500 永续（2026-03）。</li>
+        <li>链上永续市场份额 60–70%，TVL $7.04B 是 GMX 的 ~29 倍、dYdX 的 ~55 倍。</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4 class="flat">机构与监管</h4>
+      <ul>
+        <li><b>Bitwise / 21Shares</b> 2026-03 递交 HYPE ETF S-1。</li>
+        <li>Coinbase Derivatives 2026-10 向 CFTC 递交 HYPE 永续期货认证。</li>
+        <li>Gemini 2026-09 上线 HYPE staking（2.1% APY）。</li>
+        <li>HSTI 2025-12 在 NASDAQ 上市；Hyperion DeFi 成为首个公开市场 HYPE 国库股。</li>
+      </ul>
+    </div>
+    <div class="box bear">
+      <h4 class="risk">安全与争议</h4>
+      <ul>
+        <li>2024-12 DPRK/Lazarus 关联钱包曝光，30 小时撤资 $256M+。</li>
+        <li>2025-03 JELLY 事件：团队手动 delist + 强制结算，HLP 亏损 ~$13.5M。</li>
+        <li>2025-11 起每月 9.92M HYPE 团队解锁，直到 2027-11。</li>
+        <li>OFAC 对 DPRK 相关交易的执法仍是悬顶之剑。</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4 style="color:var(--cyan)">社区叙事</h4>
+      <ul>
+        <li>看多派（Multicoin、Delphi）："5 倍上涨空间"、"唯一有真实回购的代币"。</li>
+        <li>质疑派：P/S (FDV) 90x 估值拉伸、中心化 delist 与去中心化叙事矛盾。</li>
+        <li>核心讨论：ETF 何时批、团队解锁抛压能否被 buyback 抵消、OFAC 是否执法。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>四、代币经济与解锁</h2>
+  <table>
+    <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+    <tbody>
+      <tr><td>总量上限</td><td><b>1,000,000,000 HYPE</b>（硬顶，SEC 文件确认不再增发）</td></tr>
+      <tr><td>当前流通</td><td>~222.45M（23.3%）</td></tr>
+      <tr><td>分配</td><td>① <b>31% (310M)</b> Genesis airdrop 一次性解锁；② <b>38.9% (388.9M)</b> 未来社区发行 / staking 奖励；③ <b>23.8% (238M)</b> 核心贡献者；④ <b>6% (60M)</b> Hyper Foundation</td></tr>
+      <tr><td>团队 vesting</td><td>1 年 cliff（2024-11-29 → 2025-11-29），之后 <b>24 个月线性解锁，每月 9.92M HYPE</b>（每月 6 号），预计 2027-11 完成</td></tr>
+      <tr><td>已烧毁</td><td>~46M HYPE（Assistance Fund buyback + 2025-12 永久烧毁投票）</td></tr>
+      <tr><td>Staking</td><td>委托给 24+ 验证者，奖励率 ∝ 1/√(总质押量)；400M staked 时 ~2.37% APR，2026-08 实测 436M staked 时 <b>2.17%</b>；奖励来自 future emissions reserve</td></tr>
+      <tr><td>Unbonding</td><td>1 天 lock + 7 天 queue = 8 天</td></tr>
+      <tr><td>手续费回流</td><td><b>99% 协议手续费 → Assistance Fund → 市价 buyback HYPE</b>；2025-08-26 从 97% 提到 99%</td></tr>
+      <tr><td>协议收入</td><td>2025 年 ~$843M–$1.0B；2025-10 run-rate $3–3.5M/天；年 buyback 规模 ~$479M（按当时价）</td></tr>
+      <tr><td>治理</td><td>验证者链上投票（如 2025-12 烧毁 Assistance Fund 持仓即投票通过）；HYPE 质押者参与</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>五、估值区间（三档情景）</h2>
+  <p style="color:var(--muted); font-size:13.5px;">基准价 $85.30 · MC $18.98B · FDV $81.52B · 2025 收入 ~$0.9B · <b>P/S (MC) ≈ 21x，P/S (FDV) ≈ 90x</b>。</p>
+  <div class="scenarios">
+    <div class="scenario bear">
+      <div class="name">🔻 悲观情景</div>
+      <div class="price">$25 – $45</div>
+      <div class="chg down">较当前 −71% ~ −47% · MC $7.9B – $14.2B · FDV $25B – $45B</div>
+      <ul>
+        <li>DPRK/OFAC 执法落地，CEX 被迫屏蔽美国用户访问</li>
+        <li>团队每月 9.92M 解锁抛压持续到 2027-11</li>
+        <li>DEX 永续份额被 edgeX / zkSync / CEX 合规化分流</li>
+        <li>协议收入从 $0.9B 腰斩到 $0.4B，P/S 杀到 15–20x</li>
+      </ul>
+    </div>
+    <div class="scenario base">
+      <div class="name">🟡 中性情景</div>
+      <div class="price">$80 – $130</div>
+      <div class="chg up">较当前 −6% ~ +52% · MC $25.3B – $41.1B · FDV $80B – $130B</div>
+      <ul>
+        <li>HYPE ETF 12–18 个月内获批（IBIT 温和版溢价 1.2x）</li>
+        <li>协议收入维持 $1.0–1.2B，buyback 持续抵消团队解锁</li>
+        <li>P/S (MC) 维持 20–25x</li>
+        <li>3 年后流通 ~316M，价格 $105 中枢 × 316M = MC $33B（CAGR ~20%）</li>
+      </ul>
+    </div>
+    <div class="scenario bull">
+      <div class="name">🟢 乐观情景</div>
+      <div class="price">$180 – $260</div>
+      <div class="chg up">较当前 +111% ~ +205% · MC $57B – $82B · FDV $180B – $260B</div>
+      <ul>
+        <li>ETF 获批并复制 IBIT 式资金流入</li>
+        <li>HyperEVM + HIP-3 生态收入复合到 $2B+</li>
+        <li>永续垄断地位延续，FDV P/S 维持 40–50x（高成长 SaaS 估值）</li>
+        <li>HYPE 被机构列为"加密蓝筹"与 SOL/AVAX 并列</li>
+      </ul>
+    </div>
+  </div>
+  <h3>关键稀释算术</h3>
+  <p style="font-size:13.5px;">
+    当前流通 222.45M。团队解锁：2026-10 → 2027-11 还有 ~13 个月 × 9.92M = <b>~129M HYPE</b>。
+    Buyback burn：按 $85 计，年 buyback $1.0B ≈ <b>11.8M HYPE/年</b>，3 年 ~35M。
+    <b>3 年后流通量 ≈ 222 + 129 − 35 ≈ 316M</b>（流通率从 23.3% → ~33%）。
+    若 MC 维持 $19B，纯稀释 alone 把价格压到 <b>$60</b>（−29%）；想守住 $85，MC 必须扩到 $26.9B（+42%）。
+  </p>
+  <h3>对比锚点</h3>
+  <p style="font-size:13.5px;">
+    Binance 2024 收入 ~$4.5B，P/S ~5x；Coinbase 2024 收入 ~$6.6B，P/S ~12x。
+    HYPE 当前 P/S (MC) 21x 已高于 Coinbase，P/S (FDV) 90x 是 Binance 的 18 倍——估值靠"高增长 + 通缩 buyback + ETF 预期"支撑。
+  </p>
+</section>
+
+<section>
+  <h2>六、竞品对比（去中心化永续赛道）</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>项目</th><th>代币</th><th>价格</th><th>MC</th><th>FDV</th><th>流通率</th><th>距 ATH</th><th>TVL</th><th>价值捕获</th><th>贵贱判断</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(77,124,255,.08)">
+        <td><b>Hyperliquid</b></td><td><b>HYPE</b></td><td>$85.30</td><td><b>$18.98B</b></td><td><b>$81.52B</b></td><td>23.3%</td><td class="down">−13%</td>
+        <td><b>$7.04B</b></td><td><b>99% 手续费 buyback &amp; burn</b></td>
+        <td class="flat">赛道绝对龙头，P/S 21x (MC) 已 price-in 垄断溢价</td>
+      </tr>
+      <tr>
+        <td>dYdX</td><td>DYDX</td><td>$0.1355</td><td>$114.6M</td><td>$129.8M</td><td>88.3%</td><td class="down">−97%</td>
+        <td>$128M</td><td>75% 净费用 buyback DYDX</td>
+        <td>流通率高但量缩到 &lt;3% 份额，边缘化</td>
+      </tr>
+      <tr>
+        <td>GMX</td><td>GMX</td><td>$8.16</td><td>$85.4M</td><td>$85.4M</td><td>100%</td><td class="down">−91%</td>
+        <td>$178–240M</td><td>30% 费用分给 GMX/GLP 质押者</td>
+        <td class="ok">价值捕获路径清晰但量级差 100 倍</td>
+      </tr>
+      <tr>
+        <td>Aevo</td><td>AEVO</td><td>—</td><td>~$50M</td><td>—</td><td>—</td><td class="down">−90%+</td>
+        <td>$15.2M</td><td>手续费回购</td>
+        <td>流动性弱，尾部对照</td>
+      </tr>
+      <tr>
+        <td>Vertex</td><td>VRTX</td><td>—</td><td>~$80M</td><td>—</td><td>—</td><td class="down">−85%+</td>
+        <td>$83.9M</td><td>手续费分成</td>
+        <td>Arbitrum 原生，份额 &lt;2%</td>
+      </tr>
+      <tr>
+        <td>Kwenta</td><td>KWENTA</td><td>—</td><td>~$20M</td><td>—</td><td>—</td><td class="down">−95%+</td>
+        <td>~$10M</td><td>Synthetix 生态衍生品</td>
+        <td>Optimism 生态，边缘化</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="src">数据：CoinGecko/DefiLlama/CoinGlass 2026-10-01~09 快照；cleansky.io、dexrank.com、web3aiblog.com 2026 年 5–9 月对比</div>
+  <p style="font-size:13.5px; margin-top:10px;">
+    <b>关键观察：</b>HYPE 一家占链上永续 60–70% 份额，其余所有竞品加起来不到 30%。
+    这是一个<b>"赢家通吃"的垄断叙事</b>，但反过来也意味着：一旦有竞争者（Starknet edgeX、Binance 合规化、zkSync 永续）切入，
+    HYPE 的份额回撤会被估值放大。
+  </p>
+</section>
+
+<section>
+  <h2>七、多空逻辑与风险</h2>
+  <div class="twocol">
+    <div class="box bull">
+      <h4 class="ok">🟢 多头逻辑</h4>
+      <ol>
+        <li><b>真实收入 + 激进通缩</b>：2025 年 ~$0.9B 手续费、99% 回流 buyback、已烧毁 4.6% 供应——加密行业唯一接近"上市公司回购"逻辑的代币。</li>
+        <li><b>垄断地位 + 技术护城河</b>：自研 L1 + CLOB 订单簿做到亚秒撮合，11 人团队吃下 60–70% 链上永续份额，TVL 是第二名的 29 倍。</li>
+        <li><b>机构化管线密集</b>：Bitwise/21Shares ETF S-1、Coinbase 期货 CFTC 认证、Gemini staking、NASDAQ 上市公司 HSTI——进度领先所有 DEX 代币。</li>
+      </ol>
+    </div>
+    <div class="box bear">
+      <h4 class="risk">🔴 空头逻辑</h4>
+      <ol>
+        <li><b>估值极度拉伸</b>：P/S (FDV) 90x、P/S (MC) 21x，已高于 Coinbase（12x）、远高于 Binance（5x）；距 ATH 仅 −13%，回撤最浅，杀估值空间最大。</li>
+        <li><b>团队解锁抛压未出清</b>：238M HYPE 从 2025-11 开始每月解锁 9.92M（~$850M/月），直到 2027-11——当前流通率仅 23.3%，未来 2 年流通量将翻倍。</li>
+        <li><b>中心化悖论 + 监管悬剑</b>：JELLY 事件证明团队可手动 delist/强平；DPRK/Lazarus 关联交易暴露后，OFAC 执法风险是达摩克利斯之剑。</li>
+      </ol>
+    </div>
+  </div>
+  <h3>八大风险点</h3>
+  <table>
+    <tbody>
+      <tr><td style="width:30%">1. 监管 / OFAC</td><td>2024-12 DPRK 指控虽未直接处罚，但 Lazarus Group 在 Hyperliquid 上的交易行为已被美国财政部关注；一旦 OFAC 直接点名或 CEX 被迫屏蔽美国 IP，流动性骤降。</td></tr>
+      <tr><td>2. 团队解锁抛压</td><td>每月 9.92M HYPE（~$850M）从 2025-11 持续到 2027-11，累计 238M——相当于当前流通量的 107%。</td></tr>
+      <tr><td>3. 估值拉伸</td><td>FDV P/S 90x，远超 CEX 同业；ETF 延迟或收入增速放缓都会触发杀估值。</td></tr>
+      <tr><td>4. 中心化争议</td><td>JELLY 事件中团队手动冻结/delist/强制结算，与"去中心化 DEX"叙事自相矛盾；早期 4 个验证者集中度高（2025-04 才 permissionless）。</td></tr>
+      <tr><td>5. 安全/操纵风险</td><td>JELLY、POPCAT 等小盘 meme 操纵事件反复出现——协议本身无漏洞，但"小市值 + 高杠杆 + 单国库 HLP"结构易被规则内攻击。</td></tr>
+      <tr><td>6. 竞争挤压</td><td>Starknet edgeX（2026-03 峰值 26.6% 份额）、dYdX v4、Vertex、Aevo 都在抢份额；CEX 永续仍是链上的 10–20 倍体量。</td></tr>
+      <tr><td>7. 收入周期性</td><td>永续交易量与 BTC 波动率高度相关；熊市交易量骤降会直接砍 buyback 规模。</td></tr>
+      <tr><td>8. 机构化不及预期</td><td>Bitwise/21Shares ETF S-1 时点不可控；CFTC 对 HYPE 期货的认证也可能延迟或拒绝。</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>八、最被低估 / 最被高估</h2>
+  <div class="twocol">
+    <div class="box bull">
+      <h4 class="ok">最被低估</h4>
+      <p><b>通缩 buyback 的复利效应。</b>99% 手续费回流、年 buyback ~$1B、已烧毁 4.6% 供应——这在加密行业是独一档的价值捕获机制，比 GMX 的"30% 费用分给质押者"更激进、比 dYdX 的"75% 回购"更彻底。市场仍按"DEX 代币"给它估值，但它的现金流结构更像一家高成长的交易所上市公司 + 回购股票。</p>
+    </div>
+    <div class="box bear">
+      <h4 class="risk">最被高估</h4>
+      <p><b>$81.5B FDV 的"永续垄断溢价"。</b>HYPE MC $19B 是 DYDX+GMX 总和的 100 倍，P/S (FDV) 90x 是 Coinbase 的 7.5 倍、Binance 的 18 倍；距 ATH 仅 −13%，意味着 ETF 利好和垄断叙事已大部分被 price-in。一旦 ETF 延迟、OFAC 执法或团队解锁砸盘，杀估值空间比所有竞品都大。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>九、主要资料来源</h2>
+  <ul class="src" style="font-size:12px; line-height:1.8;">
+    <li>官方 / SEC 文件：hyperliquid.xyz docs、GitBook、SEC S-3（tm2531328d1_s3.htm）、SEC 424B3（Chardan 承销 HYPE 产品）、Hyperion DeFi 10-K（2025 财年）、CFTC Regulation 40.2(a) Coinbase HYPE 期货认证提交</li>
+    <li>数据快照：CoinGecko、DefiLlama、CoinGlass、CoinCodex、Artemis Analytics（2026-10-01~09）</li>
+    <li>研究观点：Multicoin《HYPE 有 5 倍上涨空间》、Delphi Digital《The Year Ahead for Markets 2026》、Yellow.com《Who Really Controls Crypto's $300B Perpetuals Market》、ODAILY 万字深度、ChainCatcher、PANews</li>
+    <li>安全事件：SlowMist、Halborn、FinTelegram Compliance Report Dec 2025、Deshittify event timeline、PANews JELLY 分析</li>
+    <li>团队背景：ht.xyz/team、The BlockBeats Jeff Yan 专访、Habr 人物稿、systematiccryptoresearch.com 技术架构分析</li>
+  </ul>
+  <div class="disc">
+    <b>风险提示与免责声明：</b>本报告基于 2026-10-09 前后公开数据与脚本采集结果整理，所有数字与事件均标注来源，但部分收入口径、Assistance Fund 持仓、团队实际卖出比例等待验证。
+    加密货币波动剧烈，存在归零、监管、黑客、智能合约漏洞等多重风险；HYPE 当前估值高度依赖"垄断地位 + buyback 通缩 + ETF 预期"三要素，任一破裂都会触发显著回撤。
+    本报告仅为研究框架与信息整理，<b>不构成任何投资建议、要约或邀请</b>，据此操作风险自担。
+  </div>
+</section>
+
+</div>
+</body>
+</html>

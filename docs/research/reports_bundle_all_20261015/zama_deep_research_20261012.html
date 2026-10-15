@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAMA (Zama FHE) 深度研究报告 · 2026-10-12</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #6C5CE7; --accent2: #8B7CF0;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(108,92,231,0.05); }
+  tr:hover { background: rgba(108,92,231,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(108,92,231,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(139,124,240,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>ZAMA (Zama FHE) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-12 · 赛道：隐私计算 / FHE</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.078</div><div class="snap-sub">FDV ~$1.0B</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$0.20B</div><div class="snap-sub">FHE 隐私协议</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">流通率</div><div class="snap-value" style="color:var(--red);">~22%</div><div class="snap-sub">78% 待解锁</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">Shielded TVL</div><div class="snap-value" style="color:var(--green);">$90M+</div><div class="snap-sub">2026-10</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>ZAMA 是 <strong>Zama 协议的原生代币</strong>，Zama 是以太坊上的 FHE（全同态加密）隐私计算协议，实现机密 DeFi（confidential DeFi）。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">FHE</span><span class="risk-tag">机密 DeFi</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">1,040 TPS</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">流通仅 22%</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2023-2025</td><td>Zama 开发 FHE 协议</td><td>隐私计算</td></tr>
+    <tr><td>2026-01-05</td><td>OG NFT 领取门户上线</td><td>社区准备</td></tr>
+    <tr style="background:rgba(108,92,231,0.08);"><td><strong>2026-01-26</strong></td><td><strong>首次加密 ICO：$118M 承诺</strong></td><td><strong>代币发行</strong></td></tr>
+    <tr style="background:rgba(108,92,231,0.08);"><td><strong>2026-02-02</strong></td><td><strong>ZAMA 作为 ERC-20 在以太坊上线</strong></td><td><strong>TGE</strong></td></tr>
+    <tr><td>2026-03</td><td>~34% 流通量质押</td><td>治理参与</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td>2026-07</td><td><strong>TFHE-rs v1.7，1,040 TPS</strong></td><td><strong>性能突破</strong></td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>2026-10</strong></td><td><strong>Shielded TVL $90M+，上线 Solana</strong></td><td><strong>生态扩展</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li><strong>2026-10-01：Zama Newsletter</strong>——Shielded TVL 超 $90M（6 月 $40M+），机密金库存款 $68M+；DefiLlama 报告；ZAMA 上线 Solana。</li>
+    <li><strong>2026-08-03：Zama Newsletter</strong>——Confidential RFQ Private Beta；Shielded Report Q2；TFHE-rs v1.7 实现 1,040 TPS（单 8x H100 节点）。</li>
+    <li>2026-03-02：超 30% 流通量质押（~800M ZAMA）；~29.2M 未售出代币销毁（~1.23% 流通供应）。</li>
+    <li>FHE.org 获得 Apple、AWS、Google 支持。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>当前流通</strong></td><td><strong>~2.54B ZAMA（~22%）</strong></td></tr>
+    <tr><td>最大供应</td><td>~11.3B ZAMA</td></tr>
+    <tr><td>TGE</td><td>2026-02-02（ERC-20 on Ethereum）</td></tr>
+    <tr><td>公开拍卖</td><td>$118M 承诺，$0.05 清算价，880M 代币售出</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td>质押率</td><td>~34% 流通量（~800M ZAMA）</td></tr>
+    <tr><td>价值捕获</td><td>① 机密计算费用；② 质押奖励；③ 治理</td></tr>
+    <tr><td>关键</td><td><strong>流通仅 ~22%，未来 78% 解锁抛压</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.02 – $0.04</div><div style="color:var(--muted);font-size:0.9em;">MC $0.05 – $0.10B · FDV $0.23 – $0.45B · 较当前 −74% ~ −49%</div><p style="margin-top:12px;font-size:0.9em;">FHE 商业化失败。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.06 – $0.12</div><div style="color:var(--muted);font-size:0.9em;">MC $0.15 – $0.30B · FDV $0.68 – $1.36B · 较当前 −23% ~ +54%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$0.30 – $0.80</div><div style="color:var(--muted);font-size:0.9em;">MC $0.76 – $2.03B · FDV $3.4 – $9.0B · 较当前 +285% ~ +926%</div><p style="margin-top:12px;font-size:0.9em;">FHE 成为主流隐私方案。</p></div>
+</div>
+
+<h2>七、竞品对比（隐私 / FHE）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 ZAMA 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(108,92,231,0.08);"><td><strong>ZAMA</strong></td><td><strong>~$0.20B</strong></td><td><strong>FHE 机密 DeFi</strong></td><td><strong>Zama</strong></td></tr>
+    <tr><td>XMR</td><td>~$3B</td><td>隐私币</td><td>Monero</td></tr>
+    <tr><td>AZERO</td><td>~$0.3B</td><td>隐私智能合约</td><td>Aleph Zero</td></tr>
+    <tr><td>SCRT</td><td>~$0.1B</td><td>隐私链</td><td>Secret Network</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">ZAMA 的差异化：FHE（全同态加密），机密 DeFi，TFHE-rs 开源框架，1,040 TPS。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>FHE 技术领先</strong>——1,040 TPS，领先路线图一年</li>
+    <li><strong>Shielded TVL $90M+</strong>——真实 DeFi 采用</li>
+    <li><strong>~34% 流通量质押</strong>——社区参与度高</li>
+    <li><strong>Apple/AWS/Google 支持</strong>——FHE.org 生态背书</li>
+    <li><strong>上线 Solana</strong>——多链扩展</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>流通仅 ~22%</strong>——未来 78% 解锁抛压巨大</li>
+    <li><strong>FDV ~$1.0B</strong>——估值已较高</li>
+    <li><strong>FHE 商业化不确定</strong>——技术好但变现难</li>
+    <li><strong>隐私赛道竞争</strong>——XMR/AZERO/SCRT 等</li>
+    <li><strong>代币刚上线</strong>——未经完整周期验证</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>解锁抛压</strong></td><td><strong>流通仅 22%，78% 待解锁</strong></td></tr>
+    <tr><td><strong>FHE 商业化风险</strong></td><td>技术好但变现难</td></tr>
+    <tr><td><strong>监管风险</strong></td><td>隐私 DeFi 合规性</td></tr>
+    <tr><td><strong>早期项目风险</strong></td><td>代币刚上线 8 个月</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>ZAMA 是 Zama FHE 协议的原生代币，市值 ~$0.20B。FHE 技术领先（1,040 TPS）+ Shielded TVL $90M+ 是多头逻辑，<strong>流通仅 22%（78% 待解锁）</strong> 是最大空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：ZAMA 是高风险高回报的隐私计算代币。作为 FHE（全同态加密）赛道的领先项目，TFHE-rs v1.7 实现 1,040 TPS，领先路线图一年。Shielded TVL 从 $40M 增至 $90M+，真实 DeFi 采用。~34% 流通量质押，社区参与度高。FHE.org 获得 Apple/AWS/Google 支持。但流通仅 22%，未来 78% 解锁抛压巨大。FDV 已达 ~$1.0B，估值较高。FHE 商业化路径仍不确定。代币 2026-02 刚上线，未经完整周期验证。上行空间取决于 FHE 能否成为主流隐私计算方案。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

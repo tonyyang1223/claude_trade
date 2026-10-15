@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM (Golem Network) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #00B8A9; --accent2: #4DD0C4;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(0,184,169,0.05); }
+  tr:hover { background: rgba(0,184,169,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(0,184,169,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(0,184,169,0.1), rgba(77,208,196,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>GLM (Golem Network) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：DePIN / 去中心化计算</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.13</div><div class="snap-sub">24h 量 $1.5-3.3M</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$128M</div><div class="snap-sub" style="color:var(--green);">FDV = MC</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">流通率</div><div class="snap-value" style="color:var(--green);">100%</div><div class="snap-sub">全流通，无解锁压力</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">ATH</div><div class="snap-value" style="color:var(--red);">$0.86</div><div class="snap-sub" style="color:var(--red);">跌 85%</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>Golem Network 是 <strong>去中心化 P2P 计算市场</strong>，用户可以出租闲置 GPU/CPU 算力或租用算力，$GLM 为网络原生代币。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">DePIN 计算</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">全流通</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">无通胀</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">ATH 跌 85%</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2016</td><td>Golem 创立</td><td>早期 DePIN</td></tr>
+    <tr><td>2020</td><td>GNT → GLM 迁移</td><td>1:1 迁移</td></tr>
+    <tr style="background:rgba(241,196,15,0.1);"><td><strong>2021-02</strong></td><td><strong>ATH $0.86</strong></td><td><strong>峰值</strong></td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2026-10</strong></td><td><strong>价格 ~$0.13</strong></td><td><strong>跌 85%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-12：MetaMask 价格 $0.13，市值 $133.6M，24h 量 $3.3M。</li>
+    <li>2026-10-12：CoinLore 市值 $134.6M，ATH $0.8641，跌 84.4%。</li>
+    <li>2026-10-09：CoinCodex 价格 $0.1304，流通 1.0B（100%）。</li>
+    <li>2026-10-04：Own Your Mind 市值 $128.5M，FDV $128.5M。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>当前流通</strong></td><td><strong>1.0B GLM（100%）</strong></td></tr>
+    <tr><td>最大供应</td><td>1.0B GLM</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>FDV</strong></td><td><strong>= MC = ~$128M</strong></td></tr>
+    <tr><td>流通率</td><td>100%（全流通）</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>通胀</strong></td><td><strong>无通胀</strong></td></tr>
+    <tr><td>价值捕获</td><td>① 算力支付；② 网络费用</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>关键</strong></td><td><strong>全流通，无解锁压力，无通胀</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.05 – $0.10</div><div style="color:var(--muted);font-size:0.9em;">MC $50 – $100M · 较当前 −62% ~ −23%</div><p style="margin-top:12px;font-size:0.9em;">DePIN 熊市。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.10 – $0.25</div><div style="color:var(--muted);font-size:0.9em;">MC $100 – $250M · 较当前 −23% ~ +92%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$0.50 – $1.00</div><div style="color:var(--muted);font-size:0.9em;">MC $500M – $1B · 较当前 +285% ~ +669%</div><p style="margin-top:12px;font-size:0.9em;">DePIN 爆发。</p></div>
+</div>
+
+<h2>七、竞品对比（去中心化计算）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 GLM 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(0,184,169,0.08);"><td><strong>GLM</strong></td><td><strong>~$128M</strong></td><td><strong>P2P 计算</strong></td><td><strong>Golem</strong></td></tr>
+    <tr><td>RNDR</td><td>~$2B</td><td>渲染网络</td><td>Render</td></tr>
+    <tr><td>TAO</td><td>~$5B</td><td>AI 去中心化网络</td><td>Bittensor</td></tr>
+    <tr><td>ATH</td><td>~$132M</td><td>云计算</td><td>Aethir</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">GLM 的差异化：早期 DePIN，全流通。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>全流通</strong>——无解锁压力</li>
+    <li><strong>无通胀</strong>——稀缺性</li>
+    <li><strong>ATH 跌 85%</strong>——回调充分</li>
+    <li><strong>早期 DePIN</strong>——先发优势</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>DePIN 不温不火</strong>——采用率低</li>
+    <li><strong>RNDR/TAO 碾压</strong>——头部集中</li>
+    <li><strong>24h 量仅 $1.5-3.3M</strong>——流动性一般</li>
+    <li><strong>市值仅 $128M</strong>——小盘股</li>
+    <li><strong>长期下跌趋势</strong>——从 $0.86 跌至 $0.13</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>采用率风险</strong></td><td><strong>DePIN 不温不火</strong></td></tr>
+    <tr><td><strong>竞争</strong></td><td>RNDR/TAO 碾压</td></tr>
+    <tr><td><strong>流动性风险</strong></td><td>24h 量仅 $1.5-3.3M</td></tr>
+    <tr><td><strong>长期下跌</strong></td><td>从 $0.86 跌至 $0.13</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>GLM (Golem) 是早期 DePIN 去中心化计算市场代币，市值 ~$128M。全流通 + 无通胀是最大亮点，ATH 跌 85% 回调充分；但 DePIN 不温不火 + RNDR/TAO 碾压是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：Golem 是 2016 年创立的早期 DePIN 项目，去中心化 P2P 计算市场。全流通（1.0B / 1.0B），无通胀，无解锁压力——这在加密项目中非常罕见。ATH $0.86（2021-02），已跌 85%。但 DePIN 赛道不温不火，采用率低。面临 RNDR（$2B）、TAO（$5B）等头部碾压。24h 量仅 $1.5-3.3M，流动性一般。长期下跌趋势。适合 DePIN 赛道价值投资者小仓位配置，不适合短线投机。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

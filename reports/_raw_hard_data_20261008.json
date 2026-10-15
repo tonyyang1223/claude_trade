@@ -1,0 +1,91 @@
+{
+  "as_of": "2026-10-08 (Asia/Shanghai)",
+  "sources": [
+    "Kraken price page (2026-10-08)",
+    "Bybit global TAO price page (2026-10-08)",
+    "CryptoSlate / CoinMarketCap snapshot (2026-10-02)",
+    "CoinCodex Bittensor page (2026-10-06)",
+    "firsttensor.com Bittensor network stats (2026-10-01)",
+    "bittensor.com V441 Root Reborn release (2026-09-13)",
+    "MEXC FET price page (2026-10-06)",
+    "ownyourmind.ai ASI Alliance / Render / Akash tokenomics pages (2026-10-04~08)",
+    "Revolut WLD price page (2026-10-08)",
+    "WatchListNews WLD market cap (2026-09-13)",
+    "Cointribune AI crypto comparison (2026-09-08)",
+    "TradingView / CoinCodex ATH history",
+    "Khala.io Bittensor investment history (2026-06-11)"
+  ],
+  "TAO": {
+    "symbol": "TAO",
+    "name": "Bittensor",
+    "price_usd": 300.0,
+    "price_range_note": "不同来源 $288~$313，取中值 $300",
+    "market_cap_usd": 3400000000,
+    "fdv_usd": 6400000000,
+    "circulating_supply": 11340000,
+    "total_supply": 11340000,
+    "max_supply": 21000000,
+    "circulation_rate_pct": 54.0,
+    "ath_usd": 776.0,
+    "ath_date": "2024-04-11",
+    "ath_drawdown_pct_from_ath": -61.0,
+    "atl_usd": 30.25,
+    "atl_date": "2023-05-14",
+    "first_exchange_listing": "2023-03-06",
+    "first_listing_price_usd": 93.0,
+    "active_subnets": 128,
+    "subnets_earning": 89,
+    "root_network_staked_tao": 5403483,
+    "root_staked_pct_of_issuance": 47.9,
+    "recent_upgrade": "V441 Root Reborn (2026-09-13)",
+    "ytd_2026_quarterly": {"Q1": 38.88, "Q2": -33.80, "Q3": 49.00},
+    "ytd_2025_full_year_pct": -50.30
+  },
+  "FET": {
+    "symbol": "FET",
+    "name": "Fetch.ai / ASI Alliance",
+    "price_usd": 0.23,
+    "market_cap_usd": 560000000,
+    "fdv_usd": 670000000,
+    "max_supply": 2714000000,
+    "circulation_rate_note": "~85% 流通",
+    "note": "已与 SingularityNET (AGIX) 和 Ocean Protocol (OCEAN) 合并为 Artificial Superintelligence Alliance (ASI)"
+  },
+  "RENDER": {
+    "symbol": "RENDER",
+    "name": "Render Network",
+    "price_usd": 1.55,
+    "market_cap_usd": 1000000000,
+    "fdv_usd": 1000000000,
+    "circulating_supply": 518700000,
+    "max_supply": 644100000,
+    "circulation_rate_pct": 80.5,
+    "chain": "已迁移至 Solana (98.4%)",
+    "token_model": "Burn-Mint Equilibrium (BME)",
+    "ath_drawdown_note": "距 2024-03 高点回撤约 -89%"
+  },
+  "WLD": {
+    "symbol": "WLD",
+    "name": "Worldcoin",
+    "price_usd": 0.55,
+    "market_cap_usd": 1500000000,
+    "fdv_usd": 5500000000,
+    "circulating_supply": 3844000000,
+    "max_supply": 10000000000,
+    "circulation_rate_pct": 38.4,
+    "note": "计划降低代币解锁速率以支撑价格"
+  },
+  "AGIX": {
+    "symbol": "AGIX",
+    "name": "SingularityNET",
+    "market_cap_usd_approx": 50000000,
+    "note": "已合并入 ASI Alliance (FET)，独立代币流动性极低，作为独立竞品参考意义弱",
+    "founder": "Ben Goertzel"
+  },
+  "AKT": {
+    "symbol": "AKT",
+    "name": "Akash Network",
+    "market_cap_usd": 232000000,
+    "token_model": "BME (2026-03 激活) + 部署支出抽成"
+  }
+}

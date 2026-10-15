@@ -10,6 +10,7 @@ import type {
   Score,
   TokenDetail,
   WebResearch,
+  TwitterFeed,
 } from '../types/models';
 
 /**
@@ -79,6 +80,10 @@ export async function getTokenDetail(id: string, date?: string): Promise<TokenDe
 
 export async function postTokenResearch(id: string): Promise<WebResearch> {
   return api.post(ENDPOINTS.tokenResearch(id));
+}
+
+export async function getTokenTwitter(id: string, limit = 30): Promise<TwitterFeed> {
+  return api.get(ENDPOINTS.tokenTwitter(id), { params: { limit } });
 }
 
 // ---------------- 百倍币雷达 ----------------

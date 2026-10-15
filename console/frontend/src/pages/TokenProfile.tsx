@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useAppStore } from '../store/useAppStore';
-import { getTokenDetail, postTokenResearch, ApiError } from '../api/client';
-import type { TokenDetail, WebResearch } from '../types/models';
+import { getTokenDetail, postTokenResearch, getTokenTwitter, ApiError } from '../api/client';
+import type { TokenDetail, WebResearch, TwitterFeed } from '../types/models';
 import { COLORS } from '../theme';
 import { fmtMcap, fmtPct, fmtPrice, fmtNum, colorForChange } from '../utils/format';
 import PageHeader from '../components/common/PageHeader';
@@ -37,6 +37,9 @@ export default function TokenProfile() {
   const [researching, setResearching] = useState(false);
   const [warn, setWarn] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [twitter, setTwitter] = useState<TwitterFeed | null>(null);
+  const [twitterLoading, setTwitterLoading] = useState(true);
+  const [twitterError, setTwitterError] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -64,6 +67,16 @@ export default function TokenProfile() {
   if (loading) return <Loading label="加载币种档案…" />;
   if (error) return <EmptyState message="币种档案加载失败" hint={error} />;
   if (!detail) return <EmptyState message="未找到该币种档案" />;
+
+  // Twitter 舆情（按币过滤，与控制台选定日期无关）：来自豆包爬取的 Twitter 数据，已入库历史库。
+  useEffect(() => {
+    setTwitterLoading(true);
+    setTwitterError(null);
+    getTokenTwitter(id)
+      .then((d) => setTwitter(d))
+      .catch((e: ApiError) => setTwitterError(e.message || '加载失败'))
+      .finally(() => setTwitterLoading(false));
+  }, [id]);
 
   const b = detail.basic;
   const narrative = research
@@ -175,6 +188,43 @@ export default function TokenProfile() {
               </Box>
             ) : (
               <EmptyState message="暂无新闻（实时抓取可补全）" />
+            )}
+          </Card>
+
+          {/* Twitter 舆情：来自豆包爬取的 Twitter 数据，已入库历史库 content_archive（按币过滤，与控制台日期无关） */}
+          <Card title={`Twitter 舆情 (${twitter?.count ?? 0})`} sx={{ mt: 2 }}>
+            {twitterLoading ? (
+              <Loading label="加载 Twitter 舆情…" />
+            ) : twitterError ? (
+              <EmptyState message="Twitter 舆情加载失败" hint={twitterError} />
+            ) : twitter && twitter.posts.length ? (
+              <Box sx={{ maxHeight: 440, overflow: 'auto' }}>
+                {twitter.posts.map((p, i) => (
+                  <Box key={i} sx={{ py: 1, borderBottom: `1px solid ${COLORS.split}` }}>
+                    <Box sx={{ display: 'flex', gap: 0.5, mb: 0.5, alignItems: 'center' }}>
+                      {p.docType === 'event' ? (
+                        <Chip label={`事件·${p.eventType ?? '未知'}`} size="small" sx={{ bgcolor: 'rgba(234,179,8,0.15)', color: COLORS.gold, fontSize: 10 }} />
+                      ) : (
+                        <Chip label="推文" size="small" sx={{ bgcolor: 'rgba(88,166,255,0.15)', color: COLORS.accent, fontSize: 10 }} />
+                      )}
+                      {p.author && <Typography sx={{ color: COLORS.sub, fontSize: 11 }}>{p.author}</Typography>}
+                    </Box>
+                    <Typography sx={{ color: COLORS.text, fontSize: 13, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                      {p.text || p.title || '(无内容)'}
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1.5, mt: 0.5, fontSize: 11, color: COLORS.sub, flexWrap: 'wrap' }}>
+                      {p.likes != null && <span>♥ {fmtNum(p.likes)}</span>}
+                      {p.retweets != null && <span>↻ {fmtNum(p.retweets)}</span>}
+                      {p.publishedTs && <span>{p.publishedTs}</span>}
+                      {p.url && (
+                        <a href={p.url} target="_blank" rel="noreferrer" style={{ color: COLORS.accent }}>原文</a>
+                      )}
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            ) : (
+              <EmptyState message="该币暂无 Twitter 舆情（未在豆包 Twitter 监控列表中）" />
             )}
           </Card>
         </Grid>

@@ -9,7 +9,7 @@ from typing import Optional
 
 from data import loader
 from data.schemas import TokenDetailResponse
-from services.common import coin_brief_from_market
+from services.common import coin_brief_from_market, coin_brief_from_light
 
 
 def build_detail(coin_id: str, date: Optional[str] = None) -> Optional[TokenDetailResponse]:
@@ -19,6 +19,15 @@ def build_detail(coin_id: str, date: Optional[str] = None) -> Optional[TokenDeta
 
     raw = loader.find_coin_raw(date, coin_id)
     if not raw:
+        # 兜底：币种仅存在于 top_800_light（如聚合币 memecoin-2，排名 51+），
+        # 无 detailed/by_category 记录时，用 light 记录至少渲染基础行情，避免 404 白页。
+        light = next(
+            (c for c in (loader.load_all_coins(date) or []) if c.get("id") == coin_id),
+            None,
+        )
+        if light:
+            basic = coin_brief_from_light(light)
+            return TokenDetailResponse(basic=basic, narrative={}, social={}, news=[])
         return None
 
     src = raw.get("sources", {}) or {}

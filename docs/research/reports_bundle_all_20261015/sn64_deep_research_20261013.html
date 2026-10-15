@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SN64 (Chutes) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #9370DB; --accent2: #B19CD9;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(147,112,219,0.05); }
+  tr:hover { background: rgba(147,112,219,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(147,112,219,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(147,112,219,0.1), rgba(177,156,217,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>SN64 (Chutes) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：Bittensor 子网 / AI 计算</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$19.5</div><div class="snap-sub">7日范围 ~$21.91</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$112-118M</div><div class="snap-sub">FDV ~$405M</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">流通率</div><div class="snap-value" style="color:var(--red);font-size:1.1em;">~28%</div><div class="snap-sub">72% 待解锁</div></div>
+  <div class="snap-item"><div class="snap-label">类型</div><div class="snap-value" style="font-size:1.05em;">Bittensor 子网</div><div class="snap-sub" style="color:var(--green);">Kraken 上线</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>Chutes (SN64) 是 <strong>Bittensor 生态第 64 号子网</strong>，定位去中心化计算/AI，代币价格 ~$19.5，市值 ~$115M，FDV ~$405M，流通率仅 27.8%。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">Bittensor 子网</span><span class="risk-tag">SN64</span><span class="risk-tag">去中心化计算</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">流通率 28%</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>项目早期</td><td>Chutes 上线</td><td>Bittensor 子网</td></tr>
+    <tr style="background:rgba(147,112,219,0.1);"><td><strong>2026-07-07</strong></td><td><strong>Kraken 上线交易</strong></td><td><strong>主流交易所</strong></td></tr>
+    <tr><td>2026-10-09</td><td>团队回应收益和路线图担忧</td><td>社区沟通</td></tr>
+    <tr><td>2026-10</td><td>价格 ~$19.5</td><td>当前</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-13：CryptoNews 价格 $19.18，24h 涨 +1.78%，24h 量 $0.32M。</li>
+    <li>2026-10-09：SubnetRadar 团队回应收益和路线图担忧，确认收益和所有者排放不受影响。</li>
+    <li>2026-10-09：PlayToEarn 价格 $19.30，市值 $118.3M，FDV $405.3M，24h 量 $0.58M。</li>
+    <li>2026-07-07：Kraken 上线 SN64 交易。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前流通</td><td>~395K TAO（子网代币）</td></tr>
+    <tr><td>FDV</td><td>~1.42M TAO（~$405M）</td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>流通率</strong></td><td><strong>~27.8%</strong></td></tr>
+    <tr><td>类型</td><td>Bittensor 子网代币</td></tr>
+    <tr><td>价值捕获</td><td>去中心化计算 + AI 推理</td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>关键</strong></td><td><strong>Bittensor 子网，流通率仅 28%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$5 – $10</div><div style="color:var(--muted);font-size:0.9em;">MC $30 – $60M · 较当前 −74% ~ −49%</div><p style="margin-top:12px;font-size:0.9em;">Bittensor 退潮。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$15 – $30</div><div style="color:var(--muted);font-size:0.9em;">MC $90 – $180M · 较当前 −23% ~ +54%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$50 – $100</div><div style="color:var(--muted);font-size:0.9em;">MC $300 – $600M · 较当前 +156% ~ +413%</div><p style="margin-top:12px;font-size:0.9em;">AI 计算牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（Bittensor 子网 / AI 计算）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 SN64 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(147,112,219,0.08);"><td><strong>SN64</strong></td><td><strong>~$112-118M</strong></td><td><strong>Bittensor 子网</strong></td><td><strong>Chutes</strong></td></tr>
+    <tr><td>SN51 (Lium)</td><td>~$50M</td><td>Bittensor 子网</td><td>Lium</td></tr>
+    <tr><td>TAO</td><td>~$3B</td><td>Bittensor 母币</td><td>Bittensor</td></tr>
+    <tr><td>RNDR</td><td>~$2B</td><td>去中心化计算</td><td>Render</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">SN64 的差异化：Bittensor 生态第 64 号子网，去中心化计算/AI。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>Bittensor 生态</strong>——AI 叙事</li>
+    <li><strong>Kraken 上线</strong>——主流交易所</li>
+    <li><strong>去中心化计算</strong>——赛道火热</li>
+    <li><strong>FDV $405M</strong>——长期空间大</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>流通率仅 28%</strong>——72% 待解锁</li>
+    <li><strong>FDV $405M</strong>——全流通后抛压大</li>
+    <li><strong>Bittensor 退潮</strong>——整体回调</li>
+    <li><strong>RNDR 碾压</strong>——头部计算项目主导</li>
+    <li><strong>24h 量低</strong>——流动性一般</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>解锁风险</strong></td><td><strong>72% 待解锁</strong></td></tr>
+    <tr><td><strong>Bittensor 依赖</strong></td><td>生态退潮影响</td></tr>
+    <tr><td><strong>竞争风险</strong></td><td>RNDR 碾压</td></tr>
+    <tr><td><strong>流动性</strong></td><td>24h 量低</td></tr>
+    <tr><td><strong>排名低</strong></td><td>#267</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>SN64 (Chutes) 是 Bittensor 生态第 64 号子网，定位去中心化计算/AI，价格 ~$19.5，市值 ~$115M，FDV ~$405M，流通率仅 28%。Bittensor AI 叙事 + Kraken 上线是多头逻辑，<strong>流通率仅 28% + FDV $405M + Bittensor 退潮</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：Chutes (SN64) 是 Bittensor 生态第 64 号子网，定位去中心化计算/AI，代币价格 ~$19.5，市值 ~$115M，FDV ~$405M，流通率仅 27.8%（395K / 1.42M TAO）。2026-07-07 Kraken 上线，主流交易所背书。Bittensor AI 叙事火热。但流通率仅 28%，72% 待解锁，FDV $405M 全流通后抛压大。Bittensor 生态退潮影响。面临 RNDR（$2B）等头部计算项目碾压。24h 量 $0.32-0.58M，流动性一般。适合 Bittensor 生态高风险偏好投资者，但需谨慎解锁压力和生态依赖。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSTRX (MicroStrategy xStock) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #FFB000; --accent2: #FFD54F;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(255,176,0,0.05); }
+  tr:hover { background: rgba(255,176,0,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(255,176,0,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(255,176,0,0.1), rgba(255,213,79,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>MSTRX (MicroStrategy xStock) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：代币化股票（RWA）</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$130</div><div class="snap-sub">24h 量 ~$4.19M</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$71M</div><div class="snap-sub" style="color:var(--green);">底层 $642 亿</div></div>
+  <div class="snap-item"><div class="snap-label">底层 MSTR</div><div class="snap-value" style="font-size:1.05em;">~$153</div><div class="snap-sub">mNAV 1.21x</div></div>
+  <div class="snap-item"><div class="snap-label">类型</div><div class="snap-value" style="font-size:1.05em;">代币化股票</div><div class="snap-sub">Bitcoin 金库</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>MicroStrategy xStock (MSTRX) 是 <strong>MicroStrategy (MSTR) 的代币化股票</strong>，在链上代表 MSTR 股票的所有权，价格 ~$119-156，市值 ~$71M，底层 MSTR 市值 $642 亿。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">代币化股票</span><span class="risk-tag">MSTR</span><span class="risk-tag">xStock</span><span class="risk-tag">Bitcoin 金库</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2026-05-05</td><td>MSTR Q1 财报</td><td>比特币持有 56,235 枚</td></tr>
+    <tr style="background:rgba(255,176,0,0.1);"><td><strong>2026-06-06</strong></td><td><strong>Investing.com 收录</strong></td><td><strong>MC $71M</strong></td></tr>
+    <tr><td>2026-09-20</td><td>MSTR 投资者简报</td><td>价格 $153.92，mNAV 1.21x</td></tr>
+    <tr><td>2026-10-12</td><td>MSTR 收盘 $152.68</td><td>市值 $642 亿</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-12：同花顺 MSTR 收盘 $152.68，市值 $642.01 亿。</li>
+    <li>2026-09-20：MSTR 投资者简报，价格 $153.92，mNAV 1.21x，市值 $647.2 亿，企业价值 $796.4 亿。</li>
+    <li>2026-08-28：SEC FWP 文件，价格 $119.25，市值 $496 亿，BTC 持有 840,447 枚，mNAV 1.01x。</li>
+    <li>2026-06-06：Investing.com MSTRX 价格 ~$119，市值 $71.01M，24h 量 $4.19M。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前价格</td><td>~$119 – 156</td></tr>
+    <tr><td>市值</td><td>~$71M</td></tr>
+    <tr><td>类型</td><td>代币化股票</td></tr>
+    <tr style="background:rgba(255,176,0,0.08);"><td><strong>底层</strong></td><td><strong>MicroStrategy (MSTR) 股票</strong></td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>底层市值</strong></td><td><strong>~$642 亿</strong></td></tr>
+    <tr><td>价值捕获</td><td>跟踪 MSTR 股价</td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>关键</strong></td><td><strong>代币化 MSTR 股票，底层 $642 亿</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$80 – $110</div><div style="color:var(--muted);font-size:0.9em;">MC $48 – $66M · 较当前 −33% ~ −7%</div><p style="margin-top:12px;font-size:0.9em;">BTC 回调。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$130 – $180</div><div style="color:var(--muted);font-size:0.9em;">MC $78 – $108M · 较当前 +9% ~ +54%</div><p style="margin-top:12px;font-size:0.9em;">跟随 MSTR。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$200 – $300</div><div style="color:var(--muted);font-size:0.9em;">MC $120 – $180M · 较当前 +68% ~ +166%</div><p style="margin-top:12px;font-size:0.9em;">BTC 牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（代币化股票）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 MSTRX 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(255,176,0,0.08);"><td><strong>MSTRX</strong></td><td><strong>~$71M</strong></td><td><strong>MSTR 代币化</strong></td><td><strong>xStock</strong></td></tr>
+    <tr><td>FBTC</td><td>~$500M</td><td>BTC 代币化</td><td>持有的</td></tr>
+    <tr><td>TSLA 代币化</td><td>~$20M</td><td>TSLA 代币化</td><td>其他</td></tr>
+    <tr><td>AAPL 代币化</td><td>~$10M</td><td>AAPL 代币化</td><td>其他</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">MSTRX 的差异化：代币化 MicroStrategy（Bitcoin 金库股）。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>底层 MSTR 市值 $642 亿</strong>——大底层</li>
+    <li><strong>Bitcoin 金库</strong>——BTC 叙事</li>
+    <li><strong>mNAV 1.21x</strong>——溢价</li>
+    <li><strong>24h 量 $4.19M</strong>——流动性好</li>
+    <li><strong>代币化股票</strong>——链上可交易</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>BTC 依赖</strong>——MSTR 跟踪 BTC</li>
+    <li><strong>代币化股票风险</strong>——发行方风险</li>
+    <li><strong>mNAV 溢价</strong>——1.21x 溢价过高</li>
+    <li><strong>市值小</strong>——$71M vs 底层 $642 亿</li>
+    <li><strong>监管风险</strong>——证券代币化</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>BTC 依赖</strong></td><td><strong>MSTR 跟踪 BTC</strong></td></tr>
+    <tr><td><strong>发行方风险</strong></td><td>代币化股票兑付</td></tr>
+    <tr><td><strong>mNAV 溢价</strong></td><td>1.21x 过高</td></tr>
+    <tr><td><strong>监管</strong></td><td>证券代币化合规</td></tr>
+    <tr><td><strong>市值小</strong></td><td>流动性风险</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>MSTRX (MicroStrategy xStock) 是 MicroStrategy 代币化股票，底层 MSTR 市值 $642 亿，Bitcoin 金库叙事。大底层 + 流动性好是多头逻辑，<strong>BTC 依赖 + mNAV 1.21x 溢价 + 发行方风险</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：MicroStrategy xStock (MSTRX) 是 MicroStrategy (MSTR) 的代币化股票，在链上代表 MSTR 股票的所有权，价格 ~$130，市值 ~$71M，底层 MSTR 市值 $642 亿。大底层 + Bitcoin 金库叙事 + 24h 量 $4.19M 流动性好是核心亮点。但 MSTR 高度依赖 BTC，mNAV 1.21x 溢价过高，代币化股票发行方兑付风险，证券代币化监管风险。适合看好 BTC 牛市和 MSTR 链上可交易需求的投资者，但需谨慎 BTC 波动和发行方风险。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

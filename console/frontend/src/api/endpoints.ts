@@ -4,6 +4,7 @@ export const ENDPOINTS = {
   marketOverview: '/api/market/overview',
   tokenDetail: (id: string) => `/api/tokens/${id}`,
   tokenResearch: (id: string) => `/api/tokens/${id}/research`,
+  tokenTwitter: (id: string) => `/api/tokens/${id}/twitter`,
   opportunityRadar: '/api/opportunity/radar',
   comparison: '/api/comparison',
   onchain: '/api/onchain',

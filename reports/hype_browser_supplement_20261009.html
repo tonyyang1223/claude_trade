@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyperliquid (HYPE) 浏览器一手补充 · 2026-10-09</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #121a30;
+    --panel2: #0e1626;
+    --line: #1e2a4a;
+    --text: #e6ecf7;
+    --muted: #8ea0c0;
+    --blue: #4d7cff;
+    --cyan: #35e0e6;
+    --purple: #a978ff;
+    --green: #3ad29f;
+    --red: #ff6b81;
+    --amber: #ffcb6b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    padding: 24px 16px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .hero {
+    background: linear-gradient(135deg, #121a30 0%, #0e1626 100%);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 36px 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(77,124,255,0.18), transparent 70%);
+    border-radius: 50%;
+  }
+  .hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .hero h1 .accent { color: var(--cyan); }
+  .hero .sub { color: var(--muted); font-size: 14px; }
+  .hero .badges { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    font-size: 12px; border: 1px solid var(--line);
+    background: var(--panel2); color: var(--muted);
+  }
+  .badge.blue { color: var(--blue); border-color: var(--blue); }
+  .badge.cyan { color: var(--cyan); border-color: var(--cyan); }
+  .badge.green { color: var(--green); border-color: var(--green); }
+  .badge.amber { color: var(--amber); border-color: var(--amber); }
+  .badge.red { color: var(--red); border-color: var(--red); }
+
+  h2 {
+    font-size: 20px; margin: 32px 0 16px;
+    padding-left: 12px; border-left: 3px solid var(--cyan);
+  }
+  h3 { font-size: 16px; margin: 20px 0 10px; color: var(--text); }
+  .grid { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card h4 { font-size: 14px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+  .card .big { font-size: 26px; font-weight: 700; color: var(--text); }
+  .card .delta-up { color: var(--green); font-size: 13px; }
+  .card .delta-down { color: var(--red); font-size: 13px; }
+  .card .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 10px; overflow: hidden; font-size: 13px;
+  }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--panel2); color: var(--muted); font-weight: 500; font-size: 12px; }
+  tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+  .tag-green { background: rgba(58,210,159,0.12); color: var(--green); }
+  .tag-red { background: rgba(255,107,129,0.12); color: var(--red); }
+  .tag-amber { background: rgba(255,203,107,0.12); color: var(--amber); }
+  .tag-blue { background: rgba(77,124,255,0.12); color: var(--blue); }
+  .tag-purple { background: rgba(169,120,255,0.12); color: var(--purple); }
+
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; font-size: 14px; }
+  .muted { color: var(--muted); font-size: 13px; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .callout {
+    border-left: 3px solid var(--amber);
+    background: rgba(255,203,107,0.06);
+    padding: 14px 16px; border-radius: 0 8px 8px 0;
+    margin: 14px 0; font-size: 14px;
+  }
+  .callout.blue { border-color: var(--blue); background: rgba(77,124,255,0.06); }
+  .callout.green { border-color: var(--green); background: rgba(58,210,159,0.06); }
+  .callout.red { border-color: var(--red); background: rgba(255,107,129,0.06); }
+
+  .timeline { position: relative; padding-left: 20px; border-left: 2px solid var(--line); }
+  .tl-item { margin-bottom: 16px; position: relative; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -26px; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--cyan); box-shadow: 0 0 0 3px rgba(53,224,230,0.15);
+  }
+  .tl-item .date { font-size: 12px; color: var(--cyan); font-family: monospace; }
+  .tl-item .title { font-weight: 600; margin: 2px 0; }
+  .tl-item .desc { font-size: 13px; color: var(--muted); }
+
+  footer {
+    margin-top: 40px; padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>Hyperliquid (HYPE) <span class="accent">浏览器一手补充笔记</span></h1>
+    <div class="sub">采集时间 2026-10-09（UTC+8）· GitHub REST API / DefiLlama API / hypurrscan.io 实抓 / 已登录 X 时间线 / alternative.me · 本文件是对 hype_deep_research_20261009 的补充，不改动原报告，所有数据附 URL</div>
+    <div class="badges">
+      <span class="badge cyan">补充报告 · 不改动原报告</span>
+      <span class="badge blue">HYPE ≈ $85.25–85.27</span>
+      <span class="badge green">TVL $7.055B 基本持平</span>
+      <span class="badge amber">HyperEVM 链 TVL 30 天 −28.8%</span>
+      <span class="badge red">官方号 10 天静默 / OTC $330M</span>
+    </div>
+  </div>
+
+  <!-- 核心指标 -->
+  <h2>采集时核心指标快照（2026-10-09）</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <h4>HYPE 现价</h4>
+      <div class="big">$85.25–85.27</div>
+      <div class="delta-down">▼ 2.5%~2.7% (24h)</div>
+      <div class="note">MC $18.997B · 与原报告基线 $85.30 持平 · <a href="https://api.coingecko.com/api/v3/simple/price?ids=hyperliquid">CoinGecko</a></div>
+    </div>
+    <div class="card">
+      <h4>协议总 TVL</h4>
+      <div class="big">$7.055B</div>
+      <div class="delta-up">较基线 +0.2%（基本持平）</div>
+      <div class="note">7d −3.17% / 30d +3.15% / 90d +17.7% · <a href="https://api.llama.fi/protocol/hyperliquid">DefiLlama</a></div>
+    </div>
+    <div class="card">
+      <h4>HyperEVM 链 TVL</h4>
+      <div class="big">$1.047B</div>
+      <div class="delta-down">▼ 30 天 −28.8%（生态层失血）</div>
+      <div class="note">7d −11.3% · <a href="https://api.llama.fi/v2/historicalChainTvl/Hyperliquid">历史链 TVL</a></div>
+    </div>
+    <div class="card">
+      <h4>TTM 协议收入</h4>
+      <div class="big">$706.8M</div>
+      <div class="delta-down">较 2025 日历年 ~$0.9B 回落约 21%</div>
+      <div class="note">24h Revenue $2.45M · <a href="https://api.llama.fi/summary/fees/hyperliquid?dataType=dailyRevenue">DefiLlama fees</a></div>
+    </div>
+    <div class="card">
+      <h4>Active Stake</h4>
+      <div class="big">439.94M HYPE</div>
+      <div class="delta-up">99.99% 质押率 · 活跃验证者 27/35</div>
+      <div class="note">Hyper Foundation 自营占全网质押 47.2% · <a href="https://hypurrscan.io/staking">hypurrscan</a></div>
+    </div>
+    <div class="card">
+      <h4>恐惧贪婪指数</h4>
+      <div class="big">59</div>
+      <div class="delta-down">9/22 峰值 78 → 59（−19，加速降温）</div>
+      <div class="note">资金费率 +1.00bps（年化 +10.95%）· <a href="https://api.alternative.me/fng/?limit=35">alternative.me</a></div>
+    </div>
+  </div>
+
+  <!-- 一、GitHub -->
+  <h2>一、GitHub 仓库与 Release 一手笔记</h2>
+  <div class="callout">
+    <b>组织名勘误：</b>官方组织是 <b>hyperliquid-dex</b>（非 hyperliquidxyz——后者只是一个 0 星非官方 User 账号）。11 个 public repos、合计 3,137★、1,558 followers。
+    来源：<a href="https://api.github.com/orgs/hyperliquid-dex">api.github.com/orgs/hyperliquid-dex</a>
+  </div>
+  <table>
+    <thead><tr><th>仓库</th><th class="num">星标</th><th>语言</th><th>最近 push (UTC)</th><th>Release / 备注</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://github.com/hyperliquid-dex/node">node</a></td><td class="num">508</td><td>Dockerfile</td><td>2026-08-10</td><td>L1 节点运行时，<b>无 GitHub Release</b>，近期改动全为验证者 root IP 维护</td></tr>
+      <tr><td><a href="https://github.com/hyperliquid-dex/order_book_server">order_book_server</a></td><td class="num">165</td><td>Rust</td><td>2026-07-15</td><td>订单簿服务器，无 Release；仍在加 RawBookDiff insertBefore 撮合精度</td></tr>
+      <tr><td><a href="https://github.com/hyperliquid-dex/hyperliquid-python-sdk">hyperliquid-python-sdk</a></td><td class="num"><b>1,846</b></td><td>Python</td><td>2026-06-04</td><td>对外 SDK 主力，有 Release；最新 <b>0.24.0（2026-06-04）后已约 4 个月无新 release</b></td></tr>
+      <tr><td><a href="https://github.com/hyperliquid-dex/hyperliquid-rust-sdk">hyperliquid-rust-sdk</a></td><td class="num">471</td><td>Rust</td><td>2025-10-21</td><td>官方 Rust SDK</td></tr>
+      <tr><td><a href="https://github.com/hyperliquid-dex/hyper-evm-sync">hyper-evm-sync</a></td><td class="num">21</td><td>Rust</td><td>2025-07-15</td><td>HyperEVM 同步工具</td></tr>
+    </tbody>
+  </table>
+  <div class="callout blue">
+    <b>SDK Release 时间线：</b>0.18.0 (2025-08) → 0.20.0 (2025-10) → 0.21.0 (2025-11) → 0.22.0 (2026-02) → 0.23.0 (2026-04) → <b>0.24.0 (2026-06-04，multisig userSetAbstraction)</b>。约 2–3 个月一个 minor。
+  </div>
+
+  <!-- 二、链上数据 -->
+  <h2>二、链上数据 / 浏览器实时快照</h2>
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>协议 TVL 趋势（parent#hyperliquid）</h4>
+      <table>
+        <tbody>
+          <tr><td>当前</td><td class="num">$7.055B</td></tr>
+          <tr><td>7d 前 / 变化</td><td class="num">$7.286B / <span class="tag tag-red">−3.17%</span></td></tr>
+          <tr><td>30d 前 / 变化</td><td class="num">$6.840B / <span class="tag tag-green">+3.15%</span></td></tr>
+          <tr><td>90d 前 / 变化</td><td class="num">$5.996B / <span class="tag tag-green">+17.7%</span></td></tr>
+          <tr><td>拆分</td><td class="num">L1 $6.676B / Arbitrum $379.14M</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h4>Top 验证者质押分布</h4>
+      <table>
+        <thead><tr><th>验证者</th><th class="num">质押 (M)</th><th class="num">占比</th></tr></thead>
+        <tbody>
+          <tr><td>Hyper Foundation 2</td><td class="num">54.16</td><td class="num">12.31%</td></tr>
+          <tr><td>Hyper Foundation 1</td><td class="num">52.25</td><td class="num">11.88%</td></tr>
+          <tr><td>Hyper Foundation 3</td><td class="num">51.78</td><td class="num">11.77%</td></tr>
+          <tr><td>Strategies x Unit（PURR）</td><td class="num">37.88</td><td class="num">8.61%</td></tr>
+          <tr><td>Hyper Foundation 4</td><td class="num">34.48</td><td class="num">7.84%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="callout red">
+    <b>Foundation 自营集中度：</b>Hyper Foundation 1–5 合计 <b>207.83M HYPE，占全网质押 47.2%</b>——接近一半质押由基金会自营验证者持有，去中心化进度有限。
+  </div>
+
+  <h3>2.1 Fees / Revenue 口径拆分</h3>
+  <table>
+    <thead><tr><th>口径</th><th class="num">24h</th><th class="num">7d</th><th class="num">30d</th><th class="num">TTM</th><th>对比原报告</th></tr></thead>
+    <tbody>
+      <tr><td><b>Revenue（归协议/AF）</b></td><td class="num">$2.45M</td><td class="num">$15.57M</td><td class="num">$73.59M</td><td class="num"><b>$706.8M</b></td><td>2025 日历年 ~$0.9B → <span class="tag tag-red">回落约 21%</span></td></tr>
+      <tr><td>Supply-side revenue（LP/staker）</td><td class="num">$0.67M</td><td class="num">$3.81M</td><td class="num">$17.24M</td><td class="num">$161.5M</td><td>新拆分数据</td></tr>
+      <tr><td>24h fees（hypurrscan 交叉）</td><td class="num">$3.21M</td><td class="num" colspan="3">+67.64%</td><td><a href="https://hypurrscan.io/dashboard">hypurrscan</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3>2.2 Assistance Fund Buyback TWAP（当周实时在跑）</h3>
+  <div class="grid grid-3">
+    <div class="card">
+      <h4>BUY HYPE-USD TWAP</h4>
+      <div class="big">25,000 HYPE</div>
+      <div class="note">约 $1.74M · 地址 0x3c66…eab6 · 3 小时到期</div>
+    </div>
+    <div class="card">
+      <h4>BUY HYPE TWAP</h4>
+      <div class="big">10,000 HYPE</div>
+      <div class="note">约 $788K · 地址 0x0682…b571 · 6 天到期</div>
+    </div>
+    <div class="card">
+      <h4>首笔 AQAv2 储备收益</h4>
+      <div class="big">$14.58M USDC</div>
+      <div class="note">10/3 到账，待划转回购；近期单笔销毁 112,580 HYPE（~$10.15M，10/5）</div>
+    </div>
+  </div>
+
+  <h3>2.3 10-08 OTC 事件（合并分片口径）</h3>
+  <div class="callout amber">
+    2026-09-30 起 Hyperliquid Labs 解押 <b>3.75M HYPE（约 $330M）</b>，通过 OTC 卖给单一机构买家（市场猜测为 ICE/NYSE 母公司），<b>不在公开市场抛售</b>，10/7 分发给团队；消息在 10/8 传出当日 HYPE 跌约 <b>4% 至 ~$87</b>。
+    来源：<a href="https://www.chaincatcher.com/en/article/2293316">chaincatcher</a> · <a href="https://crypto.news/hype-drops-4-to-87-as-team-starts-330m-token-deal/">crypto.news</a>
+  </div>
+
+  <!-- 三、X -->
+  <h2>三、Twitter / X 一手动态</h2>
+  <div class="callout red">
+    <b>官方号 10 天静默：</b>@HyperliquidX（43 万粉 / 1,264 帖）自 <b>2026-09-30 后至 10-09 已 10 天未发推</b>。10 月重大事件（AQAv2 $14.58M、$10.15M 销毁、$330M OTC、Token2049、Bloomberg Terminal）均经 Discord / 媒体流出。
+  </div>
+  <table>
+    <thead><tr><th>日期</th><th>内容</th><th class="num">评/转/赞/浏览</th></tr></thead>
+    <tbody>
+      <tr><td>09-30</td><td>新加坡社区活动 Hyperliquid Community Event 2026 定于 10/5 晚，已超额认购</td><td class="num">241/207/1,371/16万</td></tr>
+      <tr><td>09-23</td><td><b>未平仓合约（OI）达历史新高 $180 亿</b></td><td class="num">336/511/2,769/30万</td></tr>
+      <tr><td>09-21</td><td><b>追踪止损（Trailing stops）正式上线永续市场</b></td><td class="num">227/273/2,157/19万</td></tr>
+      <tr><td>09-18</td><td><b>手动借贷（Manual Borrows）上线</b>，首日 $2.69 亿资产被借出</td><td class="num">302/469/1,914/55万</td></tr>
+      <tr><td>09-09</td><td>应社区请求上线 $USELESS 永续，最高 3x 杠杆</td><td class="num">227/224/1,503/25万</td></tr>
+    </tbody>
+  </table>
+  <div class="callout blue">
+    <b>Jeff Yan（CEO）在 Token2049 新加坡（10-07/08）放话：</b><b>Options（期权）将成为 HyperCore 上下一个产品组件</b>，基于 HIP-4 继承现货/订单簿/组合保证金，用 Perps 对冲 Delta。
+    来源：<a href="https://www.digitaltoday.co.kr/en/view/112515/hyperliquid-ceo-says-few-capture-benefits-of-corporate-growth-criticises-wall-street">digitaltoday</a>
+  </div>
+
+  <!-- 四、社区 -->
+  <h2>四、Reddit / Discord / 社区情绪</h2>
+  <div class="callout">
+    <b>采集局限如实说明：</b>Reddit 未登录态 about.json 被网络安全层拦截，Discord 需登录无法读频道历史；订阅数、周访客、Top5 帖精确赞/评论数<b>均未获取成功</b>，不编造。社区氛围旁证：热门帖大量 crosspost 到 r/CryptoCurrency / r/algorand / r/solana，定位是"交易员/量化 degen 大街"（对比 r/bittensor_ 的"研究型 hodler 小圈子"）。
+  </div>
+  <table>
+    <thead><tr><th>话题</th><th>社区立场 / 要点</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag tag-green">RWA 多头叙事</span></td><td>RWA perps OI 纪录、占全 perp DEX OI 64%、ETF 上市——社区第一多头论据（SpaceX 上市叙事绑定）</td></tr>
+      <tr><td><span class="tag tag-red">解锁抛压争论</span></td><td>白皮书口径每月 9.92M HYPE，但实际 claim 远小：4 月 ~33 万枚；10/6 "纸面 9.9M、实际 3.75M OTC"——解锁日历长期高估真实抛压</td></tr>
+      <tr><td><span class="tag tag-purple">JELLY "validator put" 阴影</span></td><td>validators 2 分钟紧急下架 JELLY、以攻击者开空价 $0.0095 强平——社区至今质疑"交易所可推翻市价"的结算终局性</td></tr>
+      <tr><td><span class="tag tag-amber">HIP-5 被否决</span></td><td>提议从回购基金切一部分补贴 HyperEVM 生态币，<b>被社区压倒性否决</b>——HYPE 价格完全靠 HyperCore 回购支撑、无余力反哺生态</td></tr>
+      <tr><td><span class="tag tag-blue">10-08 销毁投票</span></td><td>Foundation 发起<b>将 Assistance Fund 全部持仓永久销毁</b>正式投票（HIP 编号待确认）</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 五、KOL / 情绪 -->
+  <h2>五、KOL 与市场情绪指标</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <h4>恐惧贪婪指数走势</h4>
+      <div class="big">78 → 59</div>
+      <div class="delta-down">9/22 Extreme Greed → 10/9 Greed（−19）</div>
+      <div class="note">10/7–10/9 三天 71→64→59 加速降温</div>
+    </div>
+    <div class="card">
+      <h4>永续资金费率</h4>
+      <div class="big">+1.00 bps</div>
+      <div class="note">年化 +10.95%（无极端多头拥挤）· HYPE Perp OI $1.67B</div>
+    </div>
+    <div class="card">
+      <h4>24h / 7d 全平台清算</h4>
+      <div class="big">$179.75M</div>
+      <div class="note">7d $369.61M · 鲸鱼多空比 0.87（偏空）</div>
+    </div>
+  </div>
+  <h3>关键价位地图</h3>
+  <table>
+    <thead><tr><th>类型</th><th class="num">价位</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag tag-red">多空分水岭</span></td><td class="num"><b>$87.50</b></td><td>AInvest：收复则重启上行</td></tr>
+      <tr><td><span class="tag tag-green">强支撑</span></td><td class="num">$84–85 / $82–83 / $80.50</td><td>$84–85 为买盘密集区；破 $80.50 看 $75</td></tr>
+      <tr><td><span class="tag tag-red">破位下行目标</span></td><td class="num">$75–76</td><td>CoinCodex / FXEmpire 模型均指向 −17%</td></tr>
+      <tr><td><span class="tag tag-amber">上方阻力</span></td><td class="num">$89.9–91（已破）/ $93.75 / $95</td><td>Bybit TradeGPT：已跌破 $89.9–91 支撑</td></tr>
+      <tr><td><span class="tag tag-blue">心理目标</span></td><td class="num">$100 → $110–116</td><td>整数关 / 通道上沿（Invezz / KryptoNews）</td></tr>
+    </tbody>
+  </table>
+  <h3>KOL / 模型观点（多空并陈）</h3>
+  <table>
+    <thead><tr><th>来源</th><th>立场</th><th>一句话观点 / 目标</th></tr></thead>
+    <tbody>
+      <tr><td>AInvest</td><td><span class="tag tag-amber">中性偏空</span></td><td>$87.50 收复是分水岭；OTC 若机构锁仓则结构性利多</td></tr>
+      <tr><td>CoinCodex</td><td><span class="tag tag-red">看空</span></td><td>预计 10/13 前跌至 $69.71（−17%）</td></tr>
+      <tr><td>Invezz</td><td><span class="tag tag-green">看多</span></td><td>Bloomberg Terminal + $14.6M 回购燃料，目标 $100</td></tr>
+      <tr><td>Bybit TradeGPT</td><td><span class="tag tag-red">看空</span></td><td>解锁+OTC+获利盘致 7 天抛压，关注 $82 能否企稳</td></tr>
+      <tr><td>FXEmpire</td><td><span class="tag tag-red">看空</span></td><td>宽楔形看跌，目标 $75–76（EMA-100）</td></tr>
+      <tr><td>Brave New Coin</td><td><span class="tag tag-green">看多</span></td><td>$92 上方多头结构保持，突破看 $100</td></tr>
+      <tr><td>KryptoNews</td><td><span class="tag tag-green">看多</span></td><td>$10M 销毁 + 供应收缩叙事下看 $110</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 六、生态与机构化 -->
+  <h2>六、生态与机构化落地</h2>
+  <h3>6.1 HyperEVM 原生 dApp Top（DefiLlama API 直拉）</h3>
+  <table>
+    <thead><tr><th>#</th><th>项目</th><th>类别</th><th class="num">TVL</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>Kinetiq kHYPE</b></td><td>Liquid Staking（最大 HYPE LST）</td><td class="num">$946.2M</td></tr>
+      <tr><td>2</td><td><b>HyperLend Pooled</b></td><td>Lending 借贷</td><td class="num">$361.4M</td></tr>
+      <tr><td>3</td><td><b>stHYPE</b></td><td>Liquid Staking</td><td class="num">$193.8M</td></tr>
+      <tr><td>4</td><td>Hyperliquid HLP</td><td>Derivatives 保险基金</td><td class="num">$179.8M</td></tr>
+      <tr><td>5</td><td>Hyperliquid Spot Orderbook</td><td>DEX 现货</td><td class="num">$163.7M</td></tr>
+      <tr><td>6</td><td>Reservoir Protocol</td><td>CDP 稳定币</td><td class="num">$70.1M</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <b>市占：</b>RWA perps OI 2026-06 创纪录 $3B；全市场 RWA perps OI 10 月 $5.78B，<b>Hyperliquid 一家份额约 80%</b>；平台总 perp OI 破 $10B，占全部 perp DEX OI 的 <b>64%</b>；持仓 435,564 个 open positions 创历史新高。
+  </div>
+
+  <h3>6.2 机构化时间线（与原报告"S-1 待批"基线冲突）</h3>
+  <table>
+    <thead><tr><th>事项</th><th>状态</th><th>时间</th></tr></thead>
+    <tbody>
+      <tr><td><b>Bitwise 现货 HYPE ETF（BHYP）</b></td><td><span class="tag tag-green">已上线</span> 含质押奖励，当年最强加密 ETF 首发（占流通盘 1.04%）</td><td>2026-05-14</td></tr>
+      <tr><td><b>Grayscale HYPE 质押 ETF（HYPG）</b></td><td><span class="tag tag-green">已在 Nasdaq 挂牌</span></td><td>2026-06-18</td></tr>
+      <tr><td><b>Coinbase HYPE perp 期货</b></td><td><span class="tag tag-green">已上线交易</span> CFTC 自我认证 #2026-33</td><td>2026-06-08</td></tr>
+      <tr><td>Kraken / Bitnomial 美国合规 HIP-3</td><td><span class="tag tag-amber">待监管批准</span></td><td>2026-09-21</td></tr>
+      <tr><td>Bloomberg Terminal</td><td><span class="tag tag-blue">已上线</span> perp 合约数据可供机构监控</td><td>2026-10-05</td></tr>
+      <tr><td><b>Hyperliquid Strategies（Nasdaq: PURR）</b></td><td><span class="tag tag-purple">上市公司敞口</span> 10/5 再买 1.9M，总持仓逼近 <b>37M HYPE（≈$3.26B）</b>；机构持仓 +122% 至 202 家</td><td>2026-10-05</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 七、对原报告修正 -->
+  <h2>七、对原报告的修正与补充</h2>
+  <table>
+    <thead><tr><th style="width:14%">类型</th><th>原报告说法</th><th>本次一手数据</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="tag tag-red">修正</span></td>
+        <td>机构化进度写"Bitwise/21Shares HYPE ETF S-1 待批"</td>
+        <td><b>ETF 已获批上线：</b>BHYP 2026-05-14、HYPG 2026-06-18 Nasdaq 挂牌、Coinbase perp 期货 2026-06-08 已交易。"待批"判断过时。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">修正</span></td>
+        <td>上市公司代码写 HSTI</td>
+        <td>现交易代码为 <b>PURR</b>（HSTI 为旧代码/笔误）；总持仓逼近 37M HYPE ≈ $3.26B。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-amber">补充</span></td>
+        <td>2025 协议收入 ~$0.9B、run-rate $3–3.5M/天</td>
+        <td>TTM 收入实测 <b>$706.8M，较 2025 峰值回落约 21%</b>；HIP-3 部署者分流 18% 费用，交易量纪录下收入质量恶化。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-amber">补充</span></td>
+        <td>仅给协议总 TVL $7.04B</td>
+        <td>拆分发现 <b>HyperEVM 链 TVL $1.047B、30 天 −28.8%</b>——生态应用层失血，DEX 核心仓位仍稳。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-blue">修正</span></td>
+        <td>引用 GitHub 组织 hyperliquidxyz</td>
+        <td>官方组织是 <b>hyperliquid-dex</b>（hyperliquidxyz 为非官方 0 星 User 账号）。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-amber">补充</span></td>
+        <td>未提 SDK 发版节奏</td>
+        <td>Python SDK 最新 0.24.0（2026-06-04）后 <b>已约 4 个月无新 release</b>。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-purple">补充</span></td>
+        <td>治理时间线未含 HIP-5 / 新销毁投票</td>
+        <td><b>HIP-5 被社区压倒性否决</b>（回购基金不分流补贴生态）；<b>10-08 新投票提议永久销毁 Assistance Fund 全部持仓</b>（编号待确认）。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-blue">补充</span></td>
+        <td>未量化验证者集中度</td>
+        <td>Foundation 自营 5 个验证者合计 207.83M HYPE，<b>占全网质押 47.2%</b>。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">补充</span></td>
+        <td>buyback 机制定性描述</td>
+        <td>当周两笔 BUY HYPE TWAP（~35,000 HYPE / $2.5M）实时在跑；首笔 AQAv2 储备收益 <b>$14.58M USDC</b> 到账。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">补充</span></td>
+        <td>10 月 OTC / 官方动态</td>
+        <td>3.75M HYPE（~$330M）OTC 卖单一机构，10/8 当日 HYPE 跌 4% 至 ~$87；官方 X 号 <b>10 天静默</b>。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-amber">补充</span></td>
+        <td>未提市场情绪拐点</td>
+        <td>恐惧贪婪 78→59 降温；<b>$87.50 多空分水岭</b>，破 $80.50 看 $75。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-blue">补充</span></td>
+        <td>产品路线图</td>
+        <td>Jeff Yan 在 Token2049 放话 <b>Options（期权）是 HyperCore 下一产品组件</b>。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 八、待验证 -->
+  <h2>八、待验证事项（分片遗留缺口，原样列出）</h2>
+  <ul class="muted">
+    <li>r/hyperliquid 订阅数与本周访客数未拿到（about.json 被网络安全拦截）。</li>
+    <li>Reddit 本月 Top5 热门帖精确赞/评论数未拿到（reddlx 镜像仅标题与 crosspost 关系）。</li>
+    <li>Discord 频道原始消息未读取（需登录），治理结论均为间接交叉。</li>
+    <li>2026-10-06 解锁当日具体链上转移哈希/金额未获取成功（搜索受限 + 官方 API 422）。</li>
+    <li>累计 buyback 烧毁 HYPE 最新数未获取成功（未定位 burn 地址）。</li>
+    <li>链上质押 APR 数值未获取成功（前端仅显示佣金费率，API 422）。</li>
+    <li>FDV 当前值未获取成功（DefiLlama fdv 字段为空，原报告 $81.52B）。</li>
+    <li>GitHub 组织级贡献者总数未获取成功（/contributors 返回 404）。</li>
+    <li>User fees 口径拆分未获取成功（DefiLlama 未单独上报 userFees）。</li>
+    <li>2026-10-08 Assistance Fund 销毁投票的具体 HIP 编号待确认；HIP-5 后是否有 HIP-7/HIP-8 未检出。</li>
+    <li>Hyperliquid 专属钓鱼/安全专项社区共识未拿到具体官方 URL。</li>
+    <li>@HyperliquidX 单条推文 status ID 未提取（未登录只读时间线）。</li>
+    <li>资金费率/OI/清算为转述口径（AInvest/DefiLlama 公开页转述，可能与实时值偏差）。</li>
+  </ul>
+
+  <footer>
+    本页为 <code>hype_deep_research_20261009.html</code> 的浏览器一手补充，<b>不改动原报告</b>。
+    所有数字来自 2026-10-09 实时页面/API，未取到项已如实标注"未获取成功"。
+    加密货币波动剧烈，本页<b>不构成投资建议</b>。
+  </footer>
+
+</div>
+</body>
+</html>

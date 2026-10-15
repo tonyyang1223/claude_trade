@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Bittensor (TAO) 深度投研报告 · 2026-10-08</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #121a30;
+    --panel2: #0e1626;
+    --line: #1e2a4a;
+    --text: #e6ecf7;
+    --muted: #8ea0c0;
+    --blue: #4d7cff;
+    --cyan: #35e0e6;
+    --purple: #a978ff;
+    --green: #3ad29f;
+    --red: #ff6b81;
+    --amber: #ffcb6b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: radial-gradient(1200px 600px at 20% -10%, #16224a 0%, var(--bg) 55%);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.65;
+    padding: 32px 20px 60px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  header.hero {
+    background: linear-gradient(135deg, rgba(77,124,255,.18), rgba(169,120,255,.12));
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 28px;
+    margin-bottom: 22px;
+  }
+  .hero h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: .5px; }
+  .hero .sub { color: var(--muted); font-size: 13.5px; }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .metric {
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .metric .k { color: var(--muted); font-size: 12px; }
+  .metric .v { font-size: 20px; font-weight: 600; margin-top: 3px; }
+  .metric .d { font-size: 12px; margin-top: 2px; }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+  .flat { color: var(--amber); }
+  section {
+    background: linear-gradient(135deg, rgba(58,210,159,.05), rgba(53,224,230,.03));
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+  }
+  h2 {
+    margin: 0 0 14px;
+    font-size: 18px;
+    color: var(--cyan);
+    border-left: 3px solid var(--cyan);
+    padding-left: 10px;
+  }
+  h3 { color: var(--purple); font-size: 15px; margin: 16px 0 8px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13.5px;
+  }
+  th, td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+  th { color: var(--muted); font-weight: 600; background: rgba(0,0,0,.18); }
+  tr:hover td { background: rgba(77,124,255,.05); }
+  .scenarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .scenario {
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: var(--panel2);
+  }
+  .scenario.bear { border-top: 3px solid var(--red); }
+  .scenario.base { border-top: 3px solid var(--amber); }
+  .scenario.bull { border-top: 3px solid var(--green); }
+  .scenario .name { font-size: 14px; color: var(--muted); }
+  .scenario .price { font-size: 26px; font-weight: 700; margin: 4px 0; }
+  .scenario .chg { font-size: 13px; margin-bottom: 10px; }
+  .scenario ul { margin: 8px 0 0; padding-left: 18px; font-size: 13px; color: var(--muted); }
+  .scenario ul li { margin-bottom: 4px; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 780px) { .twocol { grid-template-columns: 1fr; } }
+  .box {
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+  }
+  .box.bull { border-left: 3px solid var(--green); }
+  .box.bear { border-left: 3px solid var(--red); }
+  .box h4 { margin: 0 0 8px; font-size: 14px; }
+  .src { font-size: 11.5px; color: #6b7da0; word-break: break-all; }
+  .disc {
+    font-size: 12.5px;
+    color: var(--muted);
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+    margin-top: 10px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    background: rgba(77,124,255,.15);
+    color: var(--blue);
+    margin-right: 4px;
+  }
+  .risk { color: var(--red); }
+  .ok { color: var(--green); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>🔵 Bittensor (TAO) 深度投研报告</h1>
+  <div class="sub">整理时间：2026-10-08 · 数据窗口：2026-10-01 ~ 2026-10-08 · 赛道：Decentralized AI / DeAI 第一梯队</div>
+  <div class="metrics">
+    <div class="metric"><div class="k">当前价格</div><div class="v">$300</div><div class="d flat">区间 $288 – $313</div></div>
+    <div class="metric"><div class="k">市值 MC</div><div class="v">$3.40B</div><div class="d">AI 赛道 Top 3</div></div>
+    <div class="metric"><div class="k">FDV</div><div class="v">$6.40B</div><div class="d up">赛道 FDV 第一</div></div>
+    <div class="metric"><div class="k">流通率</div><div class="v">54.0%</div><div class="d">11.34M / 21M</div></div>
+    <div class="metric"><div class="k">距 ATH</div><div class="v down">−61%</div><div class="d">ATH $776 (2024-04-11)</div></div>
+    <div class="metric"><div class="k">Active Subnets</div><div class="v">89 / 128</div><div class="d">2026-09 v441 数据</div></div>
+  </div>
+</header>
+
+<section>
+  <h2>一、项目一句话定位</h2>
+  <p>
+    Bittensor 是一条基于 Substrate 的去中心化神经网络协议，通过 <b>Yuma 共识 + dTAO AMM</b> 让 128 个 Subnet 以市场竞争方式分配 TAO 奖励——
+    矿工做 ML 计算、validator 评分、subnet 间通过 alpha 币的供需决定 emission 流向。它不直接出租 GPU，而是"协调智能本身"，
+    叙事上对标"开放 AI 对 OpenAI/Anthropic/Google 的结构性对冲"。
+  </p>
+  <p>
+    <span class="tag">Fair launch</span><span class="tag">无 ICO / 无 VC 份额</span><span class="tag">21M 硬顶</span><span class="tag">类 BTC 减半</span><span class="tag">Grayscale GTAO S-1 待批</span>
+  </p>
+</section>
+
+<section>
+  <h2>二、项目历史时间线</h2>
+  <table>
+    <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+    <tbody>
+      <tr><td>2020-03</td><td>arXiv:2003.03917《BitTensor: An Intermodel Intelligence Measure》发布（Steeves &amp; Shaabana）</td><td>技术原点：用同行模型互评 + 数字账本衡量智能</td></tr>
+      <tr><td>2021-01-03</td><td>首个主网 <b>Kusanagi</b> 上线</td><td>无预挖、无 ICO、无 VC、无团队预留</td></tr>
+      <tr><td>2021-11</td><td>Kusanagi 共识故障后从 block 0 重建为 <b>Nakamoto</b>，迁移 546,113 TAO</td><td>NeurIPS 2022 论文称此为"officially launched"</td></tr>
+      <tr><td>2023-03-20</td><td>Nakamoto 分叉为 <b>Finney</b> 链（当前 Subtensor 主网），基于 Substrate/Rust</td><td>引入 delegated staking</td></tr>
+      <tr><td>2023-03</td><td>TAO 首次上 CEX，开盘 ~$91</td><td>公开市场价格发现开始</td></tr>
+      <tr><td>2023-05-14</td><td>ATL $30.25</td><td>历史大底</td></tr>
+      <tr><td>2023-10-02</td><td><b>Subnet 框架激活</b>，首发 8 个 subnet</td><td>从单链挖矿进入多子网竞争时代</td></tr>
+      <tr><td>2024-01-09</td><td>Steeves 发布 BIT001: Dynamic TAO 提案</td><td>提议用 AMM 价格替代 validator 委员会投票</td></tr>
+      <tr><td>2024-04-11</td><td><b>ATH $757–788</b>（各所口径）</td><td>对应 FDV ~$16.3B，MC ~$5B</td></tr>
+      <tr><td>2024-07-02/03</td><td>PyPI 假冒 bittensor 6.12.2 包窃私钥，<span class="risk">~32,000 TAO 被盗（~$8M）</span></td><td>链进入 safe mode；攻击面在开发者工具而非协议层</td></tr>
+      <tr><td>2025-02-13</td><td><b>dTAO 主网激活</b>：每 subnet 发 alpha + AMM，emission 市场化</td><td>7 天后（02-20）Coinbase 上线 TAO</td></tr>
+      <tr><td>2025-09</td><td>Subnet slots 满 128，自动淘汰机制启用</td><td>低 EWMA 价格 + 过保护期的 subnet 被出清</td></tr>
+      <tr><td>2025-11</td><td><b>Taoflow</b>：emission 按净 staking 资金流分配</td><td>持续净流出 subnet 直接拿 0 emission</td></tr>
+      <tr><td>2025-12-11</td><td>Grayscale GTAO Trust 登陆 OTCQX</td><td>AUM $9–12M</td></tr>
+      <tr><td>2025-12-12</td><td><b>首次 TAO halving</b>（block 7,103,976）</td><td>日发行 7,200 → 3,600 TAO，年化通胀降至 6.2%</td></tr>
+      <tr><td>2025-12-30</td><td>Grayscale 向 SEC 递交 S-1，申请 NYSE Arca 上市 GTAO</td><td>截至 2026-10 待批</td></tr>
+      <tr><td>2026-04</td><td><span class="risk">Covenant AI 退出砸盘 ~37,000 TAO（~$10M）</span></td><td>TAO 单日 −18%~−27%；Steeves 中心化争议</td></tr>
+      <tr><td>2026-05</td><td><b>Conviction Upgrade</b>：subnet owner emission timelock 锁定</td><td>回应 Covenant 事件，退出需公开解锁</td></tr>
+      <tr><td>2026-07</td><td>V431/V440/V441 "Root Reborn" 连续升级</td><td>root TAO 质押分成机制；128 slots 满</td></tr>
+      <tr><td>2026-07-13</td><td><span class="risk">SN15 ORO / SN102 ConnitoAI owner 钱包同日被 drain（~$80 万）</span></td><td>密钥管理再次成为短板</td></tr>
+      <tr><td>2026-08</td><td>V445（EVM precompile + multisig + Ledger）/ V446（timelock recovery）</td><td>补安全栈与原生 EVM runtime</td></tr>
+    </tbody>
+  </table>
+  <div class="src">来源：bittensor.com/releases、Khala Research、SEC EDGAR S-3/S-1、SlowMist、Halborn、FinanceFeeds、CoinCodex、TradingView、FalconX</div>
+</section>
+
+<section>
+  <h2>三、最近情况（2025 – 2026-10）</h2>
+  <div class="twocol">
+    <div class="box">
+      <h4 class="ok">网络与生态</h4>
+      <ul>
+        <li>已发行 TAO ≈ <b>11,270,409</b>（占上限 53.7%），Root 网络质押 5.40M（占发行 47.9%）。</li>
+        <li>128 个注册 subnet，89 个 live 且产生 emission；miner UID 约 2,300 个。</li>
+        <li>外部收入开始出现：Targon（Venice AI/Dippy AI）~$10.4M ARR；SCORE 签 PwC/AVIA/Reading FC；Vanta 月度净盈利 $48K；Manifold Labs 完成 $10.5M A 轮。</li>
+        <li>跨链封装：wTAO（Wormhole）、vTAO（staking 封装）、TwTAO（合规版，2025-08 推出）。</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4 class="flat">机构与监管</h4>
+      <ul>
+        <li><b>Grayscale GTAO Trust</b>：2025-12-11 OTCQX 交易，2025-12-30 递交 S-1 申请 NYSE Arca，待批。</li>
+        <li>Polychain 累计 ~$200M 仓位；DCG 2024-11 成立 Yuma 子公司，2025-10 锚定 $10M。</li>
+        <li>Safello STAO ETP 在瑞士 SIX / 斯德哥尔摩 / 巴黎泛欧挂牌。</li>
+        <li>OTF 累计融资 ~$8.5M（最近一轮 2025-08 $8M），员工 ~38 人。</li>
+        <li>SEC 未对 TAO 本体执法；GTAO 上市是反向合规背书。</li>
+      </ul>
+    </div>
+    <div class="box bear">
+      <h4 class="risk">安全与争议</h4>
+      <ul>
+        <li>2026-03 bittensor-wallet v4.0.2 PyPI 后门。</li>
+        <li>2026-07-13 SN15/SN102 owner 钱包 drain，合计 ~$80 万。</li>
+        <li>Covenant AI 公开指责 Steeves 中心化控制，砸盘后退出。</li>
+        <li>中位 subnet 单 coldkey 占 57% 质押（2026-09-18）。</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4 style="color:var(--cyan)">社区叙事</h4>
+      <ul>
+        <li>看多派（Khala、Yellow、Grayscale）："继 BTC、ETH 之后第三大生态"、"AI 时代数字商品"。</li>
+        <li>质疑派（Own Your Mind、canonical.cc）：PoA + sudo key 中心化、inference subnet emission-to-revenue 比 22:1–40:1，补贴悬崖明显。</li>
+        <li>核心讨论：GTAO ETF 何时批、halving 后 alpha 市场能否留资、sudo key 何时交还。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>四、代币经济与解锁</h2>
+  <table>
+    <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+    <tbody>
+      <tr><td>总量上限</td><td><b>21,000,000 TAO</b>（对标 Bitcoin）</td></tr>
+      <tr><td>当前流通</td><td>~11.34M（54%）</td></tr>
+      <tr><td>Halving 节奏</td><td>0–10.5M：1 TAO/block（~7,200/天）→ 10.5M–15.75M：0.5（~3,600/天，<b>当前区间，首次减半 2025-12-12</b>）→ 15.75M 后：0.25（~2029 前后）</td></tr>
+      <tr><td>年释放速度</td><td>3,600 × 365 = <b>1.314M TAO/年</b>，年化通胀 ~6.2%</td></tr>
+      <tr><td>3 年后流通量</td><td>11.34 + 1.314 × 3 = <b>15.28M</b>（流通率 72.8%）</td></tr>
+      <tr><td>分配比例</td><td>每 subnet emission：owner 18% / miner 41% / validator+staker 41%</td></tr>
+      <tr><td>团队/Foundation 预留</td><td><b>无 pre-mine、无 team allocation、无 VC 份额</b>；早期团队 60 万 TAO 是挖矿所得，已 OTC 卖出 ~$10.8M</td></tr>
+      <tr><td>Root 网络质押</td><td>5.40M TAO（占发行 47.9%）</td></tr>
+      <tr><td>协议层收入</td><td><b>不收 gas、不抽成</b>；价值捕获靠 emission 稀缺 + dTAO AMM 买压间接传导</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>五、估值区间（三档情景）</h2>
+  <p style="color:var(--muted); font-size:13.5px;">基准价 $300 · MC $3.4B · FDV $6.4B · 当前处于历史 FDV 区间 36.8% 分位（ATH FDV $16.3B / ATL FDV $0.64B）。</p>
+  <div class="scenarios">
+    <div class="scenario bear">
+      <div class="name">🔻 悲观情景</div>
+      <div class="price">$150 – $200</div>
+      <div class="chg down">较当前 −50% ~ −33% · FDV $3.15B – $4.20B</div>
+      <ul>
+        <li>AI 叙事退潮、BTC 熊市 beta（TAO β≈1.5–2.0）</li>
+        <li>GTAO S-1 再拖 12 个月以上</li>
+        <li>再现一起子网/供应链安全事件</li>
+        <li>市场认清"协议零抽成"硬伤，P-S 杀估值</li>
+        <li>FDV 锚 = ATH FDV 的 19% – 26%</li>
+      </ul>
+    </div>
+    <div class="scenario base">
+      <div class="name">🟡 中性情景</div>
+      <div class="price">$380 – $520</div>
+      <div class="chg up">较当前 +27% ~ +73% · FDV $8.0B – $10.9B</div>
+      <ul>
+        <li>GTAO 6–12 个月内在 NYSE Arca 获批</li>
+        <li>Subnet ARR 两年内从 $12M 增至 $30–40M</li>
+        <li>无重大安全事件，PoA→PoS 无明确时间表但无丑闻</li>
+        <li>机构化溢价系数 1.2x（参照 IBIT 温和版）</li>
+        <li>3 年视角 $450 中枢 × 15.28M = MC $6.88B（CAGR ~26%）</li>
+      </ul>
+    </div>
+    <div class="scenario bull">
+      <div class="name">🟢 乐观情景</div>
+      <div class="price">$750 – $950</div>
+      <div class="chg up">较当前 +150% ~ +217% · FDV $15.8B – $20.0B</div>
+      <ul>
+        <li>GTAO 获批并复制 IBIT 式"批准行情"（1.3–1.5x 溢价）</li>
+        <li>AI 叙事进入下一轮主升</li>
+        <li>Subnet 收入复合到 $100M+ ARR 并出现显性协议费</li>
+        <li>TAO 被机构列为"AI 蓝筹"与 ETH/SOL 并列</li>
+        <li>3 年后站稳 $950 需 MC $14.5B（当前 4.3x），三要素缺一即落回中性上沿</li>
+      </ul>
+    </div>
+  </div>
+  <h3>关键稀释算术</h3>
+  <p style="font-size:13.5px;">
+    3 年流通量 = 11.34M + 3,600 × 365 × 3 / 1e6 = <b>15.28M</b>。
+    若 MC 不动（$3.4B），稀释 alone 把价格压到 <b>$222.5</b>（−26%）；
+    想 3 年后守住 $300，MC 必须扩到 $4.58B（+35%）。
+    FDV 口径与流通量无关（= 价格 × 21M），稀释只压 MC 不压 FDV。
+  </p>
+</section>
+
+<section>
+  <h2>六、竞品对比（AI 叙事赛道）</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>项目</th><th>代币</th><th>价格</th><th>MC</th><th>FDV</th><th>流通率</th><th>距 ATH</th><th>叙事定位</th><th>技术路线 / 价值捕获</th><th>贵贱判断</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:rgba(77,124,255,.08)">
+        <td><b>Bittensor</b></td><td><b>TAO</b></td><td>$300.00</td><td>$3.40B</td><td><b>$6.40B</b></td><td>54.0%</td><td class="down">−61%</td>
+        <td>去中心化 AI 协调层 / 智能市场</td><td>Substrate PoA + Yuma + dTAO AMM，<b>无 gas 抽成</b></td>
+        <td>赛道 FDV 第一、回撤最浅，<span class="flat">最贵一档</span>；溢价靠稀缺叙事 + GTAO 预期</td>
+      </tr>
+      <tr>
+        <td>Fetch.ai / ASI Alliance</td><td>FET</td><td>$0.23</td><td>$0.56B</td><td>$0.67B</td><td>~84%</td><td class="down">−93%</td>
+        <td>Agent 聚合体（FET+AGIX+OCEAN 合并）</td><td>EVM agent 框架</td>
+        <td>FDV 小但叙事被合并稀释，流动性折价</td>
+      </tr>
+      <tr>
+        <td>Render Network</td><td>RENDER</td><td>$1.55</td><td>$1.00B</td><td>$1.00B</td><td>80.5%</td><td class="down">−89%</td>
+        <td>渲染 + GPU 算力</td><td>Solana + <b>BME 销毁模型</b></td>
+        <td class="ok">唯一有直接 buy-burn 收入，FDV/MC=1，估值相对扎实</td>
+      </tr>
+      <tr>
+        <td>Worldcoin</td><td>WLD</td><td>$0.55</td><td>$1.50B</td><td>$5.50B</td><td>38.4%</td><td class="down">−95.3%</td>
+        <td>身份 + 人形扫描</td><td>OP Stack + World ID</td>
+        <td class="risk">FDV/MC=3.67，未来解锁抛压最重，$5.5B FDV 撑不住</td>
+      </tr>
+      <tr>
+        <td>SingularityNET</td><td>AGIX</td><td>—</td><td>~$0.05B</td><td>—</td><td>—</td><td class="down">−95%+</td>
+        <td>AGI 研究（已并入 ASI）</td><td>EVM</td>
+        <td>独立流动性枯竭，仅作历史参照</td>
+      </tr>
+      <tr>
+        <td>Akash Network</td><td>AKT</td><td>$0.77</td><td>$0.23B</td><td>~$0.30B</td><td>76.8%</td><td class="down">−89%</td>
+        <td>去中心化云算力 / GPU 市场</td><td>Cosmos PoS + BME + 部署池税</td>
+        <td class="ok">小市值、有直接部署抽成，单位收入估值最便宜</td>
+      </tr>
+      <tr>
+        <td>io.net</td><td>IO</td><td>$0.16</td><td>$0.07B</td><td>$0.13B</td><td>51.3%</td><td class="down">−97.5%</td>
+        <td>GPU 算力网络</td><td>Solana</td>
+        <td>微盘 + 历史宕机/安全事件，波动极大，仅作尾部对照</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="src">数据：CoinGecko/CoinCodex/CryptoSlate/Bybit/MEXC/Revolut 2026-10-01~08 快照；ATH 回撤各源口径略有差异</div>
+  <p style="font-size:13.5px; margin-top:10px;">
+    <b>关键观察：</b>TAO 是赛道内 FDV 最大（$6.4B）、回撤最浅（−61%）的标的；其余竞品回撤 −89% ~ −97.5%。
+    这意味着 <b>TAO 当前已经在交易"机构化溢价"</b>，GTAO 利好大部分被 price-in；而协议层零抽成、P-S &gt;1,000x 的硬伤并未被估值折让。
+  </p>
+</section>
+
+<section>
+  <h2>七、多空逻辑与风险</h2>
+  <div class="twocol">
+    <div class="box bull">
+      <h4 class="ok">🟢 多头逻辑</h4>
+      <ol>
+        <li><b>稀缺叙事最干净</b>：Fair launch、无 VC 份额、21M 硬顶、类 BTC 减半——机构能讲的"数字商品"故事在 AI 赛道里无对手。</li>
+        <li><b>生产环境跑通</b>：128 subnet / 89 live，Targon/SCORE/Vanta 已跑出 $10M+ 真实 ARR，不是 vaporware。</li>
+        <li><b>机构化管线领先</b>：GTAO S-1 + Polychain $200M + Coinbase 上线，进度领先所有其他 AI 代币。</li>
+      </ol>
+    </div>
+    <div class="box bear">
+      <h4 class="risk">🔴 空头逻辑</h4>
+      <ol>
+        <li><b>价值捕获最弱</b>：协议零抽成、P-S &gt;1,000x，对比 RENDER/AKT 的直接销毁/池税，路径最长最虚。</li>
+        <li><b>去中心化悖论</b>：PoA + sudo key + 中位 subnet 单 coldkey 57% 质押，与"去中心化 AI"叙事自相矛盾。</li>
+        <li><b>溢价已透支</b>：FDV 赛道第一、回撤仅 −61%（同业 −89%~−97.5%），GTAO 延迟或 AI 退潮时杀估值空间大于同业。</li>
+      </ol>
+    </div>
+  </div>
+  <h3>八大风险点</h3>
+  <table>
+    <tbody>
+      <tr><td style="width:30%">1. 中心化与治理</td><td>链仍 PoA + OTF sudo key，PoS 转型无时间表；中位 subnet 单 coldkey 占 57% 质押。</td></tr>
+      <tr><td>2. 安全事件频出</td><td>2024-07 PyPI 假冒包（32,000 TAO）、2026-03 wallet 后门、2026-07 owner 钱包 drain。攻击面在工具层而非协议层，但反复磨损信任。</td></tr>
+      <tr><td>3. 稀释与解锁</td><td>仍有 46% 上限未发行；halving 后每年仍新增 1.31M TAO（年化通胀 6.2%）。</td></tr>
+      <tr><td>4. 监管不确定</td><td>GTAO S-1 审批时点不可控；EU MiCA 对 wTAO/vTAO/TwTAO 封装体的定性是变量。</td></tr>
+      <tr><td>5. 竞争挤压</td><td>Fetch+AGIX+OCEAN 合并后 agent 叙事集中到 ASI；RENDER BME / AKT 部署抽成的价值捕获路径比 TAO 更短更硬。</td></tr>
+      <tr><td>6. 社区裂痕</td><td>2026-04 Covenant AI 退出砸盘 37,000 TAO，Conviction Upgrade 虽加 timelock，但治理信任已受损。</td></tr>
+      <tr><td>7. 补贴悬崖</td><td>inference subnet emission-to-revenue 比 22:1–40:1，halving 后补贴减半，中小 subnet 经济模型可能坍塌。</td></tr>
+      <tr><td>8. 无直接收入</td><td>$3.4B MC 对应可验证协议收入 ≈ $0，P-S 模型无法自洽，估值完全依赖叙事与稀缺性。</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>八、假设与敏感参数</h2>
+  <table>
+    <thead><tr><th>参数</th><th>基准值</th><th>±10% 对目标价的影响</th></tr></thead>
+    <tbody>
+      <tr><td>日 emission（halving 后）</td><td>3,600 TAO/天</td><td>3 年流通量 ±0.14M → MC 口径目标价 ±~1%</td></tr>
+      <tr><td>FDV 目标倍数（vs ATH FDV $16.3B）</td><td>悲观 19–26% / 中性 49–67% / 乐观 97–123%</td><td>线性传导，目标价 ±10%</td></tr>
+      <tr><td>GTAO 上市时点</td><td>6–12 个月</td><td>延迟 &gt;18 月 → 中性下沿向悲观滑落；提前 + IBIT 行情 → 中性上沿向乐观滑落</td></tr>
+      <tr><td>TAO 对 BTC beta</td><td>~1.5–2.0x</td><td>BTC ±20% → TAO ±30–40%，三档区间整体平移</td></tr>
+      <tr><td>机构化溢价系数</td><td>1.2–1.4x</td><td>系数降为 1.0 → 中性中枢下移 ~15%</td></tr>
+      <tr><td>Subnet ARR 兑现节奏</td><td>$12M → 2 年 $30–40M</td><td>兑现慢 1 年 → 乐观情景触发概率显著下降</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>九、主要资料来源</h2>
+  <ul class="src" style="font-size:12px; line-height:1.8;">
+    <li>Bittensor 官方：bittensor.com/releases、bittensor.com/whitepaper、bittensor.com/dtao-whitepaper、docs</li>
+    <li>监管文件：SEC EDGAR S-3（tm2530709d1_s3.htm）、Grayscale GTAO S-1（2025-12-30 递交）</li>
+    <li>数据快照：CoinGecko、CoinCodex、CryptoSlate、Bybit、MEXC、Revolut、Kraken、FirstTensor（2026-10-01~08）</li>
+    <li>研究观点：Khala Research《Bittensor: The Investment History》、Yellow.com 2026 thesis、Own Your Mind、canonical.cc、FalconX Subnet Adoption Report</li>
+    <li>安全事件：SlowMist hacked.db、Halborn post-mortem、TAO Daily</li>
+    <li>升级动态：FinanceFeeds、CryptoNews、bittensor.com v441/v445/v446 release notes</li>
+  </ul>
+  <div class="disc">
+    <b>风险提示与免责声明：</b>本报告基于 2026-10-08 前后公开数据与脚本采集结果整理，所有数字与事件均标注来源，但不保证完全准确（部分 ATH 口径、内部人事件、OTF 注册地等待验证项已在原始素材中列出）。
+    加密货币波动剧烈，存在归零、监管、黑客、智能合约漏洞等多重风险；TAO 当前估值高度依赖"机构化 + 稀缺叙事"，P-S 模型无法自洽。
+    本报告仅为研究框架与信息整理，<b>不构成任何投资建议、要约或邀请</b>，据此操作风险自担。
+  </div>
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VSN (Vision) 深度研究报告 · 2026-10-12</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #6366F1; --accent2: #818CF8;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(99,102,241,0.05); }
+  tr:hover { background: rgba(99,102,241,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(99,102,241,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(129,140,248,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>VSN (Vision) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-12 · 赛道：Web3 / 钱包</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.045</div><div class="snap-sub">ATH $0.225</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$0.15B</div><div class="snap-sub">FDV ~$0.18B</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">Vision Chain</div><div class="snap-value" style="color:var(--green);">2026</div><div class="snap-sub">计划上线</div></div>
+  <div class="snap-item"><div class="snap-label">24h 量</div><div class="snap-value">$1.9M</div><div class="snap-sub">流动性低</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>VSN 是 <strong>Vision 平台的原生代币</strong>，Vision 提供 Web3 钱包、预测市场（Predictions）、Vision Chain（计划 2026 上线）等服务。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">Web3 钱包</span><span class="risk-tag">预测市场</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">Vision Chain 2026</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">收入驱动回购</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2023-2024</td><td>Vision 创立</td><td>Web3 钱包</td></tr>
+    <tr><td>2025-2026</td><td>Predictions 上线</td><td>预测市场功能</td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2026-01-06</strong></td><td><strong>2026 年高点 $0.093</strong></td><td><strong>年内峰值</strong></td></tr>
+    <tr><td>2026</td><td>ATH $0.225</td><td>历史高点</td></tr>
+    <tr><td>2026-10</td><td>价格 ~$0.043</td><td>市值 ~$150M</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-11：Traders Union 市值 $160M，FDV $182M，价格 $0.043，24h 量 $1.9M。</li>
+    <li>2026-10-08：Tangem 显示 VSN/USDT 汇率 ~$0.042。</li>
+    <li>2026-06-25：Vision 博客发布 Q2 社区 Q&A，Vision Chain 仍计划 2026 年上线。</li>
+    <li>2026-04-23：Investing.com 价格 $0.053。</li>
+    <li>收入驱动回购成为下一阶段重点。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前流通</td><td>~3.5B VSN</td></tr>
+    <tr><td>最大供应</td><td>~4.2B VSN</td></tr>
+    <tr><td>流通率</td><td>~83%</td></tr>
+    <tr><td>FDV</td><td>~$0.18B</td></tr>
+    <tr><td>价值捕获</td><td>① 钱包使用；② 预测市场；③ 回购；④ 治理</td></tr>
+    <tr><td>关键</td><td><strong>Vision Chain 2026 上线 + 收入驱动回购</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.02 – $0.03</div><div style="color:var(--muted);font-size:0.9em;">MC $0.07 – $0.11B · 较当前 −53% ~ −30%</div><p style="margin-top:12px;font-size:0.9em;">Vision Chain 延期。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.04 – $0.08</div><div style="color:var(--muted);font-size:0.9em;">MC $0.14 – $0.28B · 较当前 −7% ~ +75%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$0.15 – $0.225</div><div style="color:var(--muted);font-size:0.9em;">MC $0.53 – $0.79B · 较当前 +249% ~ +423%</div><p style="margin-top:12px;font-size:0.9em;">Vision Chain 成功。</p></div>
+</div>
+
+<h2>七、竞品对比（Web3 钱包）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 VSN 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(99,102,241,0.08);"><td><strong>VSN</strong></td><td><strong>~$0.15B</strong></td><td><strong>Web3 钱包</strong></td><td><strong>Vision</strong></td></tr>
+    <tr><td>CRO</td><td>~$2B</td><td>Web3 钱包</td><td>Crypto.com</td></tr>
+    <tr><td>TWT</td><td>~$0.3B</td><td>Web3 钱包</td><td>Trust Wallet</td></tr>
+    <tr><td>WLD</td><td>~$5B</td><td>Web3 身份</td><td>Worldcoin</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">VSN 的差异化：预测市场 + Vision Chain（计划 2026）。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>Vision Chain 2026 上线</strong>——催化剂</li>
+    <li><strong>收入驱动回购</strong>——通缩机制</li>
+    <li><strong>Predictions 已上线</strong>——实际产品</li>
+    <li><strong>流通率 83%</strong>——无大幅解锁风险</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>从 ATH 跌 81%</strong>——深度下跌</li>
+    <li><strong>24h 量仅 $1.9M</strong>——流动性低</li>
+    <li><strong>市值 ~$0.15B</strong>——小盘股</li>
+    <li><strong>Vision Chain 延期风险</strong>——多次推迟</li>
+    <li><strong>CRO/TWT 竞争</strong>——头部钱包</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>Vision Chain 延期</strong></td><td><strong>多次推迟，上线时间不确定</strong></td></tr>
+    <tr><td><strong>流动性风险</strong></td><td>24h 量仅 $1.9M</td></tr>
+    <tr><td><strong>竞争</strong></td><td>CRO/TWT 等头部钱包</td></tr>
+    <tr><td><strong>小盘股</strong></td><td>市值仅 $0.15B</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>VSN 是 Vision Web3 钱包/预测市场平台的原生代币，市值 ~$0.15B。Vision Chain 2026 + 收入回购是多头逻辑，<strong>从 ATH 跌 81% + 流动性低 + Chain 延期风险</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：VSN 是 Vision 平台代币，提供 Web3 钱包和预测市场服务。Vision Chain 计划 2026 上线，是核心催化剂。收入驱动回购是通缩机制。流通率 83%，无大幅解锁风险。但从 ATH $0.225 跌 81% 至 $0.045。24h 量仅 $1.9M，流动性低。面临 CRO/TWT 等头部钱包竞争。上行空间取决于 Vision Chain 能否成功上线。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

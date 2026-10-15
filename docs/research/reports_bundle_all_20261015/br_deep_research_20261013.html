@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BR (Bedrock) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #8B5CF6; --accent2: #A78BFA;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(139,92,246,0.05); }
+  tr:hover { background: rgba(139,92,246,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(139,92,246,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(167,139,250,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>BR (Bedrock) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：DeFi / 去中心化金融</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.50</div><div class="snap-sub">ATH $1.35</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$0.15B</div><div class="snap-sub">FDV ~$0.15B</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">流通率</div><div class="snap-value" style="color:var(--red);">31%</div><div class="snap-sub">大量待解锁</div></div>
+  <div class="snap-item"><div class="snap-label">TVL</div><div class="snap-value">$386M</div><div class="snap-sub">实际 DeFi 业务</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>BR 是 <strong>Bedrock DeFi 平台的原生代币</strong>，BEP-20 代币，TVL ~$386M。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">DeFi</span><span class="risk-tag">BEP-20</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">TVL $386M</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">流通率仅31%</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2025-2026</td><td>Bedrock DeFi 创立</td><td>DeFi 平台</td></tr>
+    <tr><td>2026</td><td>BR 代币发行</td><td>BEP-20</td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2026-09-20</strong></td><td><strong>ATH $1.35</strong></td><td><strong>峰值</strong></td></tr>
+    <tr><td>2026-09-20</td><td>解锁 48.44M BR</td><td>4.8% 最大供应</td></tr>
+    <tr><td>2026-10</td><td>价格 ~$0.50</td><td>从 ATH 跌 63%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-12：CoinGlass 价格 ~$0.50，24h 跌 13.26%，7 天跌 28.75%，流通 301.7M。</li>
+    <li>2026-10-12：MEXC 市值 $142M，总供应 1B。</li>
+    <li>2026-10-10：Decrypt TVL $386M，MC/TVL 比 0.36。</li>
+    <li>2026-10-10：JustScreener 24h 量 $39.3M，FDV $146M，流通 297M。</li>
+    <li>2026-09-20：ATH $1.35，解锁 48.44M BR（$24M）。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>当前流通</strong></td><td><strong>~301M BR（31%）</strong></td></tr>
+    <tr><td>最大供应</td><td>1B BR</td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>流通率</strong></td><td><strong>31%（低）</strong></td></tr>
+    <tr><td>FDV</td><td>~$0.15B</td></tr>
+    <tr><td>最近解锁</td><td>2026-09-20 解锁 48.44M BR</td></tr>
+    <tr><td>TVL</td><td>~$386M</td></tr>
+    <tr><td>价值捕获</td><td>① 治理；② 费用折扣；③ 质押</td></tr>
+    <tr><td>关键</td><td><strong>流通率仅 31%，大量代币待解锁</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.20 – $0.35</div><div style="color:var(--muted);font-size:0.9em;">MC $0.06 – $0.11B · 较当前 −60% ~ −30%</div><p style="margin-top:12px;font-size:0.9em;">DeFi 熊市。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.45 – $0.80</div><div style="color:var(--muted);font-size:0.9em;">MC $0.14 – $0.24B · 较当前 −10% ~ +57%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$1.00 – $1.35</div><div style="color:var(--muted);font-size:0.9em;">MC $0.30 – $0.41B · 较当前 +100% ~ +170%</div><p style="margin-top:12px;font-size:0.9em;">回归 ATH。</p></div>
+</div>
+
+<h2>七、竞品对比（DeFi）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 BR 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(139,92,246,0.08);"><td><strong>BR</strong></td><td><strong>~$0.15B</strong></td><td><strong>DeFi</strong></td><td><strong>Bedrock</strong></td></tr>
+    <tr><td>UNI</td><td>~$5B</td><td>DEX</td><td>Uniswap</td></tr>
+    <tr><td>AAVE</td><td>~$3B</td><td>借贷</td><td>Aave</td></tr>
+    <tr><td>LDO</td><td>~$2B</td><td>质押</td><td>Lido</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">BR 的差异化：BEP-20 DeFi，TVL $386M。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>TVL $386M</strong>——实际 DeFi 业务</li>
+    <li><strong>24h 量 $3.5-39M</strong>——流动性尚可</li>
+    <li><strong>MC/TVL 比 0.36</strong>——估值合理</li>
+    <li><strong>ATH $1.35</strong>——历史高点空间</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>流通率仅 31%</strong>——大量代币待解锁</li>
+    <li><strong>从 ATH 跌 63%</strong>——深度下跌</li>
+    <li><strong>7 天跌 29%</strong>——近期暴跌</li>
+    <li><strong>UNI/AAVE/LDO 竞争</strong>——头部 DeFi 碾压</li>
+    <li><strong>BEP-20</strong>——BSC 生态，非主流 DeFi</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>解锁风险</strong></td><td><strong>流通率仅 31%，大量待解锁</strong></td></tr>
+    <tr><td><strong>近期暴跌</strong></td><td>7 天跌 29%，24h 跌 13%</td></tr>
+    <tr><td><strong>DeFi 竞争</strong></td><td>UNI/AAVE 等头部碾压</td></tr>
+    <tr><td><strong>BSC 生态</strong></td><td>非主流 DeFi 链</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>BR 是 Bedrock DeFi 平台代币，TVL $386M，市值 ~$0.15B。TVL 实际业务 + MC/TVL 比 0.36 是多头逻辑，<strong>流通率仅 31% + 近期暴跌 29% + 头部 DeFi 碾压</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：BR 是 Bedrock DeFi 平台的 BEP-20 代币，TVL $386M，MC/TVL 比仅 0.36，估值相对合理。但流通率仅 31%，大量代币待解锁，2026-09-20 刚解锁 48.44M BR。从 ATH $1.35 跌 63% 至 $0.50，近 7 天暴跌 29%。面临 UNI/AAVE/LDO 等头部 DeFi 的碾压式竞争。BSC 生态非主流 DeFi 链。上行空间取决于 DeFi 市场回暖及解锁压力释放。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

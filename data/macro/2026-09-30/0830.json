@@ -1,0 +1,119 @@
+{
+ "fetched_at": "2026-09-30T08:30:09+08:00",
+ "snapshot_file": "2026-09-30/0830.json",
+ "duration_s": 10.4,
+ "sources_used": [
+  "coingecko/global",
+  "defillama/tvl"
+ ],
+ "global": {
+  "total_market_cap": 2865535198566.372,
+  "total_volume": 117249438467.57263,
+  "market_cap_change_percentage_24h": -3.0323518531293265,
+  "btc_dominance": 58.39197588442201,
+  "eth_dominance": 11.348214623048648,
+  "market_cap_percentage": {
+   "btc": 58.39197588442201,
+   "eth": 11.348214623048648,
+   "usdt": 6.402389281084779,
+   "bnb": 3.511543104518575,
+   "xrp": 3.2681255843984203,
+   "usdc": 2.5919683371244537,
+   "sol": 2.428721288492673,
+   "trx": 1.105301663646634,
+   "steth": 0.9137221912787797,
+   "zec": 0.8372991960374476
+  },
+  "active_cryptocurrencies": 21702,
+  "markets": 1503
+ },
+ "breadth": {
+  "sample": 0,
+  "up_24h": 0,
+  "down_24h": 0,
+  "up_pct_24h": 0.0,
+  "up_1h": 0,
+  "up_pct_1h": 0.0
+ },
+ "regime": {
+  "label": "🔴 Risk-Off",
+  "score": -2,
+  "votes": [
+   "市值24h -3.03% → 偏空",
+   "宽度 0.0% 上涨 → 偏空"
+  ]
+ },
+ "fear_greed": null,
+ "watchlist": [],
+ "anomalies": [],
+ "chain_tvl": {
+  "Ethereum": {
+   "chain": "Ethereum",
+   "tvl": 53405384381.589645,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-30T08:30:17.079642"
+  },
+  "Solana": {
+   "chain": "Solana",
+   "tvl": 6522202521.276833,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-30T08:30:17.799454"
+  },
+  "BSC": {
+   "chain": "BSC",
+   "tvl": 5661274625.483705,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-30T08:30:18.266913"
+  },
+  "Arbitrum": {
+   "chain": "Arbitrum",
+   "tvl": 1433784643.6822298,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-30T08:30:18.976690"
+  },
+  "Base": {
+   "chain": "Base",
+   "tvl": 6255622005.893461,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-30T08:30:19.440328"
+  },
+  "Avalanche": {
+   "chain": "Avalanche",
+   "tvl": 641516429.1256752,
+   "tvl_change_24h": 0,
+   "tvl_change_7d": 0,
+   "protocols_count": 0,
+   "confidence": 0.9,
+   "timestamp": "2026-09-30T08:30:19.905857"
+  }
+ },
+ "diff_prev": {
+  "since": "2026-09-27T22:01:26+08:00",
+  "rows": [],
+  "tracked": 0
+ },
+ "thresholds": {
+  "h1_pct": 3.0,
+  "h24_pct": 10.0,
+  "turnover_x": 0.15
+ },
+ "errors": [
+  "coingecko/markets: HTTPError: 403 Client Error: Forbidden for url: https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d",
+  "coingecko/watchlist: HTTPError: 403 Client Error: Forbidden for url: https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Csolana%2Cbinancecoin%2Cripple%2Cdogecoin%2Ccardano%2Cavalanche-2%2Ctron%2Cchainlink%2Cpolkadot%2Clitecoin%2Cuniswap%2Caave&order=market_cap_desc&sparkline=false&price_change_percentage=1h%2C24h%2C7d"
+ ]
+}

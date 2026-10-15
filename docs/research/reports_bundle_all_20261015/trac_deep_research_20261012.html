@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRAC (OriginTrail) 深度研究报告 · 2026-10-12</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #3B82F6; --accent2: #60A5FA;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(59,130,246,0.05); }
+  tr:hover { background: rgba(59,130,246,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(59,130,246,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(96,165,250,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>TRAC (OriginTrail) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-12 · 赛道：去中心化知识图谱 / 可信 AI</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.40 – $0.42</div><div class="snap-sub">从 ATH $3+ 跌 87%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$0.19B</div><div class="snap-sub">DKG / 可信 AI</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">流通率</div><div class="snap-value" style="color:var(--green);">89.4%</div><div class="snap-sub">解锁压力小</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">非通胀</div><div class="snap-value" style="color:var(--green);">是</div><div class="snap-sub">无通胀压力</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>TRAC 是 <strong>OriginTrail 的原生代币</strong>，OriginTrail 是一个去中心化知识图谱（Decentralized Knowledge Graph, DKG），为可信 AI 和供应链溯源提供基础设施。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">DKG</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">可信 AI</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">非通胀</span><span class="risk-tag">89% 流通</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2017-2018</td><td>OriginTrail 创立</td><td>供应链溯源</td></tr>
+    <tr style="background:rgba(241,196,15,0.1);"><td>2021</td><td><strong>ATH ~$3+</strong></td><td><strong>牛市顶峰</strong></td></tr>
+    <tr><td>2022-2025</td><td>熊市调整</td><td>持续下跌</td></tr>
+    <tr><td>2025-2026</td><td>转向可信 AI</td><td>新叙事</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>2026-10-02</strong></td><td><strong>持有者数达 27,060 ATH</strong></td><td><strong>社区增长</strong></td></tr>
+    <tr><td>2026-10</td><td>价格 ~$0.40</td><td>低位震荡</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li><strong>2026-10-02：CryptoPulseDaily 报道 OriginTrail 持有者数达 27,060 ATH</strong>，新投资者入场。</li>
+    <li>2026-10-12：jb51 报价 $0.419，市值 $153M。</li>
+    <li>2026-10-11：MetaMask 报价 $0.42，市值 $186M，24h 量 $4.5M。</li>
+    <li>2026-10-10：Weiss Ratings 报价 $0.424，市值 $190M，24h 量 $6.5M。</li>
+    <li>2026-10-09：MetaMask 报价 $0.40，市值 $181M。</li>
+    <li>2026-10-06：Kraken 报价 $0.40，流通 447M。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前流通</td><td>~447M TRAC（~89.4%）</td></tr>
+    <tr><td>最大供应</td><td>500.0M TRAC</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>通胀</strong></td><td><strong>非通胀代币</strong></td></tr>
+    <tr><td>锁定效用</td><td>~20% TRAC 锁定用于效用</td></tr>
+    <tr><td>价值捕获</td><td>① DKG 知识交换；② 可信 AI；③ 供应链溯源</td></tr>
+    <tr><td>关键</td><td><strong>非通胀 + 89% 流通，解锁压力小</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.15 – $0.25</div><div style="color:var(--muted);font-size:0.9em;">MC $0.07 – $0.11B · FDV $0.08 – $0.13B · 较当前 −63% ~ −38%</div><p style="margin-top:12px;font-size:0.9em;">可信 AI 叙事退潮。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.35 – $0.70</div><div style="color:var(--muted);font-size:0.9em;">MC $0.16 – $0.31B · FDV $0.18 – $0.35B · 较当前 −12% ~ +67%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$1.50 – $3.00</div><div style="color:var(--muted);font-size:0.9em;">MC $0.67 – $1.34B · FDV $0.75 – $1.50B · 较当前 +275% ~ +614%</div><p style="margin-top:12px;font-size:0.9em;">可信 AI 成为主流。</p></div>
+</div>
+
+<h2>七、竞品对比（知识图谱 / 可信 AI）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 TRAC 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(59,130,246,0.08);"><td><strong>TRAC</strong></td><td><strong>~$0.19B</strong></td><td><strong>DKG / 可信 AI</strong></td><td><strong>OriginTrail</strong></td></tr>
+    <tr><td>GRT</td><td>~$1.5B</td><td>索引协议</td><td>The Graph</td></tr>
+    <tr><td>AR</td><td>~$1B</td><td>去中心化存储</td><td>Arweave</td></tr>
+    <tr><td>FIL</td><td>~$3B</td><td>存储</td><td>Filecoin</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">TRAC 的差异化：去中心化知识图谱，可信 AI 基础设施，非通胀代币。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>非通胀代币</strong>——无通胀压力</li>
+    <li><strong>89% 流通</strong>——解锁压力小</li>
+    <li><strong>可信 AI 叙事</strong>——AI 赛道热门</li>
+    <li><strong>持有者数 ATH</strong>——社区增长</li>
+    <li><strong>20% 锁定效用</strong>——真实使用需求</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>从 ATH $3+ 跌 87%</strong>——深度回调</li>
+    <li><strong>52 周范围 $0.25-$0.84</strong>——波动大</li>
+    <li><strong>DKG 赛道小众</strong>——采用不确定</li>
+    <li><strong>GRT/AR 竞争</strong>——基础设施赛道竞争激烈</li>
+    <li><strong>24h 量仅 $4-6M</strong>——流动性偏低</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>可信 AI 退潮</strong></td><td><strong>叙事驱动，采用不确定</strong></td></tr>
+    <tr><td><strong>竞争</strong></td><td>GRT/AR 等基础设施</td></tr>
+    <tr><td><strong>流动性风险</strong></td><td>24h 量仅 $4-6M</td></tr>
+    <tr><td><strong>早期项目</strong></td><td>未经完整 AI 周期验证</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>TRAC 是 OriginTrail 的原生代币，市值 ~$0.19B。非通胀 + 89% 流通 + 可信 AI 叙事是多头逻辑，<strong>DKG 赛道小众 + 流动性偏低</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：TRAC 是有潜力的可信 AI 基础设施代币。作为去中心化知识图谱（DKG）项目，非通胀代币，89% 流通意味着解锁压力小。~20% 代币锁定用于效用，体现真实使用需求。持有者数达 27,060 ATH，社区持续增长。可信 AI 赛道叙事热门。但 DKG 赛道小众，采用不确定。面临 GRT/AR 等基础设施项目竞争。24h 量仅 $4-6M，流动性偏低。从 ATH $3+ 跌 87%。上行空间取决于可信 AI 能否成为主流需求。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

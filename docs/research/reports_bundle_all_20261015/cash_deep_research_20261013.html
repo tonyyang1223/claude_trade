@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASH (Opus CASH) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #4A90D9; --accent2: #7AB3F0;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(74,144,217,0.05); }
+  tr:hover { background: rgba(74,144,217,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(74,144,217,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(74,144,217,0.1), rgba(122,179,240,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>CASH (Opus CASH) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：美元稳定币</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.996-1.00</div><div class="snap-sub">锚定美元</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value" style="font-size:1.1em;">~$19K-$122K</div><div class="snap-sub" style="color:var(--red);">极小</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">24h 量</div><div class="snap-value" style="color:var(--red);font-size:1.1em;">~$12-$2K</div><div class="snap-sub" style="color:var(--red);">流动性极低</div></div>
+  <div class="snap-item"><div class="snap-label">类型</div><div class="snap-value" style="font-size:1.1em;">美元稳定币</div><div class="snap-sub">同名项目多</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>CASH（Opus CASH）是 <strong>小型美元稳定币</strong>，价格锚定 1 美元，市值极小，流动性极低。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">美元稳定币</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">市值极小</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">流动性极低</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">同名项目多</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>项目早期</td><td>Opus CASH 创立</td><td>小型稳定币</td></tr>
+    <tr><td>2026-10</td><td>价格 ~$0.996</td><td>当前</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-12：Tangem 价格 $0.9962（Opus CASH）。</li>
+    <li>2026-10-12：CoinLore 1 CASH = 1.00 USD。</li>
+    <li>2026-10-10：Weiss Ratings 价格 $0.042，市值 $19,579，流通 794M，24h 量 $12。</li>
+    <li>2026-07-28：MEXC 价格 $0.9996，市值 $122,134。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前流通</td><td>~794M CASH（Weiss）</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>价格锚定</strong></td><td><strong>1 CASH ≈ 1 USD</strong></td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>市值</strong></td><td><strong>~$19K – $122K（极小）</strong></td></tr>
+    <tr><td>价值捕获</td><td>支付结算，非投机</td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>关键</strong></td><td><strong>市值极小，流动性极低，同名项目多</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.50 – $0.80</div><div style="color:var(--muted);font-size:0.9em;">MC $400K – $640K · 较当前 −50% ~ −20%</div><p style="margin-top:12px;font-size:0.9em;">脱锚。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.95 – $1.00</div><div style="color:var(--muted);font-size:0.9em;">MC $0.75M – $0.80M · 较当前 −5% ~ 0%</div><p style="margin-top:12px;font-size:0.9em;">维持锚定。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$1.00 – $1.10</div><div style="color:var(--muted);font-size:0.9em;">MC $0.80M – $0.87M · 较当前 0% ~ +10%</div><p style="margin-top:12px;font-size:0.9em;">完全锚定。</p></div>
+</div>
+
+<h2>七、竞品对比（美元稳定币）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 CASH 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(74,144,217,0.08);"><td><strong>CASH</strong></td><td><strong>~$19K-$122K</strong></td><td><strong>美元稳定币（小型）</strong></td><td><strong>Opus CASH</strong></td></tr>
+    <tr><td>USDT</td><td>~$150B</td><td>美元稳定币</td><td>Tether</td></tr>
+    <tr><td>USDC</td><td>~$50B</td><td>美元稳定币</td><td>Circle</td></tr>
+    <tr><td>DAI</td><td>~$5B</td><td>美元去中心化稳定币</td><td>MakerDAO</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">CASH 的差异化：极小市值稳定币。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>锚定美元</strong>——价格稳定</li>
+    <li><strong>小型稳定币</strong>——niche 市场</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>市值极小</strong>——$19K-$122K</li>
+    <li><strong>流动性极低</strong>——24h 量 $12-$2K</li>
+    <li><strong>同名项目多</strong>——数据混乱</li>
+    <li><strong>USDT/USDC 碾压</strong>——绝对主导</li>
+    <li><strong>脱锚风险</strong>——小稳定币易脱锚</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>脱锚风险</strong></td><td><strong>小稳定币易脱锚</strong></td></tr>
+    <tr><td><strong>流动性风险</strong></td><td>24h 量极低</td></tr>
+    <tr><td><strong>同名混乱</strong></td><td>多个同名 CASH</td></tr>
+    <tr><td><strong>退市风险</strong></td><td>市值极小，可能退市</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>CASH (Opus CASH) 是极小市值美元稳定币，市值仅 $19K-$122K。锚定美元是唯一亮点，<strong>市值极小 + 流动性极低 + 同名混乱 + 脱锚风险</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：CASH（Opus CASH）是小型美元稳定币，价格锚定 1 美元。但市值极小（$19K-$122K），24h 量仅 $12-$2K，流动性极低。同名项目多（Weiss 的 $0.042 vs Tangem 的 $0.996 vs MEXC 的 $0.9996），数据混乱。面临 USDT（$150B）、USDC（$50B）绝对碾压。小稳定币易脱锚，退市风险高。不建议参与。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；CASH 为极小市值稳定币，流动性极低，风险极高，据此操作风险自担。
+</div>
+</body>
+</html>

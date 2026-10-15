@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STRCX (Strategy PP Variable xStock) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #6366F1; --accent2: #818CF8;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(99,102,241,0.05); }
+  tr:hover { background: rgba(99,102,241,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(99,102,241,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(129,140,248,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>STRCX (Strategy PP Variable xStock) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：RWA / 代币化股票</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$84-100</div><div class="snap-sub">比面值低 ~16%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$0.15B</div><div class="snap-sub">全球最大代币化股票</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">24h 量</div><div class="snap-value" style="color:var(--red);">$154K</div><div class="snap-sub">流动性低</div></div>
+  <div class="snap-item"><div class="snap-label">流通率</div><div class="snap-value">51%</div><div class="snap-sub">1.47M / 2.88M</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>STRCX 是 <strong>Strategy Inc.（原 MicroStrategy）Series A 可变利率永久优先股的代币化版本</strong>，由 Backed Assets 发行在链上，是全球最大的代币化股票。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">RWA</span><span class="risk-tag">代币化股票</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">Strategy/MSTR</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">流动性低</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2025-07</td><td>Strategy 发行 Series A 优先股</td><td>Nasdaq</td></tr>
+    <tr><td>2025-2026</td><td>Backed Assets 代币化发行</td><td>xStocks 平台</td></tr>
+    <tr><td>2026-07</td><td>STRCX 发行</td><td>初始 $90/股</td></tr>
+    <tr><td>2026-09</td><td>STRC 交易 ~$84</td><td>比面值低 16%</td></tr>
+    <tr style="background:rgba(46,204,113,0.1);"><td><strong>2026-10-08</strong></td><td><strong>AUM 达 $158.6M</strong></td><td><strong>全球最大代币化股票</strong></td></tr>
+    <tr><td>2026-10</td><td>市值 ~$146M</td><td>24h 量 ~$154K</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-09：CoinPost 报道 STRCx 保持全球最大代币化股票地位，AUM 约 $158.6M。</li>
+    <li>2026-10-12：CryptoNews 市值 $146M，流通 1.47M，总供应 2.88M，24h 量 $154K。</li>
+    <li>2026-09-23：APYX 博客讨论 STRC 交易 ~$84（比面值低 16%），Strategy 被低估。</li>
+    <li>2026-07-08：STRCX 发布 STRD Preferred 解释，非托管收益路由器支持 Apyx/Saturn/Pendle/Morpho/Spreads。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前流通</td><td>~1.47M STRCX</td></tr>
+    <tr><td>总供应</td><td>~2.88M STRCX</td></tr>
+    <tr style="background:rgba(241,196,15,0.08);"><td><strong>流通率</strong></td><td><strong>~51%</strong></td></tr>
+    <tr><td>底层资产</td><td>Strategy Inc. Series A 可变利率永久优先股</td></tr>
+    <tr><td>发行方</td><td>Backed Assets (JE) Limited</td></tr>
+    <tr><td>ISIN</td><td>CH1500008482</td></tr>
+    <tr><td>价值捕获</td><td>① 优先股股息；② 非托管收益路由器；③ 链上可转让</td></tr>
+    <tr><td>关键</td><td><strong>全球最大代币化股票，底层为 Strategy 优先股</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$50 – $70</div><div style="color:var(--muted);font-size:0.9em;">MC $0.07 – $0.10B · 较当前 −41% ~ −17%</div><p style="margin-top:12px;font-size:0.9em;">比特币熊市。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$80 – $110</div><div style="color:var(--muted);font-size:0.9em;">MC $0.12 – $0.16B · 较当前 −5% ~ +29%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$120 – $200</div><div style="color:var(--muted);font-size:0.9em;">MC $0.18 – $0.29B · 较当前 +43% ~ +139%</div><p style="margin-top:12px;font-size:0.9em;">比特币牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（RWA 代币化股票）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 STRCX 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(99,102,241,0.08);"><td><strong>STRCX</strong></td><td><strong>~$0.15B</strong></td><td><strong>代币化优先股</strong></td><td><strong>Strategy/MSTR</strong></td></tr>
+    <tr><td>MSTRx</td><td>~$0.05B</td><td>代币化普通股</td><td>Strategy/MSTR</td></tr>
+    <tr><td>BUIDL</td><td>~$1B</td><td>美债基金</td><td>BlackRock</td></tr>
+    <tr><td>USDS</td><td>~$5B</td><td>美债基金</td><td>Sky</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">STRCX 的差异化：全球最大代币化股票，底层为 Strategy（比特币国库）优先股。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>全球最大代币化股票</strong>——RWA 赛道头部</li>
+    <li><strong>底层为 Strategy</strong>——比特币国库概念股</li>
+    <li><strong>非托管收益路由器</strong>——支持 Apyx/Pendle/Morpho</li>
+    <li><strong>链上可转让</strong>——24/7 交易</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>24h 量仅 $154K</strong>——流动性低</li>
+    <li><strong>价格比面值低 16%</strong>——折价交易</li>
+    <li><strong>流通率仅 51%</strong>——还有大量待解锁</li>
+    <li><strong>比特币波动传导</strong>——底层与比特币高度相关</li>
+    <li><strong>KYC 限制</strong>——代币化股票通常仅限合格投资者</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>流动性风险</strong></td><td><strong>24h 量仅 $154K</strong></td></tr>
+    <tr><td><strong>比特币关联风险</strong></td><td>底层与 Strategy/比特币高度相关</td></tr>
+    <tr><td><strong>解锁风险</strong></td><td>流通率仅 51%</td></tr>
+    <tr><td><strong>RWA 监管风险</strong></td><td>代币化股票监管不确定</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>STRCX 是全球最大代币化股票，底层为 Strategy（原 MicroStrategy）比特币国库优先股，市值 ~$0.15B。RWA 赛道头部 + 非托管收益路由器是多头逻辑，<strong>24h 量 $154K + 折价交易 + 流通率仅 51%</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：STRCX 是 Backed Assets 发行的 Strategy Inc. Series A 永久优先股代币化版本，AUM $158.6M，是全球最大代币化股票。非托管收益路由器支持 Apyx/Pendle/Morpho/Spreads。但 24h 量仅 $154K，流动性低。价格比面值低 16%。流通率仅 51%，还有大量待解锁。底层与 Strategy/比特币高度相关，比特币熊市时风险大。适合追求 RWA 敞口的合格投资者。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

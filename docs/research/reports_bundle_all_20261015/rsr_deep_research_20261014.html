@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RSR (Reserve Rights) 深度研究报告 · 2026-10-14</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #7C4DFF; --accent2: #B388FF;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(124,77,255,0.05); }
+  tr:hover { background: rgba(124,77,255,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(124,77,255,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .danger-tag { display: inline-block; background: rgba(231,76,60,0.2); color: var(--red); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; font-weight: 700; }
+  .conclusion { background: linear-gradient(135deg, rgba(124,77,255,0.1), rgba(179,136,255,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>RSR (Reserve Rights)</h1>
+<div class="subtitle">整理时间：2026-10-14 · 赛道：RWA 稳定币协议（eUSD）</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.002</div><div class="snap-sub" style="color:var(--red);">较 ATH $0.105 −98%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$120M</div><div class="snap-sub">FDV ~$190M</div></div>
+  <div class="snap-item"><div class="snap-label">流通 / 最大</div><div class="snap-value" style="font-size:1.1em;">62.6B / 100B</div><div class="snap-sub">流通率 62.5%</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">Q2 毛收入</div><div class="snap-value" style="color:var(--red);font-size:1.1em;">$149.5K</div><div class="snap-sub">⚠️ 极小</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>Reserve Rights (RSR) 是 <strong>Reserve Protocol 的治理与质押代币</strong>，该协议发行超额抵押稳定币 eUSD（由 RWA 收益资产篮子支撑）。价格 ~$0.002，流通 62.55B / 最大 100B（62.5% 流通）。<strong>关键矛盾：协议真实增长（fintech 余额 $14M），但 Q2 总收入仅 $149.5K，RSR 销毁量小（月 9.5M），代币价值捕获极弱。</strong></p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">RWA 稳定币</span><span class="risk-tag">eUSD</span><span class="danger-tag">Q2 收入 $149.5K</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2019-2020</td><td>Reserve 创立（Nevin Freeman 等）</td><td>去中心化稳定币</td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2021-04</strong></td><td><strong>牛市高点 $0.1053</strong></td><td><strong>历史 ATH</strong></td></tr>
+    <tr><td>2022-2023</td><td>RVUSD 机制迭代</td><td>超额抵押稳定币</td></tr>
+    <tr><td>2024-2025</td><td>eUSD 推出，fintech 合作</td><td>商业化</td></tr>
+    <tr style="background:rgba(46,204,113,0.1);"><td><strong>2026-03</strong></td><td><strong>收入分成从 100/0 改为 90/10</strong></td><td><strong>RSR 质押者获 10%</strong></td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2026-06/07</strong></td><td><strong>ATL $0.00094</strong></td><td><strong>触底</strong></td></tr>
+    <tr><td>2026-08</td><td>RSR 解锁里程碑提案（Nevin）</td><td>治理</td></tr>
+    <tr style="background:rgba(46,204,113,0.1);"><td><strong>2026-09</strong></td><td><strong>eUSD Q3 报告：RSR backing 18%→23%</strong></td><td><strong>改善</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-09-29：eUSD Q3 2026 季度报告：Curve Mainnet −57.6%，Curve Base +15%，Aerodrome Base +58.3%；篮子收益率 3.32%→3.91%；<strong>RSR backing 从 18% 升至 23%</strong>；stRSR 收益率从 8.1% 降至 6.0%。</li>
+    <li>2026-08-26：Reserve State of Things：RSR 价格 $0.001462，市值 $91.35M，14 天涨 23.65%。</li>
+    <li>2026-08-24：Q2 2026 报告：总市值 $46.7M（−63% QoQ），毛收入 $149.5K（−49%），净收入 −$154.1K，NARR −$1.6M。</li>
+    <li>2026-08-27 至 09-03：RSR 解锁里程碑提案投票：Milestone 1 绑定 $2.5M NARR，30 天均价 $0.005-$0.015 时解锁最多 3B RSR。</li>
+    <li>2026-05-21：销毁 9.5M RSR（月度销毁）。</li>
+    <li>2026-10-13：CoinStats 价格 $0.002253（+37.75% 24h），市值 $140.93M。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(124,77,255,0.08);"><td><strong>当前价格</strong></td><td><strong>~$0.002</strong></td></tr>
+    <tr><td>流通量</td><td>62.55B</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>最大供应</strong></td><td><strong>100B</strong></td></tr>
+    <tr><td>FDV</td><td>~$163 – $225M</td></tr>
+    <tr><td>类型</td><td>RWA 稳定币协议治理代币</td></tr>
+    <tr><td>价值捕获</td><td>stRSR 质押（10% fintech 收入分成）+ 销毁</td></tr>
+    <tr><td>收入分成</td><td>90/10（fintech 90%，RSR 质押者 10%）</td></tr>
+    <tr><td>月度销毁</td><td>~9.5M RSR（量极小）</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>流通率</strong></td><td><strong>62.5%</strong></td></tr>
+    <tr style="background:rgba(231,76,60,0.2);"><td><strong>关键</strong></td><td><strong>收入规模极小（Q2 毛收入 $149.5K）+ 流通 62.5% + FDV 2× 市值</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.0008 – $0.0012</div><div style="color:var(--muted);font-size:0.9em;">市值 $50 – $75M · 较当前 −60% ~ −40%</div><p style="margin-top:12px;font-size:0.9em;">收入持续低迷。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.0018 – $0.0035</div><div style="color:var(--muted);font-size:0.9em;">市值 $113 – $219M · 较当前 −10% ~ +75%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$0.008 – $0.020</div><div style="color:var(--muted);font-size:0.9em;">市值 $500M – $1.25B · 较当前 +300% ~ +900%</div><p style="margin-top:12px;font-size:0.9em;">RWA 稳定币爆发。</p></div>
+</div>
+
+<h2>七、竞品对比（RWA 稳定币）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 RSR 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(124,77,255,0.08);"><td><strong>RSR</strong></td><td><strong>~$120M</strong></td><td><strong>eUSD 治理</strong></td><td><strong>Reserve</strong></td></tr>
+    <tr><td>LQTY</td><td>~$300M</td><td>Liquity 稳定币</td><td>同类</td></tr>
+    <tr><td>FRAX</td><td>~$200M</td><td>Frax 稳定币</td><td>同类</td></tr>
+    <tr><td>ENA</td><td>~$3B</td><td>合成美元</td><td>RWA 稳定币龙头</td></tr>
+    <tr><td>ONDO</td><td>~$2B</td><td>RWA</td><td>同类</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">RSR 的差异化：fintech 渠道分发（$14M 持有余额），RWA 收益篮子（3.91% APR）。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>eUSD 真实增长</strong>——fintech 余额 $14M，是 DeFi 供应的 3.5 倍</li>
+    <li><strong>RSR backing 提升</strong>——从 18% 升至 23%</li>
+    <li><strong>收入分成 90/10</strong>——RSR 质押者获 10% fintech 收入</li>
+    <li><strong>较 ATL +93%</strong>——已从底部反弹</li>
+    <li><strong>RWA 稳定币叙事</strong>——2026 热门赛道</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>⚠️ Q2 毛收入仅 $149.5K</strong>——收入规模极小</li>
+    <li><strong>⚠️ 净收入 −$154.1K</strong>——仍亏损</li>
+    <li><strong>较 ATH $0.105 跌 98%</strong>——长期下跌</li>
+    <li><strong>月度销毁仅 9.5M</strong>——销毁量极小</li>
+    <li><strong>流通 62.5%</strong>——仍有 37.5% 未解锁</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.2);"><td><strong>⚠️ 收入规模</strong></td><td><strong>Q2 毛收入 $149.5K，难以支撑 $120M 市值</strong></td></tr>
+    <tr><td><strong>解锁</strong></td><td>3B RSR 解锁提案（绑定 NARR）</td></tr>
+    <tr><td><strong>竞争</strong></td><td>Ethena/ONDO 等 RWA 龙头碾压</td></tr>
+    <tr><td><strong>稳定币监管</strong></td><td>美国 SEC</td></tr>
+    <tr><td><strong>DeFi 流动性</strong></td><td>Curve 渠道 −57.6%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>RSR 是 Reserve Protocol（eUSD 稳定币）的治理代币。协议有真实增长（fintech 渠道 $14M 持有余额），但 <strong>Q2 毛收入仅 $149.5K、净收入仍亏损 $154K</strong>，与 $120M 市值严重不匹配。RSR backing 从 18% 升至 23%、收入分成 90/10 是边际改善信号，但月度销毁仅 9.5M 代币，价值捕获极弱。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：这是典型「协议有进展但代币不捕获价值」的 RWA 稳定币项目——eUSD 本身在增长（fintech 渠道领先），但 RSR 作为治理/质押代币，其 10% 收入分成对应的年化收入仅约 $15K，完全无法支撑当前市值。较 ATH $0.105 跌 98% 反映了市场对代币经济的长期失望。适合 RWA 稳定币赛道的高 Beta 投机，不适合基于基本面价值投资。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；RSR 收入规模极小（Q2 毛收入 $149.5K），加密货币波动剧烈，据此操作风险自担。
+</div>
+</body>
+</html>

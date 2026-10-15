@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QTUM (Qtum) 深度研究报告 · 2026-10-14</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #4CAF50; --accent2: #81C784;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(76,175,80,0.05); }
+  tr:hover { background: rgba(76,175,80,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(76,175,80,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(76,175,80,0.1), rgba(129,199,132,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>QTUM (Qtum) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-14 · 赛道：PoS 智能合约公链</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.94</div><div class="snap-sub" style="color:var(--red);">较 ATH −95%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$100M</div><div class="snap-sub">FDV ≈ MC</div></div>
+  <div class="snap-item"><div class="snap-label">流通 / 最大</div><div class="snap-value" style="font-size:1.1em;">106M / 107.8M</div><div class="snap-sub">流通率 98%</div></div>
+  <div class="snap-item"><div class="snap-label">质押 APR</div><div class="snap-value" style="font-size:1.1em;">5.64%</div><div class="snap-sub">PoS 3.0</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>Qtum (QTUM) 是 <strong>老牌 PoS 智能合约公链</strong>，结合 Bitcoin UTXO 模型与 EVM 兼容智能合约，2017 年创立（中国团队），曾是国产公链代表。价格 ~$0.94，市值 ~$100M，流通 106M / 最大 107.82M（固定上限，流通率 98%）。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">98% 全流通</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">固定上限</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">国产公链边缘化</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2016-2017</td><td>Qtum 创立（中国团队，Patrick Dai 等）</td><td>国产公链</td></tr>
+    <tr><td>2017-03</td><td>ICO（51% 公开发售）</td><td>早期融资</td></tr>
+    <tr><td>2018</td><td>主网上线</td><td>PoS 智能合约</td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2021</strong></td><td><strong>牛市高点 ~$20+</strong></td><td><strong>历史 ATH</strong></td></tr>
+    <tr><td>2022-2024</td><td>PoS 3.0 升级</td><td>共识优化</td></tr>
+    <tr style="background:rgba(76,175,80,0.1);"><td><strong>2026-10</strong></td><td><strong>当前 ~$0.94</strong></td><td><strong>深度回调</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-13：CoinCodex 价格 $0.9409，流通 106.13M（98%）。</li>
+    <li>2026-10-13：CryptoSlate 流通 106,126,430，总供应 107,822,406（固定上限），PoS 3.0，质押 APR 5.64%。</li>
+    <li>2026-10-11：Weiss Ratings 价格 $0.991，24h 量 $5.66M，市值 $105.2M，52周 $0.63-$2.x。</li>
+    <li>2026-10-11：CoinLore 排名 #185，24h 范围 $0.9830-$1.03。</li>
+    <li>2026-10-13：Pluang 技术面：所有均线发出买入信号，支撑位 Rp16,820，阻力位 Rp17,955。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(76,175,80,0.08);"><td><strong>当前价格</strong></td><td><strong>~$0.94</strong></td></tr>
+    <tr><td>流通量</td><td>106.1M</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>总供应 / 最大</strong></td><td><strong>107.82M（固定上限）</strong></td></tr>
+    <tr><td>FDV</td><td>~$101M ≈ MC</td></tr>
+    <tr><td>类型</td><td>PoS 智能合约公链</td></tr>
+    <tr><td>价值捕获</td><td>质押收益（APR 5.64%）+ 治理</td></tr>
+    <tr><td>初始分配</td><td>51% 公开发售，20% 团队/早期，29% 业务开发</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>流通率</strong></td><td><strong>~98%</strong></td></tr>
+    <tr style="background:rgba(76,175,80,0.08);"><td><strong>关键</strong></td><td><strong>98% 全流通 + 固定上限 + 5.64% 质押收益</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.50 – $0.70</div><div style="color:var(--muted);font-size:0.9em;">市值 $54 – $76M · 较当前 −47% ~ −26%</div><p style="margin-top:12px;font-size:0.9em;">国产公链边缘化。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.85 – $1.30</div><div style="color:var(--muted);font-size:0.9em;">市值 $92 – $140M · 较当前 −10% ~ +38%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$2.00 – $4.00</div><div style="color:var(--muted);font-size:0.9em;">市值 $216 – $431M · 较当前 +113% ~ +326%</div><p style="margin-top:12px;font-size:0.9em;">公链牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（公链）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 QTUM 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(76,175,80,0.08);"><td><strong>QTUM</strong></td><td><strong>~$100M</strong></td><td><strong>PoS EVM 公链</strong></td><td><strong>Qtum</strong></td></tr>
+    <tr><td>ETH</td><td>~$400B</td><td>智能合约公链</td><td>龙头</td></tr>
+    <tr><td>BNB</td><td>~$80B</td><td>公链</td><td>国产龙头</td></tr>
+    <tr><td>AVAX</td><td>~$10B</td><td>公链</td><td>分片</td></tr>
+    <tr><td>NEAR</td><td>~$3B</td><td>公链</td><td>分片</td></tr>
+    <tr><td>ADA</td><td>~$20B</td><td>PoS 公链</td><td>同类</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">QTUM 的差异化：BTC UTXO + EVM 兼容混合架构，老牌但市值已大幅缩水。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>98% 全流通</strong>——几乎无解锁抛压</li>
+    <li><strong>固定上限</strong>——通缩模型</li>
+    <li><strong>5.64% 质押收益</strong>——有基础收益</li>
+    <li><strong>技术面买入信号</strong>——均线多头排列</li>
+    <li><strong>老牌公链</strong>——历史悠久，有品牌认知</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>较 ATH $20+ 跌 95%</strong>——长期下跌</li>
+    <li><strong>国产公链边缘化</strong>——被 BNB/Conflux 等压制</li>
+    <li><strong>排名 #185</strong>——靠后</li>
+    <li><strong>dApp 生态弱</strong>——无杀手级应用</li>
+    <li><strong>24h 量 $5.66M</strong>——流动性一般</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>公链竞争</strong></td><td><strong>ETH/BNB 等碾压</strong></td></tr>
+    <tr><td><strong>国产公链边缘化</strong></td><td>政策与生态双杀</td></tr>
+    <tr><td><strong>长期下跌</strong></td><td>较 ATH 跌 95%</td></tr>
+    <tr><td><strong>dApp 生态弱</strong></td><td>无真实使用</td></tr>
+    <tr><td><strong>监管</strong></td><td>中国大陆政策</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>Qtum (QTUM) 是老牌 PoS 智能合约公链，价格 ~$0.94，市值 ~$100M，流通 106M / 最大 107.82M（98% 全流通）。<strong>98% 全流通 + 固定上限 + 5.64% 质押收益 + 技术面买入信号</strong> 是多头逻辑，<strong>较 ATH 跌 95% + 国产公链边缘化 + dApp 生态弱 + 排名 #185</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：QTUM 是国产公链「老牌但边缘化」的典型——2017 年 ICO，2021 年牛市高点 $20+，如今跌至 $0.94（−95%）。亮点是 98% 全流通+固定上限+5.64% 质押收益，没有解锁抛压；但 dApp 生态几乎停滞，被 ETH/BNB/Conflux 等全面压制。适合国产公链逆向质押投资者，不适合追求增长的进攻型资金。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QRL (Quantum Resistant Ledger) 深度研究报告 · 2026-10-14</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #00BCD4; --accent2: #4DD0E1;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(0,188,212,0.05); }
+  tr:hover { background: rgba(0,188,212,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(0,188,212,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .danger-tag { display: inline-block; background: rgba(231,76,60,0.2); color: var(--red); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; font-weight: 700; }
+  .conclusion { background: linear-gradient(135deg, rgba(0,188,212,0.1), rgba(77,208,225,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>QRL (Quantum Resistant Ledger)</h1>
+<div class="subtitle">整理时间：2026-10-14 · 赛道：抗量子区块链（后量子密码学）</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.6-1.09</div><div class="snap-sub" style="color:var(--red);">较 ATH −75%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$70M</div><div class="snap-sub">FDV ~$65-115M</div></div>
+  <div class="snap-item"><div class="snap-label">流通 / 最大</div><div class="snap-value" style="font-size:1.1em;">71M / 105M</div><div class="snap-sub">流通率 68%</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">24h 量</div><div class="snap-value" style="color:var(--red);font-size:1.1em;">$18.5K</div><div class="snap-sub">⚠️ 几乎无流动性</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>Quantum Resistant Ledger (QRL) 是 <strong>最早采用后量子签名（XMSS/LMS）的区块链</strong>，使用 RandomX PoW 挖矿，目标是抵抗未来量子计算攻击。价格 ~$0.6-1.09，市值 ~$70M，流通 70.9M / 最大 105M。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">抗量子</span><span class="risk-tag">RandomX PoW</span><span class="danger-tag">24h 量 $18.5K</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2016-2017</td><td>QRL 创立（Peter Waterland）</td><td>最早抗量子链</td></tr>
+    <tr><td>2018</td><td>主网上线</td><td>XMSS 签名</td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2021</strong></td><td><strong>牛市高点 ~$4.17</strong></td><td><strong>历史 ATH</strong></td></tr>
+    <tr style="background:rgba(46,204,113,0.1);"><td><strong>2026-03-31</strong></td><td><strong>QRL 2.0 (Project Zond) 测试网 V2</strong></td><td><strong>重大升级</strong></td></tr>
+    <tr><td>2026-08-21</td><td>周报：审计 50% 完成</td><td>升级中</td></tr>
+    <tr style="background:rgba(0,188,212,0.1);"><td><strong>2026-10-14</strong></td><td><strong>当前 ~$0.6-1.09</strong></td><td><strong>24h 量 $18.5K</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-09-03：QRL 官网 tokenomics 更新：最大供应 105M，总供应 79.83M，流通 70.92M，排放率 1.29%，指数衰减 200 年。</li>
+    <li>2026-09-22：CoinCodex 价格 $0.6179（−2.66%）。</li>
+    <li>2026-09-03：MEXC 价格 $0.742，总供应 79.62M。</li>
+    <li>2026-08-21：QRL 周报：QRL 2.0 (Project Zond) 测试网 V2 已于 3-31 发布，审计完成 50%。</li>
+    <li>2026-10-11：CoinPortal 市值 $70.4M，24h 量 <strong>仅 $18.55K</strong>，PoW RandomX，区块奖励 4.99 QRL。</li>
+    <li>历史：ATL $0.040836，ATH $4.1723，52周 $0.14136-$3.55005。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(0,188,212,0.08);"><td><strong>当前价格</strong></td><td><strong>~$0.6 – $1.09</strong></td></tr>
+    <tr><td>流通量</td><td>70.92M</td></tr>
+    <tr><td>总供应</td><td>79.83M</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>最大供应</strong></td><td><strong>105M</strong></td></tr>
+    <tr><td>FDV</td><td>~$65 – $115M</td></tr>
+    <tr><td>类型</td><td>抗量子 PoW 区块链</td></tr>
+    <tr><td>共识</td><td>RandomX PoW（区块奖励 4.99 QRL）</td></tr>
+    <tr><td>排放率</td><td>1.29%，指数衰减 200 年</td></tr>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>流通率</strong></td><td><strong>~68%</strong></td></tr>
+    <tr style="background:rgba(231,76,60,0.2);"><td><strong>关键</strong></td><td><strong>24h 量 $18.5K——几乎无流动性</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.15 – $0.30</div><div style="color:var(--muted);font-size:0.9em;">市值 $16 – $32M · 较当前 −75% ~ −50%</div><p style="margin-top:12px;font-size:0.9em;">QRL 2.0 失败。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.50 – $1.20</div><div style="color:var(--muted);font-size:0.9em;">市值 $53 – $127M · 较当前 −17% ~ +100%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$3.00 – $8.00</div><div style="color:var(--muted);font-size:0.9em;">市值 $318 – $848M · 较当前 +400% ~ +1200%</div><p style="margin-top:12px;font-size:0.9em;">抗量子叙事爆发。</p></div>
+</div>
+
+<h2>七、竞品对比（抗量子 / PoW）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 QRL 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(0,188,212,0.08);"><td><strong>QRL</strong></td><td><strong>~$70M</strong></td><td><strong>抗量子 PoW</strong></td><td><strong>最早</strong></td></tr>
+    <tr><td>XMR</td><td>~$3B</td><td>隐私 PoW</td><td>RandomX 同类</td></tr>
+    <tr><td>ZEC</td><td>~$500M</td><td>隐私 PoW</td><td>ZK 签名</td></tr>
+    <tr><td>NEXA</td><td>~$100M</td><td>PoW</td><td>同类</td></tr>
+    <tr><td>BTC</td><td>~$2T</td><td>PoW 龙头</td><td>不抗量子</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">QRL 的差异化：唯一主网上线且采用 XMSS/LMS 后量子签名的 PoW 链。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>最早抗量子链</strong>——先发优势</li>
+    <li><strong>主网真实运行</strong>——后量子签名落地</li>
+    <li><strong>QRL 2.0 升级中</strong>——Project Zond 测试网 V2</li>
+    <li><strong>RandomX PoW</strong>——抗 ASIC，去中心化</li>
+    <li><strong>较 ATH $4.17 跌 75%</strong>——深度回调</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>⚠️ 24h 量 $18.5K</strong>——几乎无流动性</li>
+    <li><strong>量子计算威胁遥远</strong>——叙事遥远</li>
+    <li><strong>市值小</strong>——$70M</li>
+    <li><strong>PoW 排放持续</strong>——200 年衰减</li>
+    <li><strong>生态弱</strong>——无 dApp</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.2);"><td><strong>⚠️ 流动性</strong></td><td><strong>24h 量 $18.5K，无法进出</strong></td></tr>
+    <tr><td><strong>叙事遥远</strong></td><td>量子计算威胁尚未到</td></tr>
+    <tr><td><strong>PoW 排放</strong></td><td>持续通胀</td></tr>
+    <tr><td><strong>QRL 2.0 风险</strong></td><td>升级失败/延期</td></tr>
+    <tr><td><strong>监管</strong></td><td>PoW 能源消耗</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>QRL 是最早主网上线的抗量子区块链，技术上采用 XMSS/LMS 后量子签名，RandomX PoW 挖矿。<strong>先发优势 + 技术真实 + QRL 2.0 升级中</strong> 是多头逻辑，<strong>24h 量 $18.5K 几乎无流动性 + 量子威胁叙事遥远 + 生态弱</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：这是典型「技术超前但市场极冷」的项目——抗量子是 10 年级别的长期叙事，当下 24h 量仅 $18.5K 意味着几乎无法交易进出。适合长期信仰者（看好量子计算威胁终将到来）小额埋伏，但不适合任何需要流动性的资金。QRL 2.0 (Project Zond) 测试网 V2 是近期催化剂，审计完成 50%。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；QRL 流动性极差（24h 量 $18.5K），加密货币波动剧烈，据此操作风险自担。
+</div>
+</body>
+</html>

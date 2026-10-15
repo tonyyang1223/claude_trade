@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RLC (iExec) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #00BFA5; --accent2: #64FFDA;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(0,191,165,0.05); }
+  tr:hover { background: rgba(0,191,165,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(0,191,165,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(0,191,165,0.1), rgba(100,255,218,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>RLC (iExec) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：去中心化计算 / AI</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.95</div><div class="snap-sub" style="color:var(--red);">较 ATH −94%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$85M</div><div class="snap-sub">24h 量 $82M</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">流通量</div><div class="snap-value" style="color:var(--green);font-size:1.1em;">87M</div><div class="snap-sub">100% 全流通</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">FDV</div><div class="snap-value" style="color:var(--green);font-size:1.1em;">= MC</div><div class="snap-sub">无解锁抛压</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>iExec (RLC) 是 <strong>去中心化云计算 / AI 计算网络</strong>，价格 ~$0.95，市值 ~$85M，87M 全流通无解锁，2026-07 Bellecour Bridge 关闭进入多链时代，较 ATH $15.51 暴跌 94%。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">全流通</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">AI 计算</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">较 ATH −94%</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2016</td><td>iExec 创立</td><td>去中心化计算</td></tr>
+    <tr><td>2017</td><td>RLC ICO</td><td>融资</td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2021</strong></td><td><strong>ATH $15.51</strong></td><td><strong>牛市高点</strong></td></tr>
+    <tr><td>2022-2025</td><td>熊市持续</td><td>下跌</td></tr>
+    <tr style="background:rgba(0,191,165,0.1);"><td><strong>2026-06-11</strong></td><td><strong>Bellecour Bridge 关闭公告</strong></td><td><strong>多链时代</strong></td></tr>
+    <tr style="background:rgba(0,191,165,0.1);"><td><strong>2026-07-02</strong></td><td><strong>Bellecour Bridge 正式关闭</strong></td><td><strong>迁移</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-11：CoinVictor 价格 $0.985，市值 $85.7M，24h 量 $81.9M，24h 跌 10.9%。</li>
+    <li>2026-10-10：MarketBeat 价格 $0.967，24h 涨 6.4%。</li>
+    <li>2026-06-11：iExec 官方宣布 Bellecour Bridge 关闭，7月2日后未迁移 RLC 无需操作但锁定，进入多链时代。</li>
+    <li>2026-04-28：iExec 文档确认 RLC 全流通，无待解锁或私募分配。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>当前价格</strong></td><td><strong>~$0.95</strong></td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>流通量</strong></td><td><strong>87M（100% 全流通）</strong></td></tr>
+    <tr><td>总供应 = 最大</td><td>87M</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>FDV</strong></td><td><strong>= MC = $85M</strong></td></tr>
+    <tr><td>类型</td><td>去中心化计算 / AI</td></tr>
+    <tr><td>价值捕获</td><td>计算资源租用</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>解锁</strong></td><td><strong>无（全流通）</strong></td></tr>
+    <tr style="background:rgba(0,191,165,0.08);"><td><strong>关键</strong></td><td><strong>全流通，无抛压，多链时代</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.30 – $0.50</div><div style="color:var(--muted);font-size:0.9em;">市值 $26 – $44M · 较当前 −68% ~ −47%</div><p style="margin-top:12px;font-size:0.9em;">AI 计算退潮。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.80 – $1.30</div><div style="color:var(--muted);font-size:0.9em;">市值 $70 – $113M · 较当前 −16% ~ +37%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$3.00 – $6.00</div><div style="color:var(--muted);font-size:0.9em;">市值 $260 – $520M · 较当前 +216% ~ +530%</div><p style="margin-top:12px;font-size:0.9em;">AI 牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（去中心化计算 / AI）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 RLC 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(0,191,165,0.08);"><td><strong>RLC</strong></td><td><strong>~$85M</strong></td><td><strong>去中心化计算</strong></td><td><strong>iExec</strong></td></tr>
+    <tr><td>RNDR</td><td>~$2B</td><td>GPU 渲染</td><td>Render</td></tr>
+    <tr><td>FET</td><td>~$2B</td><td>AI Agent</td><td>Fetch.ai</td></tr>
+    <tr><td>ALEPH</td><td>~$100M</td><td>去中心化存储</td><td>Aleph.im</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">RLC 的差异化：全流通无解锁，Bellecour Bridge 关闭后多链。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>全流通</strong>——无解锁抛压</li>
+    <li><strong>去中心化计算 / AI</strong>——赛道</li>
+    <li><strong>较 ATH −94%</strong>——深度回调</li>
+    <li><strong>24h 量 $82M</strong>——流动性好</li>
+    <li><strong>多链时代</strong>——Bellecour 关闭后</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>较 ATH −94%</strong>——长期下跌趋势</li>
+    <li><strong>RNDR/FET 碾压</strong>——头部主导</li>
+    <li><strong>AI 计算退潮风险</strong>——整体回调</li>
+    <li><strong>Bellecour Bridge 关闭</strong>——迁移风险</li>
+    <li><strong>排名 ~#250</strong>——排名低</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>AI 计算退潮</strong></td><td><strong>整体回调</strong></td></tr>
+    <tr><td><strong>竞争</strong></td><td>RNDR/FET 碾压</td></tr>
+    <tr><td><strong>迁移风险</strong></td><td>Bellecour Bridge 关闭</td></tr>
+    <tr><td><strong>长期下跌</strong></td><td>较 ATH −94%</td></tr>
+    <tr><td><strong>排名低</strong></td><td>~#250</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>iExec (RLC) 是去中心化云计算 / AI 计算网络，价格 ~$0.95，市值 ~$85M，87M 全流通无解锁。全流通 + AI 赛道 + 较 ATH −94% + 流动性好是多头逻辑，<strong>长期下跌 + RNDR/FET 碾压 + Bellecour Bridge 迁移风险</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：iExec (RLC) 是老牌去中心化计算项目，2017 年 ICO，87M 全流通无解锁抛压。2021 年 ATH $15.51，当前 ~$0.95 暴跌 94%。2026-07 Bellecour Bridge 关闭进入多链时代。适合 AI 计算赛道逆向投资者，全流通是最大利好（无解锁抛压），但 RNDR/FET 等头部项目主导赛道。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

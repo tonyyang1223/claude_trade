@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAC (Securitize AAA CLO Fund) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #3F51B5; --accent2: #7986CB;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(63,81,181,0.05); }
+  tr:hover { background: rgba(63,81,181,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(63,81,181,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(63,81,181,0.1), rgba(121,134,203,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>STAC (Securitize AAA CLO Fund) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：RWA / AAA CLO 基金</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前 NAV/股</div><div class="snap-value">~$1,034</div><div class="snap-sub">市值 ~$104M</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">Ethena 配置</div><div class="snap-value" style="color:var(--green);font-size:1.2em;">$250M</div><div class="snap-sub">USDe 抵押品</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">Securitize AUM</div><div class="snap-value" style="color:var(--green);font-size:1.05em;">$4B+</div><div class="snap-sub">BlackRock/KKR 合作</div></div>
+  <div class="snap-item"><div class="snap-label">7天年化</div><div class="snap-value" style="font-size:1.1em;">2.42%</div><div class="snap-sub">管理费 0.3%</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>STAC 是 <strong>Securitize 发行的 AAA 级 CLO（抵押贷款债券）代币化基金</strong>，NAV ~$1,034/股，AUM ~$102M，7天年化收益 ~2.42%，Ethena 配置 $250M 作为 USDe 抵押品，Securitize 管理 $4B+ AUM，合作方 Apollo、BlackRock、KKR 等。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">AAA 级</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">Ethena $250M</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">BlackRock/KKR</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2026-01</td><td>STAC 上线</td><td>代币化 CLO</td></tr>
+    <tr><td>2026-05</td><td>NAV ~$1,019</td><td>净值增长</td></tr>
+    <tr style="background:rgba(63,81,181,0.1);"><td><strong>2026-06</strong></td><td><strong>Ethena 配置 $250M</strong></td><td><strong>机构背书</strong></td></tr>
+    <tr style="background:rgba(63,81,181,0.1);"><td><strong>2026-06</strong></td><td><strong>上线 Solana</strong></td><td><strong>多链</strong></td></tr>
+    <tr><td>2026 Q2</td><td>Securitize 集成 TRON</td><td>多链扩展</td></tr>
+    <tr style="background:rgba(63,81,181,0.1);"><td><strong>2026-10-02</strong></td><td><strong>NAV $1,034.22</strong></td><td><strong>当前</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-02：Tangem 价格 $1,034.22。</li>
+    <li>2026-09-22：Senit 价格 $1,033.81，市值 $103.59M，排名 #139，24h 量 $0。</li>
+    <li>2026-08-17：SEC Q2 2026 财报：Securitize 继续是最大代币化平台，STAC 扩展至 Solana，Ethena 配置 $250M，集成 TRON。</li>
+    <li>2026-06-19：CoinDesk：STAC 上线 Solana，Ethena $250M 背书，Securitize 管理 $4B+ AUM，合作 Apollo、BlackRock、Hamilton Lane、KKR、VanEck。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>当前 NAV</strong></td><td><strong>~$1,034/股</strong></td></tr>
+    <tr><td>AUM</td><td>~$102M</td></tr>
+    <tr><td>7天年化</td><td>~2.42%</td></tr>
+    <tr><td>管理费</td><td>0.3%</td></tr>
+    <tr><td>类型</td><td>RWA / AAA CLO 基金</td></tr>
+    <tr><td>价值捕获</td><td>CLO 利息收入</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>Ethena 抵押</strong></td><td><strong>$250M</strong></td></tr>
+    <tr style="background:rgba(63,81,181,0.08);"><td><strong>关键</strong></td><td><strong>AAA 级，Ethena 背书，机构级</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$980 – $1,010</div><div style="color:var(--muted);font-size:0.9em;">较当前 −5% ~ −2%</div><p style="margin-top:12px;font-size:0.9em;">信用利差扩大。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$1,020 – $1,060</div><div style="color:var(--muted);font-size:0.9em;">较当前 −1% ~ +3%</div><p style="margin-top:12px;font-size:0.9em;">稳定增值。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$1,100 – $1,200</div><div style="color:var(--muted);font-size:0.9em;">较当前 +6% ~ +16%</div><p style="margin-top:12px;font-size:0.9em;">利率下行。</p></div>
+</div>
+
+<h2>七、竞品对比（RWA CLO）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>AUM</th><th>类型</th><th>关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(63,81,181,0.08);"><td><strong>STAC</strong></td><td><strong>~$102M</strong></td><td><strong>AAA CLO</strong></td><td><strong>Securitize</strong></td></tr>
+    <tr><td>JAAA</td><td>~$433M</td><td>AAA CLO</td><td>Janus Henderson</td></tr>
+    <tr><td>BUIDL</td><td>~$2B</td><td>货币市场</td><td>BlackRock</td></tr>
+    <tr><td>CLOA</td><td>~$1K</td><td>AAA CLO ETF</td><td>iShares</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">STAC 的差异化：Securitize 平台，Ethena $250M 抵押。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>AAA 级</strong>——最高信用评级</li>
+    <li><strong>Ethena $250M 配置</strong>——机构背书</li>
+    <li><strong>Securitize $4B+ AUM</strong>——平台实力</li>
+    <li><strong>BlackRock/KKR 合作</strong>——机构网络</li>
+    <li><strong>多链（Solana/TRON）</strong>——流动性</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>AUM 小</strong>——$102M vs JAAA $433M</li>
+    <li><strong>7天年化 2.42%</strong>——收益不高</li>
+    <li><strong>24h 量 $0</strong>——无二级市场</li>
+    <li><strong>管理费 0.3%</strong>——持续费用</li>
+    <li><strong>信用风险</strong>——即使 AAA 也有违约可能</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>信用风险</strong></td><td><strong>CLO 违约</strong></td></tr>
+    <tr><td><strong>利率风险</strong></td><td>利率波动</td></tr>
+    <tr><td><strong>流动性</strong></td><td>24h 量 $0</td></tr>
+    <tr><td><strong>监管</strong></td><td>基金监管</td></tr>
+    <tr><td><strong>对手方</strong></td><td>Securitize 平台风险</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>STAC 是 Securitize 发行的 AAA 级 CLO 代币化基金，NAV ~$1,034/股，AUM ~$102M，Ethena 配置 $250M。AAA 级 + Ethena 背书 + Securitize 平台实力 + BlackRock/KKR 合作是多头逻辑，<strong>AUM 小 + 收益不高 + 无二级市场流动性</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：Securitize Tokenized AAA CLO Fund (STAC) 是机构级 RWA 产品，NAV ~$1,034/股，AUM ~$102M，7天年化 2.42%，Ethena $250M 配置作为 USDe 抵押品。Securitize 管理 $4B+ AUM，合作 Apollo、BlackRock、KKR 等顶级机构。但 AUM 较小（$102M vs JAAA $433M），收益不高（2.42%），24h 量 $0 无二级市场。适合机构级 RWA 稳健收益投资者，是 Ethena 生态重要抵押品。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

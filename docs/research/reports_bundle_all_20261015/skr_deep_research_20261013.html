@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKR (Seeker) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #9945FF; --accent2: #B37DFF;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(153,69,255,0.05); }
+  tr:hover { background: rgba(153,69,255,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(153,69,255,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(153,69,255,0.1), rgba(179,125,255,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>SKR (Seeker) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：Solana 生态 / 移动设备挖矿</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.017</div><div class="snap-sub">5.04B 流通</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$83-175M</div><div class="snap-sub">数据差异大</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">设备数</div><div class="snap-value" style="color:var(--green);font-size:1.1em;">200K+</div><div class="snap-sub">活跃钱包 34K</div></div>
+  <div class="snap-item"><div class="snap-label">类型</div><div class="snap-value" style="font-size:1.05em;">Solana Mobile</div><div class="snap-sub">Seeker 生态</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>Seeker (SKR) 是 <strong>Solana Mobile Seeker 生态代币</strong>，基于移动设备挖矿/参与，200K+ 设备，34,280 活跃钱包（24h），价格 ~$0.017，市值 ~$100M。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">Solana Mobile</span><span class="risk-tag">移动设备挖矿</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">200K 设备</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">数据未验证</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>项目早期</td><td>Seeker 生态启动</td><td>Solana Mobile</td></tr>
+    <tr style="background:rgba(153,69,255,0.1);"><td><strong>2026-02-20</strong></td><td><strong>skr.fyi 上线</strong></td><td><strong>生态分析</strong></td></tr>
+    <tr><td>2026-10</td><td>价格 ~$0.017</td><td>当前</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-13：脚本之家价格 $0.016442，24h 跌 -1.11%。</li>
+    <li>2026-10-11：MarketBeat 价格 $0.0164，市值 $174.76M（自报，未验证），流通 5.04B SKR。</li>
+    <li>2026-10-11：PricePredictions 市值 $83.72M，24h 量 $2.30M。</li>
+    <li>2026-05-11：skr.fyi 市值 $111M，价格 $0.0209，200K+ 设备，34,280 活跃钱包（24h）。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前流通</td><td>~5.04B SKR（自报，未验证）</td></tr>
+    <tr><td>类型</td><td>Solana Mobile Seeker 生态</td></tr>
+    <tr><td>价值捕获</td><td>移动设备参与 + 生态激励</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>设备数</strong></td><td><strong>200K+</strong></td></tr>
+    <tr><td>活跃钱包（24h）</td><td>34,280</td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>关键</strong></td><td><strong>Solana Mobile 生态，移动设备挖矿</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.005 – $0.01</div><div style="color:var(--muted);font-size:0.9em;">MC $25 – $50M · 较当前 −71% ~ −41%</div><p style="margin-top:12px;font-size:0.9em;">生态退潮。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.015 – $0.03</div><div style="color:var(--muted);font-size:0.9em;">MC $75 – $150M · 较当前 −12% ~ +76%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$0.05 – $0.10</div><div style="color:var(--muted);font-size:0.9em;">MC $252 – $504M · 较当前 +199% ~ +489%</div><p style="margin-top:12px;font-size:0.9em;">Solana 牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（Solana 生态 / 移动挖矿）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 SKR 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(153,69,255,0.08);"><td><strong>SKR</strong></td><td><strong>~$83-175M</strong></td><td><strong>Solana Mobile</strong></td><td><strong>Seeker</strong></td></tr>
+    <tr><td>SOL</td><td>~$50B</td><td>公链</td><td>Solana</td></tr>
+    <tr><td>JUP</td><td>~$2B</td><td>Solana DEX</td><td>Jupiter</td></tr>
+    <tr><td>PYTH</td><td>~$500M</td><td>Solana 预言机</td><td>Pyth</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">SKR 的差异化：Solana Mobile Seeker 移动设备生态。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>200K+ 设备</strong>——真实用户</li>
+    <li><strong>34,280 活跃钱包</strong>——高活跃度</li>
+    <li><strong>Solana 生态</strong>——大生态</li>
+    <li><strong>24h 量 $2.3M</strong>——流动性尚可</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>流通量自报未验证</strong>——数据不可靠</li>
+    <li><strong>市值差异大</strong>——$83M vs $175M</li>
+    <li><strong>Solana 生态竞争</strong>——JUP/PYTH 碾压</li>
+    <li><strong>价格低</strong>——$0.017 单价低</li>
+    <li><strong>生态退潮风险</strong>——Solana 依赖</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>数据不可靠</strong></td><td><strong>流通量自报未验证</strong></td></tr>
+    <tr><td><strong>Solana 依赖</strong></td><td>生态退潮影响</td></tr>
+    <tr><td><strong>竞争风险</strong></td><td>JUP/PYTH 碾压</td></tr>
+    <tr><td><strong>价格低</strong></td><td>单价极低</td></tr>
+    <tr><td><strong>市值混乱</strong></td><td>多个来源差异大</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>SKR (Seeker) 是 Solana Mobile Seeker 生态代币，基于移动设备挖矿，200K+ 设备，34,280 活跃钱包。真实用户 + Solana 生态是多头逻辑，<strong>流通量未验证 + 市值混乱 + JUP/PYTH 碾压</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：Seeker (SKR) 是 Solana Mobile Seeker 生态代币，基于移动设备挖矿/参与，200K+ 设备，34,280 活跃钱包（24h），价格 ~$0.017，市值 ~$100M。真实用户基础 + Solana 大生态是亮点。但流通量 5.04B 自报未验证，市值数据差异大（$83M vs $175M）。面临 JUP（$2B）、PYTH（$500M）等 Solana 头部项目碾压。价格极低，数据可靠性存疑。适合 Solana 生态高风险偏好投资者，但需谨慎数据可靠性。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

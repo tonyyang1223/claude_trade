@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bittensor (TAO) 浏览器一手补充 · 2026-10-08</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #121a30;
+    --panel2: #0e1626;
+    --line: #1e2a4a;
+    --text: #e6ecf7;
+    --muted: #8ea0c0;
+    --blue: #4d7cff;
+    --cyan: #35e0e6;
+    --purple: #a978ff;
+    --green: #3ad29f;
+    --red: #ff6b81;
+    --amber: #ffcb6b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    padding: 24px 16px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .hero {
+    background: linear-gradient(135deg, #121a30 0%, #0e1626 100%);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 36px 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(77,124,255,0.18), transparent 70%);
+    border-radius: 50%;
+  }
+  .hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .hero h1 .accent { color: var(--cyan); }
+  .hero .sub { color: var(--muted); font-size: 14px; }
+  .hero .badges { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    font-size: 12px; border: 1px solid var(--line);
+    background: var(--panel2); color: var(--muted);
+  }
+  .badge.blue { color: var(--blue); border-color: var(--blue); }
+  .badge.cyan { color: var(--cyan); border-color: var(--cyan); }
+  .badge.green { color: var(--green); border-color: var(--green); }
+  .badge.amber { color: var(--amber); border-color: var(--amber); }
+  .badge.red { color: var(--red); border-color: var(--red); }
+
+  h2 {
+    font-size: 20px; margin: 32px 0 16px;
+    padding-left: 12px; border-left: 3px solid var(--cyan);
+  }
+  h3 { font-size: 16px; margin: 20px 0 10px; color: var(--text); }
+  .grid { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card h4 { font-size: 14px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+  .card .big { font-size: 26px; font-weight: 700; color: var(--text); }
+  .card .delta-up { color: var(--green); font-size: 13px; }
+  .card .delta-down { color: var(--red); font-size: 13px; }
+  .card .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 10px; overflow: hidden; font-size: 13px;
+  }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); }
+  th { background: var(--panel2); color: var(--muted); font-weight: 500; font-size: 12px; }
+  tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+  .tag-green { background: rgba(58,210,159,0.12); color: var(--green); }
+  .tag-red { background: rgba(255,107,129,0.12); color: var(--red); }
+  .tag-amber { background: rgba(255,203,107,0.12); color: var(--amber); }
+  .tag-blue { background: rgba(77,124,255,0.12); color: var(--blue); }
+  .tag-purple { background: rgba(169,120,255,0.12); color: var(--purple); }
+
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; font-size: 14px; }
+  .muted { color: var(--muted); font-size: 13px; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .callout {
+    border-left: 3px solid var(--amber);
+    background: rgba(255,203,107,0.06);
+    padding: 14px 16px; border-radius: 0 8px 8px 0;
+    margin: 14px 0; font-size: 14px;
+  }
+  .callout.blue { border-color: var(--blue); background: rgba(77,124,255,0.06); }
+  .callout.green { border-color: var(--green); background: rgba(58,210,159,0.06); }
+  .callout.red { border-color: var(--red); background: rgba(255,107,129,0.06); }
+
+  .timeline { position: relative; padding-left: 20px; border-left: 2px solid var(--line); }
+  .tl-item { margin-bottom: 16px; position: relative; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -26px; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--cyan); box-shadow: 0 0 0 3px rgba(53,224,230,0.15);
+  }
+  .tl-item .date { font-size: 12px; color: var(--cyan); font-family: monospace; }
+  .tl-item .title { font-weight: 600; margin: 2px 0; }
+  .tl-item .desc { font-size: 13px; color: var(--muted); }
+
+  footer {
+    margin-top: 40px; padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>Bittensor (TAO) <span class="accent">浏览器一手补充</span></h1>
+    <div class="sub">采集时间 2026-10-08 · 通过 computer_use_tool (browser-use-automation, plane="bu") 实时抓取 GitHub / TaoStats / bittensor.com / DefiLlama / X</div>
+    <div class="badges">
+      <span class="badge cyan">补充报告 · 不改动原报告</span>
+      <span class="badge blue">TAO ≈ $285.91</span>
+      <span class="badge green">Root Reborn 为最大新发现</span>
+      <span class="badge amber">Reddit/Discord 未登录未采集</span>
+    </div>
+  </div>
+
+  <!-- 核心指标 -->
+  <h2>一、采集时核心指标快照（2026-10-08）</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <h4>TAO 现价</h4>
+      <div class="big">$285.91</div>
+      <div class="delta-down">▼ 4.96% (24h, TaoStats)</div>
+      <div class="note">DefiLlama 报 $284.20 / MC $3.22B / FDV $5.97B</div>
+    </div>
+    <div class="card">
+      <h4>Root 网络质押</h4>
+      <div class="big">5.46M τ</div>
+      <div class="delta-up">占全网质押 67.61% · 占已发行 47.9%</div>
+      <div class="note">Root validators 共 144 个（TaoStats）</div>
+    </div>
+    <div class="card">
+      <h4>全网总质押</h4>
+      <div class="big">7.45M τ</div>
+      <div class="muted">Root 5.46M (67.61%) + Alpha 2.61M (32.39%)</div>
+      <div class="note">24h 量 172.5K τ（Alpha 占 80%）</div>
+    </div>
+    <div class="card">
+      <h4>Top10 Subnet emission 集中度</h4>
+      <div class="big">57.5%</div>
+      <div class="delta-down">头部 lium SN51 一家独占 13.01%</div>
+      <div class="note">前报告未量化子网间集中度，本次新增</div>
+    </div>
+    <div class="card">
+      <h4>DefiLlama TVL / 年 fees</h4>
+      <div class="big">$605.5M</div>
+      <div class="delta-down">年 fees 仅 $112.5K → P-S ≈ 28,600x</div>
+      <div class="note">硬验证"协议零抽成"判断</div>
+    </div>
+    <div class="card">
+      <h4>当前链 runtime</h4>
+      <div class="big">v475</div>
+      <div class="muted">GitHub latest · 官方 releases 页仍标 "Next: Null Consensus"</div>
+      <div class="note">GitHub org 已从 opentensor 改名 RaoFoundation</div>
+    </div>
+  </div>
+
+  <!-- Subnet Top 榜 -->
+  <h2>二、Top 10 Subnet 榜（按日 emission，TaoStats 实时）</h2>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Subnet</th><th>SN</th><th class="num">日 Emission (τ)</th><th class="num">占全网</th><th class="num">α MCap (K)</th><th>标签</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><b>lium.io</b></td><td>51</td><td class="num">468.4</td><td class="num"><span class="tag tag-red">13.01%</span></td><td class="num">483.8</td><td>GPU 租赁市场 · 6,743 holders</td></tr>
+      <tr><td>2</td><td>Chutes</td><td>64</td><td class="num">330.3</td><td class="num"><span class="tag tag-red">9.18%</span></td><td class="num">428.9</td><td>Serverless 推理 (DeepSeek/Qwen/Kimi)</td></tr>
+      <tr><td>3</td><td>Targon</td><td>4</td><td class="num">243.2</td><td class="num"><span class="tag tag-amber">6.75%</span></td><td class="num">302.4</td><td>机密 GPU (Venice/Dippy)</td></tr>
+      <tr><td>4</td><td>Affine</td><td>120</td><td class="num">214.4</td><td class="num">5.96%</td><td class="num">192.8</td><td>新进入头部</td></tr>
+      <tr><td>5</td><td>engy</td><td>53</td><td class="num">171.5</td><td class="num">4.76%</td><td class="num">209.7</td><td>绿色算力</td></tr>
+      <tr><td>6</td><td>Score</td><td>44</td><td class="num">167.9</td><td class="num">4.66%</td><td class="num">203.4</td><td>视频结构化 (PwC/AVIA/Reading FC)</td></tr>
+      <tr><td>7</td><td>Vanta</td><td>8</td><td class="num">137.6</td><td class="num">3.82%</td><td class="num">161.3</td><td>Prop trading 信号网络</td></tr>
+      <tr><td>8</td><td>Teutonic</td><td>3</td><td class="num">118.1</td><td class="num">3.28%</td><td class="num">145.6</td><td>原 Covenant AI 退出后接手</td></tr>
+      <tr><td>9</td><td>iota</td><td>9</td><td class="num">112.2</td><td class="num">3.12%</td><td class="num">124.0</td><td>Macrocosmos · Liquid Compute 新线</td></tr>
+      <tr><td>10</td><td>SayGM</td><td>28</td><td class="num">106.2</td><td class="num">2.95%</td><td class="num">117.8</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="callout red">
+    <b>集中度警示：</b>Top 10 subnet 吃掉全网 <b>57.5%</b> emission。这是子网<b>间</b>的集中，与前报告"中位 subnet 单 coldkey 57% 质押"（子网<b>内</b>集中）是两个维度。前报告只提了后者。
+  </div>
+
+  <!-- 升级时间线 -->
+  <h2>三、2026-07 ~ 2026-09 升级时间线（bittensor.com/releases 一手）</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="date">2026-07 · V431</div>
+      <div class="title">The Monorepo Release</div>
+      <div class="desc">Conviction-based subnet ownership、price-driven emissions、bittensor v11 SDK (Rust core)、Ledger/浏览器扩展签名。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">2026-07 · V440</div>
+      <div class="title">The Emission Gate</div>
+      <div class="desc">Subnet emission 必须超过市场需求门槛，<b>idle slots 直接拿 0 emission</b>，建子网成本降到注册费。缓解前报告"补贴悬崖"风险。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">2026-07 · V441</div>
+      <div class="title">Root Reborn <span class="tag tag-purple">最重要</span></div>
+      <div class="desc">Root 5.4M τ ($1.28B) 分红从"每日强制卖出"改为 validator 管理篮子。<b>消除每日 936 τ ($222k) 结构性卖压</b>，子网池子净流量 −936 τ/天 → ≈0。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">2026-08 · V445</div>
+      <div class="title">EVM, btcli, Reliability</div>
+      <div class="desc">Typed EVM surface、multisig 一等 btcli 钱包、<b>回收交易手续费</b>、人类可读 Ledger 订单。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">2026-08 · V446</div>
+      <div class="title">Accounting, Liquid Alpha, Timelock Recovery</div>
+      <div class="desc">修复历史 alpha 记账、Liquid Alpha 2.1 共识模式、失败 timelock reveal 可审计。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">2026-08 · V447</div>
+      <div class="title">Conviction Normalization</div>
+      <div class="desc">Subnet 所有权门改为单 hotkey 对比 <b>18% conviction 阈值</b>，抬高恶意收购成本。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">2026-08 · V450</div>
+      <div class="title">Curated Beta</div>
+      <div class="desc">开放 set_root_weights，validator 在 <b>1/16 集中度上限</b>下管理分红篮子。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">2026-09 · V461</div>
+      <div class="title">Basket Trading</div>
+      <div class="desc">swap_basket 换仓机制：2% 价格带、10% NAV/日换手预算、10% per-pool 流动性上限。set_root_weights 被移除。</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">Next · Null Consensus</div>
+      <div class="title">16,000 UID 容量</div>
+      <div class="desc">Opt-in epoch、stake 比例分红、精确整数支付。GitHub v475 已 latest。</div>
+    </div>
+  </div>
+
+  <!-- Root Reborn 重点 -->
+  <h2>四、Root Reborn (V441) 关键数字</h2>
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>Root 质押规模</h4>
+      <div class="big">5,403,483 τ</div>
+      <div class="note">$1.28B · 占已发行 TAO 47.9% · 占全网质押 73%</div>
+    </div>
+    <div class="card">
+      <h4>子网每日付给 Root</h4>
+      <div class="big">~936 τ / 天</div>
+      <div class="note">$222k/天 · 占全部新 emission 26% · dTAO 以来累计 837,536 τ ($198M)</div>
+    </div>
+    <div class="card">
+      <h4>V441 前卖压</h4>
+      <div class="big">−936 τ / 天</div>
+      <div class="note">= 子网池子每日新注入 1,196 τ 的 78% 被强制抽走</div>
+    </div>
+    <div class="card">
+      <h4>V441 后净流量</h4>
+      <div class="big">≈ 0 τ / 天</div>
+      <div class="note">分红就地累积为子网 α，curation 后卖出一次再按权重买回。基础收益 6.3%/年。</div>
+    </div>
+  </div>
+
+  <!-- 对前报告修正 -->
+  <h2>五、对前报告的修正与补充</h2>
+  <table>
+    <thead><tr><th style="width:22%">类型</th><th>前报告说法</th><th>本次一手数据</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="tag tag-purple">重大补充</span></td>
+        <td>V441 "Root Reborn" 仅在时间线列名</td>
+        <td>实为 Root 网络架构级重构：5.4M τ 分红从每日强制卖出改为 validator 篮子管理，<b>消除 $222k/天结构性卖压</b>。多头逻辑增量利好。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">风险缓解</span></td>
+        <td>风险 7："补贴悬崖，halving 后中小 subnet 经济模型可能坍塌"</td>
+        <td>V440 Emission Gate 已上线：idle slots 直接拿 0 emission，比 halving 更快淘汰劣质子网。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">新发现风险</span></td>
+        <td>仅提"中位 subnet 单 coldkey 57% 质押"（子网内集中）</td>
+        <td>Top 10 subnet 吃 57.5% 全网 emission（子网间集中），lium 一家 13%。集中度比前报告描述更极端。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-blue">估值验证</span></td>
+        <td>P-S ≈ 1,100–1,400x</td>
+        <td>DefiLlama 年 fees $112.5K / MC $3.22B → P-S ≈ <b>28,600x</b>（前报告把外部 ARR 计入了协议捕获，DefiLlama fees 口径更纯）。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-amber">治理补充</span></td>
+        <td>"PoA + sudo key 中心化"</td>
+        <td>V447 已引入 18% conviction 硬门槛防子网恶意收购；发布流程已是 2-of-2 multisig。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-amber">生态落地</span></td>
+        <td>Targon/SCORE/Vanta 为代表 ARR</td>
+        <td>新增：OpenRoboto SN80 一个月把 π0.5 机器人模型成功率 55%→90%；Macrocosmos iota SDK + Liquid Compute（Exploit Summit 蒙特利尔）。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">待验证</span></td>
+        <td>Jacob Steeves 为核心创始人</td>
+        <td>@_unconstrained X 账号现为私密保护，bio 改韩文，疑似弃号/改名。</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-blue">组织变更</span></td>
+        <td>引用 github.com/opentensor/*</td>
+        <td>已 301 到 <b>RaoFoundation</b> 组织。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- X 一手观察 -->
+  <h2>六、X (Twitter) 一手观察（已登录 @tonyyang12231）</h2>
+  <table>
+    <thead><tr><th>日期</th><th>内容</th><th class="num">赞</th><th class="num">浏览</th></tr></thead>
+    <tbody>
+      <tr><td>08-04 置顶</td><td><b>Root Reborn 发布</b>：validator 竞争构建最佳子网篮子</td><td class="num">625</td><td class="num">11 万</td></tr>
+      <tr><td>10-02</td><td>OpenRoboto SN80 把 π0.5 机器人模型成功率 55%→90%</td><td class="num">165</td><td class="num">2.0 万</td></tr>
+      <tr><td>09-29</td><td>Macrocosmos iota SDK + Liquid Compute（Exploit Summit 蒙特利尔）</td><td class="num">236</td><td class="num">1.4 万</td></tr>
+      <tr><td>10-05</td><td>生态周报 9/28–10/4：Exploit/Macrocosmos/Beam/Umi/Targon/Hippius/Score/Pareton/Carbon</td><td class="num">159</td><td class="num">1.6 万</td></tr>
+      <tr><td>10-06</td><td>SN10 Pareton：生产环境推理优化，让 AI 推理更快更便宜</td><td class="num">164</td><td class="num">1.3 万</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <b>情绪判断：</b>官方推号近期互动集中在<b>生态应用落地</b>（机器人、推理优化、数据），而非价格或 GTAO。<b>截至 10/8 官方 X 未宣布 GTAO S-1 获批</b>，维持前报告"待批"判断。
+  </div>
+
+  <!-- 未采集站点 -->
+  <h2>七、未采集 / 登录墙</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <h4>Reddit r/bittensor_</h4>
+      <div class="big" style="font-size:18px;color:var(--red)">被网络安全拦截</div>
+      <div class="note">"You've been blocked by network security" — 未登录访问被拒，本次未采集热门帖。</div>
+    </div>
+    <div class="card">
+      <h4>Discord</h4>
+      <div class="big" style="font-size:18px;color:var(--amber)">未尝试</div>
+      <div class="note">discord.gg/bittensor 强制登录，本次未触发 handoff，跳过。</div>
+    </div>
+    <div class="card">
+      <h4>GTAO S-1 进展</h4>
+      <div class="big" style="font-size:18px;color:var(--amber)">未一手确认</div>
+      <div class="note">X 搜索页未正常加载；官方推号无获批公告。需后续 SEC EDGAR 补。</div>
+    </div>
+  </div>
+
+  <!-- 来源 -->
+  <h2>八、一手来源</h2>
+  <ul class="muted">
+    <li>GitHub: <a href="https://github.com/RaoFoundation/subtensor/releases">github.com/RaoFoundation/subtensor/releases</a> （原 opentensor 已 301）</li>
+    <li>官方升级公告: <a href="https://www.bittensor.com/releases">bittensor.com/releases</a> · <a href="https://www.bittensor.com/releases/v441-upgrade">V441 Root Reborn 原文</a></li>
+    <li>链上数据: <a href="https://taostats.io/subnets">taostats.io/subnets</a> · <a href="https://taostats.io/validators">taostats.io/validators</a></li>
+    <li>TVL 交叉验证: <a href="https://defillama.com/protocol/bittensor">defillama.com/protocol/bittensor</a></li>
+    <li>X: <a href="https://x.com/opentensor">@opentensor</a> 时间线（2026-10-08 快照）</li>
+  </ul>
+
+  <footer>
+    本页为 <code>bittensor_deep_research_20261008.html</code> 的浏览器一手补充，<b>不改动原报告</b>。
+    所有数字来自 2026-10-08 实时页面，部分（如 TaoStats distribution 图表）因未登录未渲染成文本而未交叉验证。
+    加密货币波动剧烈，本页<b>不构成投资建议</b>。
+  </footer>
+
+</div>
+</body>
+</html>

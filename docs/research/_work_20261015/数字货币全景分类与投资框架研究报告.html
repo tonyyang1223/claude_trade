@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字货币全景分类与投资框架研究报告 · 2026-10-15</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0e17; color: #dbe4f5; font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif; line-height: 1.65; font-size: 15px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 28px 80px; }
+  /* ===== Header ===== */
+  .hero { background: linear-gradient(135deg, rgba(34,211,238,.12), rgba(59,130,246,.10), rgba(139,92,246,.12)); border: 1px solid #1f2a44; border-radius: 16px; padding: 42px 40px; margin-bottom: 36px; position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; top: -60%; right: -10%; width: 420px; height: 420px; background: radial-gradient(circle, rgba(34,211,238,.14), transparent 70%); pointer-events: none; }
+  .hero .kicker { color: #22d3ee; font-size: 13px; letter-spacing: 3px; margin-bottom: 12px; }
+  .hero h1 { font-size: 32px; font-weight: 700; background: linear-gradient(90deg, #67e8f9, #93c5fd, #c4b5fd); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 14px; }
+  .hero .sub { color: #8b9bb8; font-size: 14px; max-width: 860px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .badge { background: rgba(34,211,238,.08); border: 1px solid rgba(34,211,238,.35); color: #67e8f9; border-radius: 999px; padding: 4px 14px; font-size: 12.5px; }
+  .badge.p { border-color: rgba(139,92,246,.4); color: #c4b5fd; background: rgba(139,92,246,.08); }
+  .badge.g { border-color: rgba(52,211,153,.4); color: #6ee7b7; background: rgba(52,211,153,.08); }
+  /* ===== Sections ===== */
+  section { margin-bottom: 44px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid #1f2a44; padding-bottom: 12px; margin-bottom: 22px; }
+  .sec-head .no { font-size: 26px; font-weight: 800; background: linear-gradient(135deg, #22d3ee, #8b5cf6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .sec-head h2 { font-size: 21px; color: #e8eefb; }
+  .sec-head .en { color: #55648a; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-left: auto; }
+  h3 { font-size: 16.5px; color: #a5f3fc; margin: 26px 0 12px; padding-left: 10px; border-left: 3px solid #22d3ee; }
+  h4 { font-size: 14.5px; color: #c4b5fd; margin: 18px 0 8px; }
+  p { margin-bottom: 10px; color: #b8c6e0; }
+  .muted { color: #8b9bb8; font-size: 13px; }
+  strong { color: #e8eefb; }
+  .up { color: #f87171; font-weight: 600; }   /* 涨 = 红（A股惯例） */
+  .down { color: #34d399; font-weight: 600; } /* 跌 = 绿 */
+  .flat { color: #8b9bb8; }
+  /* ===== Cards ===== */
+  .grid { display: grid; gap: 14px; }
+  .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 900px) { .g2, .g3 { grid-template-columns: 1fr; } }
+  .card { background: #101725; border: 1px solid #1f2a44; border-radius: 12px; padding: 18px 20px; }
+  .card h5 { font-size: 14.5px; color: #e8eefb; margin-bottom: 8px; }
+  .card .num { font-size: 24px; font-weight: 800; background: linear-gradient(90deg, #67e8f9, #c4b5fd); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .card p, .card li { font-size: 13px; color: #9fb0cc; }
+  /* ===== Tables ===== */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; font-size: 13px; background: #0e1522; border-radius: 10px; overflow: hidden; }
+  th { background: #141d31; color: #7dd3fc; text-align: left; padding: 9px 12px; font-weight: 600; border-bottom: 1px solid #1f2a44; white-space: nowrap; }
+  td { padding: 8px 12px; border-bottom: 1px solid #172136; color: #b8c6e0; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(34,211,238,.04); }
+  .fam { background: linear-gradient(90deg, rgba(34,211,238,.07), transparent); }
+  .fam td { color: #a5f3fc; font-weight: 700; font-size: 13.5px; }
+  /* bar */
+  .bar-wrap { background: #0a0f1a; border-radius: 4px; height: 8px; width: 100%; min-width: 90px; overflow: hidden; }
+  .bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #22d3ee, #3b82f6); }
+  .bar.pu { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+  /* ===== Timeline ===== */
+  .phase { border: 1px solid #1f2a44; border-radius: 12px; padding: 16px 20px; margin-bottom: 14px; background: #0e1522; position: relative; }
+  .phase .tag { display: inline-block; background: linear-gradient(90deg, #22d3ee, #3b82f6); color: #06121f; font-weight: 700; font-size: 12px; border-radius: 6px; padding: 2px 10px; margin-bottom: 8px; }
+  .phase h5 { font-size: 15px; color: #e8eefb; margin-bottom: 6px; }
+  .phase ul { padding-left: 18px; }
+  .phase li { font-size: 13px; color: #9fb0cc; margin-bottom: 4px; }
+  .phase li::marker { color: #22d3ee; }
+  /* ===== Matrix columns ===== */
+  .mx { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .mx { grid-template-columns: 1fr; } }
+  .mx .col { border-radius: 12px; padding: 16px 18px; border: 1px solid; }
+  .mx .rise { border-color: rgba(248,113,113,.4); background: rgba(248,113,113,.05); }
+  .mx .fall { border-color: rgba(52,211,153,.4); background: rgba(52,211,153,.05); }
+  .mx .shift { border-color: rgba(251,191,36,.4); background: rgba(251,191,36,.05); }
+  .mx h5 { font-size: 14px; margin-bottom: 10px; }
+  .mx .rise h5 { color: #fca5a5; } .mx .fall h5 { color: #6ee7b7; } .mx .shift h5 { color: #fcd34d; }
+  .mx li { font-size: 12.5px; color: #9fb0cc; margin-bottom: 6px; list-style: none; padding-left: 14px; position: relative; }
+  .mx li::before { content: "▸"; position: absolute; left: 0; }
+  .mx .rise li::before { color: #f87171; } .mx .fall li::before { color: #34d399; } .mx .shift li::before { color: #fbbf24; }
+  /* ===== Direction cards ===== */
+  .dir { display: grid; grid-template-columns: 44px 1fr; gap: 14px; background: #0e1522; border: 1px solid #1f2a44; border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; }
+  .dir .rank-num { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 19px; font-weight: 800; background: linear-gradient(135deg, rgba(34,211,238,.18), rgba(139,92,246,.18)); border: 1px solid rgba(34,211,238,.4); color: #67e8f9; }
+  .dir h5 { font-size: 15.5px; color: #e8eefb; margin-bottom: 4px; }
+  .dir .stars { color: #fbbf24; font-size: 12.5px; letter-spacing: 1px; margin-left: 8px; }
+  .dir p { font-size: 13px; margin-bottom: 6px; }
+  .dir .proj { font-size: 12.5px; color: #7dd3fc; background: rgba(34,211,238,.06); border-radius: 6px; padding: 6px 10px; margin-bottom: 6px; }
+  .dir .anti { font-size: 12.5px; color: #fca5a5; background: rgba(248,113,113,.05); border-radius: 6px; padding: 6px 10px; }
+  /* ===== Funnel ===== */
+  .funnel { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .fl { border-radius: 12px; padding: 14px 20px; border: 1px solid; }
+  .fl b.t { display: block; font-size: 14.5px; margin-bottom: 4px; }
+  .fl p { font-size: 12.5px; margin: 0; }
+  .fl.l0 { border-color: rgba(139,92,246,.45); background: linear-gradient(90deg, rgba(139,92,246,.10), transparent); }
+  .fl.l1 { border-color: rgba(59,130,246,.45); background: linear-gradient(90deg, rgba(59,130,246,.10), transparent); }
+  .fl.l2 { border-color: rgba(34,211,238,.45); background: linear-gradient(90deg, rgba(34,211,238,.10), transparent); }
+  .fl.l3 { border-color: rgba(52,211,153,.45); background: linear-gradient(90deg, rgba(52,211,153,.10), transparent); }
+  /* ===== Callout ===== */
+  .callout { border-radius: 12px; padding: 16px 20px; margin: 14px 0; font-size: 13.5px; border: 1px solid; }
+  .co-key { border-color: rgba(34,211,238,.4); background: rgba(34,211,238,.06); color: #a5f3fc; }
+  .co-warn { border-color: rgba(251,191,36,.4); background: rgba(251,191,36,.06); color: #fcd34d; }
+  .co-risk { border-color: rgba(248,113,113,.4); background: rgba(248,113,113,.06); color: #fca5a5; }
+  /* ===== Agent cards ===== */
+  .agent { border-radius: 12px; padding: 14px 18px; border: 1px solid #1f2a44; background: #0e1522; }
+  .agent h5 { font-size: 14px; margin-bottom: 6px; }
+  .agent p { font-size: 12.5px; }
+  .a-bull h5 { color: #fca5a5; } .a-bear h5 { color: #6ee7b7; } .a-tech h5 { color: #67e8f9; } .a-val h5 { color: #c4b5fd; } .a-macro h5 { color: #fcd34d; }
+  footer { border-top: 1px solid #1f2a44; padding-top: 20px; color: #55648a; font-size: 12px; }
+  .tag-ev { font-size: 11px; border-radius: 4px; padding: 1px 6px; margin-left: 4px; white-space: nowrap; }
+  .ev-s { background: rgba(52,211,153,.12); color: #6ee7b7; border: 1px solid rgba(52,211,153,.3); }
+  .ev-m { background: rgba(251,191,36,.12); color: #fcd34d; border: 1px solid rgba(251,191,36,.3); }
+  .ev-w { background: rgba(148,163,184,.12); color: #94a3b8; border: 1px solid rgba(148,163,184,.3); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ================= HERO ================= -->
+<div class="hero">
+  <div class="kicker">DEEP RESEARCH · 全景分类 · 演进推演 · 投资框架</div>
+  <h1>数字货币全景分类与投资框架研究报告</h1>
+  <div class="sub">基于 269 个市值靠前项目的深研数据，经五视角 agent 辩证推理交叉验证：全景分类总结 → 演进时间线方向变化 → 潜力方向筛选 → 未来推演 → 可复用的投资核心逻辑框架。</div>
+  <div class="badges">
+    <span class="badge">269 个项目 · 38 赛道</span>
+    <span class="badge">数据窗口 2026-10-08 ~ 10-15</span>
+    <span class="badge">中期基线 2026-08-26</span>
+    <span class="badge p">5 视角 agent 辩证</span>
+    <span class="badge g">交叉验证 · 证据分级</span>
+  </div>
+</div>
+
+<!-- ================= 0. 执行摘要 ================= -->
+<section>
+  <div class="sec-head"><span class="no">00</span><h2>执行摘要</h2><span class="en">Executive Summary</span></div>
+  <div class="grid g2">
+    <div class="card"><h5>① 市场定位：牛市后段高位分配期</h5><p>8-9 月普涨反弹（总市值 $2,375.6B→$2,525.4B，<span class="up">+6.3%</span>，207/263 上涨）已在 10 月第一周转为广度崩塌（191/263 下跌，BTC $86K→$80K 区间）。Meme <span class="down">-12.75%</span>、发射台 <span class="down">-17.66%</span> 率先领跌，微盘反而 <span class="up">+8.52%</span>——典型后段「抽奖式投机」。</p></div>
+    <div class="card"><h5>② 主线切换：叙事狂欢 → 合规金融基建</h5><p>中期资金再分配（8/26→10/15）：互操作 <span class="up">+190%</span>、BTC L2 <span class="up">+190%</span>、AI 算力 <span class="up">+78%</span>、DEX <span class="up">+64%</span> vs RWA 国债基金 <span class="down">-8.6%</span>、支付 <span class="down">-4.8%</span>。S&P 授权 HYPE 指数、CME BNB 期货、招商银行香港上链是标志性事件。</p></div>
+    <div class="card"><h5>③ 最有潜力方向（五方共识）</h5><p>① 链上金融基础设施（Perp DEX/DEX/借贷，唯一量价与基本面同向的中期方向）② 全流通错杀龙头（OP/STRK/GT/INJ/FIL/TIA，距中性目标 50-194% 且零解锁）③ BTC 生态 L2 ④ AI 算力/数据网络（AI 中唯一 7 日正收益子赛道 <span class="up">+30.9%</span>）⑤ 隐私基础设施合规化。</p></div>
+    <div class="card"><h5>④ 最大风险：三块隐性杠杆</h5><p>$96B 低流通稀释（20 个项目流通率&lt;30%，FDV $124.4B vs mcap $28.4B）；Meme+AI 伪需求市值（$24B+$7B）；A7A5 式监管硬伤（OFAC 制裁后 24h 量仅 $6K 但市值仍挂 $461M）。<strong>73% 项目下跌的广度下，规避方向比寻找多头更重要。</strong></p></div>
+  </div>
+  <div class="callout co-key">💡 <strong>核心结论</strong>：当前市场赚钱效应不在「选叙事」而在「排雷 + 跟资金」——先确认周期位置（分配期）→ 跟随中期资金流（而非 7 日动量）→ 用 FDV/流通率/收入捕获排雷 → 在错杀的全流通龙头中找赔率。</div>
+</section>
+
+<!-- ================= 1. 全景分类 ================= -->
+<section>
+  <div class="sec-head"><span class="no">01</span><h2>全景分类总结</h2><span class="en">Classification</span></div>
+  <h3>1.1 市值分层结构（269 个项目，合计约 $2,525B）</h3>
+  <table>
+    <tr><th>层级</th><th>数量</th><th>7 日表现</th><th>结构特征</th></tr>
+    <tr><td><strong>&gt;$100B 巨无霸</strong></td><td>3</td><td class="down">-4.96%（BTC）</td><td>BTC $1,654B + ETH $304B + BNB $98.8B；BTC+ETH 占总覆盖市值 <strong>77.5%</strong>，集中度畸形，山寨财富效应依赖 ETH/BTC 汇率</td></tr>
+    <tr><td><strong>$10B-100B 大盘</strong></td><td>8</td><td class="down">约 -7%</td><td>XRP/SOL/TRX/ZEC/HYPE/DOGE/XMR/LINK，机构通道主战场</td></tr>
+    <tr><td><strong>$1B-10B 中盘</strong></td><td>~50</td><td class="down">-7.11%（中位数）</td><td>机构资金撤离中盘——通常先于大盘见顶的信号</td></tr>
+    <tr><td><strong>$0.1B-1B 小盘</strong></td><td>~120</td><td class="flat">分化</td><td>弹性区，也是解锁抛压重灾区</td></tr>
+    <tr><td><strong>&lt;$0.1B 微盘</strong></td><td>~85</td><td class="up">+8.52%</td><td>与大盘中盘倒挂——后段「彩票化投机」回流尾部的信号</td></tr>
+  </table>
+
+  <h3>1.2 八大阵营 · 38 赛道总表（按总市值降序，红色=涨/绿色=跌）</h3>
+  <table>
+    <tr><th style="width:130px">赛道</th><th style="width:36px">n</th><th style="width:70px">市值$B</th><th style="width:150px">规模</th><th style="width:64px">7日</th><th>代表项目</th></tr>
+    <tr class="fam"><td colspan="6">A · 价值存储系（~$1,834B）</td></tr>
+    <tr><td>比特币生态/存储</td><td>8</td><td>1,666.9</td><td><div class="bar-wrap"><div class="bar" style="width:100%"></div></div></td><td class="down">-7.2%</td><td>BTC, BCH, LTC, KAS, BSV, DCR, XEC, QTUM</td></tr>
+    <tr><td>以太坊 L1</td><td>1</td><td>304.1</td><td><div class="bar-wrap"><div class="bar" style="width:18%"></div></div></td><td class="down">-9.2%</td><td>ETH</td></tr>
+    <tr><td>支付/跨境</td><td>6</td><td>134.2</td><td><div class="bar-wrap"><div class="bar" style="width:8%"></div></div></td><td class="down">-9.5%</td><td>XRP, TRX, RAIN, XLM, ZBCN, XCN</td></tr>
+    <tr><td>隐私币</td><td>7</td><td>33.0</td><td><div class="bar-wrap"><div class="bar pu" style="width:2%"></div></div></td><td class="down">-6.1%</td><td>ZEC, XMR, NIGHT, DASH, BDX, RAIL, ZEN</td></tr>
+    <tr class="fam"><td colspan="6">B · 智能合约平台系（~$245B）</td></tr>
+    <tr><td>智能合约 L1</td><td>30</td><td>115.5</td><td><div class="bar-wrap"><div class="bar" style="width:7%"></div></div></td><td class="down">-5.8%</td><td>SOL, ADA, NEAR, CC, AVAX, SUI, HBAR, GRAM, DOT</td></tr>
+    <tr><td>交易所公链</td><td>4</td><td>104.7</td><td><div class="bar-wrap"><div class="bar" style="width:6.3%"></div></div></td><td class="down">-3.4%</td><td>BNB, CRO, OKB, KAIA</td></tr>
+    <tr><td>基础设施/预言机</td><td>11</td><td>13.7</td><td><div class="bar-wrap"><div class="bar" style="width:0.8%"></div></div></td><td class="flat">+0.1%</td><td>LINK, BCAP, PYTH, FLR, TIA, GRT, ENS</td></tr>
+    <tr><td>Layer2/ZK 扩容</td><td>8</td><td>5.2</td><td><div class="bar-wrap"><div class="bar pu" style="width:0.3%"></div></div></td><td class="down">-10.0%</td><td>MNT, ARB, POL, STRK, OP, ZK, SOON, MINA</td></tr>
+    <tr><td>互操作/跨链</td><td>5</td><td>4.8</td><td><div class="bar-wrap"><div class="bar pu" style="width:0.3%"></div></div></td><td class="up">+3.3%</td><td>QNT, ZRO, RUNE, DBR, W</td></tr>
+    <tr><td>存储 / DAO</td><td>4</td><td>1.6</td><td><div class="bar-wrap"><div class="bar" style="width:0.1%"></div></div></td><td class="down">-2.1%</td><td>FIL, BTT, AR, META</td></tr>
+    <tr class="fam"><td colspan="6">C · 交易与衍生品系（~$35B）</td></tr>
+    <tr><td>Perp DEX/衍生品</td><td>7</td><td>22.6</td><td><div class="bar-wrap"><div class="bar" style="width:1.4%"></div></div></td><td class="down">-7.2%</td><td>HYPE, ASTER, LIT, DRV, SNX, EDGE, DYDX</td></tr>
+    <tr><td>DEX/AMM</td><td>11</td><td>9.4</td><td><div class="bar-wrap"><div class="bar pu" style="width:0.6%"></div></div></td><td class="up">+3.1%</td><td>UNI, JUP, AERO, CAKE, RAY, CRV, MET, ORCA</td></tr>
+    <tr><td>发射台/Launchpad</td><td>2</td><td>2.8</td><td><div class="bar-wrap"><div class="bar" style="width:0.2%"></div></div></td><td class="down">-17.7%</td><td>PUMP, PONS</td></tr>
+    <tr class="fam"><td colspan="6">D · DeFi 金融服务系（~$22B）</td></tr>
+    <tr><td>交易所平台币</td><td>13</td><td>24.1</td><td><div class="bar-wrap"><div class="bar" style="width:1.4%"></div></div></td><td class="down">-3.8%</td><td>WBT, LEO, HTX, BGB, GT, KCS, BP</td></tr>
+    <tr><td>其他 DeFi</td><td>3</td><td>3.2</td><td><div class="bar-wrap"><div class="bar" style="width:0.2%"></div></div></td><td class="up">+1.6%</td><td>WLFI, JST, SUN</td></tr>
+    <tr><td>借贷</td><td>8</td><td>5.4</td><td><div class="bar-wrap"><div class="bar pu" style="width:0.3%"></div></div></td><td class="up">+3.5%</td><td>AAVE, MORPHO, SYRUP, COMP, KMNO, FLUID, ANVL</td></tr>
+    <tr><td>收益/结构化</td><td>5</td><td>4.1</td><td><div class="bar-wrap"><div class="bar" style="width:0.2%"></div></div></td><td class="down">-8.1%</td><td>ENA, PENDLE, FF, OHM, APYUSD</td></tr>
+    <tr><td>CDP / 质押 / 保险</td><td>7</td><td>3.4</td><td><div class="bar-wrap"><div class="bar" style="width:0.2%"></div></div></td><td class="down">-6.9%</td><td>SKY, MKR, ETHFI, LDO, JTO, EIGEN, NXM</td></tr>
+    <tr class="fam"><td colspan="6">E · 链上「美联储」系（~$24B，本期结构性变化最大）</td></tr>
+    <tr><td>稳定币</td><td>17</td><td>5.5</td><td><div class="bar-wrap"><div class="bar pu" style="width:0.3%"></div></div></td><td class="down">-0.8%</td><td>U, YLDS, A7A5, XPL, USDAI, FDUSD, JPYC</td></tr>
+    <tr><td>RWA-基金/国债</td><td>11</td><td>6.2</td><td><div class="bar-wrap"><div class="bar" style="width:0.4%"></div></div></td><td class="down">-0.8%</td><td>ONDO, BUIDL, JTRSY, OUSG, USTBL</td></tr>
+    <tr><td>RWA-黄金/实物</td><td>5</td><td>6.1</td><td><div class="bar-wrap"><div class="bar" style="width:0.4%"></div></div></td><td class="down">-1.4%</td><td>XAUT, PAXG, KAU, KAG</td></tr>
+    <tr><td>RWA-信贷 / 股票 / CeFi</td><td>12</td><td>2.3</td><td><div class="bar-wrap"><div class="bar pu" style="width:0.14%"></div></div></td><td class="flat">-1.3%</td><td>SSTN 系列, STRCX, CRCLB, MSTRX, NEXO</td></tr>
+    <tr class="fam"><td colspan="6">F · AI 与算力系（~$11B）</td></tr>
+    <tr><td>AI</td><td>17</td><td>7.2</td><td><div class="bar-wrap"><div class="bar" style="width:0.4%"></div></div></td><td class="down">-1.5%</td><td>TAO, VVV, FET, VIRTUAL, SENT, NMR</td></tr>
+    <tr><td>AI 算力/数据网络</td><td>6</td><td>2.2</td><td><div class="bar-wrap"><div class="bar pu" style="width:0.14%"></div></div></td><td class="up">+30.9%</td><td>RENDER, GRASS, PRL, ATH, GLM, RLC</td></tr>
+    <tr><td>AI/去中心化身份</td><td>2</td><td>2.0</td><td><div class="bar-wrap"><div class="bar" style="width:0.12%"></div></div></td><td class="down">-7.5%</td><td>WLD, H</td></tr>
+    <tr class="fam"><td colspan="6">G · 物理与游戏系（~$5B）</td></tr>
+    <tr><td>GameFi/iGaming</td><td>13</td><td>2.3</td><td><div class="bar-wrap"><div class="bar" style="width:0.14%"></div></div></td><td class="up">+4.8%</td><td>AKE, SAND, AXS, MANA, IMX, CHZ</td></tr>
+    <tr><td>DePIN 物理基础设施</td><td>10</td><td>1.5</td><td><div class="bar-wrap"><div class="bar" style="width:0.1%"></div></div></td><td class="down">-8.9%</td><td>JASMY, THETA, 2Z, GOMINING, AIOZ, HNT</td></tr>
+    <tr><td>NFT/IP</td><td>4</td><td>1.2</td><td><div class="bar-wrap"><div class="bar" style="width:0.07%"></div></div></td><td class="up">+1.3%</td><td>PENGU, CARDS, NFT, SUPER</td></tr>
+    <tr class="fam"><td colspan="6">H · 投机与文化系（~$25B）</td></tr>
+    <tr><td>Meme</td><td>23</td><td>24.1</td><td><div class="bar-wrap"><div class="bar" style="width:1.4%"></div></div></td><td class="down">-12.8%</td><td>DOGE, SHIB, M, PEPE, TRUMP, BONK, WIF</td></tr>
+    <tr><td>钱包 / 量子抗性</td><td>4</td><td>0.6</td><td><div class="bar-wrap"><div class="bar" style="width:0.04%"></div></div></td><td class="flat">-4.3%</td><td>TWT, VSN, SFP, QRL</td></tr>
+  </table>
+  <p class="muted">注：规模条以 BTC 赛道（$1,666.9B）为 100% 归一；紫色条为 7 日正收益赛道。Meme 板块 $24B 市值中多数无现金流——M（MemeCore）$2.4B 市值 24h 量仅 $63K（Vol/MC=0.003%）是最危险样本。</p>
+</section>
+
+<!-- ================= 2. 演进时间线 ================= -->
+<section>
+  <div class="sec-head"><span class="no">02</span><h2>项目演进时间线与方向变化</h2><span class="en">Evolution Timeline</span></div>
+  <div class="phase"><span class="tag">阶段 1 · 2025 H1-H2</span><h5>AI 网络与 Meme 双狂热，合规稳定币萌芽</h5><ul>
+    <li>dTAO 主网 2025-02 激活，7 天后 Coinbase 上线 TAO；2025-09 subnet 128 槽位满员 <span class="tag-ev ev-s">强</span></li>
+    <li>Meme 达顶点：USELESS 2025-10 ATH $0.43（4 个月 83 倍）；DOGE 2025 全年 -62.86% <span class="tag-ev ev-s">强</span></li>
+    <li>JPYC 成日本首个稳定币；A7A5（俄罗斯卢布）发行，非美元稳定币份额 ~41% <span class="tag-ev ev-m">中</span></li>
+  </ul></div>
+  <div class="phase"><span class="tag">阶段 2 · 2025Q4-2026Q1</span><h5>TGE 潮 + 机构化破冰 + 政治 Meme</h5><ul>
+    <li>ZAMA ICO 承诺 $118M；MON/SOON 新 L1/L2 泡沫化 <span class="tag-ev ev-s">强</span></li>
+    <li><strong>机构化三连</strong>：XRP ETF 累计流入 $1.5B+（2026-03）；S&P 道琼斯授权 HYPE 指数；Grayscale 递交 GTAO S-1 <span class="tag-ev ev-s">强</span></li>
+    <li>政治 Meme：MELANIA 发行即炒作；WLFI 创历史新低 <span class="tag-ev ev-m">中</span></li>
+  </ul></div>
+  <div class="phase"><span class="tag">阶段 3 · 2026Q2</span><h5>旧叙事死亡确认 + DeFi 复兴与 RWA 深化酝酿</h5><ul>
+    <li>旧叙事批量 ATL：BAT / FLOW / ZK / FIL 创新低，CSPR 归零至 $33-47M <span class="tag-ev ev-s">强</span></li>
+    <li>DeFi 复兴：Kamino 转型 Solana 信贷协调层；Maple AUM $4.6B（12 个月 +81%）<span class="tag-ev ev-s">强</span></li>
+    <li><strong>RWA 向信贷/股票延伸</strong>：Robinhood Chain 2026-07-01 主网上线（专为 RWA 的 EVM L2）；Ethena 向 STAC（代币化 CLO）配置 $250M；STRCX 发行 <span class="tag-ev ev-s">强</span></li>
+  </ul></div>
+  <div class="phase"><span class="tag">阶段 4 · 2026Q3</span><h5>隐私复兴 + BTC L2 + DeFi 蓝筹普涨</h5><ul>
+    <li>ZEC 2026-09-07 最高 $1,256（单周 +41%），XMR 抗下架潮 <span class="tag-ev ev-s">强</span></li>
+    <li>DeFi 蓝筹 Q3：CRV +112.92%、LDO +90.67%、AAVE +86.75%、PENDLE +81.24%——板块性资金回流 <span class="tag-ev ev-s">强</span></li>
+    <li>sBTC TVL $545M；Zama Shielded TVL $40M→$90M+；旧资产继续出清，市场「新旧替换」而非全面牛市 <span class="tag-ev ev-s">强</span></li>
+  </ul></div>
+  <div class="phase"><span class="tag">阶段 5 · 2026-10</span><h5>回调中的事件轮动 + 监管事件</h5><ul>
+    <li>BTC $86K→$80K（10/8 一度 $80,427），191/263 项目 7 日下跌 <span class="tag-ev ev-s">强</span></li>
+    <li>事件脉冲：ANVL 因 Founders Fund $5M 买入单日 +83%；RLC +180%；QRL +72%（量仅 $18.5K）<span class="tag-ev ev-m">中</span></li>
+    <li><strong>监管：OFAC 2026-10-01 制裁 A7A5（列「重大跨国犯罪组织」），FinCEN 发现 $179.1B 转账</strong> <span class="tag-ev ev-m">中</span></li>
+  </ul></div>
+
+  <h3>2.1 方向变化矩阵（8/26 → 10/15，约 7 周中期资金流）</h3>
+  <div class="mx">
+    <div class="col rise"><h5>▲ 崛起（资金流入）<span class="tag-ev ev-s">强</span></h5><ul>
+      <li><strong>互操作 +190%</strong>：QNT +279%（$0.92B→$3.49B）、ZRO +100%</li>
+      <li><strong>BTC L2 +190%</strong>：BTW +264%、STX +50%（sBTC TVL $545M）、GRX +62%</li>
+      <li><strong>Perp DEX 头部</strong>：HYPE 逆势企稳 $17.8B→$19.0B、DRV +213%</li>
+      <li><strong>隐私 +44%</strong>：ZEC +59%（$13.0B→$20.7B）、NIGHT +136%</li>
+      <li><strong>DeFi +64%</strong>：RAY +219%、JUP +70%、ENA +106%、UNI +74%</li>
+      <li><strong>AI 算力 +78%</strong>：GRASS +106%、RENDER +29%（7 日 +30.9% 全场最强）</li>
+      <li><strong>代币化股票</strong>：STRCX AUM $158.6M（全球最大）、CRCLB 敞口 $345M</li>
+    </ul></div>
+    <div class="col fall"><h5>▼ 退潮（资金流出）<span class="tag-ev ev-s">强</span></h5><ul>
+      <li><strong>代币化国债旧层 -8.6%</strong>：JTRSY -63%（Q3 AUM -58.6% 赎回）、ONYC -62%、BUIDL -21%（30 天 AUM -18.5%）</li>
+      <li><strong>Meme</strong>：SPX -27%、CASHCAT -37%、DOG -22%；板块 7 日 -12.75%</li>
+      <li><strong>老生态 L1</strong>：CSPR 归零、FLOW $53M、EGLD ~$4、NEO ~$2.5、BAT $0.10</li>
+      <li><strong>老 DeFi 蓝筹</strong>：DYDX 12 个月 -80.5%、SNX -80%、CVX -42.3%</li>
+      <li><strong>支付 -4.8%</strong>：RAIN -43%（$12.9B→$7.3B，换手率仅 0.18%）</li>
+      <li><strong>发射台</strong>：7 日 -17.66%（PONS -31%）</li>
+    </ul></div>
+    <div class="col shift"><h5>◆ 换皮（旧叙事新形态）<span class="tag-ev ev-s">强</span></h5><ul>
+      <li><strong>RWA 演进链</strong>：稳定币 → 代币化国债（退潮）→ 代币化股票（崛起）→ RWA 信贷（SSTN/STAC/nOPAL）。国债层缩水与股票层扩张同步 = 同一叙事的形式迁移而非消失</li>
+      <li><strong>AI 换皮</strong>：FORM「AI 转型」、TRAC「转向可信 AI」、litepaper→TGE→空投三步曲；FDV/MCap 畸高（DGAI 6.66x、SENT 4.75x、KITE 4.18x）</li>
+      <li><strong>DePIN 换皮</strong>：AIOZ 并入 AI 模型、THETA 绑定 AI Agent——但板块 7 日 -8.92%、2Z 解锁后单周 -38%，技术叙事未转化为收入</li>
+      <li><strong>量子抗性</strong>：QRL +72% 但 24h 成交仅 $18.5K，纯概念换皮</li>
+    </ul></div>
+  </div>
+
+  <h3>2.2 资金流向结构：机构在「通道」，投机在「尾部」</h3>
+  <div class="grid g2">
+    <div class="card"><h5>机构资金：通道在扩张，仓位在收缩</h5><p>CME BNB/BCH 期货、S&P HYPE 指数、XRP ETF $1.5B+、招商银行香港 MMF 上链、STRCX 全球最大代币化股票——<strong>通道扩张</strong>；但 BUIDL AUM 30 天 -18.5%、JTRSY Q3 -58.6%、ETF 增速放缓——<strong>仓位收缩</strong>。净判断：机构在减速加仓，而非撤退 <span class="tag-ev ev-m">推测</span></p></div>
+    <div class="card"><h5>投机资金：退守微盘尾部</h5><p>PUMP 7 周 +49%、微盘 7 日 +8.52%、RLC +180%（市值 $103M vs 24h 量 $82M，日换手 80%）、ANVL +61%（$5M 买入即 +83%）——小资金、叙事驱动、低流动性容器 <span class="tag-ev ev-s">强</span></p></div>
+  </div>
+</section>
+
+<!-- ================= 3. 潜力方向 ================= -->
+<section>
+  <div class="sec-head"><span class="no">03</span><h2>最有潜力方向筛选</h2><span class="en">Top Directions</span></div>
+  <p class="muted">共识度：★★★★★ 五视角全部支持 · ★★★★ 四票支持 · ★★★ 三票支持或分歧较大。所有结论均经多头/空头/技术演进/估值/宏观五方交叉验证。</p>
+
+  <div class="dir"><div class="rank-num">1</div><div>
+    <h5>链上金融基础设施（Perp DEX + DEX + 借贷）<span class="stars">★★★★★</span></h5>
+    <div class="proj">HYPE $19.0B（S&P 指数授权·交易量第一）· RAY +219% · ORCA 日量 $197M · MORPHO TVL $6.78B/mcap $1.67B · FLUID TVL $6B+ 年收入 $15M+ · KMNO 供应 $2.48B(+11.7% MoM)</div>
+    <p>唯一「量价与基本面同向」的中期方向：机构化（指数/期货/CME）与真实用量互相验证，货币化最直接；借贷板块是唯一 7 日正收益的传统 DeFi 赛道（+3.52%）。</p>
+    <div class="anti">反方：HYPE 带 4.29x FDV/MCap 稀释；UNI/JUP 价值捕获弱（纯治理/协议费下降）；监管是行业级硬风险。</div>
+  </div></div>
+
+  <div class="dir"><div class="rank-num">2</div><div>
+    <h5>全流通错杀龙头<span class="stars">★★★★★</span></h5>
+    <div class="proj">OP +124%（ATH 跌 97%）· STRK +64%（7 日 +53.6% 动量最强）· GT +53%（Q3 销毁 ~2M GT 实证）· INJ +59% · FIL +53%（ATL 附近）· KAIA +105% · TIA +114% · JTO（MEV 垄断，JitoSOL 14M SOL）</div>
+    <p>距中性目标 50-194% 且零解锁压力；10 月回调是纯情绪性下跌，估值修复只等叙事。L2 板块 7 日 -10% 全场最惨，但 STRK 同期 +53.6% 证明资金在板块内选龙头。</p>
+    <div class="anti">反方：STRK 涨幅主因 33 家交易所覆盖而非生态 TVL <span class="tag-ev ev-m">中</span>；L2 价值捕获整体仍待验证。</div>
+  </div></div>
+
+  <div class="dir"><div class="rank-num">3</div><div>
+    <h5>BTC 生态 L2<span class="stars">★★★★</span></h5>
+    <div class="proj">STX $0.73B（sBTC TVL $545M · 94% 流通 · 乐观 $3.4-6.8B）· BTW $3.98B（7 周 +264%）· GRX +62%</div>
+    <p>BTC 数字黄金地位在宏观波动中验证后，资金外溢应用层；赛道 7 日加权 +2.0%（少数正收益大赛道），中期 +190%。</p>
+    <div class="anti">反方：BTW 流通率仅 27%、市值口径 $3.86-6.93B 差异大 <span class="tag-ev ev-w">弱</span>；Rootstock 等竞争；生态开发者数量仍是短板。</div>
+  </div></div>
+
+  <div class="dir"><div class="rank-num">4</div><div>
+    <h5>AI 算力/数据网络<span class="stars">★★★★</span></h5>
+    <div class="proj">GRASS +106%（Content API 10/8-9 上线）· RENDER $1.0B（94% 流通 · 乐观 $4.5-9B）· 板块 7 日 +30.87% 全场最高</div>
+    <p>AI 是 2026-27 最强产业叙事，但 AI 代币内部分化剧烈（板块 7 日 -1.5%），资金只流向有真实资源/数据供给的算力与数据子赛道——事件/资金/回调三重信号在 GRASS 齐备。</p>
+    <div class="anti">反方：GRASS 流通率 35% + 空投抛压至 2027/1/22；RENDER 2025 年 -81% 证明该叙事波动极大。</div>
+  </div></div>
+
+  <div class="dir"><div class="rank-num">5</div><div>
+    <h5>隐私基础设施合规化<span class="stars">★★★</span></h5>
+    <div class="proj">NIGHT $0.76B（10/2 主网后 +159%，Hoskinson 背书）· ZAMA（Shielded TVL $90M+，FHE 获三大云厂商支持）· ZEC $20.7B（9 月破 $1,256 验证需求）</div>
+    <p>新技术封装（FHE/partner chain）比老币更有赔率：NIGHT 乐观 $3.3-6.6B（+338~776%）。ZEC 中性上限仅 +21%——「稳但没空间」。</p>
+    <div class="anti">反方：多国下架监管是行业级硬约束；NIGHT 需消化主网后 +159% 的过热。</div>
+  </div></div>
+
+  <div class="dir"><div class="rank-num">6</div><div>
+    <h5>代币化股票 / RWA 信贷深化<span class="stars">★★★</span></h5>
+    <div class="proj">STRCX AUM $158.6M（全球最大代币化股票）· CRCLB 敞口 $345M · SSTN/STAC/nOPAL 信贷层 · Ondo SEC Tokenized Securities Roadmap</div>
+    <p>国债层赎回（JTRSY -58.6%）倒逼资金迁向高收益层；Robinhood Chain 主网就位。这是 RWA 叙事的「形式迁移」而非消失。</p>
+    <div class="anti">反方：市值≠AUM（JTRSY 价格锚定 $1.12 而 Q3 AUM -58.6%）；证券定性/KYC 不确定性。</div>
+  </div></div>
+
+  <div class="dir"><div class="rank-num">7</div><div>
+    <h5>互操作/跨链<span class="stars">★★★</span></h5>
+    <div class="proj">QNT +279%（$0.92B→$3.49B，99.5% 流通）· ZRO +100%（30 天 +105%）· W 7 日 +24%</div>
+    <p>中期资金流全场第一：多链格局固化下跨链消息/桥是刚需，全流通无解锁。</p>
+    <div class="anti">反方：<strong>基本面最虚</strong>——QNT 多头论据无一条涉及收入或采用量化，自身 bear 写明「无实际收益、纯治理」；只适合小仓位跟随 <span class="tag-ev ev-w">弱</span>。</div>
+  </div></div>
+
+  <div class="callout co-warn">⚠️ <strong>明确回避区（五方共识）</strong>：① Meme/政治 Meme（23 个 $24.07B，7 日 -12.75%，伪需求+无价值捕获）② 发射台（PUMP 收入 -16%，商业模式与 Meme 周期强绑定）③ 低流通高 FDV 新项目（SOON 32.5x、MON 8.5x、BTW 3.7x、LIT 4.0x）④ 代币化国债旧层（利率下行→赎回螺旋）⑤ AI 泛叙事无收入币（litepaper→TGE→空投三步曲，技术未经验证即叙事化）。</div>
+</section>
+
+<!-- ================= 4. 未来推演 ================= -->
+<section>
+  <div class="sec-head"><span class="no">04</span><h2>未来方向推演（2026Q4-2027）</h2><span class="en">Future Scenarios</span></div>
+  <h3>4.1 三条技术-商业路径</h3>
+  <div class="grid g3">
+    <div class="card"><h5>路径 A · 合规 RWA 深化（国债→股票+信贷）</h5><p><strong>触发</strong>：Ondo SEC 路线图；Robinhood Chain 就位；国债层赎回倒逼<br><strong>受益</strong>：STRCX/CRCLB/MSTRX、SSTN/STAC/nOPAL、ONDO、LINK、CC<br><strong>验证</strong>：STRCX AUM 破 $200M、国债 AUM 企稳、SEC 规则落地</p></div>
+    <div class="card"><h5>路径 B · 隐私复兴合规化（投机→基础设施）</h5><p><strong>触发</strong>：ZEC $1,256 验证需求；Midnight 主网；Zama FHE 获三大云厂商支持<br><strong>受益</strong>：NIGHT、ZAMA、RAIL、CC（老币弹性有限）<br><strong>验证</strong>：Shielded TVL $90M→$150M+、机构采用机密计算</p></div>
+    <div class="card"><h5>路径 C · 链上金融基础设施机构化（当前证据最充分）</h5><p><strong>触发</strong>：S&P HYPE 指数已立；CME BNB 期货；Q3 DeFi 蓝筹普涨<br><strong>受益</strong>：HYPE、DRV/LIT、UNI（费用开关）、AAVE/MORPHO/FLUID、ENA/PENDLE<br><strong>验证</strong>：DEX 交易量份额续升、更多指数/期货/ETF 产品、TVL 与收入同步增长</p></div>
+  </div>
+  <h3>4.2 三情景宏观推演</h3>
+  <table>
+    <tr><th style="width:70px">情景</th><th style="width:80px">概率判断</th><th>宏观条件</th><th>市场路径</th><th>最抗跌/最受益</th><th>最受伤</th></tr>
+    <tr><td><strong>牛</strong></td><td>偏低</td><td>美联储转入降息+财政宽松+SBR 落地</td><td>BTC $150-200K、ETH $5-8K</td><td>RWA、HYPE、BNB、隐私、DEX/借贷</td><td>—</td></tr>
+    <tr><td><strong>基准</strong></td><td><span class="up">最高</span> <span class="tag-ev ev-m">推测</span></td><td>利率高位徘徊、政策模糊、地缘扰动</td><td>BTC $80-120K 区间震荡，「机构慢牛+山寨结构性熊」</td><td>BTC、全流通老币（LTC/BCH）、RWA 国债票息锚、有收入的 DEX/借贷龙头</td><td>Meme、发射台、低流通高 FDV、微盘彩票</td></tr>
+    <tr><td><strong>熊</strong></td><td>偏低</td><td>衰退交易+ETF 净流出</td><td>BTC $60-70K、山寨普跌 50%+</td><td>BTC（避险轮动至 70%+ 市值占比）、稳定币/RWA 收益产品</td><td>SOON 类极低流通、Meme、发射台</td></tr>
+  </table>
+  <h3>4.3 关键验证信号清单（未来 3-6 个月）</h3>
+  <div class="grid g2">
+    <div class="card"><p>① BTC 能否收复 $86K（否则分配期可能切换至下跌期）<br>② DEX/Perp DEX 交易量份额与协议收入是否同步增长<br>③ 代币化股票 AUM（STRCX）能否延续并扩散</p></div>
+    <div class="card"><p>④ 隐私基础设施 Shielded TVL 能否从 $90M 迈向 $150M+<br>⑤ RWA 国债类 AUM 是否企稳（利率路径的直接读数）<br>⑥ 低流通项目解锁节奏与承接盘；更多机构通道事件（新 ETF/CME 期货/指数授权）</p></div>
+  </div>
+</section>
+
+<!-- ================= 5. 多 agent 辩证 ================= -->
+<section>
+  <div class="sec-head"><span class="no">05</span><h2>多 Agent 辩证推理汇总</h2><span class="en">Dialectical Synthesis</span></div>
+  <div class="grid g3">
+    <div class="agent a-bull"><h5>🐂 多头逻辑</h5><p>链上交易基础设施是最确定主线；甜点区在「中期翻倍+短期回调+全流通」中小市值（GRASS/NEAR/STX/RUNE/PYTH）。<strong>跟中期资金流+等短期回调；RWA/AI 泛叙事/微盘动量三大降权。</strong></p></div>
+    <div class="agent a-bear"><h5>🐻 空头/风险审计</h5><p>最危险的不是 price in 的回调，而是 $96B 低流通稀释、Meme+AI 伪需求市值、A7A5 式监管硬伤三块隐性杠杆。<strong>73% 项目下跌的广度下，规避方向比寻找多头更重要。</strong></p></div>
+    <div class="agent a-tech"><h5>⚙️ 技术/叙事演进</h5><p>主线已从「AI+Meme 叙事狂欢」切换为「机构化采用驱动的合规金融基建」。<strong>警惕 AI/RWA 换皮、低流通脉冲、无成交量叙事；下一阶段看三条路径。</strong></p></div>
+    <div class="agent a-val"><h5>⚖️ 估值/代币经济</h5><p>市场被撕成两半：错杀的全流通龙头 vs FDV 幻觉里的低流通泡沫。<strong>用 FDV 而非 mcap 排名、用收入捕获而非叙事定价；右上象限是主攻方向。</strong></p></div>
+    <div class="agent a-macro"><h5>🌐 宏观/市场结构</h5><p>牛市后段高位分配期；机构在扩张通道但收缩仓位，投机退守微盘尾部。<strong>基准情景「指数震荡、结构剧震」，抗跌的是 BTC 与全流通机构标的。</strong></p></div>
+    <div class="agent" style="border-color: rgba(34,211,238,.4);"><h5 style="color:#67e8f9;">✅ 五方全共识（最高置信度）</h5><p>① 链上金融基础设施是最确定主线 ② 低流通高 FDV 是最可量化的排雷项 ③ RWA 叙事与资金背离（旧层退潮、新层崛起）④ Meme/发射台是最大伪需求集合 ⑤ 「全流通+有收入+龙头错杀」是最优风险收益比 ⑥ AI 板块剧烈分化，只有算力/数据子赛道有真实资金。</p></div>
+  </div>
+  <h3>5.1 主要分歧及裁决</h3>
+  <table>
+    <tr><th style="width:110px">分歧点</th><th>多方观点</th><th>辩证裁决</th></tr>
+    <tr><td><strong>HYPE</strong></td><td>多头：赛道确定性；空头：$62.6B 稀释中风险；估值：中性空间仅 +13%</td><td><strong>赛道代理而非个币弹性</strong>：作底仓/赛道 beta，不追高；流通口径冲突（全流通 vs 23.3%）需链上核实</td></tr>
+    <tr><td><strong>QNT +279%</strong></td><td>多头诚实标注「资金先行、基本面待验证」；估值：已超中性上限</td><td><strong>不追高</strong>，观察收入验证信号（Overledger 许可费模式无法验证）</td></tr>
+    <tr><td><strong>隐私币</strong></td><td>多头：ZEC 稳但没空间，NIGHT 有小赔率；空头：监管 price in</td><td><strong>新标的（NIGHT/ZAMA）&gt; 老币（ZEC）</strong>，小仓位参与</td></tr>
+    <tr><td><strong>ENA</strong></td><td>多头暗线（下跌放量接盘强）；估值：贴中性中值</td><td>中等仓位、事件驱动（USDe 机制+渣打预测锚，注意后者是卖方观点非事实）</td></tr>
+    <tr><td><strong>RWA</strong></td><td>空头：赎回潮；技术演进：形式迁移；宏观：仓位收缩</td><td><strong>旧层（国债基金）回避，新层（股票/信贷）观察</strong>——不是消失而是形式迁移</td></tr>
+  </table>
+</section>
+
+<!-- ================= 6. 投资框架 ================= -->
+<section>
+  <div class="sec-head"><span class="no">06</span><h2>适合投资的核心逻辑框架</h2><span class="en">Investment Framework</span></div>
+  <h3>6.1 四层漏斗</h3>
+  <div class="funnel">
+    <div class="fl l0"><b class="t" style="color:#c4b5fd;">Layer 0 · 宏观择时（周期定位）</b><p>当前判断：牛市后段高位分配期 → 基准情景「指数震荡、结构剧震」。纪律：总仓位控制；BTC 作防御底仓；投机仓位严格限额。</p></div>
+    <div class="fl l1"><b class="t" style="color:#93c5fd;">Layer 1 · 赛道方向选择（跟中期资金流，非短期动量）</b><p>8/26→10/15 市值变化 = 7 周资金流成绩单（最硬的中期证据）。加分项：机构通道（ETF/CME/指数/托管）+ 技术-商业耦合（TVL/收入/真实用户）。优先序：链上金融基础设施 &gt; BTC L2 &gt; AI 算力/数据 &gt; 隐私新基建。</p></div>
+    <div class="fl l2"><b class="t" style="color:#67e8f9;">Layer 2 · 排雷过滤（一票否决）</b><p>FDV/MCap&gt;3 → 排除（除非有明确解锁消化机制）｜监管硬伤 → 排除｜Vol/MC&lt;1%（流动性枯竭）→ 排除｜无收入/无 TVL/无用户的纯叙事 → 排除｜市值口径多源差 2-3 倍 → 先核实再决策。</p></div>
+    <div class="fl l3"><b class="t" style="color:#6ee7b7;">Layer 3 · 个币评分（八维卡）</b><p>在通过排雷的标的中按综合分排序，等短期回调分批建仓；所有头寸预设「证伪信号」退出条件。</p></div>
+  </div>
+  <h3>6.2 八维筛选评分卡</h3>
+  <table>
+    <tr><th style="width:150px">维度</th><th style="width:60px">权重</th><th>高分特征</th><th>低分特征（一票否决级）</th></tr>
+    <tr><td><strong>1. 流通结构</strong></td><td>20%</td><td>全流通/近全流通（NEAR 100%、RENDER 94%、STX 94%、QNT 99.5%）</td><td>流通率&lt;30%（SOON 3.1%、MON 11.8%、BTW 27%、LIT 25%）</td></tr>
+    <tr><td><strong>2. 价值捕获</strong></td><td>20%</td><td>A 级：收入回购销毁实证（BNB/GT/KCS/MX/AAVE/GOMINING）</td><td>C 级：纯治理权（UNI/OKB/QNT/TIA 无收入捕获证据）</td></tr>
+    <tr><td><strong>3. 估值空间</strong></td><td>15%</td><td>距中性目标 &gt;50%（OP/KAIA/TIA/EIGEN）</td><td>已超中性上限（QNT/PYTH/ZEC/ENA）</td></tr>
+    <tr><td><strong>4. 中期资金流</strong></td><td>15%</td><td>7 周市值翻倍级（RAY/STRK/GRASS/ENA）</td><td>7 周萎缩（JTRSY/ONYC/BUIDL）</td></tr>
+    <tr><td><strong>5. 短期动量</strong></td><td>10%</td><td>强势赛道+回调 = 机会；弱势赛道+反弹 = 逃命</td><td>弱势赛道+破位 = 回避；微盘脉冲 = 流动性事件非趋势</td></tr>
+    <tr><td><strong>6. 机构通道</strong></td><td>10%</td><td>ETF/CME 期货/指数授权/托管（BTC/XRP/BNB/HYPE/BCH/LTC）</td><td>无机构通道且监管敏感</td></tr>
+    <tr><td><strong>7. 技术-商业耦合</strong></td><td>5%</td><td>高：FLUID/KMNO/ZAMA/JTO/STX（TVL/收入可验证）</td><td>低：QRL/ANVL/BTW/SAND（涨幅与成交量/基本面背离）</td></tr>
+    <tr><td><strong>8. 监管状态</strong></td><td>5%</td><td>合规明确、RWA 监管红利期</td><td>制裁/离岸/政治捆绑（A7A5/TRUMP/WLFI）</td></tr>
+  </table>
+  <h3>6.3 应该关注的点（监控清单）</h3>
+  <div class="grid g2">
+    <div class="card"><h5>日常监控（周频）</h5><p>① <strong>解锁日历</strong>——低流通项目的每次解锁都是「FDV 配不配」的全民公投（全库仅 CHIP 有明确时间表证据）<br>② <strong>AUM/TVL 趋势</strong>——JTRSY（Q3 AUM -58.6% 而价格锚定 $1.12）是「市值≠AUM」的预警范式<br>③ <strong>换手率</strong>——RAIN（0.18%）、M（0.003%）、LEO（0.005%）：高市值低换手=退出成本极高的市值幻觉<br>④ <strong>广度指标</strong>——上涨/下跌项目比例（当前 191/263 下跌）；中盘是否领跌（先于大盘见顶的信号）<br>⑤ <strong>微盘异动</strong>——RLC/QRL 类微盘脉冲是风险偏好收缩末端信号，非趋势信号</p></div>
+    <div class="card"><h5>事件驱动监控</h5><p>⑥ <strong>监管事件</strong>——OFAC 制裁样板化、SEC 代币化证券规则、隐私币下架潮<br>⑦ <strong>机构通道事件</strong>——新 ETF、CME 期货、S&P 指数授权、传统机构上链（招商银行香港案例）<br>⑧ <strong>协议级事件</strong>——升级/主网上线/API 上线（NIGHT 主网、GRASS Content API、TAO V441「Root Reborn」后 47.9% 质押）<br>⑨ <strong>多源数据交叉验证</strong>——GRASS/PLUME/HNT 等存在 2-3 倍口径差，量化决策前必须核实</p></div>
+  </div>
+  <h3>6.4 当前阶段的研究倾向（非投资建议）</h3>
+  <table>
+    <tr><th style="width:110px">配置角色</th><th>标的/方向</th></tr>
+    <tr><td><strong>底仓（防御）</strong></td><td>BTC（全流通+LTH 集中+ETF 通道）；BNB/HYPE/AAVE 类「高胜率低赔率」机构通道标的</td></tr>
+    <tr><td><strong>主攻（进攻）</strong></td><td>右上象限高胜率高赔率：L2 双龙头（OP/STRK/ARB）、平台币回购组（GT/KCS）、MEV 垄断（JTO）、错杀龙头（FIL/INJ/TIA/KAIA）、BTC L2 硬锚（STX）、AI 算力回调标的（GRASS/RENDER）</td></tr>
+    <tr><td><strong>观察（等信号）</strong></td><td>代币化股票（STRCX AUM 扩散）、隐私新基建（Shielded TVL $150M 验证）、互操作（QNT 收入验证）</td></tr>
+    <tr><td><strong>回避</strong></td><td>Meme/政治 Meme、发射台、低流通高 FDV 新项目、代币化国债旧层、AI 泛叙事无收入币</td></tr>
+    <tr><td><strong>仓位纪律</strong></td><td>分配期总仓位控制；同一逻辑下优先全流通中小市值（约 7:3 偏中小）；所有头寸预设「证伪信号」退出条件</td></tr>
+  </table>
+</section>
+
+<!-- ================= 7. 风险与局限 ================= -->
+<section>
+  <div class="sec-head"><span class="no">07</span><h2>风险提示与数据局限</h2><span class="en">Risks &amp; Limitations</span></div>
+  <div class="callout co-risk">① <strong>数据口径风险</strong>：部分项目市值多源差异大（GRASS $0.17-0.50B、MORPHO $0.30-1.53B、HNT $91M vs $453.9M）；HYPE 流通率存在「全流通 vs 23.3%」口径冲突，涉及核心估值判断，需链上核实。② <strong>样本偏差</strong>：269 个项目为市值靠前筛选，微盘高倍项目纳入标准不一致，赛道统计被大市值主导。③ <strong>时点风险</strong>：报告采集于 2026-10-08~15，市场处于急跌窗口，7 日动量可能放大短期情绪。④ <strong>推测标注</strong>：周期定位（分配期）、情景概率（基准最高）、机构行为解读为基于事实的合理推测，非既成事实。</div>
+</section>
+
+<footer>
+  <p>研究方法：全量结构化解析 269 份深研报告（核心指标/近期变化/多空论据/关键风险/三档估值五字段）+ 2026-08-26 全市场基线对照 + 5 个独立视角 agent（多头/空头/技术演进/估值代币经济/宏观结构）辩证推理 + 交叉验证综合。各 agent 完整立场报告见 _work_20261015/positions/ 目录。</p>
+  <p style="margin-top:8px;">本报告为研究分析，不构成投资建议。加密资产波动极大，请独立决策并严格控制风险。· 生成日期 2026-10-15</p>
+</footer>
+
+</div>
+</body>
+</html>

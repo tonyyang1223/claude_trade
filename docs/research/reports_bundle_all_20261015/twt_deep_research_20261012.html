@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TWT (Trust Wallet Token) 深度研究报告 · 2026-10-12</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #3375BB; --accent2: #4D8FD1;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(51,117,187,0.05); }
+  tr:hover { background: rgba(51,117,187,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(51,117,187,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(51,117,187,0.1), rgba(77,143,209,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>TWT (Trust Wallet Token) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-12 · 赛道：钱包 / 交易所关联代币</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.44 – $0.51</div><div class="snap-sub">从 ATH $2.72 跌 83%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$0.20B</div><div class="snap-sub">Trust Wallet</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">流通率</div><div class="snap-value" style="color:var(--red);">41.7%</div><div class="snap-sub">58% 待解锁</div></div>
+  <div class="snap-item"><div class="snap-label">最大供应</div><div class="snap-value">1B TWT</div><div class="snap-sub">99% 已销毁</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>TWT 是 <strong>Trust Wallet 的原生代币</strong>，Trust Wallet 是币安旗下的主流移动端加密钱包，TWT 用于钱包内折扣、治理和功能解锁。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">Trust Wallet</span><span class="risk-tag">币安生态</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">99% 已销毁</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">流通仅 41.7%</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2018</td><td>Trust Wallet 被币安收购</td><td>成为币安钱包</td></tr>
+    <tr><td>2020</td><td>TWT 以 BEP-20 重启</td><td>99% 原始供应销毁</td></tr>
+    <tr style="background:rgba(241,196,15,0.1);"><td>2021-2022</td><td><strong>ATH $2.72</strong></td><td><strong>牛市</strong></td></tr>
+    <tr><td>2022-2025</td><td>熊市</td><td>持续回调</td></tr>
+    <tr style="background:rgba(108,92,231,0.08);"><td><strong>2026-02-11</strong></td><td><strong>Felix Fan 任新 CEO</strong></td><td><strong>管理层更迭</strong></td></tr>
+    <tr><td>2026-10</td><td>价格 ~$0.45</td><td>低位震荡</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li><strong>2026-02-11：Trust Wallet 任命 Felix Fan 为新 CEO</strong>，接替 Eowyn Chen（4 年任期）。</li>
+    <li>2026-10-11：MEXC 报价 ~$0.44，市值 $220.65M，ATH $2.7177。</li>
+    <li>过去 12 个月跌 39.3%。</li>
+    <li>TWT 作为 Trust Wallet 内折扣和功能解锁代币。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>当前流通</strong></td><td><strong>~416.6M TWT（41.7%）</strong></td></tr>
+    <tr><td>最大供应</td><td>999.86M TWT（1B 上限）</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>已销毁</strong></td><td><strong>99% 原始供应（BEP-20 重启时）</strong></td></tr>
+    <tr><td>价值捕获</td><td>① 钱包内折扣；② 治理；③ 功能解锁</td></tr>
+    <tr><td>关键</td><td><strong>流通仅 41.7%，未来解锁抛压</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.20 – $0.35</div><div style="color:var(--muted);font-size:0.9em;">MC $0.08 – $0.15B · 较当前 −56% ~ −22%</div><p style="margin-top:12px;font-size:0.9em;">钱包用户流失。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.40 – $0.70</div><div style="color:var(--muted);font-size:0.9em;">MC $0.17 – $0.29B · 较当前 −11% ~ +56%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$1.20 – $2.50</div><div style="color:var(--muted);font-size:0.9em;">MC $0.50 – $1.04B · 较当前 +167% ~ +467%</div><p style="margin-top:12px;font-size:0.9em;">钱包生态爆发。</p></div>
+</div>
+
+<h2>七、竞品对比（钱包 / 平台代币）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 TWT 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(51,117,187,0.08);"><td><strong>TWT</strong></td><td><strong>~$0.20B</strong></td><td><strong>Trust Wallet</strong></td><td><strong>币安生态</strong></td></tr>
+    <tr><td>BGB</td><td>~$1B</td><td>Bitget 平台币</td><td>交易所</td></tr>
+    <tr><td>GT</td><td>~$0.5B</td><td>Gate 平台币</td><td>交易所</td></tr>
+    <tr><td>HTX</td><td>~$0.3B</td><td>HTX 平台币</td><td>交易所</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">TWT 的差异化：钱包代币（非交易所平台币），币安生态背书。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>Trust Wallet 主流移动端钱包</strong>——用户基数大</li>
+    <li><strong>币安生态背书</strong>——资源支持</li>
+    <li><strong>99% 已销毁</strong>——1B 上限，稀缺</li>
+    <li><strong>新 CEO Felix Fan</strong>——新管理层</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>流通仅 41.7%</strong>——未来 58% 解锁抛压</li>
+    <li><strong>从 ATH $2.72 跌 83%</strong>——深度回调</li>
+    <li><strong>钱包赛道竞争</strong>——MetaMask、Phantom</li>
+    <li><strong>过去 12 个月跌 39%</strong>——持续低迷</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>解锁抛压</strong></td><td><strong>流通仅 41.7%，58% 待解锁</strong></td></tr>
+    <tr><td><strong>钱包竞争</strong></td><td>MetaMask/Phantom</td></tr>
+    <tr><td><strong>币安依赖</strong></td><td>单一生态</td></tr>
+    <tr><td><strong>持续低迷</strong></td><td>过去 12 月跌 39%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>TWT 是 Trust Wallet 的原生代币，市值 ~$0.20B。Trust Wallet 主流用户基础 + 币安生态背书是多头逻辑，但 <strong>流通仅 41.7%（58% 待解锁）</strong> 是最大空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：TWT 是中等风险的钱包代币。Trust Wallet 作为币安旗下主流移动端钱包，拥有庞大用户基数。99% 原始供应已销毁，1B 上限带来稀缺性。2026-02 新 CEO Felix Fan 上任带来新管理层。但流通仅 41.7%，意味着 58% 的代币尚未解锁，未来解锁抛压巨大。从 ATH $2.72 跌至 $0.45，跌幅 83%。钱包赛道面临 MetaMask、Phantom 等强力竞争。上行空间取决于 Trust Wallet 用户增长和 TWT 实用价值。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

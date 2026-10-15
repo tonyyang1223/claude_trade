@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MINA (Mina Protocol) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #9C27B0; --accent2: #CE93D8;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(156,39,176,0.05); }
+  tr:hover { background: rgba(156,39,176,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(156,39,176,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(156,39,176,0.1), rgba(206,147,216,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>MINA (Mina Protocol) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：ZK 轻量级区块链</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$0.08</div><div class="snap-sub" style="color:var(--red);">较 ATH −99%</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$100M</div><div class="snap-sub">FDV = MC</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--green);">流通量</div><div class="snap-value" style="color:var(--green);font-size:1.1em;">1.29B</div><div class="snap-sub">全流通</div></div>
+  <div class="snap-item"><div class="snap-label">24h 量</div><div class="snap-value" style="font-size:1.1em;">$41-63M</div><div class="snap-sub">流动性好</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>Mina Protocol (MINA) 是 <strong>世界最轻量级区块链</strong>，区块大小固定 22KB（其他链 30GB+），用零知识证明（zk-SNARK）将整个区块链压缩成常数大小的密码学证明。价格 ~$0.08，市值 ~$100M，1.29B 全流通，较 ATH $9.09 暴跌 99%。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">全流通</span><span class="risk-tag" style="background:rgba(46,204,113,0.15);color:var(--green);">22KB 区块</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">较 ATH −99%</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr><td>2017</td><td>前身 O(1) Labs 创立</td><td>研发 zk-SNARK</td></tr>
+    <tr style="background:rgba(156,39,176,0.1);"><td><strong>2021-03</strong></td><td><strong>MINA 主网上线</strong></td><td><strong>轻量级区块链</strong></td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2021-06</strong></td><td><strong>ATH $9.09</strong></td><td><strong>牛市高点</strong></td></tr>
+    <tr><td>2022-2025</td><td>熊市持续</td><td>下跌</td></tr>
+    <tr style="background:rgba(231,76,60,0.1);"><td><strong>2026-06</strong></td><td><strong>ATL $0.0368</strong></td><td><strong>历史低点</strong></td></tr>
+    <tr style="background:rgba(156,39,176,0.1);"><td><strong>2026-10-13</strong></td><td><strong>价格 ~$0.08</strong></td><td><strong>反弹中</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-13：MarketBeat 价格 $0.0779，24h 跌 6.86%。</li>
+    <li>2026-10-12：Kraken 价格 $0.13，24h 跌 23%，市值 $170M。</li>
+    <li>2026-10-06：Bybit 价格 $0.1246，24h 跌 24.6%，市值 $161M，24h 量 $41.4M。</li>
+    <li>2026-10-10：CryptoSlate 市值 $100M，流通 1.287B。</li>
+    <li>链上数据：7.4M+ 交易，399K+ 区块，248K+ 账户。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(156,39,176,0.08);"><td><strong>当前价格</strong></td><td><strong>~$0.08</strong></td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>流通量</strong></td><td><strong>1.29B（全流通）</strong></td></tr>
+    <tr><td>总供应</td><td>1.29B</td></tr>
+    <tr style="background:rgba(46,204,113,0.08);"><td><strong>FDV</strong></td><td><strong>= MC = ~$100M</strong></td></tr>
+    <tr><td>类型</td><td>ZK 轻量级区块链</td></tr>
+    <tr><td>价值捕获</td><td>质押 + 治理</td></tr>
+    <tr><td>共识</td><td>PoS</td></tr>
+    <tr style="background:rgba(156,39,176,0.08);"><td><strong>关键</strong></td><td><strong>全流通无解锁抛压，较 ATH −99%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.035 – $0.050</div><div style="color:var(--muted);font-size:0.9em;">市值 $45 – $65M · 较当前 −56% ~ −38%</div><p style="margin-top:12px;font-size:0.9em;">回到 ATL 附近。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$0.07 – $0.15</div><div style="color:var(--muted);font-size:0.9em;">市值 $90 – $190M · 较当前 −12% ~ +88%</div><p style="margin-top:12px;font-size:0.9em;">维持现状。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$0.30 – $0.80</div><div style="color:var(--muted);font-size:0.9em;">市值 $390 – $1,030M · 较当前 +275% ~ +900%</div><p style="margin-top:12px;font-size:0.9em;">ZK 牛市。</p></div>
+</div>
+
+<h2>七、竞品对比（ZK 赛道）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 MINA 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(156,39,176,0.08);"><td><strong>MINA</strong></td><td><strong>~$100M</strong></td><td><strong>轻量级 ZK 链</strong></td><td><strong>Mina</strong></td></tr>
+    <tr><td>ZK</td><td>~$2B</td><td>ZK Rollup</td><td>zkSync</td></tr>
+    <tr><td>STRK</td><td>~$2B</td><td>ZK Rollup</td><td>StarkNet</td></tr>
+    <tr><td>MATIC</td><td>~$3B</td><td>以太坊 L2</td><td>Polygon</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">MINA 的差异化：22KB 固定区块（独特技术），但应用生态薄弱。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>全流通</strong>——无解锁抛压</li>
+    <li><strong>独特技术</strong>——22KB 固定区块，世界最轻</li>
+    <li><strong>较 ATH −99%</strong>——深度回调</li>
+    <li><strong>较 ATL $0.0368 反弹</strong>——底部已现</li>
+    <li><strong>ZK 赛道</strong>——有叙事</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>较 ATH −99%</strong>——长期下跌趋势</li>
+    <li><strong>应用生态薄弱</strong>——TVL/活跃 dApp 少</li>
+    <li><strong>ZK 竞争激烈</strong>——zkSync/StarkNet/Polygon 碾压</li>
+    <li><strong>排名 #193-#279</strong>——靠后</li>
+    <li><strong>24h 波动大</strong>——单日 ±20-24%</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>长期下跌</strong></td><td><strong>较 ATH −99%</strong></td></tr>
+    <tr><td><strong>应用生态薄弱</strong></td><td>TVL 低</td></tr>
+    <tr><td><strong>竞争</strong></td><td>zkSync/StarkNet 碾压</td></tr>
+    <tr><td><strong>波动大</strong></td><td>单日 ±20%</td></tr>
+    <tr><td><strong>监管</strong></td><td>公链监管</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>Mina Protocol (MINA) 是世界最轻量级区块链，22KB 固定区块，价格 ~$0.08，市值 ~$100M，1.29B 全流通。全流通 + 独特技术 + 较 ATH −99% + 较 ATL 反弹 是多头逻辑，<strong>长期下跌 + 应用生态薄弱 + ZK 竞争激烈 + 波动大</strong> 是主要空头因素。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：MINA 是技术独特但应用薄弱的 ZK 公链。全流通无解锁抛压是利好，较 ATH $9.09 暴跌 99% 至 $0.08 是深度回调。2026-06 ATL $0.0368 后已反弹至 $0.08，底部或已确认。但应用生态薄弱是长期痛点，zkSync/StarkNet 等 ZK Rollup 主导赛道。适合 ZK 赛道逆向投资者，需关注应用生态落地进展。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>FIL (Filecoin) 第二轮追踪 · 2026-10-14</title>
+<style>
+  :root { --bg:#0a0e17; --card:#131a2a; --border:#1e2a42; --text:#e0e6f0; --muted:#8a96ad; --accent:#4A90E2; --accent2:#7AB8F5; --green:#2ecc71; --red:#e74c3c; --yellow:#f1c40f; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; line-height:1.7; padding:20px; max-width:1200px; margin:0 auto; }
+  h1 { font-size:2.2em; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; }
+  .subtitle { color:var(--muted); margin-bottom:30px; }
+  h2 { font-size:1.4em; color:var(--accent); border-left:4px solid var(--accent); padding-left:14px; margin:36px 0 18px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:22px; margin-bottom:18px; }
+  table { width:100%; border-collapse:collapse; margin:14px 0; font-size:0.92em; }
+  th,td { padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
+  th { color:var(--accent2); background:rgba(0,0,0,0.1); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:18px 0; }
+  .snap { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .snap .label { color:var(--muted); font-size:0.85em; }
+  .snap .value { font-size:1.4em; font-weight:700; color:var(--accent); margin:4px 0; }
+  .scenarios { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin:18px 0; }
+  .sc { border-radius:12px; padding:18px; border:2px solid; }
+  .bear { border-color:var(--red); background:rgba(231,76,60,0.08); }
+  .neutral { border-color:var(--yellow); background:rgba(241,196,15,0.08); }
+  .bull { border-color:var(--green); background:rgba(46,204,113,0.08); }
+  .sc .t { font-weight:700; margin-bottom:8px; }
+  .sc .p { font-size:1.6em; font-weight:800; margin:6px 0; }
+  .bear .p { color:var(--red); } .neutral .p { color:var(--yellow); } .bull .p { color:var(--green); }
+  .bb { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0; }
+  @media (max-width:768px){ .bb{grid-template-columns:1fr;} }
+  .bull-col { border-left:3px solid var(--green); padding-left:14px; }
+  .bear-col { border-left:3px solid var(--red); padding-left:14px; }
+  .bull-col h3 { color:var(--green); } .bear-col h3 { color:var(--red); }
+  ul { padding-left:20px; margin:8px 0; } li { margin-bottom:6px; }
+  .disc { color:var(--muted); font-size:0.85em; text-align:center; margin-top:36px; padding-top:18px; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>FIL (Filecoin)</h1>
+<div class="subtitle">第二轮追踪 · 2026-10-14 · 排名 #82</div>
+
+<h2>一、核心指标更新</h2>
+<div class="grid">
+  <div class="snap"><div class="label">当前价格</div><div class="value">~$1.15</div></div>
+  <div class="snap"><div class="label">市值 MC</div><div class="value">~$0.84-0.97B</div></div>
+  <div class="snap"><div class="label">流通 / 总供应</div><div class="value" style="font-size:1.1em;">834-1,957M / 834-1,957M / 2B max</div></div>
+  <div class="snap"><div class="label">24h 量</div><div class="value" style="font-size:1.1em;">~$145-195M</div></div>
+</div>
+
+<h2>二、近期关键变化</h2>
+<div class="card"><ul>
+  <li>FIL 价格 $1.12-$1.17，24h 跌 -12.05%（短期回调）</li>
+  <li>市值 $0.84-0.97B，流通 834-1,957M / 2B max（流通率数据差异大）</li>
+  <li>Filecoin（去中心化存储 DePIN）</li>
+  <li>ATL $0.61（2026 年 8 月）；24h 量 $145-195M（流动性好）</li>
+</ul></div>
+
+<h2>三、三档估值区间</h2>
+<div class="scenarios">
+  <div class="sc bear"><div class="t">🔻 悲观</div><div class="p">$0.50 – $0.90</div><div style="color:var(--muted);font-size:0.9em;">$0.42 – $0.75B · −57% ~ −22%</div><p style="margin-top:10px;font-size:0.9em;">存储熄火、FIL 走弱。</p></div>
+  <div class="sc neutral"><div class="t">🟡 中性</div><div class="p">$1.10 – $2.20</div><div style="color:var(--muted);font-size:0.9em;">$0.92 – $1.84B · −4% ~ +91%</div><p style="margin-top:10px;font-size:0.9em;">存储慢牛。</p></div>
+  <div class="sc bull"><div class="t">🟢 乐观</div><div class="p">$5.50 – $11.00</div><div style="color:var(--muted);font-size:0.9em;">$4.61 – $9.23B · +378% ~ +857%</div><p style="margin-top:10px;font-size:0.9em;">存储大牛市、DePIN 采用。</p></div>
+
+</div>
+
+<h2>四、多空核心论据</h2>
+<div class="bb">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>Filecoin（去中心化存储 DePIN 龙头）</strong></li>
+    <li><strong>24h 量 $145-195M（流动性好）</strong></li>
+    <li><strong>a16z/Pantera 投资背书</strong></li>
+    <li><strong>DePIN 赛道（热门）</strong></li>
+    <li><strong>Grayscale 信托基金</strong></li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>24h 跌 -12.05%（短期回调）</strong></li>
+    <li><strong>ATL $0.61（2026 年 8 月）</strong></li>
+    <li><strong>存储竞争（Web2 云存储）</strong></li>
+    <li><strong>市值 $0.84B 但流通率数据差异大</strong></li>
+    <li><strong>解锁：大量未流通 FIL</strong></li>
+  </ul></div>
+</div>
+
+<h2>五、关键风险</h2>
+<div class="card"><table>
+  <tr><th>风险类型</th><th>具体内容</th></tr>
+  <tr><td><strong>竞争</strong></td><td>Web2 云存储（AWS/S3）</td></tr>
+  <tr><td><strong>DePIN</strong></td><td>DePIN 赛道降温</td></tr>
+  <tr><td><strong>回调</strong></td><td>ATL $0.61（2026年8月）</td></tr>
+  <tr><td><strong>解锁</strong></td><td>大量未流通 FIL</td></tr>
+  <tr><td><strong>市场</strong></td><td>与大盘联动</td></tr>
+</table></div>
+
+<div class="disc">⚠️ 本报告基于公开数据整理，不构成投资建议。第二轮追踪 · 2026-10-14</div>
+</body>
+</html>

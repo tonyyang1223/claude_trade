@@ -575,6 +575,55 @@ def search(
     return SearchResponse(query=keyword, hits=hits, total=total, took_ms=_elapsed_ms(start))
 
 
+def query_twitter_content(coin_id: str, limit: int = 30) -> List[dict]:
+    """返回某币的 Twitter 舆情（推文 + 事件），按时间倒序。
+
+    数据源：content_archive 中 ``source='twitter'`` 的行（由 scripts/history/load_twitter.py
+    从豆包爬取的 Twitter 数据入库）。与历史库其余端点一致——库不可用/查询失败均返回空列表，
+    绝不抛 500（前端以空态友好降级）。
+    """
+    if not history_db_available() or not coin_id:
+        return []
+    limit = max(1, min(int(limit or 30), 100))
+    sql = """
+        SELECT coin_id, doc_type, title, url, author, body_text, published_ts, score, extra_json
+        FROM content_archive
+        WHERE source = 'twitter' AND coin_id = ?
+        ORDER BY published_ts DESC NULLS LAST, content_id
+        LIMIT ?
+    """
+    try:
+        rows = history_query(sql, [coin_id, limit])
+    except HistoryDBError:
+        return []
+
+    out: List[dict] = []
+    for r in rows:
+        extra: dict = {}
+        if r.get("extra_json"):
+            try:
+                extra = json.loads(r["extra_json"])
+            except Exception:
+                extra = {}
+        out.append({
+            "coinId": r["coin_id"],
+            "docType": r["doc_type"],
+            "title": r["title"],
+            "url": r["url"],
+            "author": r["author"],
+            "text": r["body_text"],
+            "publishedTs": str(r["published_ts"]) if r["published_ts"] else None,
+            "score": r["score"],
+            "likes": extra.get("likes"),
+            "retweets": extra.get("retweets"),
+            "replies": extra.get("replies"),
+            "sentiment": extra.get("sentiment"),
+            "tweetId": extra.get("tweet_id"),
+            "eventType": extra.get("event_type"),
+        })
+    return out
+
+
 # --------------------------------------------------------------------------
 # H6 GET /api/history/health/sources
 # --------------------------------------------------------------------------

@@ -12,6 +12,7 @@ from fastapi import APIRouter, Query
 
 from core.envelope import failure, success
 from data.schemas import CoinBrief, TokenDetailResponse
+from services import history_svc
 from services.token_svc import build_detail
 
 router = APIRouter(tags=["tokens"])
@@ -27,3 +28,16 @@ def token_detail(
         empty = TokenDetailResponse(basic=CoinBrief(id=coin_id), narrative={}, social={})
         return failure(404, f"未找到币种档案: {coin_id}", empty.model_dump())
     return success(detail.model_dump())
+
+
+@router.get("/api/tokens/{coin_id}/twitter")
+def token_twitter(
+    coin_id: str,
+    limit: int = Query(30, ge=1, le=100, description="返回条数上限"),
+) -> dict:
+    """E4-T Twitter 舆情：返回该币的推文 + 事件（来自豆包爬取的 Twitter 数据，已入库 content_archive）。
+
+    库不可用 / 无数据 → 返回空列表（code=0），前端以空态降级，绝不 500。
+    """
+    posts = history_svc.query_twitter_content(coin_id, limit)
+    return success({"coinId": coin_id, "count": len(posts), "posts": posts})

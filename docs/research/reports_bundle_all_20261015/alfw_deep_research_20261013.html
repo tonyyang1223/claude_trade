@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALFW (Alpha Bulgaria Warrants) 深度研究报告 · 2026-10-13</title>
+<style>
+  :root {
+    --bg: #0a0e17; --card: #131a2a; --border: #1e2a42;
+    --text: #e0e6f0; --muted: #8a96ad;
+    --accent: #E91E63; --accent2: #F06292;
+    --green: #2ecc71; --red: #e74c3c; --yellow: #f1c40f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; padding: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 0.95em; }
+  h2 { font-size: 1.5em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 14px; margin: 40px 0 20px; }
+  h3 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.15em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent2); font-weight: 600; background: rgba(233,30,99,0.05); }
+  tr:hover { background: rgba(233,30,99,0.03); }
+  .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+  .snap-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .snap-label { color: var(--muted); font-size: 0.85em; margin-bottom: 4px; }
+  .snap-value { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+  .snap-sub { font-size: 0.8em; color: var(--muted); margin-top: 2px; }
+  .scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+  .scenario { border-radius: 12px; padding: 20px; border: 2px solid; }
+  .scenario-bear { border-color: var(--red); background: rgba(231,76,60,0.08); }
+  .scenario-neutral { border-color: var(--yellow); background: rgba(241,196,15,0.08); }
+  .scenario-bull { border-color: var(--green); background: rgba(46,204,113,0.08); }
+  .scenario-title { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; }
+  .scenario-price { font-size: 1.8em; font-weight: 800; margin: 8px 0; }
+  .scenario-bear .scenario-price { color: var(--red); }
+  .scenario-neutral .scenario-price { color: var(--yellow); }
+  .scenario-bull .scenario-price { color: var(--green); }
+  .bull-bear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .bull-bear { grid-template-columns: 1fr; } }
+  .bull-col { border-left: 3px solid var(--green); padding-left: 16px; }
+  .bear-col { border-left: 3px solid var(--red); padding-left: 16px; }
+  .bull-col h3 { color: var(--green); }
+  .bear-col h3 { color: var(--red); }
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 8px; }
+  .risk-tag { display: inline-block; background: rgba(233,30,99,0.15); color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 0.85em; margin-right: 6px; }
+  .conclusion { background: linear-gradient(135deg, rgba(233,30,99,0.1), rgba(240,98,146,0.05)); border: 1px solid var(--accent); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .disclaimer { color: var(--muted); font-size: 0.85em; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<h1>ALFW (Alpha Bulgaria Warrants) 深度研究报告</h1>
+<div class="subtitle">整理时间：2026-10-13 · 赛道：权证代币</div>
+
+<h2>一、核心指标快照</h2>
+<div class="snapshot-grid">
+  <div class="snap-item"><div class="snap-label">当前价格</div><div class="snap-value">~$3.20</div><div class="snap-sub" style="color:var(--red);">ATH $3.20</div></div>
+  <div class="snap-item"><div class="snap-label">市值 MC</div><div class="snap-value">~$114M</div><div class="snap-sub">流通 35.71M</div></div>
+  <div class="snap-item"><div class="snap-label" style="color:var(--red);">24h 量</div><div class="snap-value" style="color:var(--red);font-size:1.1em;">~$0</div><div class="snap-sub">无交易！</div></div>
+  <div class="snap-item"><div class="snap-label">类型</div><div class="snap-value" style="font-size:1.05em;">权证</div><div class="snap-sub">Alpha 生态</div></div>
+</div>
+
+<h2>二、项目定位</h2>
+<div class="card">
+  <p>Alpha Bulgaria Warrants (ALFW) 是 <strong>Alpha 生态保加利亚权证代币</strong>，价格 $3.20，市值 $114M，流通 35.71M，但 <strong>24h 交易量为 $0，无交易所交易</strong>。</p>
+  <p style="margin-top:12px;color:var(--muted);font-size:0.9em;">
+    <span class="risk-tag">权证</span><span class="risk-tag">Alpha 生态</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">无流动性</span><span class="risk-tag" style="background:rgba(231,76,60,0.15);color:var(--red);">无交易</span>
+  </p>
+</div>
+
+<h2>三、历史关键节点</h2>
+<div class="card">
+<table>
+  <thead><tr><th>日期</th><th>事件</th><th>意义</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>2026-07-09</strong></td><td><strong>Crypto Tracker "Asset Inactive"</strong></td><td><strong>无交易</strong></td></tr>
+    <tr style="background:rgba(233,30,99,0.1);"><td><strong>2026-07-16</strong></td><td><strong>ATH $3.20</strong></td><td><strong>高点</strong></td></tr>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>2026-09-19</strong></td><td><strong>Holder.io "not traded anywhere"</strong></td><td><strong>无交易所</strong></td></tr>
+    <tr><td>2026-10-10</td><td>Yellow.com 市值 $114M</td><td>当前</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>四、最近重要事件（最近3个月）</h2>
+<div class="card">
+  <ul>
+    <li>2026-10-10：Yellow.com 价格 $3.2，市值 $114.33M，流通 35.71M ALFW。</li>
+    <li>2026-09-19：Holder.io "not traded anywhere"，最后数据更新 2026-07-17。</li>
+    <li>2026-08-26：MEXC 价格 $3.2，市值 $114.33M。</li>
+    <li>2026-07-16：BeInCrypto ATH $3.20，排名 #237，24h 量 $0。</li>
+  </ul>
+</div>
+
+<h2>五、代币经济学</h2>
+<div class="card">
+<table>
+  <thead><tr><th>维度</th><th>数值 / 说明</th></tr></thead>
+  <tbody>
+    <tr><td>当前价格</td><td>~$3.20</td></tr>
+    <tr><td>市值</td><td>~$114.33M</td></tr>
+    <tr><td>流通量</td><td>~35.71M ALFW</td></tr>
+    <tr><td>类型</td><td>Alpha Bulgaria Warrants（权证）</td></tr>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>24h 量</strong></td><td><strong>~$0（无交易）</strong></td></tr>
+    <tr style="background:rgba(231,76,60,0.08);"><td><strong>关键</strong></td><td><strong>权证代币，无流动性</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>六、三档估值区间</h2>
+<div class="scenario-cards">
+  <div class="scenario scenario-bear"><div class="scenario-title">🔻 悲观</div><div class="scenario-price">$0.50 – $1.50</div><div style="color:var(--muted);font-size:0.9em;">MC $18 – $54M · 较当前 −84% ~ −53%</div><p style="margin-top:12px;font-size:0.9em;">权证到期。</p></div>
+  <div class="scenario scenario-neutral"><div class="scenario-title">🟡 中性</div><div class="scenario-price">$2.50 – $4.00</div><div style="color:var(--muted);font-size:0.9em;">MC $89 – $143M · 较当前 −22% ~ +25%</div><p style="margin-top:12px;font-size:0.9em;">维持。</p></div>
+  <div class="scenario scenario-bull"><div class="scenario-title">🟢 乐观</div><div class="scenario-price">$5.00 – $8.00</div><div style="color:var(--muted);font-size:0.9em;">MC $179 – $286M · 较当前 +56% ~ +150%</div><p style="margin-top:12px;font-size:0.9em;">标的上涨。</p></div>
+</div>
+
+<h2>七、竞品对比（权证代币）</h2>
+<div class="card">
+<table>
+  <thead><tr><th>资产</th><th>市值</th><th>类型</th><th>与 ALFW 的关系</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(233,30,99,0.08);"><td><strong>ALFW</strong></td><td><strong>~$114M</strong></td><td><strong>保加利亚权证</strong></td><td><strong>Alpha</strong></td></tr>
+    <tr><td>ALPHA</td><td>~$50M</td><td>Alpha 代币</td><td>Alpha 生态</td></tr>
+    <tr><td>其他权证</td><td>~$10M</td><td>权证代币</td><td>小众</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px;font-size:0.9em;color:var(--muted);">ALFW 的差异化：Alpha 生态保加利亚权证。</p>
+</div>
+
+<h2>八、多空核心论据</h2>
+<div class="bull-bear">
+  <div class="bull-col"><h3>🟢 多头</h3><ul>
+    <li><strong>市值 $114M</strong>——有规模</li>
+    <li><strong>流通 35.71M</strong>——有供应</li>
+    <li><strong>Alpha 生态</strong>——有背景</li>
+  </ul></div>
+  <div class="bear-col"><h3>🔴 空头</h3><ul>
+    <li><strong>24h 量 $0</strong>——无流动性</li>
+    <li><strong>"not traded anywhere"</strong>——无交易所</li>
+    <li><strong>"Asset Inactive"</strong>——已 inactive</li>
+    <li><strong>权证到期风险</strong>——时间价值衰减</li>
+    <li><strong>排名波动大</strong>——#237 vs #363</li>
+  </ul></div>
+</div>
+
+<h2>九、关键风险</h2>
+<div class="card">
+<table>
+  <thead><tr><th>风险类型</th><th>具体内容</th></tr></thead>
+  <tbody>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>无流动性</strong></td><td><strong>24h 量 $0</strong></td></tr>
+    <tr style="background:rgba(231,76,60,0.15);"><td><strong>无交易所</strong></td><td><strong>not traded anywhere</strong></td></tr>
+    <tr><td><strong>权证到期</strong></td><td>时间价值衰减</td></tr>
+    <tr><td><strong>Asset Inactive</strong></td><td>已 inactive</td></tr>
+    <tr><td><strong>排名低</strong></td><td>#363</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="conclusion">
+  <h3 style="margin-top:0;color:var(--accent);">核心结论</h3>
+  <p>ALFW (Alpha Bulgaria Warrants) 是 Alpha 生态保加利亚权证代币，价格 $3.20，市值 $114M，但 <strong>24h 交易量为 $0，无交易所交易，已标注 "Asset Inactive"</strong>。市值规模是唯一亮点，<strong>无流动性 + 无交易所 + 已 inactive + 权证到期</strong> 是严重风险。</p>
+  <p style="margin-top:10px;"><strong>核心判断</strong>：Alpha Bulgaria Warrants (ALFW) 是 Alpha 生态保加利亚权证代币，价格 $3.20，市值 $114.33M，流通 35.71M ALFW。但 24h 交易量为 $0，Holder.io 标注 "not traded anywhere"，Crypto Tracker 标注 "Asset Inactive"，最后数据更新 2026-07-17。无流动性、无交易所、已 inactive 是致命问题。权证到期时间价值衰减风险。排名波动大（#237 vs #363）。<strong>不建议投资</strong>，无流动性无法买卖。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本报告基于公开数据整理，不构成投资建议；加密货币波动剧烈，存在归零/监管/黑客风险，据此操作风险自担。
+</div>
+</body>
+</html>
