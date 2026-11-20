@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Binance Alpha 20 币种投资价值研究 · 2026-11-20</title>
+<style>
+:root{--bg:#05070d;--panel:#0b1020;--panel2:#111a2e;--line:#1e2a44;--text:#e6edf7;--muted:#8fa3c0;--accent:#22d3ee;--green:#34d399;--red:#fb7185;--amber:#fbbf24;--violet:#a78bfa}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 700px at 85% -10%,rgba(34,211,238,.13),transparent 60%),radial-gradient(900px 600px at 5% 5%,rgba(167,139,250,.10),transparent 55%),var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 22px 72px}
+.hero{border:1px solid var(--line);background:linear-gradient(135deg,var(--panel) 0%,#0a1424 60%,#0b1a2b 100%);border-radius:22px;padding:36px 36px 30px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-80px;top:-120px;width:380px;height:380px;background:radial-gradient(circle,rgba(34,211,238,.22),transparent 65%)}
+.eyebrow{font:600 12px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.16em;color:var(--accent);text-transform:uppercase}
+h1{font-size:44px;line-height:1.18;margin:10px 0 8px;letter-spacing:-.02em}
+h1 small{font-size:18px;color:var(--muted);font-weight:500}
+.sub{color:var(--muted);max-width:920px;margin:8px 0 18px}
+.tagline{display:inline-block;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:4px 12px;font-size:12px;margin-right:8px;margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.chip{background:#0e1840;border:1px solid var(--line);border-radius:12px;padding:10px 14px;min-width:135px}
+.chip > span{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em}
+.chip b{font:600 18px/1.4 ui-monospace,Consolas,monospace;color:#fff}
+.up{color:var(--green)!important}.down{color:var(--red)!important}
+.nav{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 26px;position:sticky;top:0;z-index:20;background:rgba(5,7,13,.86);backdrop-filter:blur(10px);padding:8px;border-radius:12px;border:1px solid var(--line)}
+.nav a{color:var(--muted);text-decoration:none;font:600 12px ui-monospace,Consolas,monospace;padding:5px 8px;border-radius:7px}
+.nav a:hover{background:var(--accent);color:#04101a}
+.card{background:linear-gradient(180deg,var(--panel) 0%,#080d18 100%);border:1px solid var(--line);border-radius:18px;padding:26px 28px;margin:20px 0;box-shadow:0 20px 60px rgba(0,0,0,.28)}
+.sec-head{display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}
+.num{font:700 13px ui-monospace,Consolas,monospace;color:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:3px 7px}
+h2{font-size:24px;margin:0;letter-spacing:-.01em}
+h3{font-size:17px;color:#fff;margin:0}
+p{color:#c6d4e8}
+.lead{font-size:17px;color:#eaf3ff;border-left:3px solid var(--accent);padding-left:14px}
+.callout{border:1px solid rgba(34,211,238,.35);background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(167,139,250,.05));border-radius:13px;padding:14px 18px;margin-top:16px}
+.callout h3{margin:0 0 8px;color:var(--accent)} .callout ul,.callout p{margin:0;color:#d8e6f8}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:12.5px;background:#080e1b}
+th{text-align:left;padding:10px 10px;color:var(--accent);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line);white-space:nowrap;background:#0a1424}
+td{padding:9px 10px;border-bottom:1px solid #131d32;color:#cfdcec;vertical-align:top}
+td:first-child{white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#0b1628}
+.pill{display:inline-block;border-radius:999px;padding:2px 8px;font:700 11px ui-monospace,Consolas,monospace}
+.tier-A{color:#34d399;border:1px solid rgba(52,211,153,.55);background:rgba(52,211,153,.10)}
+.tier-B{color:#22d3ee;border:1px solid rgba(34,211,238,.55);background:rgba(34,211,238,.10)}
+.tier-C{color:#fbbf24;border:1px solid rgba(251,191,36,.55);background:rgba(251,191,36,.10)}
+.tier-D{color:#fb7185;border:1px solid rgba(251,113,133,.55);background:rgba(251,113,133,.10)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{background:#0a1224;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.box h3{margin:0 0 6px;color:var(--accent);font-size:14px}.box p{margin:0;font-size:13px}
+.kv{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.kv div{background:#0a1224;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kv span{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
+.kv b{font:600 13px ui-monospace,Consolas,monospace;color:#eaf3ff;overflow-wrap:anywhere}
+.tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+.tier-box{background:#0a1224;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.tier-box h3{font-size:16px;margin-bottom:6px}
+.tier-box p{font-size:12.5px;margin:0;color:var(--muted)}
+.tier-box b{font:700 24px ui-monospace,Consolas,monospace;display:block;margin-bottom:4px}
+.tokens{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start;margin-top:14px}
+.token-card{border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px;background:linear-gradient(180deg,#0b1222 0%,#080d18 100%)}
+.tier-border-A{border-top:3px solid #34d399}.tier-border-B{border-top:3px solid #22d3ee}.tier-border-C{border-top:3px solid #fbbf24}.tier-border-D{border-top:3px solid #fb7185}
+.token-head{display:flex;gap:12px;align-items:flex-start}
+.mono{width:40px;height:40px;flex:0 0 40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font:800 18px ui-monospace,Consolas,monospace;color:#04101a;background:linear-gradient(135deg,#22d3ee,#a78bfa)}
+.token-id h3{font-size:17px}.token-id h3 span{font:600 12px ui-monospace,Consolas,monospace;color:var(--muted);margin-left:6px}
+.token-id p{margin:2px 0 0;font-size:11.5px;color:var(--muted)}
+.score-badge{margin-left:auto;text-align:center;border-radius:12px;padding:4px 10px;min-width:66px}
+.score-badge b{display:block;font:800 20px ui-monospace,Consolas,monospace;line-height:1.1}
+.score-badge span{display:block;font-size:10px;margin-top:2px}
+.score-badge.tier-A{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.45);color:#34d399}
+.score-badge.tier-B{background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.45);color:#22d3ee}
+.score-badge.tier-C{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.45);color:#fbbf24}
+.score-badge.tier-D{background:rgba(251,113,133,.12);border:1px solid rgba(251,113,133,.45);color:#fb7185}
+.mini-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:14px 0 10px}
+.mini-metrics div{background:#0a1224;border:1px solid #17233b;border-radius:8px;padding:6px 8px}
+.mini-metrics span{display:block;font-size:9.5px;color:var(--muted)}
+.mini-metrics b{font:600 11.5px ui-monospace,Consolas,monospace;color:#eaf3ff}
+.thesis{font-size:13px;color:#d7e3f5;margin:8px 0 10px;border-left:2px solid #2b3b5a;padding-left:10px}
+.score-bar{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.score-bar span{font:600 9.5px ui-monospace,Consolas,monospace;color:var(--muted);background:#0a1224;border:1px solid #17233b;border-radius:6px;padding:2px 6px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two-col.mini{gap:10px}
+.bull,.bear{border-radius:10px;padding:10px 12px;border:1px solid var(--line);background:#0a1224}
+.bull{border-color:rgba(52,211,153,.28)}.bear{border-color:rgba(251,113,133,.28)}
+.bull h4,.bear h4{margin:0 0 4px;font-size:11px;letter-spacing:.04em}
+.bull h4{color:var(--green)}.bear h4{color:var(--red)}
+.bull ul,.bear ul{margin:0;padding-left:14px;font-size:11.5px;color:#cfdcec}
+.bull li,.bear li{margin-bottom:4px}
+.token-foot{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.token-foot div{background:#0a1224;border:1px solid #17233b;border-radius:8px;padding:7px 9px}
+.token-foot span{display:block;font-size:9.5px;color:var(--muted);margin-bottom:2px}
+.token-foot p{margin:0;font-size:11.5px;color:#c6d4e8}
+.token-foot b{color:#fff}
+.token-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);font-size:9.5px;color:#7d8fa8}
+.note{font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:12px}
+.sources{padding-left:18px;font-size:12px}.sources a{color:#9bd7ff;text-decoration:none;word-break:break-all}.sources a:hover{text-decoration:underline}
+.disclaimer{font-size:12px;color:#7d8fa8;background:#070c16;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.warn{border:1px solid rgba(251,113,133,.45);background:rgba(251,113,133,.07);border-radius:13px;padding:14px 18px;margin:14px 0}
+.warn h3{color:#fb7185;margin:0 0 6px}
+@media(max-width:1000px){.tokens{grid-template-columns:1fr}.kv{grid-template-columns:1fr 1fr}.tier-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:680px){h1{font-size:30px}.card{padding:20px 16px}.token-foot{grid-template-columns:1fr}.mini-metrics{grid-template-columns:1fr 1fr}.kv{grid-template-columns:1fr 1fr}}
+</style></head><body><div class="wrap">
+<div class="hero">
+  <div class="eyebrow">BINANCE ALPHA · 20 TOKEN SCREEN · INVESTMENT REVIEW</div>
+  <h1>Binance Alpha 20 币种<br><small>投资价值横截面研究 · 2026-11-20</small></h1>
+  <p class="sub">基于你提供的 3 张 Alpha 行情截图（14:46），逐项核对历史研究覆盖，刷新 CoinMarketCap 行情、供应、FDV 与 52 周高点，给出可投资性评分、分层与风险清单。19/20 已有历史深度报告，AVAAI 为本轮新增，但存在同名/合约冲突，单独警示。</p>
+  <div><span class="tagline">2026-11-20 14:50 快照</span><span class="tagline">20 个可见标的</span><span class="tagline">19 个已研究 · 1 个新增</span><span class="tagline">非投资建议</span></div>
+  <div class="chips">
+    <div class="chip"><span>样本总市值</span><b>$585.4M</b></div>
+    <div class="chip"><span>样本总 FDV</span><b>$1247.5M</b></div>
+    <div class="chip"><span>30 日中位数</span><b class="down">-28.6%</b></div>
+    <div class="chip"><span>30 日上涨</span><b>3/20</b></div>
+    <div class="chip"><span>恐惧贪婪</span><b>12 · Extreme Fear</b></div>
+    <div class="chip"><span>BTC 占比</span><b>58.8%</b></div>
+  </div>
+</div>
+<div class="nav"><a href="#s1">01</a><a href="#s2">02</a><a href="#s3">03</a><a href="#s4">04</a><a href="#s5">05</a><a href="#s6">06</a><a href="#s7">07</a><a href="#s8">08</a><a href="#s9">09</a></div>
+
+<section id="s1" class="card">
+  <div class="sec-head"><span class="num">01</span><h2>执行摘要：这不是一份“20 个都值得买”的清单</h2></div>
+  <p class="lead">样本总市值 $585.4M、总 FDV $1247.5M；30 日中位数 -28.6%，17/20 下跌，只有 BIRB、PIPPIN、VINE 上涨。真正有真实产品、收入或网络使用支撑的只有 SKR、GRASS、WET、DRIFT 等少数；其余大多是 Meme、AI Agent 叙事或低流动性微盘。</p>
+  <div class="grid2">
+    <div class="box"><h3>结论一：先看“能不能交易”，再看“值不值”</h3><p>YZY 24h 成交仅 $3.49、PIPE $1.1 万、AVAAI $11.6 万。对这类标的，任何“目标价”都没有意义——价格由极少数订单决定，建仓和退出本身就是最大风险。</p></div>
+    <div class="box"><h3>结论二：真实业务 ≠ 代币价值捕获</h3><p>GRASS 有 3M+ 节点和 65–75M 收入指引，DRIFT 有真实永续交易，WET 曾有 $1B 日成交，但三者都没有把协议现金流直接分给持币人。没有费用开关/回购/分润，“基本面好”只能解释项目，不能解释币价。</p></div>
+    <div class="box"><h3>结论三：稀释是第二层风险</h3><p>PIPE 10.0x、WET 5.86x、GRASS 4.10x（CMC 口径）、BIRB 3.51x、YZY 3.30x。低流通制造了“市值很小”的错觉，按 FDV 看并不便宜；解锁日历比当前市值更重要。</p></div>
+    <div class="box"><h3>结论四：AVAAI 必须先核验身份</h3><p>截图对应 CMC <b>avaai.top</b>（Base，0x72Cc…），不是 Holoworld 的 Solana AVA（DKu9…）。CMC 流通为 0、官网当前被劫持为无关内容、ATH 字段 306.72 明显异常。身份未核实前，直接回避。</p></div>
+  </div>
+  <div class="warn"><h3>最重要的数字</h3><p>BIRB 一只占样本 24h 成交的 <b>48.3%</b>，成交/市值约 <b>599%</b>；去掉 BIRB 后，其余 19 个标的合计日成交仅约 <b>$122M</b>。这说明样本的“流动性”高度集中在少数事件驱动标的，不能代表整体可交易性。</p></div>
+</section>
+
+<section id="s2" class="card">
+  <div class="sec-head"><span class="num">02</span><h2>样本、研究覆盖与数据口径</h2></div>
+  <p>3 张截图在 14:46 截取，共 20 个可见标的；第 3 张底部有一行被裁掉，未纳入。历史报告按文件名精确匹配，19 个标的已有至少一份深度报告，最近日期从 2026-10-17 到 2026-11-20；AVAAI 没有历史报告，本轮新增研究。</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th>最新报告日</th><th>标的</th><th>本轮动作</th></tr></thead><tbody><tr><td>2026-11-20</td><td>ALCH、BIRB、ZEREBRO</td><td>已有报告，本轮刷新行情</td></tr><tr><td>2026-11-19</td><td>MOODENG、SKR、GRASS、FARTCOIN、JELLYJELLY</td><td>已有报告，本轮刷新行情</td></tr><tr><td>2026-11-16</td><td>PIPE</td><td>已有报告，本轮刷新行情</td></tr><tr><td>2026-10-28</td><td>VINE、SWARMS</td><td>已有报告，本轮刷新行情</td></tr><tr><td>2026-10-27</td><td>DRIFT</td><td>已有报告，本轮刷新行情</td></tr><tr><td>2026-10-26</td><td>WET</td><td>已有报告，本轮刷新行情</td></tr><tr><td>2026-10-25</td><td>GOAT</td><td>已有报告，本轮刷新行情</td></tr><tr><td>2026-10-24</td><td>PIPPIN</td><td>已有报告，本轮刷新行情</td></tr><tr><td>2026-10-22</td><td>ARC、MEW、TROLL</td><td>已有报告，本轮刷新行情</td></tr><tr><td>2026-10-17</td><td>YZY</td><td>已有报告，本轮刷新行情</td></tr><tr><td>无</td><td>AVAAI</td><td>本轮新增研究；同名/合约冲突，见下方专章</td></tr></tbody></table></div>
+  <h3>数据口径与已知瑕疵</h3>
+  <ul class="plain">
+    <li>行情、市值、FDV、24h/7d/30d 变化统一取 <b>CoinMarketCap 2026-11-20 14:50 前后快照</b>；宏观与 FNG 为 14:47。截图价格用于交叉核对，不作为独立数据源。</li>
+    <li><b>GRASS</b>：CMC 流通 243.9M，CoinGecko 口径约 722.0M，FDV/MC 分别为 4.10x 与 1.39x；本报告表格用 CMC，估值讨论同时标注两种口径。</li>
+    <li><b>SKR</b>：CMC 流通 4.99B，CoinGecko 口径约 7.33B；FDV/MC 2.15x vs 1.46x。当前总量 10.73B 已包含通胀，官方初始供应 10B。</li>
+    <li><b>AVAAI</b>：CMC 名称为 avaai.top，流通 0、市值 0、FDV 5.58M；自报流通 1B。CMC ATH 306.72 明显异常，本报告不采用，改用 52 周高 $0.02099 做距离参考。</li>
+    <li><b>YZY</b> 24h 成交 $3.49、<b>PIPE</b> $11.2K、<b>AVAAI</b> $115.8K：这三个标的的价格发现已经失效，任何技术分析/目标价都不应采信。</li>
+    <li><b>BIRB</b> 24h 成交 $113.7M，约为市值的 599%；可能是做市、空投 farming 或洗量，不能当作真实深度。</li>
+  </ul>
+</section>
+
+<section id="s3" class="card">
+  <div class="sec-head"><span class="num">03</span><h2>市场全景：20 个标的的估值、动量与流动性</h2></div>
+  <p>按“可投资性评分”降序排列。评分不是项目质量排名，而是“这个代币当前是否值得配置”的综合判断：产品/网络真实性 30 分、代币价值捕获 25 分、供给/稀释 20 分、流动性/市场结构 15 分、催化剂/风险 10 分。</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th>Symbol</th><th>项目</th><th>赛道</th><th>价格</th><th>市值</th><th>FDV</th><th>FDV/MC</th><th>24h</th><th>7d</th><th>30d</th><th>24h 成交</th><th>评分</th><th>层</th></tr></thead><tbody><tr><td><b>SKR</b></td><td>Seeker</td><td>Solana Mobile / DePIN</td><td>$0.010224</td><td>$51.00M</td><td>$109.75M</td><td>2.15x</td><td><span class='up'>+2.02%</span></td><td><span class='down'>-3.56%</span></td><td><span class='down'>-33.69%</span></td><td>$7.24M</td><td><b>72</b></td><td><span class='pill tier-A'>A</span></td></tr><tr><td><b>GRASS</b></td><td>Grass</td><td>DePIN / AI 数据</td><td>$0.402498</td><td>$98.17M</td><td>$402.50M</td><td>4.10x</td><td><span class='down'>-7.87%</span></td><td><span class='down'>-8.72%</span></td><td><span class='down'>-37.02%</span></td><td>$25.62M</td><td><b>67</b></td><td><span class='pill tier-B'>B</span></td></tr><tr><td><b>DRIFT</b></td><td>Drift</td><td>DeFi / Solana 永续 DEX</td><td>$0.009075</td><td>$5.55M</td><td>$9.08M</td><td>1.64x</td><td><span class='down'>-6.09%</span></td><td><span class='down'>-19.16%</span></td><td><span class='down'>-41.60%</span></td><td>$1.68M</td><td><b>59</b></td><td><span class='pill tier-B'>B</span></td></tr><tr><td><b>ALCH</b></td><td>Alchemist AI</td><td>AI 应用 / 无代码生成</td><td>$0.028454</td><td>$24.19M</td><td>$28.45M</td><td>1.18x</td><td><span class='down'>-1.94%</span></td><td><span class='down'>-12.49%</span></td><td><span class='down'>-22.11%</span></td><td>$4.49M</td><td><b>58</b></td><td><span class='pill tier-B'>B</span></td></tr><tr><td><b>WET</b></td><td>Humidifi</td><td>DeFi / Solana prop AMM</td><td>$0.039734</td><td>$6.78M</td><td>$39.73M</td><td>5.86x</td><td><span class='down'>-1.86%</span></td><td><span class='down'>-9.68%</span></td><td><span class='down'>-23.04%</span></td><td>$1.19M</td><td><b>57</b></td><td><span class='pill tier-B'>B</span></td></tr><tr><td><b>PIPPIN</b></td><td>pippin</td><td>AI Agent / 自主内容</td><td>$0.019817</td><td>$19.82M</td><td>$19.82M</td><td>1.00x</td><td><span class='up'>+20.16%</span></td><td><span class='up'>+64.99%</span></td><td><span class='up'>+24.07%</span></td><td>$11.77M</td><td><b>56</b></td><td><span class='pill tier-B'>B</span></td></tr><tr><td><b>ZEREBRO</b></td><td>Zerebro</td><td>AI Agent / 内容网络</td><td>$0.021702</td><td>$21.70M</td><td>$21.70M</td><td>1.00x</td><td><span class='down'>-1.68%</span></td><td><span class='down'>-5.48%</span></td><td><span class='down'>-16.13%</span></td><td>$7.01M</td><td><b>54</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>BIRB</b></td><td>Moonbirds</td><td>NFT IP / 代币化</td><td>$0.066592</td><td>$18.98M</td><td>$66.59M</td><td>3.51x</td><td><span class='down'>-0.65%</span></td><td><span class='down'>-8.64%</span></td><td><span class='up'>+4.03%</span></td><td>$113.67M</td><td><b>53</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>SWARMS</b></td><td>Swarms</td><td>AI Agent / 多智能体框架</td><td>$0.005768</td><td>$5.77M</td><td>$5.77M</td><td>1.00x</td><td><span class='down'>-4.62%</span></td><td><span class='down'>-10.83%</span></td><td><span class='down'>-18.46%</span></td><td>$5.98M</td><td><b>53</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>JELLYJELLY</b></td><td>Jelly-My-Jelly</td><td>SocialFi / 创作者打赏</td><td>$0.036133</td><td>$36.13M</td><td>$36.13M</td><td>1.00x</td><td><span class='down'>-5.62%</span></td><td><span class='down'>-11.36%</span></td><td><span class='down'>-29.78%</span></td><td>$2.21M</td><td><b>52</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>FARTCOIN</b></td><td>Fartcoin</td><td>AI Meme</td><td>$0.082624</td><td>$82.62M</td><td>$82.62M</td><td>1.00x</td><td><span class='down'>-6.11%</span></td><td><span class='down'>-23.30%</span></td><td><span class='down'>-44.28%</span></td><td>$14.64M</td><td><b>48</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>ARC</b></td><td>AI Rig Complex</td><td>AI Agent / 框架</td><td>$0.026779</td><td>$26.78M</td><td>$26.78M</td><td>1.00x</td><td><span class='down'>-0.28%</span></td><td><span class='down'>-12.62%</span></td><td><span class='down'>-47.12%</span></td><td>$815.8K</td><td><b>47</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>VINE</b></td><td>Vine Coin</td><td>Meme / 怀旧 IP</td><td>$0.008865</td><td>$8.86M</td><td>$8.86M</td><td>1.00x</td><td><span class='up'>+34.28%</span></td><td><span class='up'>+71.16%</span></td><td><span class='up'>+16.95%</span></td><td>$27.83M</td><td><b>46</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>GOAT</b></td><td>Goatseus Maximus</td><td>AI Meme</td><td>$0.010897</td><td>$10.90M</td><td>$10.90M</td><td>1.00x</td><td><span class='down'>-2.33%</span></td><td><span class='down'>-8.51%</span></td><td><span class='down'>-27.49%</span></td><td>$1.44M</td><td><b>44</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>MOODENG</b></td><td>Moo Deng (moodengsol.com)</td><td>Meme / 动物 IP</td><td>$0.026729</td><td>$26.46M</td><td>$26.46M</td><td>1.00x</td><td><span class='down'>-1.46%</span></td><td><span class='down'>-10.68%</span></td><td><span class='down'>-36.03%</span></td><td>$6.59M</td><td><b>43</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>MEW</b></td><td>cat in a dogs world</td><td>Meme / 猫主题</td><td>$0.00029903</td><td>$26.58M</td><td>$26.58M</td><td>1.00x</td><td><span class='down'>-3.36%</span></td><td><span class='down'>-8.39%</span></td><td><span class='down'>-41.23%</span></td><td>$1.88M</td><td><b>40</b></td><td><span class='pill tier-C'>C</span></td></tr><tr><td><b>TROLL</b></td><td>TROLL (SOL)</td><td>Meme</td><td>$0.021187</td><td>$21.16M</td><td>$21.19M</td><td>1.00x</td><td><span class='down'>-10.58%</span></td><td><span class='down'>-18.92%</span></td><td><span class='down'>-42.41%</span></td><td>$997.8K</td><td><b>38</b></td><td><span class='pill tier-D'>D</span></td></tr><tr><td><b>PIPE</b></td><td>Pipe Network</td><td>DePIN / 边缘云</td><td>$0.010837</td><td>$1.08M</td><td>$10.84M</td><td>10.00x</td><td><span class='down'>-9.10%</span></td><td><span class='down'>-13.70%</span></td><td><span class='down'>-52.03%</span></td><td>$11.2K</td><td><b>34</b></td><td><span class='pill tier-D'>D</span></td></tr><tr><td><b>YZY</b></td><td>YZY MONEY</td><td>Meme / 名人潮流</td><td>$0.288164</td><td>$87.31M</td><td>$288.16M</td><td>3.30x</td><td><span class='down'>-1.89%</span></td><td><span class='down'>-1.49%</span></td><td><span class='down'>-2.02%</span></td><td>$3.49</td><td><b>24</b></td><td><span class='pill tier-D'>D</span></td></tr><tr><td><b>AVAAI</b></td><td>avaai.top</td><td>AI Meme / Base（同名冲突）</td><td>$0.005583</td><td>$5.58M</td><td>$5.58M</td><td>1.00x*</td><td><span class='down'>-9.20%</span></td><td><span class='down'>-6.55%</span></td><td><span class='down'>-25.83%</span></td><td>$115.8K</td><td><b>13</b></td><td><span class='pill tier-D'>D</span></td></tr></tbody></table></div>
+  <p class="note">评分与层级仅为研究框架，不构成投资建议。“已有报告”日期为历史深度报告最新日期，本轮已重新校对行情与供应。</p>
+</section>
+
+<section id="s4" class="card">
+  <div class="sec-head"><span class="num">04</span><h2>评分模型与四层分类</h2></div>
+  <p>评分刻意把“项目好不好”和“币能不能买”分开：一个真实产品如果代币没有现金流权、流通盘极低或日成交只有几千美元，仍然会被打低分。反之，纯 Meme 如果流动性极好，也只能拿到 C，不会进入核心层。</p>
+  <div class="tier-grid">
+    <div class="tier-box"><h3 class="tier-A">A · 核心观察</h3><b class="tier-A">1</b><p>SKR。有真实产品/收入，代币有质押/ burn/分润中的至少一项；但仍需控制仓位，等待关键指标兑现。</p></div>
+    <div class="tier-box"><h3 class="tier-B">B · 卫星配置</h3><b class="tier-B">5</b><p>GRASS、DRIFT、ALCH、WET、PIPPIN。有产品或有强叙事，但价值捕获、竞争或数据披露存在明显缺口。</p></div>
+    <div class="tier-box"><h3 class="tier-C">C · 交易型</h3><b class="tier-C">10</b><p>ZEREBRO、BIRB、SWARMS、JELLYJELLY、FARTCOIN、ARC、VINE、GOAT、MOODENG、MEW。只适合事件/动量交易，不适合“价值抄底”。</p></div>
+    <div class="tier-box"><h3 class="tier-D">D · 回避</h3><b class="tier-D">4</b><p>TROLL、PIPE、YZY、AVAAI。流动性枯竭、稀释极高、或身份/合约无法核实。</p></div>
+  </div>
+  <h3>6 个核心标的的三档估值锚</h3>
+  <p>只对 6 个有产品/有 IP 的标的给出情景区间；这不是目标价承诺，而是“在什么条件下值多少 FDV”的框架。其余 14 个标的不建议做精确估值，因为流动性或数据不足以支撑。</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th>标的</th><th>现价</th><th>悲观</th><th>中性</th><th>乐观</th><th>对应 FDV</th><th>逻辑</th></tr></thead><tbody><tr><td>SKR</td><td>$0.010224</td><td>$0.0075 – $0.0090</td><td>$0.0100 – $0.0130</td><td>$0.0160 – $0.0200</td><td>$80M – $215M</td><td>硬件+burn 兑现；否则向 80M FDV 收敛</td></tr><tr><td>GRASS</td><td>$0.402498</td><td>$0.28 – $0.33</td><td>$0.40 – $0.48</td><td>$0.60 – $0.75</td><td>$280M – $750M</td><td>收入指引与分润；口径统一前不给更高</td></tr><tr><td>WET</td><td>$0.039734</td><td>$0.025 – $0.032</td><td>$0.038 – $0.048</td><td>$0.060 – $0.080</td><td>$25M – $80M</td><td>份额恢复；否则按 25–32M FDV</td></tr><tr><td>DRIFT</td><td>$0.009075</td><td>$0.0060 – $0.0075</td><td>$0.0090 – $0.0120</td><td>$0.0160 – $0.0220</td><td>$6M – $22M</td><td>费用开关是重估前提</td></tr><tr><td>ALCH</td><td>$0.028454</td><td>$0.018 – $0.022</td><td>$0.027 – $0.034</td><td>$0.045 – $0.055</td><td>$18M – $55M</td><td>付费应用/订阅落地</td></tr><tr><td>BIRB</td><td>$0.066592</td><td>$0.030 – $0.045</td><td>$0.055 – $0.075</td><td>$0.100 – $0.140</td><td>$30M – $140M</td><td>IP 收入与解锁节奏</td></tr></tbody></table></div>
+  <p class="note">估值锚基于 CMC 供应口径与当前流通盘；若采用 CoinGecko 流通口径，GRASS/SKR 的 FDV/MC 会显著下降。区间为研究情景，不构成买卖建议。</p>
+</section>
+
+<section id="s5" class="card">
+  <div class="sec-head"><span class="num">05</span><h2>AI / Agent 赛道：9 个标的，多数是“叙事期权”</h2></div>
+  <p>AI/Agent 是样本里最拥挤的赛道：GOAT、FARTCOIN 是 AI Meme，ALCH 是 AI 应用生成，ARC/ZEREBRO/PIPPIN/SWARMS 是 Agent 框架/内容代理，JELLYJELLY 是 SocialFi，AVAAI 是身份冲突的 Base AI Meme。除 ALCH 的产品形态较清晰外，其余大多缺少付费用户、收入与留存数据。</p>
+  <div class="tokens">
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">G</div>
+    <div class="token-id"><h3>Goatseus Maximus <span>GOAT</span></h3><p>AI Meme · 已有报告 · 2026-10-25</p></div>
+    <div class="score-badge tier-C"><b>44</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.010897</b></div>
+    <div><span>市值</span><b>$10.90M</b></div>
+    <div><span>FDV</span><b>$10.90M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="down">-2.33%</b></div>
+    <div><span>7d</span><b class="down">-8.51%</b></div>
+    <div><span>30d</span><b class="down">-27.49%</b></div>
+    <div><span>距 52 周高</span><b class="down">-76.69%</b></div>
+  </div>
+  <p class="thesis">Truth Terminal 首个 Meme，品牌认知强；100% 流通、市值 1090 万美元，较 ATH -99.2%，只剩社区期权。</p>
+  <div class="score-bar"><span>产品 10/30</span><span>捕获 2/25</span><span>供给 17/20</span><span>流动 11/15</span><span>催化 4/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Truth Terminal 首个 Meme，AI Meme 叙事的原点，品牌认知强。</li><li>100% 流通、1.0x FDV，无解锁；市值 10.9M。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>无产品/无收入，纯 Meme。</li><li>30 日 -27.5%、90 日 -33.5%，注意力已转移。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 10.9M / MC 10.9M，1.0x；全流通。</p></div>
+    <div><span>建议动作</span><p><b>交易型</b> · 仓位 0–1%</p></div>
+    <div><span>观察指标</span><p>Truth Terminal 生态新动作；Solana AI Meme 轮动；成交/市值比回升。</p></div>
+    <div><span>关键风险</span><p>Meme 归零；注意力转移。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 999,976,299（100.0%）</span><span>24h 成交 $1.44M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-B">
+  <div class="token-head">
+    <div class="mono">A</div>
+    <div class="token-id"><h3>Alchemist AI <span>ALCH</span></h3><p>AI 应用 / 无代码生成 · 已有报告 · 2026-11-20</p></div>
+    <div class="score-badge tier-B"><b>58</b><span>卫星配置</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.028454</b></div>
+    <div><span>市值</span><b>$24.19M</b></div>
+    <div><span>FDV</span><b>$28.45M</b></div>
+    <div><span>FDV/MC</span><b>1.18x</b></div>
+    <div><span>24h</span><b class="down">-1.94%</b></div>
+    <div><span>7d</span><b class="down">-12.49%</b></div>
+    <div><span>30d</span><b class="down">-22.11%</b></div>
+    <div><span>距 52 周高</span><b class="down">-88.31%</b></div>
+  </div>
+  <p class="thesis">无代码 AI 应用生成器，85% 流通、1.18x FDV，代币结构是样本最干净之一；但付费用户、应用数量、留存与收入全部缺失，产品验证仍是空白。</p>
+  <div class="score-bar"><span>产品 18/30</span><span>捕获 7/25</span><span>供给 16/20</span><span>流动 12/15</span><span>催化 5/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>无代码 AI 应用生成，产品形态清晰；85% 流通、团队仅 3%，无大型 VC cliff。</li><li>FDV/MC 1.18x，样本中稀释最低之一；24h 成交 4.5M，流动性足够。</li><li>较 ATH -88.3%，小市值在 AI 应用反弹时弹性大。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>付费用户、应用数量、留存、收入全部未披露，产品验证缺失。</li><li>AI 应用生成赛道拥挤，Virtuals/Replit/Lovable 等更强。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 28.45M / MC 24.19M，1.18x；样本内稀释最低之一。</p></div>
+    <div><span>建议动作</span><p><b>卫星</b> · 仓位 1–2%</p></div>
+    <div><span>观察指标</span><p>公布付费订阅/应用数；平台抽成或回购落地；AI 应用板块出现新催化。</p></div>
+    <div><span>关键风险</span><p>叙事退潮；无付费转化；AI 应用竞争。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 850,000,000（85.0%）</span><span>24h 成交 $4.49M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">A</div>
+    <div class="token-id"><h3>AI Rig Complex <span>ARC</span></h3><p>AI Agent / 框架 · 已有报告 · 2026-10-22</p></div>
+    <div class="score-badge tier-C"><b>47</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.026779</b></div>
+    <div><span>市值</span><b>$26.78M</b></div>
+    <div><span>FDV</span><b>$26.78M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="down">-0.28%</b></div>
+    <div><span>7d</span><b class="down">-12.62%</b></div>
+    <div><span>30d</span><b class="down">-47.12%</b></div>
+    <div><span>距 52 周高</span><b class="down">-79.47%</b></div>
+  </div>
+  <p class="thesis">AI Agent/算力框架叙事，100% 流通、1.0x FDV；但产品与收入披露不足，30 日 -47%、90 日 -62%，是样本里趋势最弱的 AI 标的之一。</p>
+  <div class="score-bar"><span>产品 15/30</span><span>捕获 4/25</span><span>供给 17/20</span><span>流动 8/15</span><span>催化 3/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>AI Rig Complex 的 Agent/算力叙事，Solana AI 生态原生。</li><li>100% 流通、1.0x FDV，无解锁；市值 26.8M。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>产品/收入/开发者数据披露不足，官网叙事偏抽象。</li><li>30 日 -46.9%、90 日 -62.1%，趋势最弱之一。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 26.8M / MC 26.8M，1.0x；全流通。</p></div>
+    <div><span>建议动作</span><p><b>交易型</b> · 仓位 0–1%</p></div>
+    <div><span>观察指标</span><p>核心 Agent 产品上线；开发者/调用数据公开；AI 板块出现系统性反弹。</p></div>
+    <div><span>关键风险</span><p>叙事无法落地；开发者流失。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 999,981,848（100.0%）</span><span>24h 成交 $815.8K</span><span>证据强度 低</span></div>
+</article>
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">Z</div>
+    <div class="token-id"><h3>Zerebro <span>ZEREBRO</span></h3><p>AI Agent / 内容网络 · 已有报告 · 2026-11-20</p></div>
+    <div class="score-badge tier-C"><b>54</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.021702</b></div>
+    <div><span>市值</span><b>$21.70M</b></div>
+    <div><span>FDV</span><b>$21.70M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="down">-1.68%</b></div>
+    <div><span>7d</span><b class="down">-5.48%</b></div>
+    <div><span>30d</span><b class="down">-16.13%</b></div>
+    <div><span>距 52 周高</span><b class="down">-60.50%</b></div>
+  </div>
+  <p class="thesis">自主 AI 内容代理 + ZerePy 开源框架，100% 流通、1.0x FDV；创始人假死风波与 Kanye 账号事件留下长期信任折价，当前只剩叙事期权。</p>
+  <div class="score-bar"><span>产品 15/30</span><span>捕获 5/25</span><span>供给 17/20</span><span>流动 12/15</span><span>催化 5/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>自主 AI 内容代理 + ZerePy 开源框架，开发者叙事完整。</li><li>100% 流通、1.0x FDV，无解锁压力；24h 成交 7.0M，流动性尚可。</li><li>较 ATH -97.2%，悲观预期充分。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>创始人‘假死’风波 + Kanye 账号被黑，信任折价长期存在。</li><li>内容生产无付费闭环，代币无费用分成。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 21.7M / MC 21.7M，1.0x；全流通，无解锁。</p></div>
+    <div><span>建议动作</span><p><b>交易型</b> · 仓位 0–1%</p></div>
+    <div><span>观察指标</span><p>ZerePy 生态出现真实付费集成；创始人信誉修复；AI Agent 板块轮动。</p></div>
+    <div><span>关键风险</span><p>创始人信誉；平台封禁；内容业务无收入。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 999,945,370（100.0%）</span><span>24h 成交 $7.01M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-B">
+  <div class="token-head">
+    <div class="mono">P</div>
+    <div class="token-id"><h3>pippin <span>PIPPIN</span></h3><p>AI Agent / 自主内容 · 已有报告 · 2026-10-24</p></div>
+    <div class="score-badge tier-B"><b>56</b><span>卫星配置</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.019817</b></div>
+    <div><span>市值</span><b>$19.82M</b></div>
+    <div><span>FDV</span><b>$19.82M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="up">+20.16%</b></div>
+    <div><span>7d</span><b class="up">+64.99%</b></div>
+    <div><span>30d</span><b class="up">+24.07%</b></div>
+    <div><span>距 52 周高</span><b class="down">-97.79%</b></div>
+  </div>
+  <p class="thesis">Yohei Nakajima（BabyAGI 作者）的自主 AI Agent，7 日 +65% 是样本最强动量；但 100% 流通、无收入、较 ATH -97.8%，本质是注意力交易，不是价值资产。</p>
+  <div class="score-bar"><span>产品 15/30</span><span>捕获 5/25</span><span>供给 17/20</span><span>流动 13/15</span><span>催化 6/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Yohei Nakajima（BabyAGI 作者）创建，叙事有真实 builder 背书。</li><li>100% 流通、1.0x FDV，无解锁悬顶；7 日 +65%、30 日 +24%，动量最强。</li><li>24h 成交 11.8M，流动性在样本中靠前。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>无收入/无产品闭环，较 ATH -97.8%，本质是注意力资产。</li><li>AI Agent 赛道拥挤，差异化主要是人格而非技术。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 19.8M / MC 19.8M，1.0x；全流通，无解锁。</p></div>
+    <div><span>建议动作</span><p><b>卫星/动量</b> · 仓位 1%</p></div>
+    <div><span>观察指标</span><p>成交/持币地址继续放大；Agent 产品出现可验证的新功能；动量跌破 7 日均线则离场。</p></div>
+    <div><span>关键风险</span><p>动量反转；创始人注意力转移；AI Agent 退潮。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 999,996,253（100.0%）</span><span>24h 成交 $11.77M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-D">
+  <div class="token-head">
+    <div class="mono">A</div>
+    <div class="token-id"><h3>avaai.top <span>AVAAI</span></h3><p>AI Meme / Base（同名冲突） · 本轮新增研究</p></div>
+    <div class="score-badge tier-D"><b>13</b><span>回避</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.005583</b></div>
+    <div><span>市值</span><b>$5.58M</b></div>
+    <div><span>FDV</span><b>$5.58M</b></div>
+    <div><span>FDV/MC</span><b>1.00x*</b></div>
+    <div><span>24h</span><b class="down">-9.20%</b></div>
+    <div><span>7d</span><b class="down">-6.55%</b></div>
+    <div><span>30d</span><b class="down">-25.83%</b></div>
+    <div><span>距 52 周高</span><b class="down">-73.40%</b></div>
+  </div>
+  <p class="thesis">截图对应 CMC avaai.top（Base），并非 Holoworld 的 Solana AVA；CMC 流通为 0、官网当前被劫持为无关内容、ATH 字段异常。身份未核实前，任何‘低市值’都不构成投资价值。</p>
+  <div class="score-bar"><span>产品 2/30</span><span>捕获 1/25</span><span>供给 8/20</span><span>流动 1/15</span><span>催化 1/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>截图价格/涨跌与 CMC avaai.top 对齐，至少能确认样本对应哪个合约。</li><li>名义市值仅 5.6M，若身份核实无误，表面上‘便宜’。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>与 Holoworld 的 Solana AVA 同名不同合约；CMC 流通为 0，官网 avaai.top 当前被劫持为无关垃圾内容。</li><li>CMC ATH 306.72 明显异常；24h 成交 116K，流动性极薄。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 5.58M / MC 5.58M（自报），CMC 流通 0，无法计算可靠 FDV/MC。</p></div>
+    <div><span>建议动作</span><p><b>回避</b> · 仓位 0%</p></div>
+    <div><span>观察指标</span><p>官方合约地址与项目方身份双重核验；CMC 修复流通/官网；链上流动性与持币分布可验证。</p></div>
+    <div><span>关键风险</span><p>买到假币/合约错误；官网劫持；无法退出。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #4257</span><span>流通 未认证（CMC 0）</span><span>24h 成交 $115.8K</span><span>证据强度 低</span></div>
+</article>
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">S</div>
+    <div class="token-id"><h3>Swarms <span>SWARMS</span></h3><p>AI Agent / 多智能体框架 · 已有报告 · 2026-10-28</p></div>
+    <div class="score-badge tier-C"><b>53</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.005768</b></div>
+    <div><span>市值</span><b>$5.77M</b></div>
+    <div><span>FDV</span><b>$5.77M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="down">-4.62%</b></div>
+    <div><span>7d</span><b class="down">-10.83%</b></div>
+    <div><span>30d</span><b class="down">-18.46%</b></div>
+    <div><span>距 52 周高</span><b class="down">-83.94%</b></div>
+  </div>
+  <p class="thesis">开源多智能体框架，GitHub 有真实代码、199 个交易对；但代币无收入捕获、较 ATH -99.1%，估值只剩开源生态的期权。</p>
+  <div class="score-bar"><span>产品 16/30</span><span>捕获 4/25</span><span>供给 17/20</span><span>流动 12/15</span><span>催化 4/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>开源多智能体框架，GitHub 有真实代码，开发者可组合使用。</li><li>100% 流通、1.0x FDV，市值 5.8M，24h 成交 6.0M，流动性/市值比高。</li><li>较 ATH -99.1%，下行空间已被压缩。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>代币无收入捕获，框架使用不转化为币价。</li><li>30 日 -17.8%、90 日 -30.3%，AI Agent 叙事退潮。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 5.8M / MC 5.8M，1.0x；全流通。</p></div>
+    <div><span>建议动作</span><p><b>交易型</b> · 仓位 0–1%</p></div>
+    <div><span>观察指标</span><p>框架被企业采用/付费托管；代币质押或 API 计费落地；AI Agent 板块回暖。</p></div>
+    <div><span>关键风险</span><p>开源商业化失败；AI 叙事退潮。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 999,984,830（100.0%）</span><span>24h 成交 $5.98M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">F</div>
+    <div class="token-id"><h3>Fartcoin <span>FARTCOIN</span></h3><p>AI Meme · 已有报告 · 2026-11-19</p></div>
+    <div class="score-badge tier-C"><b>48</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.082624</b></div>
+    <div><span>市值</span><b>$82.62M</b></div>
+    <div><span>FDV</span><b>$82.62M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="down">-6.11%</b></div>
+    <div><span>7d</span><b class="down">-23.30%</b></div>
+    <div><span>30d</span><b class="down">-44.28%</b></div>
+    <div><span>距 52 周高</span><b class="down">-82.50%</b></div>
+  </div>
+  <p class="thesis">Truth Terminal 孵化的纯 Meme，100% 流通、流动性最好；无产品、无收入，30 日 -44%，是 Meme beta 而非价值资产。</p>
+  <div class="score-bar"><span>产品 11/30</span><span>捕获 2/25</span><span>供给 17/20</span><span>流动 14/15</span><span>催化 4/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Truth Terminal 叙事的代表 Meme，社区/交易所覆盖强（Coinbase/Kraken）。</li><li>100% 流通、1.0x FDV，无解锁/团队抛压；24h 成交 14.6M，样本内流动性最好之一。</li><li>较 ATH -96.8%，Meme 反弹时弹性大。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>无产品、无收入、无路线图，纯注意力 beta。</li><li>30 日 -44.3%、90 日 -56.3%，Meme 板块资金流出。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 82.6M / MC 82.6M，1.0x；全流通。</p></div>
+    <div><span>建议动作</span><p><b>交易型</b> · 仓位 0–1%</p></div>
+    <div><span>观察指标</span><p>Solana Meme 轮动重启；成交/市值比持续 &gt; 15%；BTC 企稳、FNG 脱离极度恐慌。</p></div>
+    <div><span>关键风险</span><p>Meme 退潮；交易所流动性撤离。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 999,998,256（100.0%）</span><span>24h 成交 $14.64M</span><span>证据强度 高</span></div>
+</article>
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">J</div>
+    <div class="token-id"><h3>Jelly-My-Jelly <span>JELLYJELLY</span></h3><p>SocialFi / 创作者打赏 · 已有报告 · 2026-11-19</p></div>
+    <div class="score-badge tier-C"><b>52</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.036133</b></div>
+    <div><span>市值</span><b>$36.13M</b></div>
+    <div><span>FDV</span><b>$36.13M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="down">-5.62%</b></div>
+    <div><span>7d</span><b class="down">-11.36%</b></div>
+    <div><span>30d</span><b class="down">-29.78%</b></div>
+    <div><span>距 52 周高</span><b class="down">-73.89%</b></div>
+  </div>
+  <p class="thesis">JellyJelly 短视频打赏应用，JELLY 直接支付创作者，有真实使用场景；但团队退出后由社区接管，日活/打赏额未披露，产品迭代能力存疑。</p>
+  <div class="score-bar"><span>产品 16/30</span><span>捕获 5/25</span><span>供给 17/20</span><span>流动 9/15</span><span>催化 5/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>JellyJelly 短视频打赏应用，JELLY 直接支付创作者，有真实使用场景。</li><li>100% 流通、1.0x FDV，无团队/VC cliff；市值 36M，成交 2.2M。</li><li>社区接管后治理更透明。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>日活、打赏额、创作者留存未披露，代币需求无法验证。</li><li>原开发团队退出，产品迭代能力存疑；30 日 -29.8%。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 36.1M / MC 36.1M，1.0x；全流通。</p></div>
+    <div><span>建议动作</span><p><b>小仓位</b> · 仓位 0–1%</p></div>
+    <div><span>观察指标</span><p>日活与打赏流水披露；iOS 应用排名/留存改善；创作者数量增长。</p></div>
+    <div><span>关键风险</span><p>产品停更；打赏流水不足；团队缺位。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 999,999,099（100.0%）</span><span>24h 成交 $2.21M</span><span>证据强度 中</span></div>
+</article></div>
+</section>
+
+<section id="s6" class="card">
+  <div class="sec-head"><span class="num">06</span><h2>DeFi / DePIN / Infra：5 个标的，真实业务最多，但代币捕获最弱</h2></div>
+  <p>SKR、GRASS、WET、DRIFT、PIPE 都对应真实网络或协议：Solana Mobile、Grass 带宽网络、HumidiFi prop AMM、Drift 永续 DEX、Pipe 边缘云。问题不在“有没有产品”，而在“产品增长是否转化为代币需求”。目前只有 SKR 的 Buy&Burn 与 GRASS 的 USDC 分润开始触碰价值捕获，WET/DRIFT/PIPE 仍缺明确机制。</p>
+  <div class="tokens">
+<article class="token-card tier-border-A">
+  <div class="token-head">
+    <div class="mono">S</div>
+    <div class="token-id"><h3>Seeker <span>SKR</span></h3><p>Solana Mobile / DePIN · 已有报告 · 2026-11-19</p></div>
+    <div class="score-badge tier-A"><b>72</b><span>核心观察</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.010224</b></div>
+    <div><span>市值</span><b>$51.00M</b></div>
+    <div><span>FDV</span><b>$109.75M</b></div>
+    <div><span>FDV/MC</span><b>2.15x</b></div>
+    <div><span>24h</span><b class="up">+2.02%</b></div>
+    <div><span>7d</span><b class="down">-3.56%</b></div>
+    <div><span>30d</span><b class="down">-33.69%</b></div>
+    <div><span>距 52 周高</span><b class="down">-82.20%</b></div>
+  </div>
+  <p class="thesis">真实硬件 + 钱包 + dApp Store + Guardian 质押 + Buy&amp;Burn，是样本里少数有收入闭环的资产。它不是高弹性 AI 叙事，而是慢变量：设备出货、质押率和 burn 规模决定估值上限。</p>
+  <div class="score-bar"><span>产品 25/30</span><span>捕获 18/25</span><span>供给 10/20</span><span>流动 11/15</span><span>催化 8/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>真实硬件 + 钱包 + dApp Store，约 12.1 万台 Seeker 激活，不是纯叙事。</li><li>10-15 起 Buy&amp;Burn 用 validator/Seed Vault 收入回购销毁，已烧 &gt;110 万枚，价值捕获从 0 到 1。</li><li>CMC 流通 46.5%、FDV/MC 2.15x，在样本中稀释可控；Guardian 质押带来锁仓需求。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>10% 起始通胀、每年衰减至 2%，当前 burn 仅约总供应 0.01%，净通缩还很远。</li><li>硬件出货与 dApp 生态仍小，30 日 -33.7%，估值依赖 Solana 生态回暖。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 109.7M / MC 51.0M，2.15x；CMC 流通 4.99B，CoinGecko 7.33B，口径差异需注意。</p></div>
+    <div><span>建议动作</span><p><b>核心观察</b> · 仓位 2–4%</p></div>
+    <div><span>观察指标</span><p>月度 burn &gt; 500 万 SKR；Seeker 累计激活 &gt; 20 万台；Guardian 质押率继续上升。</p></div>
+    <div><span>关键风险</span><p>硬件销售不及预期；通胀高于 burn；Solana 生态降温。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 4,988,556,009（46.5%）</span><span>24h 成交 $7.24M</span><span>证据强度 高</span></div>
+</article>
+<article class="token-card tier-border-B">
+  <div class="token-head">
+    <div class="mono">G</div>
+    <div class="token-id"><h3>Grass <span>GRASS</span></h3><p>DePIN / AI 数据 · 已有报告 · 2026-11-19</p></div>
+    <div class="score-badge tier-B"><b>67</b><span>卫星配置</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.402498</b></div>
+    <div><span>市值</span><b>$98.17M</b></div>
+    <div><span>FDV</span><b>$402.50M</b></div>
+    <div><span>FDV/MC</span><b>4.10x</b></div>
+    <div><span>24h</span><b class="down">-7.87%</b></div>
+    <div><span>7d</span><b class="down">-8.72%</b></div>
+    <div><span>30d</span><b class="down">-37.02%</b></div>
+    <div><span>距 52 周高</span><b class="down">-54.46%</b></div>
+  </div>
+  <p class="thesis">3M+ 节点、真实 AI 数据收入、USDC 奖励与质押分润，基本面是样本最强。但代币不直接拥有 DataCo 现金流，且 CMC/CG 流通口径相差近 3 倍，任何估值都必须先统一口径。</p>
+  <div class="score-bar"><span>产品 26/30</span><span>捕获 15/25</span><span>供给 7/20</span><span>流动 13/15</span><span>催化 6/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>3M+ 节点、真实 AI 数据收入（2026 指引 65–75M），Stage 2 用 USDC 不增发。</li><li>7 月治理批准 USDC 收入分给质押者，回购/质押机制开始把现金流导入代币。</li><li>90 日 +28.8%，在样本中相对强势，说明市场认可真实收入叙事。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>GRASS 对 DataCo 没有直接股权/现金流索取权，收入不等于持币人收入。</li><li>CMC 流通 243.9M vs CoinGecko 722.0M，FDV/MC 4.1x vs 1.39x，估值口径混乱。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 402.7M / MC 98.2M，4.10x（CMC 流通 243.9M）；按 CG 722M 则 1.39x。</p></div>
+    <div><span>建议动作</span><p><b>卫星</b> · 仓位 1–2%</p></div>
+    <div><span>观察指标</span><p>全年收入达到 65–75M 指引；USDC 分润规模披露；CMC 流通口径与基金会持仓完成对账。</p></div>
+    <div><span>关键风险</span><p>收入指引失约；流通口径修正；AI 数据客户集中。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 243,905,091（24.4%）</span><span>24h 成交 $25.62M</span><span>证据强度 高（口径冲突）</span></div>
+</article>
+<article class="token-card tier-border-B">
+  <div class="token-head">
+    <div class="mono">W</div>
+    <div class="token-id"><h3>Humidifi <span>WET</span></h3><p>DeFi / Solana prop AMM · 已有报告 · 2026-10-26</p></div>
+    <div class="score-badge tier-B"><b>57</b><span>卫星配置</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.039734</b></div>
+    <div><span>市值</span><b>$6.78M</b></div>
+    <div><span>FDV</span><b>$39.73M</b></div>
+    <div><span>FDV/MC</span><b>5.86x</b></div>
+    <div><span>24h</span><b class="down">-1.86%</b></div>
+    <div><span>7d</span><b class="down">-9.68%</b></div>
+    <div><span>30d</span><b class="down">-23.04%</b></div>
+    <div><span>距 52 周高</span><b class="down">-88.17%</b></div>
+  </div>
+  <p class="thesis">Solana 头部 prop AMM，官方称日成交曾超 10 亿美元；但份额被 BisonFi 反超、8 月发生停运事故，WET 只有 17% 流通、5.86x FDV——产品强、代币弱。</p>
+  <div class="score-bar"><span>产品 24/30</span><span>捕获 9/25</span><span>供给 7/20</span><span>流动 10/15</span><span>催化 7/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Solana 头部 prop AMM，官方称日成交 &gt;$1B、曾占 35% 现货份额，产品真实。</li><li>CMC 市值仅 6.8M，若份额恢复，弹性大。</li><li>30 日 -23%、较 2025-12 ATH -88%，已深度回撤。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>份额被 BisonFi 反超至约 26%，竞争壁垒没有想象中强。</li><li>2026-08-22 发生系统事故并暂停交易，8 个月内第三次运营中断；代币价值捕获未披露。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 39.8M / MC 6.80M，5.86x；17% 流通，稀释高。</p></div>
+    <div><span>建议动作</span><p><b>卫星</b> · 仓位 1–2%</p></div>
+    <div><span>观察指标</span><p>现货份额重回 30%+；事故复盘与赔付完成；WET 质押/回购机制明确。</p></div>
+    <div><span>关键风险</span><p>安全/运营事故；份额流失；代币价值捕获缺失。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 170,749,710（17.1%）</span><span>24h 成交 $1.19M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-D">
+  <div class="token-head">
+    <div class="mono">P</div>
+    <div class="token-id"><h3>Pipe Network <span>PIPE</span></h3><p>DePIN / 边缘云 · 已有报告 · 2026-11-16</p></div>
+    <div class="score-badge tier-D"><b>34</b><span>回避</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.010837</b></div>
+    <div><span>市值</span><b>$1.08M</b></div>
+    <div><span>FDV</span><b>$10.84M</b></div>
+    <div><span>FDV/MC</span><b>10.00x</b></div>
+    <div><span>24h</span><b class="down">-9.10%</b></div>
+    <div><span>7d</span><b class="down">-13.70%</b></div>
+    <div><span>30d</span><b class="down">-52.03%</b></div>
+    <div><span>距 52 周高</span><b class="down">-90.10%</b></div>
+  </div>
+  <p class="thesis">Solana DePIN 边缘云，有 Multicoin 融资与真实代码；但 10% 流通、10x FDV、日成交仅 1.1 万美元，代币经济学被官方改写，当前不是可投资资产。</p>
+  <div class="score-bar"><span>产品 18/30</span><span>捕获 8/25</span><span>供给 3/20</span><span>流动 2/15</span><span>催化 3/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Solana DePIN 边缘云，Multicoin 领投 10M，GitHub 持续提交，产品定位真实。</li><li>burn-to-credit 把代币消耗与网络使用挂钩，理论上有价值捕获。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>10% 流通、10x FDV，未来 12 个月约 14% 解锁；mint authority 未放弃。</li><li>24h 成交仅 1.1 万美元，价格发现失效；节点奖励被官方取消，经济模型改写。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 10.8M / MC 1.08M，10.0x；10% 流通。</p></div>
+    <div><span>建议动作</span><p><b>回避</b> · 仓位 0%</p></div>
+    <div><span>观察指标</span><p>日成交恢复到 10 万美元级；付费客户/收入披露；解锁与 mint authority 明确。</p></div>
+    <div><span>关键风险</span><p>流动性/解锁/合约权限三重风险。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 100,000,000（10.0%）</span><span>24h 成交 $11.2K</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-B">
+  <div class="token-head">
+    <div class="mono">D</div>
+    <div class="token-id"><h3>Drift <span>DRIFT</span></h3><p>DeFi / Solana 永续 DEX · 已有报告 · 2026-10-27</p></div>
+    <div class="score-badge tier-B"><b>59</b><span>卫星配置</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.009075</b></div>
+    <div><span>市值</span><b>$5.55M</b></div>
+    <div><span>FDV</span><b>$9.08M</b></div>
+    <div><span>FDV/MC</span><b>1.64x</b></div>
+    <div><span>24h</span><b class="down">-6.09%</b></div>
+    <div><span>7d</span><b class="down">-19.16%</b></div>
+    <div><span>30d</span><b class="down">-41.60%</b></div>
+    <div><span>距 52 周高</span><b class="down">-96.48%</b></div>
+  </div>
+  <p class="thesis">Solana 老牌全链永续 DEX，协议真实、估值极低；但 DRIFT 只有治理权，没有费用开关，协议收入无法验证到币价，属于‘便宜但有原因’的左侧期权。</p>
+  <div class="score-bar"><span>产品 24/30</span><span>捕获 8/25</span><span>供给 12/20</span><span>流动 10/15</span><span>催化 5/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Solana 老牌全链永续 DEX，真实交易量与产品存在多年。</li><li>CMC 流通 61.2%、FDV 仅 9.1M，FDV/MC 1.64x，估值已压到很低的期权价。</li><li>30 日 -41.6%、创 ATL，悲观预期充分。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>代币只有治理权，没有费用开关/分红，协议收入无法验证到币价。</li><li>Solana 永续 DEX 竞争激烈，Jupiter/Hyperliquid 等持续分流。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 9.08M / MC 5.54M，1.64x；绝对估值低，但代币无费用权。</p></div>
+    <div><span>建议动作</span><p><b>卫星</b> · 仓位 1–2%</p></div>
+    <div><span>观察指标</span><p>费用开关/回购提案；日成交与未平仓量回升；SOL 生态风险偏好修复。</p></div>
+    <div><span>关键风险</span><p>费用开关不落地；协议被 fork；永续 DEX 竞争。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 611,515,824（61.2%）</span><span>24h 成交 $1.68M</span><span>证据强度 高</span></div>
+</article></div>
+</section>
+
+<section id="s7" class="card">
+  <div class="sec-head"><span class="num">07</span><h2>Meme / NFT / IP：6 个标的，只有 BIRB 有 IP 现金流期权</h2></div>
+  <p>YZY、MOODENG、BIRB、VINE、MEW、TROLL 里，BIRB 是唯一有蓝筹 NFT 品牌与潜在 IP 商业化的标的；其余都是纯注意力资产。VINE 的 7 日 +71% 是样本最强短线动量，但 30 日仅 +17%、较 ATH -98.1%，属于脉冲而非趋势。</p>
+  <div class="tokens">
+<article class="token-card tier-border-D">
+  <div class="token-head">
+    <div class="mono">Y</div>
+    <div class="token-id"><h3>YZY MONEY <span>YZY</span></h3><p>Meme / 名人潮流 · 已有报告 · 2026-10-17</p></div>
+    <div class="score-badge tier-D"><b>24</b><span>回避</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.288164</b></div>
+    <div><span>市值</span><b>$87.31M</b></div>
+    <div><span>FDV</span><b>$288.16M</b></div>
+    <div><span>FDV/MC</span><b>3.30x</b></div>
+    <div><span>24h</span><b class="down">-1.89%</b></div>
+    <div><span>7d</span><b class="down">-1.49%</b></div>
+    <div><span>30d</span><b class="down">-2.02%</b></div>
+    <div><span>距 52 周高</span><b class="down">-25.28%</b></div>
+  </div>
+  <p class="thesis">Kanye West 的 YZY Money，30% 流通、3.3x FDV，24h 成交仅 3.5 美元——价格已失去市场发现功能，名义市值没有任何可交易性。</p>
+  <div class="score-bar"><span>产品 8/30</span><span>捕获 2/25</span><span>供给 10/20</span><span>流动 1/15</span><span>催化 3/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Kanye West/Yeezy 品牌，名人注意力顶级。</li><li>30% 流通、3.3x FDV，市值 87M，仍有品牌期权。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>24h 成交 $3.49，几乎无法交易；价格由极少数订单决定。</li><li>无产品/无收入，名人币叙事退潮；30 日 -2% 是失真价格，不是稳定。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 288.2M / MC 87.3M，3.30x；30% 流通。</p></div>
+    <div><span>建议动作</span><p><b>不可交易</b> · 仓位 0%</p></div>
+    <div><span>观察指标</span><p>成交恢复到 100 万美元级；品牌方公布代币使用场景；做市深度可验证。</p></div>
+    <div><span>关键风险</span><p>流动性骗局；无法退出；名人声誉风险。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 302,975,517（30.3%）</span><span>24h 成交 $3.49</span><span>证据强度 低</span></div>
+</article>
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">M</div>
+    <div class="token-id"><h3>Moo Deng (moodengsol.com) <span>MOODENG</span></h3><p>Meme / 动物 IP · 已有报告 · 2026-11-19</p></div>
+    <div class="score-badge tier-C"><b>43</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.026729</b></div>
+    <div><span>市值</span><b>$26.46M</b></div>
+    <div><span>FDV</span><b>$26.46M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="down">-1.46%</b></div>
+    <div><span>7d</span><b class="down">-10.68%</b></div>
+    <div><span>30d</span><b class="down">-36.03%</b></div>
+    <div><span>距 52 周高</span><b class="down">-83.26%</b></div>
+  </div>
+  <p class="thesis">Moo Deng 动物 Meme，与动物园无官方关系；100% 流通、市值 2646 万美元，30 日 -36%，品牌热度已过峰。</p>
+  <div class="score-bar"><span>产品 9/30</span><span>捕获 2/25</span><span>供给 17/20</span><span>流动 12/15</span><span>催化 3/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Moo Deng 全球知名度高，动物 Meme 代表。</li><li>100% 流通、1.0x FDV，无解锁；成交 6.6M。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>与动物园无官方关系，无收入/授权。</li><li>30 日 -36.1%、90 日 -42.6%，热度退潮。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 26.5M / MC 26.5M，1.0x；全流通。</p></div>
+    <div><span>建议动作</span><p><b>回避/短线</b> · 仓位 0%</p></div>
+    <div><span>观察指标</span><p>Moo Deng 再次全球出圈；动物园官方合作；动物 Meme 板块轮动。</p></div>
+    <div><span>关键风险</span><p>IP 热度消失；品牌无授权。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 989,971,791（100.0%）</span><span>24h 成交 $6.59M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">B</div>
+    <div class="token-id"><h3>Moonbirds <span>BIRB</span></h3><p>NFT IP / 代币化 · 已有报告 · 2026-11-20</p></div>
+    <div class="score-badge tier-C"><b>53</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.066592</b></div>
+    <div><span>市值</span><b>$18.98M</b></div>
+    <div><span>FDV</span><b>$66.59M</b></div>
+    <div><span>FDV/MC</span><b>3.51x</b></div>
+    <div><span>24h</span><b class="down">-0.65%</b></div>
+    <div><span>7d</span><b class="down">-8.64%</b></div>
+    <div><span>30d</span><b class="up">+4.03%</b></div>
+    <div><span>距 52 周高</span><b class="down">-86.88%</b></div>
+  </div>
+  <p class="thesis">Moonbirds 蓝筹 NFT 的 IP 代币化，品牌真实、30 日 +4.0%；但 28.5% 流通、3.51x FDV，24h 成交/市值 599%，筹码换手异常，像事件驱动的 IP 期权。</p>
+  <div class="score-bar"><span>产品 18/30</span><span>捕获 8/25</span><span>供给 7/20</span><span>流动 14/15</span><span>催化 6/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Moonbirds 2022 蓝筹 NFT，IP 有真实历史与社区；Orange Cap Games 接手后有游戏/品牌延展。</li><li>30 日 +4.0%，样本中少数正增长；24h 成交 113M，流动性极好。</li><li>28.5% 流通，若 IP 商业化成功，FDV 有期权价值。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>71.5% 仍锁定，2026-11-09 已解锁 8.925%，后续月度释放压制价格。</li><li>24h 成交/市值 599%，换手异常，可能是做市/空投 farming/洗量，不是真实需求。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 66.6M / MC 19.0M，3.51x；28.5% 流通。</p></div>
+    <div><span>建议动作</span><p><b>事件驱动</b> · 仓位 0–1%</p></div>
+    <div><span>观察指标</span><p>IP 授权/游戏收入披露；后续解锁节奏；成交/市值比回到正常区间。</p></div>
+    <div><span>关键风险</span><p>解锁；NFT 流动性退潮；成交异常/做市撤退。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 285,000,000（28.5%）</span><span>24h 成交 $113.67M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">V</div>
+    <div class="token-id"><h3>Vine Coin <span>VINE</span></h3><p>Meme / 怀旧 IP · 已有报告 · 2026-10-28</p></div>
+    <div class="score-badge tier-C"><b>46</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.008865</b></div>
+    <div><span>市值</span><b>$8.86M</b></div>
+    <div><span>FDV</span><b>$8.86M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="up">+34.28%</b></div>
+    <div><span>7d</span><b class="up">+71.16%</b></div>
+    <div><span>30d</span><b class="up">+16.95%</b></div>
+    <div><span>距 52 周高</span><b class="down">-74.24%</b></div>
+  </div>
+  <p class="thesis">Vine 怀旧 IP Meme，24h +34%、7 日 +71%，成交 2800 万美元；但无产品、较 ATH -98.1%，是注意力脉冲而非趋势。</p>
+  <div class="score-bar"><span>产品 10/30</span><span>捕获 2/25</span><span>供给 17/20</span><span>流动 13/15</span><span>催化 4/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Vine 怀旧 IP + Rus/Elon 话题，注意力基础真实。</li><li>100% 流通、1.0x FDV，24h 成交 28M，短线流动性极好。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>无产品、无收入，Vine 重启与代币无直接关系。</li><li>较 ATH -98.1%，30 日仅 +17%，反弹是脉冲而非趋势。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 9.1M / MC 9.1M，1.0x；全流通。</p></div>
+    <div><span>建议动作</span><p><b>短线</b> · 仓位 0–1%</p></div>
+    <div><span>观察指标</span><p>Vine 重启出现官方进展；成交继续放大；话题热度不回落。</p></div>
+    <div><span>关键风险</span><p>话题退潮；插针；流动性骤降。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 999,994,104（100.0%）</span><span>24h 成交 $27.83M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-C">
+  <div class="token-head">
+    <div class="mono">M</div>
+    <div class="token-id"><h3>cat in a dogs world <span>MEW</span></h3><p>Meme / 猫主题 · 已有报告 · 2026-10-22</p></div>
+    <div class="score-badge tier-C"><b>40</b><span>交易型</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.00029903</b></div>
+    <div><span>市值</span><b>$26.58M</b></div>
+    <div><span>FDV</span><b>$26.58M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="down">-3.36%</b></div>
+    <div><span>7d</span><b class="down">-8.39%</b></div>
+    <div><span>30d</span><b class="down">-41.23%</b></div>
+    <div><span>距 52 周高</span><b class="down">-77.72%</b></div>
+  </div>
+  <p class="thesis">猫主题 Meme 龙头之一，100% 流通、市值 2658 万美元；无收入、30 日 -41%、创 ATL，猫季叙事退潮。</p>
+  <div class="score-bar"><span>产品 9/30</span><span>捕获 2/25</span><span>供给 17/20</span><span>流动 9/15</span><span>催化 3/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>猫主题 Meme 龙头之一，品牌与社区基础强。</li><li>100% 流通、1.0x FDV，无解锁；市值 26.6M。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>无收入/无产品，纯情绪。</li><li>30 日 -41.2%、90 日 -30.4%，猫季退潮；已创 ATL。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 26.6M / MC 26.6M，1.0x；全流通。</p></div>
+    <div><span>建议动作</span><p><b>回避/短线</b> · 仓位 0%</p></div>
+    <div><span>观察指标</span><p>猫 Meme 板块重启；成交/市值比持续 &gt; 10%；BTC 企稳。</p></div>
+    <div><span>关键风险</span><p>Meme 退潮；创 ATL 后流动性折价。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 88,885,395,113（100.0%）</span><span>24h 成交 $1.88M</span><span>证据强度 中</span></div>
+</article>
+<article class="token-card tier-border-D">
+  <div class="token-head">
+    <div class="mono">T</div>
+    <div class="token-id"><h3>TROLL (SOL) <span>TROLL</span></h3><p>Meme · 已有报告 · 2026-10-22</p></div>
+    <div class="score-badge tier-D"><b>38</b><span>回避</span></div>
+  </div>
+  <div class="mini-metrics">
+    <div><span>价格</span><b>$0.021187</b></div>
+    <div><span>市值</span><b>$21.16M</b></div>
+    <div><span>FDV</span><b>$21.19M</b></div>
+    <div><span>FDV/MC</span><b>1.00x</b></div>
+    <div><span>24h</span><b class="down">-10.58%</b></div>
+    <div><span>7d</span><b class="down">-18.92%</b></div>
+    <div><span>30d</span><b class="down">-42.41%</b></div>
+    <div><span>距 52 周高</span><b class="down">-85.61%</b></div>
+  </div>
+  <p class="thesis">Solana 纯 Meme，100% 流通、市值 2116 万美元；30 日 -42%、90 日 -63%，流动性与注意力同步下滑。</p>
+  <div class="score-bar"><span>产品 8/30</span><span>捕获 2/25</span><span>供给 17/20</span><span>流动 8/15</span><span>催化 3/10</span></div>
+  <div class="two-col mini">
+    <div class="bull"><h4>看点</h4><ul><li>Solana 老牌 Troll Meme，社区文化强。</li><li>100% 流通、1.0x FDV，无解锁；市值 21M。</li></ul></div>
+    <div class="bear"><h4>疑点</h4><ul><li>无产品/无收入。</li><li>30 日 -42.3%、90 日 -63.1%，流动性与注意力同步下滑。</li></ul></div>
+  </div>
+  <div class="token-foot">
+    <div><span>估值状态</span><p>FDV 21.2M / MC 21.2M，1.0x；全流通。</p></div>
+    <div><span>建议动作</span><p><b>回避</b> · 仓位 0%</p></div>
+    <div><span>观察指标</span><p>社区出现新叙事；成交连续放大；Meme 板块整体回暖。</p></div>
+    <div><span>关键风险</span><p>流动性枯竭；社区消散。</p></div>
+  </div>
+  <div class="token-meta"><span>CMC #—</span><span>流通 998,743,571（99.9%）</span><span>24h 成交 $997.8K</span><span>证据强度 中</span></div>
+</article></div>
+</section>
+
+<section id="s8" class="card">
+  <div class="sec-head"><span class="num">08</span><h2>组合策略：核心、卫星、交易、回避</h2></div>
+  <p>如果把 20 个标的当作一个可配置池，建议按“证据强度”而不是“跌幅大小”分层。下面不是买入清单，而是研究后的动作框架；所有仓位均为研究假设，不构成投资建议。</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th>层级</th><th>标的</th><th>动作</th><th>仓位假设</th><th>前置条件/触发</th></tr></thead><tbody><tr><td>A · 核心观察</td><td>SKR</td><td>现货、低频再平衡</td><td>2–4%</td><td>月度 burn >500 万；Seeker 激活与 Guardian 质押率继续上升</td></tr><tr><td>B · 卫星</td><td>GRASS、DRIFT、ALCH、WET、PIPPIN</td><td>事件驱动、分批</td><td>各 1–2%</td><td>GRASS 收入指引兑现且流通口径统一；DRIFT 费用开关；ALCH 付费数据；WET 份额恢复；PIPPIN 动量延续</td></tr><tr><td>C · 交易型</td><td>ZEREBRO、BIRB、SWARMS、JELLYJELLY、FARTCOIN、ARC、VINE、GOAT、MOODENG、MEW</td><td>只做动量/事件，不留底仓</td><td>合计 0–5%</td><td>成交/市值比、板块轮动、解锁日历；跌破关键均线即退出</td></tr><tr><td>D · 回避</td><td>TROLL、PIPE、YZY、AVAAI</td><td>不配置</td><td>0%</td><td>流动性/身份/合约任一无法核实即放弃</td></tr></tbody></table></div>
+  <div class="grid2">
+    <div class="box"><h3>如果只选两个</h3><p><b>SKR</b>：真实硬件+钱包+Guardian+Buy&Burn，慢变量但价值捕获最完整。<br><b>GRASS</b>：真实收入+节点网络，但必须先解决 CMC/CG 流通口径与“代币不拥有 DataCo”的问题。两者都只适合小仓位、长周期跟踪。</p></div>
+    <div class="box"><h3>如果只想交易</h3><p>流动性最好的是 <b>BIRB、VINE、FARTCOIN、PIPPIN</b>；但 BIRB 成交/市值 599% 异常，VINE/PIPPIN 是脉冲动量。交易型标的不要用“跌了 99%”作为买入理由——样本里 17/20 都在跌，跌幅不是催化。</p></div>
+  </div>
+</section>
+
+<section id="s9" class="card">
+  <div class="sec-head"><span class="num">09</span><h2>风险矩阵、监控清单与数据来源</h2></div>
+  <div class="table-wrap"><table class="data"><thead><tr><th>风险</th><th>受影响标的</th><th>传导</th><th>应对</th></tr></thead><tbody><tr><td>流动性枯竭</td><td>YZY（24h 成交 $3.49）、PIPE（$1.1 万）、AVAAI（$11.6 万）、TROLL（$100 万）</td><td>无法建仓/无法退出；价格由少数订单决定</td><td>回避或只做极小仓位；下单前检查深度</td></tr><tr><td>高 FDV / 低流通</td><td>PIPE 10.0x、WET 5.86x、GRASS 4.10x（CMC）、BIRB 3.51x、YZY 3.30x</td><td>未来解锁形成持续卖压</td><td>以 FDV 而非 MC 估值；核对解锁表</td></tr><tr><td>身份 / 合约</td><td>AVAAI</td><td>同名不同合约、官网劫持、CMC 数据异常</td><td>只认官方合约；先核验项目方身份</td></tr><tr><td>安全 / 运营</td><td>WET（2026-08-22 停运事故，8 个月第三次中断）</td><td>交易中断、资金/声誉损失</td><td>跟踪复盘、赔付与代码审计</td></tr><tr><td>创始人 / 信任</td><td>ZEREBRO（创始人假死风波、Kanye 账号被黑）</td><td>信任折价长期化</td><td>只给叙事期权，不给基本面估值</td></tr><tr><td>收入无法捕获</td><td>GRASS、DRIFT、WET、ALCH</td><td>协议增长不等于持币人现金流</td><td>要求费用开关/回购/分润的明确治理</td></tr><tr><td>解锁</td><td>BIRB（71.5% 待释放）、PIPE（90% 待释放）、WET（83% 待释放）、YZY（70% 待释放）</td><td>供给冲击压制反弹</td><td>把解锁日历当作交易前置条件</td></tr><tr><td>Meme 退潮</td><td>GOAT、MOODENG、MEW、TROLL、FARTCOIN、VINE</td><td>30 日中位数 -28.6%，17/20 下跌</td><td>只做动量，不做‘价值抄底’</td></tr><tr><td>数据口径</td><td>GRASS（CMC 244M vs CG 722M）、SKR（CMC 4.99B vs CG 7.33B）、AVAAI（CMC 流通 0）</td><td>同一标的的 MC/FDV 可差 3 倍</td><td>报告内统一 CMC；跨源比较先换算</td></tr><tr><td>监管 / 平台</td><td>全部 Binance Alpha 标的</td><td>Alpha 非主站现货；部分地区受限；名人币有声誉风险</td><td>确认司法辖区与产品准入；不碰无法合规持有的标的</td></tr></tbody></table></div>
+  <h3>未来 4 周监控清单</h3>
+  <ul class="plain">
+    <li><b>SKR</b>：月度 Buy&Burn 是否继续增长；Seeker 激活量与 Guardian 质押率；10% 通胀的实际排放。</li>
+    <li><b>GRASS</b>：Q4 收入是否达到 65–75M 指引；USDC 分润规模；CMC 与 CoinGecko 流通口径是否收敛。</li>
+    <li><b>WET</b>：8 月停运事故复盘/赔付；Solana prop AMM 份额是否回到 30%；WET 质押/回购提案。</li>
+    <li><b>DRIFT</b>：费用开关/回购治理提案；日成交与未平仓量；SOL 生态风险偏好。</li>
+    <li><b>BIRB</b>：后续解锁日历；IP 授权/游戏收入；24h 成交/市值比是否回到 100% 以下。</li>
+    <li><b>AVAAI</b>：官方合约与项目方身份核验；CMC 流通/官网修复；链上持币与流动性。</li>
+  </ul>
+  <h3>数据来源</h3>
+  <ul class="sources">
+    <li>CoinMarketCap listing/detail API（Top 3500，2026-11-20 14:50 快照）：<a href="https://coinmarketcap.com/">coinmarketcap.com</a></li>
+    <li>Solana Mobile / SKR：<a href="https://solanamobile.com/skr">solanamobile.com/skr</a>、<a href="https://docs.solanamobile.com/solana-mobile-stack/skr">docs.solanamobile.com</a>、<a href="https://solanamobile.com/blog/skr-buy-and-burns-are-live">Buy and Burn</a></li>
+    <li>HumidiFi / WET：<a href="https://www.humidifi.xyz/tokenomics">humidifi.xyz/tokenomics</a>、<a href="https://aquarium.humidifi.xyz/announcement">Aquarium announcement</a>；停运事故：<a href="https://www.edgen.tech/vi/news/post/humidifi-halts-trading-after-network-incident-hits-1b-volume-dex">Edgen</a>；份额变化：<a href="https://www.binance.com/en/square/post/328531601935874">PANews</a></li>
+    <li>Holoworld / AVA（用于区分 AVAAI）：<a href="https://www.holoworld.com/">holoworld.com</a>、<a href="https://docs.holoworld.com/">docs.holoworld.com</a>、<a href="https://www.binance.com/en-AE/square/post/12-26-2024-alpha-7-18081472799809">Binance Alpha 第 7 批公告</a></li>
+    <li>AVAAI（avaai.top）CMC 页面：<a href="https://coinmarketcap.com/currencies/ava-ai-top/">coinmarketcap.com/currencies/ava-ai-top</a>；CoinStats：<a href="https://coinstats.app/zh/coins/ava-ai/">coinstats.app</a></li>
+    <li>Grass 文档：<a href="https://grass-foundation.gitbook.io/grass-docs">grass-foundation.gitbook.io</a>；Drift 文档：<a href="https://docs.drift.trade/">docs.drift.trade</a></li>
+    <li>项目通用页面：<a href="https://coinmarketcap.com/">CoinMarketCap</a>（各标的 detail 页已逐项抓取，含供应、合约、ATH/ATL、52 周高低）</li>
+  </ul>
+  <div class="disclaimer">本报告为公开数据研究，不构成投资建议。Binance Alpha 标的通常不在 Binance 主站现货交易，受地区限制与流动性风险影响；部分代币的流通量、官网、合约存在同名/ impersonation 风险。所有价格、市值与 FDV 均以报告标注的快照为准，市场变化可能使结论迅速失效。</div>
+</section>
+</div></body></html>
